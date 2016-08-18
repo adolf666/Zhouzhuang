@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rl_actionbar"
+        android:background="#336666">
+
+        <TextView
+            android:id="@+id/tv_left_actionbar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:textColor="#cccc66"
+            android:layout_marginLeft="8dp"
+            android:text="左"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="周庄博物馆"
+            android:id="@+id/tv_middle_actionbar"
+            android:textColor="#cccc66"
+            android:textSize="17sp"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_rigth_actionbar"
+            android:layout_alignParentRight="true"
+            android:text="右"
+            android:layout_marginRight="8dp"
+            android:textColor="#cccc66"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"/>
+    </RelativeLayout>
+</RelativeLayout>

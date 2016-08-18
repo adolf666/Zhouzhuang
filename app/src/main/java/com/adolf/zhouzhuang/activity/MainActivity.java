@@ -1,10 +1,11 @@
-package com.adolf.zhouzhuang;
+package com.adolf.zhouzhuang.activity;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class LaunchActivity extends Activity {
+import com.adolf.zhouzhuang.R;
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
