@@ -11,30 +11,35 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="周庄博物馆"
             android:layout_weight="1"
-            android:id="@+id/tv_museum" />
+            android:gravity="center"
+            android:id="@+id/tv_museum"
+            />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="馆藏珍品"
             android:id="@+id/tv_collection"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="周庄导览"
             android:id="@+id/tv_navigation"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="游玩攻略"
             android:id="@+id/tv_strategy"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:gravity="center"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.adolf.zhouzhuang.activity.RegisterActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/item_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:layout_marginTop="15dp">
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="用户名"/>
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:hint="输入注册用户名"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="11dp"
+    android:paddingRight="11dp"
+    android:layout_marginTop="4dp">
+    <TextView
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:text="密码"/>
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:hint="输入密码"/>
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:layout_marginTop="4dp">
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="确认"/>
+        <EditText
+            android:id="@+id/et_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:hint="再次输入密码"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户名不可为中文，可以为字符，数字。"
+            android:textSize="17sp"
+            android:layout_marginTop="4dp"/>
+        <TextView
+            android:id="@+id/tv_protoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:text="注册即代表您同意《周庄博物馆软件服务协议》"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="完成注册"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
