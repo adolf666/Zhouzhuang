@@ -7,11 +7,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.adolf.zhouzhuang.R;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.GroundOverlayOptions;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +47,10 @@ public class GudieFragment extends BaseFragment {
     private MapView mMapView = null;
     private BaiduMap mBaiduMap;
     private BMapManager bMapManager;
-
+    public LocationClient mLocationClient = null;
+    public BDLocationListener myListener = new MyLocationListenner();
+    private Button mLoactionBT;
+    boolean isFirstLoc = true; // 是否首次定位
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,6 +83,9 @@ public class GudieFragment extends BaseFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mLocationClient = new LocationClient(getActivity().getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener( myListener );    //注册监听函数
+
     }
 
     @Override
@@ -73,9 +93,28 @@ public class GudieFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gudie, container, false);
         mMapView = (MapView) view.findViewById(R.id.bmapView);
+        mLoactionBT = (Button) view.findViewById(R.id.bt_loaction);
         initBaiduMap();
+        mLoactionBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 开启定位图层
+                mBaiduMap.setMyLocationEnabled(true);
+                // 定位初始化
+                mLocationClient = new LocationClient(getActivity());
+                mLocationClient.registerLocationListener(myListener);
+                LocationClientOption option = new LocationClientOption();
+                option.setOpenGps(true); // 打开gps
+                option.setCoorType("bd09ll"); // 设置坐标类型
+                option.setScanSpan(1000);
+                mLocationClient.setLocOption(option);
+                mLocationClient.start();
+
+            }
+        });
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -98,7 +137,48 @@ public class GudieFragment extends BaseFragment {
     private void initBaiduMap(){
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        // 开启定位图层
+        mBaiduMap.setMyLocationEnabled(true);
+        // 定位初始化
+        mLocationClient = new LocationClient(getActivity());
+        mLocationClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setScanSpan(1000);
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
+        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromResource(R.mipmap.laier);
+        LatLng southwest = new LatLng(31.380000, 120.733000);
+        LatLng northeast = new LatLng(31.392222, 120.752222);
+        LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
+                .include(southwest).build();
+        OverlayOptions ooGround = new GroundOverlayOptions()
+                .positionFromBounds(bounds).image(bdGround).transparency(0.8f);
+        mBaiduMap.addOverlay(ooGround);
 
+    }
+
+    public class MyLocationListenner implements BDLocationListener{
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            // map view 销毁后不在处理新接收的位置
+            if (bdLocation == null || mMapView == null) {
+                return;
+            }
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(bdLocation.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(100).latitude(bdLocation.getLatitude())
+                    .longitude(bdLocation.getLongitude()).build();
+            mBaiduMap.setMyLocationData(locData);
+
+                LatLng ll = new LatLng(bdLocation.getLatitude(),
+                        bdLocation.getLongitude());
+                MapStatus.Builder builder = new MapStatus.Builder();
+                builder.target(ll).zoom(16.0f);
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        }
     }
 
     @Override
