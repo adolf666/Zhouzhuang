@@ -5,14 +5,22 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.activity.util.ServiceAddress;
+import com.alibaba.fastjson.JSONObject;
 
-public class LoginActivity extends Activity implements View.OnClickListener{
+import cn.finalteam.okhttpfinal.HttpRequest;
+import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
+import cn.finalteam.okhttpfinal.RequestParams;
+
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private TextView mLeftActionbarTV;
     private TextView mMiddleActionbarTV;
     private TextView mRightActionbarTV;
@@ -48,10 +56,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_login:
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
+                login();
                 break;
             case R.id.tv_rigth_actionbar:
                 Intent intent2 = new Intent();
@@ -63,5 +68,31 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 finish();
                 break;
         }
+    }
+
+    public void login(){
+        String userName = mUsernameET.getText().toString();
+        String passWord = mPasswordET.getText().toString();
+        RequestParams params = new RequestParams();
+        params.addFormDataPart("username",userName);
+        params.addFormDataPart("password",passWord);
+        HttpRequest.post(ServiceAddress.LOGIN,params,new JsonHttpRequestCallback() {
+            @Override
+            protected void onSuccess(JSONObject jsonObject) {
+                super.onSuccess(jsonObject);
+                Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                if (TextUtils.equals(jsonObject.getString("success"),"0")){
+                    setAutoLogin(true);
+                    saveAccountInfo(jsonObject.getString("data"));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(int errorCode, String msg) {
+                super.onFailure(errorCode, msg);
+                Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

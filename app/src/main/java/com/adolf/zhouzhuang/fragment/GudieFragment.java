@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.baidu.location.BDLocation;
@@ -19,9 +20,12 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.GroundOverlayOptions;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -51,8 +55,18 @@ public class GudieFragment extends BaseFragment {
     public BDLocationListener myListener = new MyLocationListenner();
     private Button mLoactionBT;
     boolean isFirstLoc = true; // 是否首次定位
+    private Marker mMarkerA;
+    private Marker mMarkerB;
+    private Marker mMarkerC;
+    private Marker mMarkerD;
+    private Marker mMarkerE;
+    private Marker mMarkerF;
 
     private OnFragmentInteractionListener mListener;
+
+    // 初始化全局 bitmap 信息，不用时及时 recycle
+    BitmapDescriptor bdA = BitmapDescriptorFactory
+            .fromResource(R.mipmap.icon_marka);
 
     public GudieFragment() {
         // Required empty public constructor
@@ -149,14 +163,54 @@ public class GudieFragment extends BaseFragment {
         mLocationClient.setLocOption(option);
         mLocationClient.start();
         BitmapDescriptor bdGround = BitmapDescriptorFactory.fromResource(R.mipmap.laier);
-        LatLng southwest = new LatLng(31.380000, 120.733000);
-        LatLng northeast = new LatLng(31.392222, 120.752222);
+        LatLng southwest = new LatLng(31.111000, 120.84622);
+        LatLng northeast = new LatLng(31.121222, 120.86688);
         LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
                 .include(southwest).build();
         OverlayOptions ooGround = new GroundOverlayOptions()
                 .positionFromBounds(bounds).image(bdGround).transparency(0.8f);
         mBaiduMap.addOverlay(ooGround);
+        addLayer();
+    }
 
+    private void addLayer(){
+        LatLng llA = new LatLng(31.115492,120.85681);
+        LatLng llB = new LatLng(31.114821, 120.857199);
+        LatLng llC = new LatLng(31.114723, 120.857541);
+        LatLng llD = new LatLng(31.384985, 120.736394);
+        LatLng llE = new LatLng(31.384875, 120.735384);
+        LatLng llF = new LatLng(31.384765, 120.734374);
+        MarkerOptions ooA = new MarkerOptions().position(llA).icon(bdA).zIndex(9).draggable(false);
+            ooA.animateType(MarkerOptions.MarkerAnimateType.drop);
+        mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
+        mMarkerA.setTitle("A");
+        MarkerOptions ooB = new MarkerOptions().position(llB).icon(bdA).zIndex(5).draggable(false);
+        ooB.animateType(MarkerOptions.MarkerAnimateType.drop);
+        mMarkerB = (Marker) (mBaiduMap.addOverlay(ooB));
+        mMarkerB.setTitle("B");
+        MarkerOptions ooC = new MarkerOptions().position(llC).icon(bdA).zIndex(5).draggable(false);
+        ooC.animateType(MarkerOptions.MarkerAnimateType.drop);
+        mMarkerC = (Marker) (mBaiduMap.addOverlay(ooC));
+        mMarkerC.setTitle("C");
+        MarkerOptions ooD = new MarkerOptions().position(llD).icon(bdA).zIndex(5).draggable(false);
+        ooD.animateType(MarkerOptions.MarkerAnimateType.drop);
+        mMarkerD = (Marker) (mBaiduMap.addOverlay(ooD));
+        mMarkerD.setTitle("D");
+        MarkerOptions ooE = new MarkerOptions().position(llE).icon(bdA).zIndex(5).draggable(false);
+        ooE.animateType(MarkerOptions.MarkerAnimateType.drop);
+        mMarkerE = (Marker) (mBaiduMap.addOverlay(ooE));
+        mMarkerE.setTitle("E");
+        MarkerOptions ooF = new MarkerOptions().position(llF).icon(bdA).zIndex(5).draggable(false);
+        ooF.animateType(MarkerOptions.MarkerAnimateType.drop);
+        mMarkerF = (Marker) (mBaiduMap.addOverlay(ooF));
+        mMarkerF.setTitle("F");
+
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            public boolean onMarkerClick(final Marker marker) {
+                    Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
     }
 
     public class MyLocationListenner implements BDLocationListener{
@@ -173,10 +227,9 @@ public class GudieFragment extends BaseFragment {
                     .longitude(bdLocation.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
 
-                LatLng ll = new LatLng(bdLocation.getLatitude(),
-                        bdLocation.getLongitude());
+                LatLng ll = new LatLng(31.121492,120.85681);
                 MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(16.0f);
+                builder.target(ll).zoom(16.3f);
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
     }

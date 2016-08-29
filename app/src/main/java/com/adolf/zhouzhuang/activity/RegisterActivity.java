@@ -3,11 +3,11 @@ package com.adolf.zhouzhuang.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
@@ -15,8 +15,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.activity.util.ServiceAddress;
+import com.alibaba.fastjson.JSONObject;
+
+import cn.finalteam.okhttpfinal.HttpRequest;
+import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
+import cn.finalteam.okhttpfinal.RequestParams;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
     private TextView mLeftActionbarTV;
@@ -44,6 +51,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mConfirmET = (EditText) findViewById(R.id.et_confirm);
         mRegisterBT =(Button) findViewById(R.id.bt_register);
         mProtoalTV = (TextView) findViewById(R.id.tv_protoal);
+        mRegisterBT.setOnClickListener(this);
         initActionBar();
         createLink(mProtoalTV);
     }
@@ -73,10 +81,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_register:
-                Intent intent = new Intent();
-                intent.setClass(RegisterActivity.this,LoginActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent();
+//                intent.setClass(RegisterActivity.this,LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+                register();
                 break;
             case R.id.tv_rigth_actionbar:
                 Intent intent2 = new Intent();
@@ -88,5 +97,28 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
+    }
+
+    public void register(){
+        String userName = mUSernameET.getText().toString();
+        String passWord = mPasswordET.getText().toString();
+        String confirmPassWord = mConfirmET.getText().toString();
+        if (!TextUtils.equals(passWord,confirmPassWord)){
+            return;
+        }
+        RequestParams params = new RequestParams();
+        params.addFormDataPart("username",userName);
+        params.addFormDataPart("nickName","风驰天下");
+        params.addFormDataPart("password",passWord);
+        HttpRequest.post(ServiceAddress.REGISTER,params,new JsonHttpRequestCallback() {
+            @Override
+            protected void onSuccess(JSONObject jsonObject) {
+                super.onSuccess(jsonObject);
+                Toast.makeText(RegisterActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                if (TextUtils.equals(jsonObject.getString("success"),"0")){
+                    finish();
+                }
+            }
+        });
     }
 }

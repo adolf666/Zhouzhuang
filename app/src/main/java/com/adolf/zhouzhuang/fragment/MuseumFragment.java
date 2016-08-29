@@ -7,10 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.activity.util.ServiceAddress;
+import com.adolf.zhouzhuang.object.BannerObj;
+import com.adolf.zhouzhuang.resBody.BannerResponse;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+
+import java.util.List;
+
+import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
+import cn.finalteam.okhttpfinal.HttpRequest;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,19 +73,13 @@ public class MuseumFragment extends BaseFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        getBannerInfo();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_museum, container, false);
-        mImages = getResources().getStringArray(R.array.url);
-        mTitles = getResources().getStringArray(R.array.title);
         mBanner = (Banner) view.findViewById(R.id.banner);
-        //显示圆形指示器和标题
-        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
-        mBanner.setImages(mImages);
-        mBanner.setBannerTitle(mTitles);
-        mBanner.setDelayTime(2500);
         return view;
     }
 
@@ -98,9 +101,40 @@ public class MuseumFragment extends BaseFragment {
         }
     }
 
+    public void getBannerInfo(){
+        HttpRequest.post(ServiceAddress.BANNER,new BaseHttpRequestCallback<BannerResponse>(){
+
+            @Override
+            public void onFailure(int errorCode, String msg) {
+                super.onFailure(errorCode, msg);
+            }
+
+            @Override
+            protected void onSuccess(BannerResponse baseApiResponse) {
+                super.onSuccess(baseApiResponse);
+                Toast.makeText(getActivity(),"ewef",Toast.LENGTH_SHORT).show();
+                initBannnerData(baseApiResponse.getData());
+            }
+        });
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void initBannnerData(List<BannerObj> bannerObjs){
+        mImages = new String[bannerObjs.size()];
+        mTitles = new String[bannerObjs.size()];
+        for (int i = 0; i <bannerObjs.size() ; i++) {
+            mImages[i] = bannerObjs.get(i).getImgLocation();
+            mTitles[i] = bannerObjs.get(i).getName();
+        }
+        //显示圆形指示器和标题
+        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
+        mBanner.setImages(mImages);
+        mBanner.setBannerTitle(mTitles);
+        mBanner.setDelayTime(2500);
     }
 }

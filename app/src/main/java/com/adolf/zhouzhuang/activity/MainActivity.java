@@ -2,11 +2,11 @@ package com.adolf.zhouzhuang.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -117,5 +117,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private boolean isLogin(){
+        boolean isLogin = false;
+        SharedPreferences sharedPreferences= getSharedPreferences("LOGIN",
+                Activity.MODE_PRIVATE);
+        isLogin = sharedPreferences.getBoolean("isAutoLogin",false);
+        return isLogin;
     }
 }
