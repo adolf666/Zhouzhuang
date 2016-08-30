@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
-import com.adolf.zhouzhuang.activity.util.ServiceAddress;
+import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.finalteam.okhttpfinal.HttpRequest;

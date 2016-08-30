@@ -1,9 +1,6 @@
 package com.adolf.zhouzhuang.activity;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,7 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
-import com.adolf.zhouzhuang.activity.util.ServiceAddress;
+import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.finalteam.okhttpfinal.HttpRequest;
@@ -82,8 +80,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 super.onSuccess(jsonObject);
                 Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                 if (TextUtils.equals(jsonObject.getString("success"),"0")){
-                    setAutoLogin(true);
-                    saveAccountInfo(jsonObject.getString("data"));
+                    SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
+                    SharedPreferencesUtils.getString(LoginActivity.this,"AccountInfo",jsonObject.getString("data"));
                     finish();
                 }
             }

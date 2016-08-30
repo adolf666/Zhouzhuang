@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
-import com.adolf.zhouzhuang.activity.util.ServiceAddress;
+import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.object.BannerObj;
 import com.adolf.zhouzhuang.resBody.BannerResponse;
 import com.youth.banner.Banner;

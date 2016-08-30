@@ -17,7 +17,7 @@ public class DaoGeneratorFactory {
         //添加实体
         addEntity(schema);
 
-        String outDir="C:/Users/adolf/AndroidStudioProjects/Zhouzhuang/app/src/main/java-gen";
+        String outDir="C:/Users/adolf/AndroidStudioProjects/Zhouzhuang/app/src/main/java-db";
         //调用DaoGenerator().generateAll方法自动生成代码到之前创建的java-gen目录下
         new DaoGenerator().generateAll(schema,outDir);
 
@@ -25,14 +25,22 @@ public class DaoGeneratorFactory {
 
     private static void addEntity(Schema schema) {
         //添加一个实体，则会自动生成实体Entity类
-        Entity entity = schema.addEntity("Entity");
+        Entity entity = schema.addEntity("Spots");
         //指定表名，如不指定，表名则为 Entity（即实体类名）
-        entity.setTableName("student");
+        entity.setTableName("spots");
         //给实体类中添加属性（即给test表中添加字段）
         entity.addIdProperty().autoincrement();//添加Id,自增长
-        entity.addStringProperty("name").notNull();//添加String类型的name,不能为空
-        entity.addIntProperty("age");//添加Int类型的age
-        entity.addDoubleProperty("score");//添加Double的score
+        entity.addIntProperty("pid").notNull();
+        entity.addIntProperty("order");
+        entity.addLongProperty("createTime");
+        entity.addStringProperty("title");
+        entity.addStringProperty("brief");
+        entity.addStringProperty("detailUrl");
+        entity.addStringProperty("lat");
+        entity.addStringProperty("lng");
+        entity.addStringProperty("videoLocation");
+        entity.addIntProperty("videoVersion");
+        entity.addIntProperty("basicInfoVersion");
     }
 
 }

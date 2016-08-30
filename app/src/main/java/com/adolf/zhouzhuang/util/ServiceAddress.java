@@ -1,4 +1,4 @@
-package com.adolf.zhouzhuang.activity.util;
+package com.adolf.zhouzhuang.util;
 
 /**
  * Created by adolf on 2016/8/28.
