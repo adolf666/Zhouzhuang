@@ -1,6 +1,7 @@
 package com.adolf.zhouzhuang.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import com.adolf.zhouzhuang.R;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
 
-public class QRCodeActivity extends Activity implements QRCodeView.Delegate{
+public class QRCodeActivity extends BaseActivity implements QRCodeView.Delegate{
     private QRCodeView mQRCodeView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +52,15 @@ public class QRCodeActivity extends Activity implements QRCodeView.Delegate{
     @Override
     public void onScanQRCodeSuccess(String result) {
         vibrate();
-        Toast.makeText(QRCodeActivity.this,"扫描到的信息为:"+result,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.setClass(QRCodeActivity.this,WebViewActivity.class);
+        intent.putExtra("URL",result);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-        Toast.makeText(QRCodeActivity.this,"打开相机出错",Toast.LENGTH_SHORT).show();
+        showToast("打开相机失败");
     }
 }
