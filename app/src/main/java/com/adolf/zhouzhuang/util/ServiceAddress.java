@@ -9,4 +9,5 @@ public class ServiceAddress {
     public static String REGISTER = head + "register";
     public static String LOGIN = head + "login";
     public static String BANNER = head + "getBannerImages";
+    public static String ALL_SPOTS = head + "getAllSpots";
 }

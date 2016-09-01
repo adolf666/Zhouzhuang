@@ -1,4 +1,4 @@
-package com.adolf.zhouzhuang;
+package com.adolf.zhouzhuang.object;
 
 /**
  * Created by zhl13045 on 2016/8/29.

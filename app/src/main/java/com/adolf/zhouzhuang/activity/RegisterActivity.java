@@ -25,11 +25,7 @@ import cn.finalteam.okhttpfinal.HttpRequest;
 import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
 import cn.finalteam.okhttpfinal.RequestParams;
 
-public class RegisterActivity extends Activity implements View.OnClickListener {
-    private TextView mLeftActionbarTV;
-    private TextView mMiddleActionbarTV;
-    private TextView mRightActionbarTV;
-
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private EditText mUSernameET;
     private EditText mPasswordET;
     private EditText mConfirmET;
@@ -43,37 +39,21 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         initView();
     }
     private void initView(){
-        mLeftActionbarTV = (TextView) findViewById(R.id.tv_left_actionbar);
-        mMiddleActionbarTV = (TextView) findViewById(R.id.tv_middle_actionbar);
-        mRightActionbarTV = (TextView) findViewById(R.id.tv_rigth_actionbar);
         mUSernameET = (EditText) findViewById(R.id.et_username);
         mPasswordET = (EditText) findViewById(R.id.et_password);
         mConfirmET = (EditText) findViewById(R.id.et_confirm);
         mRegisterBT =(Button) findViewById(R.id.bt_register);
         mProtoalTV = (TextView) findViewById(R.id.tv_protoal);
         mRegisterBT.setOnClickListener(this);
-        initActionBar();
+        initActionBar("返回",0,"注册新用户","登录",0);
         createLink(mProtoalTV);
     }
 
-    private void initActionBar(){
-        mLeftActionbarTV.setText("返回");
-        mMiddleActionbarTV.setText("注册新用户");
-        mRightActionbarTV.setText("登录");
-        mLeftActionbarTV.setOnClickListener(this);
-        mRightActionbarTV.setOnClickListener(this);
-    }
-
     private void createLink(TextView tv) {
-        // 创建一个 SpannableString对象
         SpannableString sp = new SpannableString("注册即代表您同意《周庄博物馆软件服务协议》");
-        // 设置超链接
-        sp.setSpan(new URLSpan("http://www.baidu.com"), 9, tv.getText().length() -1,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new URLSpan("http://www.baidu.com"), 9, tv.getText().length() -1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.BLUE), 9, tv.getText().length()-1 , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         tv.setText(sp);
-        //设置TextView可点击
         tv.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -81,10 +61,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_register:
-//                Intent intent = new Intent();
-//                intent.setClass(RegisterActivity.this,LoginActivity.class);
-//                startActivity(intent);
-//                finish();
                 register();
                 break;
             case R.id.tv_rigth_actionbar:

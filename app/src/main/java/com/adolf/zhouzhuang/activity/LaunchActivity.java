@@ -7,6 +7,16 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.object.SpotsObj;
+import com.adolf.zhouzhuang.resBody.SpotsResponse;
+import com.adolf.zhouzhuang.util.ServiceAddress;
+
+import java.util.List;
+
+import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
+import cn.finalteam.okhttpfinal.HttpRequest;
+import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
 
 public class LaunchActivity extends Activity {
 //    private ProgressDialog dialog;
@@ -14,6 +24,7 @@ public class LaunchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laynch);
+        getAllSpots();
 //        dialog = new ProgressDialog(this);
 //
 //        dialog.setIndeterminate(true);
@@ -34,5 +45,22 @@ public class LaunchActivity extends Activity {
             startActivity(new Intent(LaunchActivity.this, MainActivity.class));
             LaunchActivity.this.finish();
         }
+    }
+
+    public void getAllSpots(){
+        HttpRequest.get(ServiceAddress.ALL_SPOTS, new BaseHttpRequestCallback<SpotsResponse>(){
+
+            @Override
+            protected void onSuccess(SpotsResponse spotsResponse) {
+                super.onSuccess(spotsResponse);
+                List<SpotsObj> spotsList = spotsResponse.getData();
+                spotsList.size();
+            }
+
+            @Override
+            public void onFailure(int errorCode, String msg) {
+                super.onFailure(errorCode, msg);
+            }
+        });
     }
 }

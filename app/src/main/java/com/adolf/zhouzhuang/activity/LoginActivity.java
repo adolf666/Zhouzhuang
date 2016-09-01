@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
@@ -18,10 +17,7 @@ import cn.finalteam.okhttpfinal.HttpRequest;
 import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
 import cn.finalteam.okhttpfinal.RequestParams;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
-    private TextView mLeftActionbarTV;
-    private TextView mMiddleActionbarTV;
-    private TextView mRightActionbarTV;
+public class LoginActivity extends BaseActivity{
     private EditText mUsernameET;
     private EditText mPasswordET;
     private Button mLoginBT;
@@ -33,21 +29,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         initView();
     }
     private void initView(){
-        mLeftActionbarTV = (TextView) findViewById(R.id.tv_left_actionbar);
-        mMiddleActionbarTV = (TextView) findViewById(R.id.tv_middle_actionbar);
-        mRightActionbarTV = (TextView) findViewById(R.id.tv_rigth_actionbar);
         mUsernameET = (EditText) findViewById(R.id.et_username);
         mPasswordET = (EditText) findViewById(R.id.et_password);
         mLoginBT = (Button) findViewById(R.id.bt_login);
         mLoginBT.setOnClickListener(this);
-        initActionBar();
-    }
-    private void initActionBar(){
-        mLeftActionbarTV.setText("返回");
-        mMiddleActionbarTV.setText("登陆");
-        mRightActionbarTV.setText("注册");
-        mLeftActionbarTV.setOnClickListener(this);
-        mRightActionbarTV.setOnClickListener(this);
+        initActionBar("返回",0,"登录","注册",0);
     }
 
     @Override

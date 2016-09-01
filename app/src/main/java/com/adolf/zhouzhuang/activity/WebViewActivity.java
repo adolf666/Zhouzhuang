@@ -19,7 +19,7 @@ public class WebViewActivity extends BaseActivity {
     }
     public void initViews(){
         mWebView = (WebView)findViewById(R.id.webview);
-        initActionBar("返回",0,"",0);
+        initActionBar("返回",0,"","",0);
     }
     public void initBundle(){
         mUrl = getIntent().getStringExtra("URL");

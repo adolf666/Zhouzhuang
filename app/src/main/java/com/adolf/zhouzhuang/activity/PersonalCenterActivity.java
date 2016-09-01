@@ -9,10 +9,7 @@ import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 
-public class PersonalCenterActivity extends Activity implements View.OnClickListener{
-    private TextView mLeftActionbarTV;
-    private TextView mMiddleActionbarTV;
-    private TextView mRightActionbarTV;
+public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,17 +17,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
         initView();
     }
     private void initView(){
-        mLeftActionbarTV = (TextView) findViewById(R.id.tv_left_actionbar);
-        mMiddleActionbarTV = (TextView) findViewById(R.id.tv_middle_actionbar);
-        mRightActionbarTV = (TextView) findViewById(R.id.tv_rigth_actionbar);
-        initActionBar();
-    }
-    private void initActionBar(){
-        mLeftActionbarTV.setText("返回");
-        mMiddleActionbarTV.setText("个人中心");
-        mRightActionbarTV.setText("");
-        mLeftActionbarTV.setOnClickListener(this);
-        mRightActionbarTV.setOnClickListener(this);
+        initActionBar("返回",0,"个人中心","",0);
     }
 
     @Override

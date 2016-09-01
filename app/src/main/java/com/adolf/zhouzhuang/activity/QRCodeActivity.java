@@ -24,6 +24,7 @@ public class QRCodeActivity extends BaseActivity implements QRCodeView.Delegate{
         mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
         mQRCodeView.setDelegate(this);
         mQRCodeView.startSpot();
+        initActionBar("返回",0,"二维码扫描","",0);
     }
 
     private void vibrate() {

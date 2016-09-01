@@ -23,11 +23,7 @@ import com.baidu.mapapi.SDKInitializer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
-
-    private TextView mLeftActionbarTextView;
-    private TextView mtMiddleActionbarTextView;
-    private TextView mRigthActionbarTextView;
+public class MainActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
     private TextView mMuseumTextView;
     private TextView mCollectionTextView;
@@ -43,10 +39,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initViews();
     }
     private void initViews(){
-        mLeftActionbarTextView = (TextView) findViewById(R.id.tv_left_actionbar);
-        mtMiddleActionbarTextView = (TextView) findViewById(R.id.tv_middle_actionbar);
-        mRigthActionbarTextView = (TextView) findViewById(R.id.tv_rigth_actionbar);
-
         mMuseumTextView = (TextView) findViewById(R.id.tv_museum);
         mCollectionTextView = (TextView) findViewById(R.id.tv_collection);
         mNavigationTextView = (TextView) findViewById(R.id.tv_navigation);
@@ -59,17 +51,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mNavigationTextView.setOnClickListener(this);
         mStrategyTextView.setOnClickListener(this);
 
-        initActionBar();
-
+        initActionBar("个人",0,"周庄博物馆","扫描",0);
         initViewPager();
-    }
-
-    private void initActionBar(){
-        mLeftActionbarTextView.setText("个人");
-        mtMiddleActionbarTextView.setText("周庄博物馆");
-        mRigthActionbarTextView.setText("扫描");
-        mLeftActionbarTextView.setOnClickListener(this);
-        mRigthActionbarTextView.setOnClickListener(this);
     }
 
     private void initViewPager(){
