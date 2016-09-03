@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.SpotsDao;
+import com.adolf.zhouzhuang.ZhouzhuangApplication;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -61,6 +63,10 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
             }
             mRightActionBar.setOnClickListener(this);
         }
+    }
+
+    public SpotsDao getSpotsDao(){
+        return ((ZhouzhuangApplication) this.getApplicationContext()).getDaoSession().getSpotsDao();
     }
 
     public void showToast(String content){

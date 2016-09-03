@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.NewsActivity;
+import com.adolf.zhouzhuang.activity.PanoramaActivity;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.object.BannerObj;
 import com.adolf.zhouzhuang.resBody.BannerResponse;
@@ -85,7 +87,11 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_museum, container, false);
         mBanner = (Banner) view.findViewById(R.id.banner);
         mNewsTv = (TextView) view.findViewById(R.id.tv_news);
+        TextView tv_exhibition = (TextView) view.findViewById(R.id.tv_exhibition);
+        TextView tv_pic1 = (TextView) view.findViewById(R.id.tv_pic1);
+        tv_exhibition.setOnClickListener(this);
         mNewsTv.setOnClickListener(this);
+        tv_pic1.setOnClickListener(this);
         return view;
     }
 
@@ -150,6 +156,11 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
             case R.id.tv_news:
                 startActivity(new Intent(getActivity(), NewsActivity.class));
                 break;
+            case R.id.tv_exhibition:
+                mListener.onFragmentInteraction(Uri.parse("exhibit"));
+                break;
+            case  R.id.tv_pic1:
+                startActivity(new Intent(getActivity(), PanoramaActivity.class));
         }
     }
 }

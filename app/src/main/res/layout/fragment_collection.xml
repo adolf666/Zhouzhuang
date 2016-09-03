@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#456435">
+    android:background="#aaaaaa">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -17,7 +17,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text=" @我"
+            android:text="临时展览"
             android:textColor="#000000"
             android:textSize="20.0dip" />
 
@@ -33,7 +33,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text="评论"
+            android:text="陈列展览"
             android:textColor="#000000"
             android:textSize="20.0dip" />
 
@@ -49,7 +49,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text="私信"
+            android:text="文物全景"
             android:textColor="#000000"
             android:textSize="20.0dip" />
     </LinearLayout>

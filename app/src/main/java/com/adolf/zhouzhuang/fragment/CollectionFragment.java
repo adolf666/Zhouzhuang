@@ -4,11 +4,26 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
+import com.adolf.zhouzhuang.adapter.NewsAdapter;
+import com.adolf.zhouzhuang.object.Exhibit;
+import com.adolf.zhouzhuang.resBody.ExhibitResponse;
+import com.adolf.zhouzhuang.util.ServiceAddress;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
+import cn.finalteam.okhttpfinal.HttpRequest;
+import cn.finalteam.okhttpfinal.RequestParams;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +44,9 @@ public class CollectionFragment extends BaseFragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private List<View> mViewPagerViews;
+    private ExhibitAdapter mExhibitAdapter;
+    private ViewPager viewPager;
 
     public CollectionFragment() {
         // Required empty public constructor
@@ -64,8 +82,11 @@ public class CollectionFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_collection, container, false);
+        View view = inflater.inflate(R.layout.fragment_collection,container,false);
+        initViews(view);
+        getExhibits("1");
+        getExhibits("2");
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -73,6 +94,29 @@ public class CollectionFragment extends BaseFragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void initViews(View view){
+        mViewPagerViews = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            mViewPagerViews.add(new View(getActivity()));
+        }
+        viewPager = (ViewPager) view.findViewById(R.id.vPager);
+
+    }
+
+    public void initViewPagerViews(List<Exhibit> exhibits ,int index){
+        ListView lv = new ListView(getActivity());
+        NewsAdapter adapter = new NewsAdapter(getActivity(),exhibits);
+        lv.setAdapter(adapter);
+        mViewPagerViews.set(index,lv);
+        if (mExhibitAdapter == null){
+            mExhibitAdapter = new ExhibitAdapter(mViewPagerViews,getActivity());
+            viewPager.setAdapter(mExhibitAdapter);
+        }else{
+            mExhibitAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -84,6 +128,24 @@ public class CollectionFragment extends BaseFragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+    //获取陈列信息，type的值为0:新闻列表 ，1:临时展馆，2:陈列展馆
+    public void getExhibits(final String types){
+        RequestParams params = new RequestParams();
+        params.addFormDataPart("type",types);
+        HttpRequest.post(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new BaseHttpRequestCallback<ExhibitResponse>(){
+
+            @Override
+            protected void onSuccess(ExhibitResponse exhibitResponse) {
+                super.onSuccess(exhibitResponse);
+                initViewPagerViews(exhibitResponse.getData(), TextUtils.equals(types,"1")?0:1);
+            }
+
+            @Override
+            public void onFailure(int errorCode, String msg) {
+                super.onFailure(errorCode, msg);
+            }
+        });
     }
 
     @Override

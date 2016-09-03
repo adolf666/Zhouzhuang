@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.object.SpotsObj;
 import com.adolf.zhouzhuang.resBody.SpotsResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
@@ -18,12 +19,14 @@ import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
 import cn.finalteam.okhttpfinal.HttpRequest;
 import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
 
-public class LaunchActivity extends Activity {
+public class LaunchActivity extends BaseActivity {
 //    private ProgressDialog dialog;
+    private SpotsDataBaseHelper mSpotsDataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laynch);
+        mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         getAllSpots();
 //        dialog = new ProgressDialog(this);
 //
@@ -53,8 +56,8 @@ public class LaunchActivity extends Activity {
             @Override
             protected void onSuccess(SpotsResponse spotsResponse) {
                 super.onSuccess(spotsResponse);
-                List<SpotsObj> spotsList = spotsResponse.getData();
-                spotsList.size();
+                List<Spots> spotsList = spotsResponse.getData();
+                mSpotsDataBaseHelper.insertAllSpotsList(spotsList);
             }
 
             @Override

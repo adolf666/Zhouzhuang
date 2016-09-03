@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -99,7 +100,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        if (TextUtils.equals(uri.toString(),"exhibit")){
+            mCustomerViewPager.setCurrentItem(1);
+        }
     }
 
     private boolean isLogin(){

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.SpotsDao;
+import com.adolf.zhouzhuang.ZhouzhuangApplication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,5 +107,8 @@ public class BaseFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public SpotsDao getSpotsDao(){
+        return ((ZhouzhuangApplication) getActivity().getApplicationContext()).getDaoSession().getSpotsDao();
     }
 }
