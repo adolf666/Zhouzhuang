@@ -18,7 +18,7 @@ public class DaoGeneratorFactory {
         //添加实体
         addEntity(schema);
 
-        String outDir="C:/Users/adolf/AndroidStudioProjects/Zhouzhuang/app/src/main/java-db";
+        String outDir="app/src/main/java-db";
         //调用DaoGenerator().generateAll方法自动生成代码到之前创建的java-gen目录下
         new DaoGenerator().generateAll(schema,outDir);
 

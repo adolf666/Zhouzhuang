@@ -10,4 +10,5 @@ public class ServiceAddress {
     public static String LOGIN = head + "login";
     public static String BANNER = head + "getBannerImages";
     public static String ALL_SPOTS = head + "getAllSpots";
+    public static String NEWS_EXHIBITION_TEMPORARY = head +"getList";
 }

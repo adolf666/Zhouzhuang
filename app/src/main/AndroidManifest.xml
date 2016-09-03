@@ -59,7 +59,8 @@
         <activity
             android:name=".activity.PersonalCenterActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.WebViewActivity"></activity>
+        <activity android:name=".activity.WebViewActivity" />
+        <activity android:name=".activity.NewsActivity"></activity>
     </application>
 
 </manifest>

@@ -1,15 +1,18 @@
 package com.adolf.zhouzhuang.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.activity.NewsActivity;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.object.BannerObj;
 import com.adolf.zhouzhuang.resBody.BannerResponse;
@@ -29,7 +32,7 @@ import cn.finalteam.okhttpfinal.HttpRequest;
  * Use the {@link MuseumFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MuseumFragment extends BaseFragment {
+public class MuseumFragment extends BaseFragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,6 +44,7 @@ public class MuseumFragment extends BaseFragment {
 
     private Banner mBanner;
     private String[] mImages,mTitles;
+    private TextView mNewsTv;
 
     private OnFragmentInteractionListener mListener;
 
@@ -80,6 +84,8 @@ public class MuseumFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_museum, container, false);
         mBanner = (Banner) view.findViewById(R.id.banner);
+        mNewsTv = (TextView) view.findViewById(R.id.tv_news);
+        mNewsTv.setOnClickListener(this);
         return view;
     }
 
@@ -136,5 +142,14 @@ public class MuseumFragment extends BaseFragment {
         mBanner.setImages(mImages);
         mBanner.setBannerTitle(mTitles);
         mBanner.setDelayTime(2500);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_news:
+                startActivity(new Intent(getActivity(), NewsActivity.class));
+                break;
+        }
     }
 }
