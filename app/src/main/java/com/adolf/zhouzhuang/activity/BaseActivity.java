@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 /**
  * Created by adolf on 2016/8/18.
@@ -20,9 +22,13 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     private TextView mLeftActionBar;
     private TextView mMiddleActionBar;
     private TextView mRightActionBar;
+    private ImageLoaderConfiguration config ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initImageLoader();
+
     }
 
     public void initActionBar(String leftActionBarText,int leftActionBarDrawable,String middleActionBarText,String rightActionBarText,int rightActionBarDarwable){
@@ -59,6 +65,12 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     public void showToast(String content){
         Toast.makeText(BaseActivity.this,content,Toast.LENGTH_SHORT).show();
+    }
+
+    private void initImageLoader(){
+        config = ImageLoaderConfiguration.createDefault(this);
+        ImageLoader.getInstance().init(config);
+
     }
 
     @Override

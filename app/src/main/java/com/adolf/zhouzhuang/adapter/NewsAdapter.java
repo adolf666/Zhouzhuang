@@ -1,11 +1,17 @@
 package com.adolf.zhouzhuang.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.object.Exhibit;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
@@ -19,6 +25,8 @@ public class NewsAdapter extends BaseAdapter {
     public NewsAdapter(Context context, List<Exhibit> exhibitList) {
         this.context = context;
         this.exhibitList = exhibitList;
+        ImageLoaderConfiguration config = ImageLoaderConfiguration.createDefault(context);
+        ImageLoader.getInstance().init(config);
     }
 
     @Override
@@ -38,6 +46,30 @@ public class NewsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        ViewHolder viewHolder = null;
+        if (null == convertView) {
+            viewHolder = new ViewHolder();
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_news, null);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.iv_image);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.tv_title);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.tv_desc);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        viewHolder.title.setText(exhibitList.get(position).getTitle());
+        viewHolder.description.setText(exhibitList.get(position).getBrief());
+        ImageLoader.getInstance().displayImage(exhibitList.get(position).getTitleImgLocation(), viewHolder.image);
+
+        return convertView;
+
     }
+
+    private static class ViewHolder {
+        ImageView image;
+        TextView title;
+        TextView description;
+    }
+
 }

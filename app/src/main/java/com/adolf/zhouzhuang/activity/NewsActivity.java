@@ -55,8 +55,14 @@ public class NewsActivity extends BaseActivity {
     }
 
     public void setNewsData(List<Exhibit> exhibitList){
-        progressDialog.dismiss();
 
+        if (adapter == null){
+            adapter = new NewsAdapter(NewsActivity.this,exhibitList);
+        }else {
+            adapter.notifyDataSetChanged();
+        }
+        mNewsLv.setAdapter(adapter);
+        progressDialog.dismiss();
     }
 
     @Override
