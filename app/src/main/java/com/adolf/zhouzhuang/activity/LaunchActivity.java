@@ -1,6 +1,5 @@
 package com.adolf.zhouzhuang.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.os.Handler;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
-import com.adolf.zhouzhuang.object.SpotsObj;
 import com.adolf.zhouzhuang.resBody.SpotsResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 
@@ -17,11 +15,11 @@ import java.util.List;
 
 import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
 import cn.finalteam.okhttpfinal.HttpRequest;
-import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
 
 public class LaunchActivity extends BaseActivity {
 //    private ProgressDialog dialog;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
+    public ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

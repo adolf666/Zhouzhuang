@@ -1,5 +1,6 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,6 +23,7 @@ public class LoginActivity extends BaseActivity{
     private EditText mUsernameET;
     private EditText mPasswordET;
     private Button mLoginBT;
+    public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,7 @@ public class LoginActivity extends BaseActivity{
                 login();
                 break;
             case R.id.tv_rigth_actionbar:
-                Intent intent2 = new Intent();
-                intent2.setClass(LoginActivity.this,RegisterActivity.class);
-                startActivity(intent2);
-                finish();
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                 break;
             case R.id.tv_left_actionbar:
                 finish();
@@ -57,6 +56,7 @@ public class LoginActivity extends BaseActivity{
     }
 
     public void login(){
+        progressDialog = ProgressDialog.show(this, "", "请稍候...", true, true);
         String userName = mUsernameET.getText().toString();
         String passWord = mPasswordET.getText().toString();
         RequestParams params = new RequestParams();
@@ -67,6 +67,7 @@ public class LoginActivity extends BaseActivity{
             protected void onSuccess(JSONObject jsonObject) {
                 super.onSuccess(jsonObject);
                 Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
                 if (TextUtils.equals(jsonObject.getString("success"),"0")){
                     SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
                     SharedPreferencesUtils.getString(LoginActivity.this,"AccountInfo",jsonObject.getString("data"));
@@ -77,6 +78,7 @@ public class LoginActivity extends BaseActivity{
             @Override
             public void onFailure(int errorCode, String msg) {
                 super.onFailure(errorCode, msg);
+                progressDialog.dismiss();
                 Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
             }
         });
