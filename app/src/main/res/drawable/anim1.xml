@@ -9,10 +9,4 @@
 <item android:drawable="@mipmap/anim7" android:duration="100"/>
 <item android:drawable="@mipmap/anim8" android:duration="100"/>
 <item android:drawable="@mipmap/anim9" android:duration="100"/>
-<item android:drawable="@mipmap/anim10" android:duration="100"/>
-<item android:drawable="@mipmap/anim11" android:duration="100"/>
-<item android:drawable="@mipmap/anim12" android:duration="100"/>
-<item android:drawable="@mipmap/anim13" android:duration="100"/>
-<item android:drawable="@mipmap/anim14" android:duration="100"/>
-<item android:drawable="@mipmap/anim15" android:duration="100"/>
 </animation-list>

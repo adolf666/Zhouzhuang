@@ -124,7 +124,6 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
             @Override
             protected void onSuccess(BannerResponse baseApiResponse) {
                 super.onSuccess(baseApiResponse);
-                Toast.makeText(getActivity(),"ewef",Toast.LENGTH_SHORT).show();
                 initBannnerData(baseApiResponse.getData());
             }
         });

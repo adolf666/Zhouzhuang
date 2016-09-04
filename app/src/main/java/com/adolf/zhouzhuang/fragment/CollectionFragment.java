@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
@@ -33,7 +34,7 @@ import cn.finalteam.okhttpfinal.RequestParams;
  * Use the {@link CollectionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CollectionFragment extends BaseFragment {
+public class CollectionFragment extends BaseFragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -102,7 +103,12 @@ public class CollectionFragment extends BaseFragment {
             mViewPagerViews.add(new View(getActivity()));
         }
         viewPager = (ViewPager) view.findViewById(R.id.vPager);
-
+        TextView tempExhibit = (TextView) view.findViewById(R.id.text1);
+        TextView displayExhibit = (TextView) view.findViewById(R.id.text2);
+        TextView spotsExhibit = (TextView) view.findViewById(R.id.text3);
+        tempExhibit.setOnClickListener(this);
+        displayExhibit.setOnClickListener(this);
+        spotsExhibit.setOnClickListener(this);
     }
 
     public void initViewPagerViews(List<Exhibit> exhibits ,int index){
@@ -152,5 +158,19 @@ public class CollectionFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.text1:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.text2:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.text3:
+                viewPager.setCurrentItem(2);
+        }
     }
 }

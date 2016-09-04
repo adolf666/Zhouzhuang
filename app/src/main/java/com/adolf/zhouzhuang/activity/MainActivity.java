@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
 
     public void autoLoginLogic(){
         boolean isAutoLogin = SharedPreferencesUtils.getBoolean(MainActivity.this,"AutoLogin",false);
-        if (isAutoLogin){
+        if (!isAutoLogin){
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
         }else{
             startActivity(new Intent(MainActivity.this,PersonalCenterActivity.class));

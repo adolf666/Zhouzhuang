@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.widget.SelectPopupWindow;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -39,7 +41,7 @@ import com.baidu.mapapi.model.LatLngBounds;
  * Use the {@link GudieFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GudieFragment extends BaseFragment {
+public class GudieFragment extends BaseFragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,7 +63,13 @@ public class GudieFragment extends BaseFragment {
     private Marker mMarkerD;
     private Marker mMarkerE;
     private Marker mMarkerF;
-
+    private RelativeLayout relative1,relative2,relative3;
+    private SelectPopupWindow mPopupWindow = null;
+    private SelectPopupWindow mPopupWindow2 = null;
+    private SelectPopupWindow mPopupWindow3 = null;
+    private String[] Strings1 = {"双桥","沈厅","张厅","沈万三故居","全福长桥","周庄博物馆","南湖秋月园","逸飞之家"};
+    private String[] Strings2 = {"双桥2","沈厅2","张厅2","沈万三故居2","全福长桥2","周庄博物馆2","南湖秋月园2","逸飞之家2"};
+    private String[] Strings3 = {"双桥3","沈厅3","张厅3","沈万三故居3","全福长桥3","周庄博物馆3","南湖秋月园3","逸飞之家3"};
     private OnFragmentInteractionListener mListener;
 
     // 初始化全局 bitmap 信息，不用时及时 recycle
@@ -108,10 +116,38 @@ public class GudieFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_gudie, container, false);
         mMapView = (MapView) view.findViewById(R.id.bmapView);
         mLoactionBT = (Button) view.findViewById(R.id.bt_loaction);
+        relative1 = (RelativeLayout) view.findViewById(R.id.relative1);
+        relative2 = (RelativeLayout) view.findViewById(R.id.relative2);
+        relative3 = (RelativeLayout) view.findViewById(R.id.relative3);
+        mLoactionBT.setOnClickListener(this);
+        relative1.setOnClickListener(this);
+        relative2.setOnClickListener(this);
+        relative3.setOnClickListener(this);
         initBaiduMap();
-        mLoactionBT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        mLoactionBT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 开启定位图层
+//                mBaiduMap.setMyLocationEnabled(true);
+//                // 定位初始化
+//                mLocationClient = new LocationClient(getActivity());
+//                mLocationClient.registerLocationListener(myListener);
+//                LocationClientOption option = new LocationClientOption();
+//                option.setOpenGps(true); // 打开gps
+//                option.setCoorType("bd09ll"); // 设置坐标类型
+//                option.setScanSpan(1000);
+//                mLocationClient.setLocOption(option);
+//                mLocationClient.start();
+//
+//            }
+//        });
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_loaction:
                 // 开启定位图层
                 mBaiduMap.setMyLocationEnabled(true);
                 // 定位初始化
@@ -123,13 +159,51 @@ public class GudieFragment extends BaseFragment {
                 option.setScanSpan(1000);
                 mLocationClient.setLocOption(option);
                 mLocationClient.start();
+                break;
+            case R.id.relative1://
+                if(mPopupWindow == null){
+                    mPopupWindow = new SelectPopupWindow(Strings1,getActivity(),selectCategory);
+                }
+                if (mPopupWindow.isShowing()){
+                    mPopupWindow.dismiss();
+                }else {
+                    mPopupWindow.showAsDropDown(relative1, -5, 10);
+                }
 
-            }
-        });
-        return view;
+                break;
+            case R.id.relative2:
+                if(mPopupWindow2 == null){
+                    mPopupWindow2 = new SelectPopupWindow(Strings2,getActivity(),selectCategory);
+                }
+                if (mPopupWindow2.isShowing()){
+                    mPopupWindow2.dismiss();
+                }else {
+                    mPopupWindow2.showAsDropDown(relative1, -5, 10);
+                }
+                break;
+            case R.id.relative3:
+                if(mPopupWindow3 == null){
+                    mPopupWindow3 = new SelectPopupWindow(Strings3,getActivity(),selectCategory);
+                }
+                if (mPopupWindow3.isShowing()){
+                    mPopupWindow3.dismiss();
+                }else {
+                    mPopupWindow3.showAsDropDown(relative1, -5, 10);
+                }
+                break;
+        }
     }
+    /**
+     * 选择完成回调接口
+     */
+    private SelectPopupWindow.SelectCategory selectCategory=new SelectPopupWindow.SelectCategory() {
+        @Override
+        public void selectCategory(int parentSelectposition,int childrenSelectposition) {
+            String parentStr=Strings1[parentSelectposition];
 
-
+            Toast.makeText(getActivity(), "选择了:"+parentStr, Toast.LENGTH_SHORT).show();
+        }
+    };
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -181,7 +255,7 @@ public class GudieFragment extends BaseFragment {
         LatLng llE = new LatLng(31.384875, 120.735384);
         LatLng llF = new LatLng(31.384765, 120.734374);
         MarkerOptions ooA = new MarkerOptions().position(llA).icon(bdA).zIndex(9).draggable(false);
-            ooA.animateType(MarkerOptions.MarkerAnimateType.drop);
+        ooA.animateType(MarkerOptions.MarkerAnimateType.drop);
         mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
         mMarkerA.setTitle("A");
         MarkerOptions ooB = new MarkerOptions().position(llB).icon(bdA).zIndex(5).draggable(false);
@@ -207,7 +281,7 @@ public class GudieFragment extends BaseFragment {
 
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             public boolean onMarkerClick(final Marker marker) {
-                    Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -227,10 +301,10 @@ public class GudieFragment extends BaseFragment {
                     .longitude(bdLocation.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
 
-                LatLng ll = new LatLng(31.121492,120.85681);
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(16.3f);
-                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+            LatLng ll = new LatLng(31.121492,120.85681);
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(ll).zoom(16.3f);
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
     }
 
