@@ -9,6 +9,7 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.resBody.SpotsResponse;
+import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class LaunchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laynch);
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+        initFileDir();
         getAllSpots();
 //        dialog = new ProgressDialog(this);
 //
@@ -63,5 +65,15 @@ public class LaunchActivity extends BaseActivity {
                 super.onFailure(errorCode, msg);
             }
         });
+    }
+
+    public void initFileDir(){
+        if(SdCardUtil.checkSdCard()==true){
+            SdCardUtil.createFileDir(SdCardUtil.FILEDIR);
+            SdCardUtil.createFileDir(SdCardUtil.FILEDIR+"/"+SdCardUtil.FILEAUDIO);
+        }else{
+            System.out.println("创建文件夹失败SD卡不可用");
+        }
+
     }
 }

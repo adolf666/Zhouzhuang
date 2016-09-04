@@ -18,6 +18,7 @@ import com.adolf.zhouzhuang.fragment.CollectionFragment;
 import com.adolf.zhouzhuang.fragment.GudieFragment;
 import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
+import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.widget.CustomViewPager;
 import com.baidu.mapapi.SDKInitializer;
 
@@ -86,9 +87,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 mCustomerViewPager.setCurrentItem(3);
                 break;
             case R.id.tv_left_actionbar:
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
+                autoLoginLogic();
                 break;
             case R.id.tv_rigth_actionbar:
                 Intent intent2 = new Intent();
@@ -98,18 +97,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         }
     }
 
+    public void autoLoginLogic(){
+        boolean isAutoLogin = SharedPreferencesUtils.getBoolean(MainActivity.this,"AutoLogin",false);
+        if (isAutoLogin){
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        }else{
+            startActivity(new Intent(MainActivity.this,PersonalCenterActivity.class));
+        }
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
         if (TextUtils.equals(uri.toString(),"exhibit")){
             mCustomerViewPager.setCurrentItem(1);
         }
-    }
-
-    private boolean isLogin(){
-        boolean isLogin = false;
-        SharedPreferences sharedPreferences= getSharedPreferences("LOGIN",
-                Activity.MODE_PRIVATE);
-        isLogin = sharedPreferences.getBoolean("isAutoLogin",false);
-        return isLogin;
     }
 }

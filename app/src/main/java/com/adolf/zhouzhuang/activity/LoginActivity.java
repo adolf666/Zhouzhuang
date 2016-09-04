@@ -79,6 +79,7 @@ public class LoginActivity extends BaseActivity{
             public void onFailure(int errorCode, String msg) {
                 super.onFailure(errorCode, msg);
                 progressDialog.dismiss();
+                SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",false);
                 Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
             }
         });
