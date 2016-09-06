@@ -3,6 +3,8 @@ package com.adolf.zhouzhuang.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -75,16 +77,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_museum:
-                mCustomerViewPager.setCurrentItem(0);
+                setBottomBarBackground(0);
                 break;
             case R.id.tv_collection:
-                mCustomerViewPager.setCurrentItem(1);
+                setBottomBarBackground(1);
                 break;
             case R.id.tv_navigation:
-                mCustomerViewPager.setCurrentItem(2);
+                setBottomBarBackground(2);
                 break;
             case R.id.tv_strategy:
-                mCustomerViewPager.setCurrentItem(3);
+                setBottomBarBackground(3);
                 break;
             case R.id.tv_left_actionbar:
                 autoLoginLogic();
@@ -111,5 +113,63 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         if (TextUtils.equals(uri.toString(),"exhibit")){
             mCustomerViewPager.setCurrentItem(1);
         }
+    }
+
+    public void setBottomBarBackground(int selectedIndex){
+        mCustomerViewPager.setCurrentItem(selectedIndex);
+        Drawable museumDefault = getResources().getDrawable(R.mipmap.btn_menu01_default);
+        Drawable museumFocus = getResources().getDrawable(R.mipmap.btn_menu01_focused);
+        Drawable collectionDefault = getResources().getDrawable(R.mipmap.btn_menu02_default);
+        Drawable collectionFocus = getResources().getDrawable(R.mipmap.btn_menu02_focused);
+        Drawable guideDefault = getResources().getDrawable(R.mipmap.btn_menu03_default);
+        Drawable guideFocus = getResources().getDrawable(R.mipmap.btn_menu03_focused);
+        Drawable strategyDefault = getResources().getDrawable(R.mipmap.btn_menu04_default);
+        Drawable strategyFocus = getResources().getDrawable(R.mipmap.btn_menu04_focused);
+        String textColorDefault = "#8e8e99";
+        String textColorFocus = "#333240";
+
+        switch (selectedIndex){
+            case 0:
+                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumFocus,null, null);
+                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionDefault,null, null);
+                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideDefault,null, null);
+                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyDefault,null, null);
+                mMuseumTextView.setTextColor(Color.parseColor(textColorFocus));
+                mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
+                mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
+                mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
+                break;
+            case 1:
+                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
+                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionFocus,null, null);
+                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideDefault,null, null);
+                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyDefault,null, null);
+                mMuseumTextView.setTextColor(Color.parseColor(textColorDefault));
+                mCollectionTextView.setTextColor(Color.parseColor(textColorFocus));
+                mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
+                mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
+                break;
+            case 2:
+                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
+                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionDefault,null, null);
+                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideFocus,null, null);
+                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyDefault,null, null);
+                mMuseumTextView.setTextColor(Color.parseColor(textColorDefault));
+                mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
+                mNavigationTextView.setTextColor(Color.parseColor(textColorFocus));
+                mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
+                break;
+            case 3:
+                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
+                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionDefault,null, null);
+                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideDefault,null, null);
+                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyFocus,null, null);
+                mMuseumTextView.setTextColor(Color.parseColor(textColorDefault));
+                mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
+                mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
+                mStrategyTextView.setTextColor(Color.parseColor(textColorFocus));
+                break;
+        }
+
     }
 }

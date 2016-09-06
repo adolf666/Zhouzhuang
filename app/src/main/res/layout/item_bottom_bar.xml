@@ -1,45 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="#bbbbbb"/>
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_gravity="center_horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/tv_museum"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="周庄博物馆"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/btn_menu01_focused"
+            android:gravity="center"
+            android:textColor="#333240"
+            android:text="周庄博物馆" />
+
+        <TextView
+            android:id="@+id/tv_collection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/tv_museum"
-            />
+            android:drawableTop="@mipmap/btn_menu02_default"
+            android:textColor="#8e8e99"
+            android:text="馆藏珍品" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="馆藏珍品"
-            android:id="@+id/tv_collection"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="周庄导览"
             android:id="@+id/tv_navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:drawableTop="@mipmap/btn_menu03_default"
+            android:textColor="#8e8e99"
+            android:text="周庄导览" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="游玩攻略"
             android:id="@+id/tv_strategy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:drawableTop="@mipmap/btn_menu04_default"
+            android:textColor="#8e8e99"
+            android:text="游玩攻略" />
     </LinearLayout>
 </LinearLayout>

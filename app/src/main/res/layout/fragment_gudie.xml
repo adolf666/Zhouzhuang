@@ -4,57 +4,39 @@
     android:layout_height="match_parent"
     tools:context="com.adolf.zhouzhuang.fragment.GudieFragment">
 <LinearLayout
-    android:id="@+id/line1"
+    android:id="@+id/ll_guide_list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="3">
-    <RelativeLayout
-        android:id="@+id/relative1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#ffffff">
-        <!--<ImageView-->
-            <!--android:id="@+id/image1"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:src="@drawable/anim1"-->
-            <!--/>-->
+    android:background="#ffffff">
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_walk_navigetion"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:padding="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="步行导航"/>
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/relative2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_recommend_line"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:padding="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="推荐路线"/>
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/relative3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_spots_list"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:padding="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="景点列表"/>
-
-    </RelativeLayout>
 
 
 
@@ -63,16 +45,26 @@
         android:id="@+id/bmapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/line1"
+        android:layout_below="@+id/ll_guide_list"
         android:clickable="true" />
-
-
     <Button
         android:id="@+id/bt_loaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="定位"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
-        android:padding="5dp"/>
+        android:layout_marginLeft="40dp"
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="37dp" />
+
+    <ListView
+        android:id="@+id/lv_spots_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_below="@+id/ll_guide_list"
+        android:visibility="gone"/>
 </RelativeLayout>
