@@ -33,6 +33,8 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -63,13 +65,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private Marker mMarkerD;
     private Marker mMarkerE;
     private Marker mMarkerF;
-    private RelativeLayout relative1,relative2,relative3;
     private SelectPopupWindow mPopupWindow = null;
     private SelectPopupWindow mPopupWindow2 = null;
     private SelectPopupWindow mPopupWindow3 = null;
-    private String[] Strings1 = {"双桥","沈厅","张厅","沈万三故居","全福长桥","周庄博物馆","南湖秋月园","逸飞之家"};
-    private String[] Strings2 = {"双桥2","沈厅2","张厅2","沈万三故居2","全福长桥2","周庄博物馆2","南湖秋月园2","逸飞之家2"};
-    private String[] Strings3 = {"双桥3","沈厅3","张厅3","沈万三故居3","全福长桥3","周庄博物馆3","南湖秋月园3","逸飞之家3"};
     private OnFragmentInteractionListener mListener;
 
     // 初始化全局 bitmap 信息，不用时及时 recycle
@@ -116,13 +114,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.fragment_gudie, container, false);
         mMapView = (MapView) view.findViewById(R.id.bmapView);
         mLoactionBT = (Button) view.findViewById(R.id.bt_loaction);
-        relative1 = (RelativeLayout) view.findViewById(R.id.relative1);
-        relative2 = (RelativeLayout) view.findViewById(R.id.relative2);
-        relative3 = (RelativeLayout) view.findViewById(R.id.relative3);
         mLoactionBT.setOnClickListener(this);
-        relative1.setOnClickListener(this);
-        relative2.setOnClickListener(this);
-        relative3.setOnClickListener(this);
         initBaiduMap();
 //        mLoactionBT.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -160,50 +152,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.setLocOption(option);
                 mLocationClient.start();
                 break;
-            case R.id.relative1://
-                if(mPopupWindow == null){
-                    mPopupWindow = new SelectPopupWindow(Strings1,getActivity(),selectCategory);
-                }
-                if (mPopupWindow.isShowing()){
-                    mPopupWindow.dismiss();
-                }else {
-                    mPopupWindow.showAsDropDown(relative1, -5, 10);
-                }
-
-                break;
-            case R.id.relative2:
-                if(mPopupWindow2 == null){
-                    mPopupWindow2 = new SelectPopupWindow(Strings2,getActivity(),selectCategory);
-                }
-                if (mPopupWindow2.isShowing()){
-                    mPopupWindow2.dismiss();
-                }else {
-                    mPopupWindow2.showAsDropDown(relative1, -5, 10);
-                }
-                break;
-            case R.id.relative3:
-                if(mPopupWindow3 == null){
-                    mPopupWindow3 = new SelectPopupWindow(Strings3,getActivity(),selectCategory);
-                }
-                if (mPopupWindow3.isShowing()){
-                    mPopupWindow3.dismiss();
-                }else {
-                    mPopupWindow3.showAsDropDown(relative1, -5, 10);
-                }
-                break;
         }
     }
-    /**
-     * 选择完成回调接口
-     */
-    private SelectPopupWindow.SelectCategory selectCategory=new SelectPopupWindow.SelectCategory() {
-        @Override
-        public void selectCategory(int parentSelectposition,int childrenSelectposition) {
-            String parentStr=Strings1[parentSelectposition];
-
-            Toast.makeText(getActivity(), "选择了:"+parentStr, Toast.LENGTH_SHORT).show();
-        }
-    };
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

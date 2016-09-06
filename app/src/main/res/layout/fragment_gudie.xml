@@ -4,66 +4,49 @@
     android:layout_height="match_parent"
     tools:context="com.adolf.zhouzhuang.fragment.GudieFragment">
 <LinearLayout
-    android:id="@+id/line1"
+    android:id="@+id/ll_action_tap"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="3">
-    <RelativeLayout
-        android:id="@+id/relative1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#ffffff">
-        <!--<ImageView-->
-            <!--android:id="@+id/image1"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:src="@drawable/anim1"-->
-            <!--/>-->
+    android:layout_height="49dp"
+    android:orientation="horizontal">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:textSize="20sp"
-            android:padding="10dp"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="步行导航"/>
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/relative2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:textSize="20sp"
-            android:padding="10dp"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="推荐路线"/>
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/relative3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:textSize="20sp"
-            android:padding="10dp"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="景点列表"/>
 
-    </RelativeLayout>
-
-
-
 </LinearLayout>
+    <ListView
+        android:id="@+id/lv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_action_tap"
+        />
     <com.baidu.mapapi.map.MapView
         android:id="@+id/bmapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/line1"
+        android:layout_below="@+id/ll_action_tap"
         android:clickable="true" />
 
 
