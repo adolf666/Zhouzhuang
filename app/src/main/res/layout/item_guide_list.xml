@@ -2,17 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_audio_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="12dp"
-        android:layout_centerVertical="true"
-        android:drawableLeft="@mipmap/icon_audio_in_list"/>
 
     <TextView
-        android:id="@+id/tv_spot_name"
+        android:id="@+id/tv_scenery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -21,11 +13,11 @@
         android:paddingBottom="5dp"
         android:text="沈厅"
         android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/tv_audio_icon"
-        android:layout_toLeftOf="@+id/iv_is_selected"/>
+        android:layout_toLeftOf="@+id/iv_selected_scenery"
+        android:drawableLeft="@mipmap/icon_audio_in_list"/>
 
     <ImageView
-        android:id="@+id/iv_is_selected"
+        android:id="@+id/iv_selected_scenery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

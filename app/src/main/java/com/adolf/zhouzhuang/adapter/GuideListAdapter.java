@@ -56,7 +56,7 @@ public class GuideListAdapter extends BaseAdapter {
         if (null == convertView) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_guide_list, null);
-            viewHolder.image = (ImageView) convertView.findViewById(R.id.tv_selected_scenery);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.iv_selected_scenery);
             viewHolder.title = (TextView) convertView.findViewById(R.id.tv_scenery);
             convertView.setTag(viewHolder);
         } else {
