@@ -3,81 +3,146 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.adolf.zhouzhuang.activity.PersonalCenterActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.adolf.zhouzhuang.activity.PersonalCenterActivity">
+
     <include
         android:id="@+id/include_actionbar"
         layout="@layout/item_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="49dp"/>
+        android:layout_height="49dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.7"
-            android:background="#336666">
+            android:background="@mipmap/bg_center">
+
             <ImageView
                 android:id="@+id/iv_portrait"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/ic_launcher" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_portrait"
                 android:layout_centerInParent="true"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:textSize="15sp"
-                android:text="王老师"/>
+                android:paddingTop="5dp"
+                android:text="王老师"
+                android:textSize="15sp" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1.5"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="设置"
-                android:id="@+id/textView"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="11dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="使用说明"
-                android:id="@+id/textView2"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="11dp"/>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/icon_personalinfo"
+                    android:paddingLeft="11dp"
+                    android:drawablePadding="8dp"
+                    android:text="个人信息"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="意见反馈"
-                android:id="@+id/textView3"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="11dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/btn_back_enter" />
+            </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="关于周庄博物馆"
-                android:id="@+id/textView4"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="11dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_setting"
+                    android:paddingLeft="11dp"
+                    android:layout_centerVertical="true"
+                    android:text="设置"
+                    android:drawablePadding="8dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/btn_back_enter" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/icon_suggest"
+                    android:paddingLeft="11dp"
+                    android:text="意见反馈"
+                    android:drawablePadding="8dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/btn_back_enter" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/icon_zhouzhuang"
+                    android:paddingLeft="11dp"
+                    android:drawablePadding="8dp"
+                    android:text="关于周庄博物馆"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/btn_back_enter" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
