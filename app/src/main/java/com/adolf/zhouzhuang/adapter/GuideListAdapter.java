@@ -10,67 +10,66 @@ import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
-import com.adolf.zhouzhuang.util.ListUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by zhl13045 on 2016/9/6.
+ * Created by adolf on 2016/8/26.
  */
 public class GuideListAdapter extends BaseAdapter {
-
-    private ArrayList<Spots> mSpotsList;
+    private List<Spots> mList;
     private Context mContext;
-    private int selectedIndex = -1;
+    private int mSelectedIndex = -1;
 
-    public GuideListAdapter(ArrayList<Spots> mSpotsList, Context mContext) {
-        this.mSpotsList = mSpotsList;
+    public GuideListAdapter(List<Spots> mList, Context mContext) {
+        this.mList = mList;
         this.mContext = mContext;
     }
 
-    public void setSelectedIndex(int index){
+    public void setmSelectedIndex(int index){
         if (index>=0){
-            selectedIndex = index;
+            mSelectedIndex = index;
         }
+        notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return ListUtils.getSize(mSpotsList);
+        return mList.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return mSpotsList.get(i);
+    public Object getItem(int position) {
+        return mList.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (null == view) {
+        if (null == convertView) {
             viewHolder = new ViewHolder();
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_guide_list, null);
-            viewHolder.image = (ImageView) view.findViewById(R.id.iv_is_selected);
-            viewHolder.name = (TextView) view.findViewById(R.id.tv_spot_name);
-            view.setTag(viewHolder);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_guide_list, null);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.tv_selected_scenery);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.tv_scenery);
+            convertView.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) view.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.name.setText(mSpotsList.get(i).getTitle());
-        viewHolder.image.setVisibility(i == selectedIndex ?View.VISIBLE:View.INVISIBLE);
-        return view;
+        viewHolder.title.setText(mList.get(position).getTitle());
+        viewHolder.image.setVisibility(mSelectedIndex == position ? View.VISIBLE:View.INVISIBLE);
+        return convertView;
 
     }
 
     private static class ViewHolder {
         ImageView image;
-        TextView name;
+        TextView title;
     }
-
 }
