@@ -1,14 +1,17 @@
 package com.adolf.zhouzhuang.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +22,8 @@ import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.util.Constants;
+import com.adolf.zhouzhuang.util.SdCardUtil;
+import com.adolf.zhouzhuang.util.UniversalDialog;
 import com.adolf.zhouzhuang.widget.SelectPopupWindow;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -41,8 +46,14 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import cn.finalteam.okhttpfinal.FileDownloadCallback;
+import cn.finalteam.okhttpfinal.HttpRequest;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,7 +79,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     public BDLocationListener myListener = new MyLocationListenner();
     private Button mLoactionBT;
     boolean isFirstLoc = true; // 是否首次定位
-    private Marker mMarkerA;
+
     private Marker mMarkerB;
     private Marker mMarkerC;
     private Marker mMarkerD;
@@ -80,7 +91,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private TextView mWalkNavigationTV,mLineRecommend,mSpotsListTV;
     private ListView mSpotsListLV;
     private boolean isSpotsListViewVisible = false;
-
+    private SpotsDataBaseHelper mSpotsDataBaseHelper;
+    private List<Spots> mSpotsList;
+    private Spots mSpots;
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.icon_marka);
@@ -116,7 +129,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         }
         mLocationClient = new LocationClient(getActivity().getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener( myListener );    //注册监听函数
-
+        getSpotsList();
     }
 
     @Override
@@ -159,6 +172,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mLoactionBT.setOnClickListener(this);
     }
 
+    public void getSpotsList(){
+        mSpotsList = mSpotsDataBaseHelper.getAllSpots();
+    }
+
     public void initSpotsListViewData(){
         SpotsDataBaseHelper spotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         List<Spots> spotsList = spotsDataBaseHelper.getAllSpots();
@@ -197,6 +214,18 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.setLocOption(option);
                 mLocationClient.start();
                 break;
+            case R.id.bt_audio_play:
+                if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
+                    downloadAudio();
+                }else{
+                    plauAudio(mSpots.getVideoLocation());
+                }
+                break;
+            case R.id.bt_detail:
+                Intent intent  = new Intent();
+                intent.putExtra("URL",mSpots.getDetailUrl());
+                startActivity(intent);
+                break;
             case R.id.tv_walk_navigetion:
 
                 break;
@@ -208,6 +237,46 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 break;
         }
     }
+
+    public void downloadAudio(){
+        final String filename = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO +"/"+mSpots.getCreateTime() + ".mp3";
+        File saveFile = new File(filename);
+        HttpRequest.download(mSpots.getVideoLocation(),saveFile,new FileDownloadCallback(){
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onProgress(int progress, long networkSpeed) {
+                super.onProgress(progress, networkSpeed);
+            }
+
+            @Override
+            public void onFailure() {
+                super.onFailure();
+            }
+
+            @Override
+            public void onDone() {
+                super.onDone();
+                downloadFinish(filename);
+            }
+        });
+    }
+
+    public void downloadFinish(String filePath){
+        mSpots.setIsDownLoadAudio(true);
+        mSpots.setVideoLocation(filePath);
+        mSpotsDataBaseHelper.updateSpots(mSpots);
+        plauAudio(filePath);
+    }
+
+    public void plauAudio(String filePath){
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -224,6 +293,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
     }
 
     private void initBaiduMap(){
@@ -268,43 +338,42 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
     private void initAndAddLayer(){
-        LatLng llA = new LatLng(31.115492,120.85681);
-        LatLng llB = new LatLng(31.114821, 120.857199);
-        LatLng llC = new LatLng(31.114723, 120.857541);
-        LatLng llD = new LatLng(31.384985, 120.736394);
-        LatLng llE = new LatLng(31.384875, 120.735384);
-        LatLng llF = new LatLng(31.384765, 120.734374);
-        MarkerOptions ooA = new MarkerOptions().position(llA).icon(bdA).zIndex(9).draggable(false);
-        ooA.animateType(MarkerOptions.MarkerAnimateType.drop);
-        mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
-        mMarkerA.setTitle("A");
-        MarkerOptions ooB = new MarkerOptions().position(llB).icon(bdA).zIndex(5).draggable(false);
-        ooB.animateType(MarkerOptions.MarkerAnimateType.drop);
-        mMarkerB = (Marker) (mBaiduMap.addOverlay(ooB));
-        mMarkerB.setTitle("B");
-        MarkerOptions ooC = new MarkerOptions().position(llC).icon(bdA).zIndex(5).draggable(false);
-        ooC.animateType(MarkerOptions.MarkerAnimateType.drop);
-        mMarkerC = (Marker) (mBaiduMap.addOverlay(ooC));
-        mMarkerC.setTitle("C");
-        MarkerOptions ooD = new MarkerOptions().position(llD).icon(bdA).zIndex(5).draggable(false);
-        ooD.animateType(MarkerOptions.MarkerAnimateType.drop);
-        mMarkerD = (Marker) (mBaiduMap.addOverlay(ooD));
-        mMarkerD.setTitle("D");
-        MarkerOptions ooE = new MarkerOptions().position(llE).icon(bdA).zIndex(5).draggable(false);
-        ooE.animateType(MarkerOptions.MarkerAnimateType.drop);
-        mMarkerE = (Marker) (mBaiduMap.addOverlay(ooE));
-        mMarkerE.setTitle("E");
-        MarkerOptions ooF = new MarkerOptions().position(llF).icon(bdA).zIndex(5).draggable(false);
-        ooF.animateType(MarkerOptions.MarkerAnimateType.drop);
-        mMarkerF = (Marker) (mBaiduMap.addOverlay(ooF));
-        mMarkerF.setTitle("F");
-
+        for (int i = 0; i < mSpotsList.size(); i++) {
+            LatLng latlng;
+            if (i == 1){
+                latlng = new LatLng(31.11700, 120.85622);
+            }else{
+                latlng = new LatLng(Double.parseDouble(mSpotsList.get(i).getLng()),Double.parseDouble(mSpotsList.get(i).getLat()));
+            }
+            MarkerOptions ooA = new MarkerOptions().position(latlng).icon(bdA).zIndex(9).draggable(false);
+            ooA.animateType(MarkerOptions.MarkerAnimateType.drop);
+            Marker marker = (Marker) (mBaiduMap.addOverlay(ooA));
+            marker.setTitle(mSpotsList.get(i).getTitle());
+        }
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             public boolean onMarkerClick(final Marker marker) {
+                mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
+                UniversalDialog dialog = new UniversalDialog(getActivity());
+                dialog.show();
+                dialog.setContentView(initDialogView(mSpots));
+                dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
+                dialog.setTitle(mSpots.getTitle());
+
                 Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
+    }
+
+    private View initDialogView(Spots spots){
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_guide,null);
+        ImageView soptIV = (ImageView) view.findViewById(R.id.iv_spots_img);
+        Button audioPlay  = (Button) view.findViewById(R.id.bt_audio_play);
+        Button detail = (Button) view.findViewById(R.id.bt_detail);
+        TextView spotInfo = (TextView) view.findViewById(R.id.tv_spot_info);
+        audioPlay.setOnClickListener(this);
+        spotInfo.setText(spots.getBrief());
+        return view;
     }
 
     public class MyLocationListenner implements BDLocationListener{
