@@ -222,11 +222,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.start();
                 break;
             case R.id.bt_audio_play:
-               /* if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
+              if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
                     downloadAudio();
                 }else{
                     playAudio(mSpots.getVideoLocation());
-                }*/
+                }
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -274,7 +274,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
     public void downloadFinish(String filePath){
-       // mSpots.setIsDownLoadAudio(true);
+        mSpots.setIsDownLoadAudio(true);
         mSpots.setVideoLocation(filePath);
         mSpotsDataBaseHelper.updateSpots(mSpots);
         playAudio(filePath);
@@ -282,7 +282,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     public void playAudio(String filePath){
 
-      //  SoundBroadUtils.getInstance().playSound(mainActivity, R.raw.push_reward);
+      SoundBroadUtils.getInstance().playSound(mainActivity, R.raw.rain);
 
 
     }
@@ -368,7 +368,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 dialog.setContentView(initDialogView(mSpots));
                 dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
                 dialog.setTitle(mSpots.getTitle());
-
+                 dialog();
                 Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -451,7 +451,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                         break;
                     case Dialog.BUTTON_NEUTRAL:
                         Toast.makeText(mainActivity, "语音", Toast.LENGTH_SHORT).show();
-
+                        SoundBroadUtils.getInstance().playSound(mainActivity, R.raw.rain);
                         break;
                 }
             }
