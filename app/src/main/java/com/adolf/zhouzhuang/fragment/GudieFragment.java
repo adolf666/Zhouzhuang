@@ -1,11 +1,14 @@
 package com.adolf.zhouzhuang.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,12 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.SdCardUtil;
+import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.UniversalDialog;
 import com.adolf.zhouzhuang.widget.SelectPopupWindow;
 import com.baidu.location.BDLocation;
@@ -94,6 +99,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private List<Spots> mSpotsList;
     private Spots mSpots;
+    private MainActivity mainActivity;
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.icon_marka);
@@ -123,6 +129,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainActivity = new MainActivity();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -215,11 +222,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.start();
                 break;
             case R.id.bt_audio_play:
-                if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
+               /* if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
                     downloadAudio();
                 }else{
-                    plauAudio(mSpots.getVideoLocation());
-                }
+                    playAudio(mSpots.getVideoLocation());
+                }*/
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -267,13 +274,16 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
     public void downloadFinish(String filePath){
-        mSpots.setIsDownLoadAudio(true);
+       // mSpots.setIsDownLoadAudio(true);
         mSpots.setVideoLocation(filePath);
         mSpotsDataBaseHelper.updateSpots(mSpots);
-        plauAudio(filePath);
+        playAudio(filePath);
     }
 
-    public void plauAudio(String filePath){
+    public void playAudio(String filePath){
+
+      //  SoundBroadUtils.getInstance().playSound(mainActivity, R.raw.push_reward);
+
 
     }
 
@@ -423,4 +433,37 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mMapView.onDestroy();
 
     }
+
+
+    private void dialog(){
+        DialogInterface.OnClickListener dialogOnclicListener=new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch(which){
+                    case Dialog.BUTTON_POSITIVE:
+                        Toast.makeText(mainActivity, "导航" , Toast.LENGTH_SHORT).show();
+                        //soundPool.pause(soundPool.play(1,1, 1, 0, 0, 1));
+                        break;
+                    case Dialog.BUTTON_NEGATIVE:
+                        Toast.makeText(mainActivity, "详细" , Toast.LENGTH_SHORT).show();
+
+                        break;
+                    case Dialog.BUTTON_NEUTRAL:
+                        Toast.makeText(mainActivity, "语音", Toast.LENGTH_SHORT).show();
+
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder=new AlertDialog.Builder(mainActivity);  //先得到构造器
+        builder.setTitle("沈厅"); //设置标题
+        builder.setMessage("沈厅位于周庄富安桥东堍南侧的南市街上，坐东朝西，七进五门楼"); //设置内容
+        builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
+        builder.setPositiveButton("导航",dialogOnclicListener);
+        builder.setNeutralButton(" 语音", dialogOnclicListener);
+        builder.setNegativeButton("详细", dialogOnclicListener);
+        builder.create().show();
+    }
+
 }

@@ -52,6 +52,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_person_info"
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
 
@@ -71,11 +72,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/btn_back_enter" />
+                    android:src="@mipmap/ic_more" />
             </RelativeLayout>
 
 
             <RelativeLayout
+                android:id="@+id/rl_setting"
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
 
@@ -95,10 +97,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/btn_back_enter" />
+                    android:src="@mipmap/ic_more" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_suggestion"
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
 
@@ -118,12 +121,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/btn_back_enter" />
+                    android:src="@mipmap/ic_more" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_zhouzhuang_lib"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="48dp"
+                >
 
                 <TextView
                     android:id="@+id/textView4"
@@ -141,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/btn_back_enter" />
+                    android:src="@mipmap/ic_more" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

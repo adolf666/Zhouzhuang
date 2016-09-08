@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_actionbar"
+        layout="@layout/item_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="49dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_center">
+
+            <ImageView
+                android:id="@+id/iv_portrait"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_launcher" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户名：" />
+
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="18dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别：" />
+
+            <TextView
+                android:id="@+id/et_user_sex_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/btn_choose_focus"
+                android:text="男"
+                android:drawablePadding="8dp"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/et_user_sex_woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/btn_choose_default"
+                android:text="女"
+                android:drawablePadding="8dp"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="18dp">
+            <TextView
+                android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+                android:text="地区"/>
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="江苏南京"
+                android:paddingLeft="15dp"
+                android:background="@null"/>
+            </LinearLayout>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="保存修改"
+            android:gravity="center"
+            />
+    </LinearLayout>
+
+</LinearLayout>
