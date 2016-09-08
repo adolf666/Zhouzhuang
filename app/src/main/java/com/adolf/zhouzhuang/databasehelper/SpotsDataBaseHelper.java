@@ -46,6 +46,7 @@ public class SpotsDataBaseHelper {
         mSpotsDao.update(spots);
     }
 
+
     //内部方法，不需要在外面调用
     private List<Spots> querySpots(WhereCondition whereCondition){
 
@@ -60,4 +61,5 @@ public class SpotsDataBaseHelper {
             return spotsList.get(0);
         }
     }
+
 }

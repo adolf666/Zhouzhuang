@@ -38,7 +38,7 @@ public class SdCardUtil {
      * getExternalStorageDirectory 获取路径
      */
     public static String getSdPath() {
-        return Environment.getExternalStorageDirectory() + "/";
+        return Environment.getExternalStorageDirectory() +"";
     }
 
     /*

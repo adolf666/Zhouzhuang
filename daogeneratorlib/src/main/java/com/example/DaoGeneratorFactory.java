@@ -3,6 +3,7 @@ package com.example;
 
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 
 public class DaoGeneratorFactory {
@@ -42,6 +43,7 @@ public class DaoGeneratorFactory {
         entity.addStringProperty("videoLocation");
         entity.addIntProperty("videoVersion");
         entity.addIntProperty("basicInfoVersion");
+        entity.addBooleanProperty("isDownLoadAudio");
     }
 
 }
