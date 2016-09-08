@@ -25,9 +25,6 @@ public class LoginActivity extends BaseActivity{
     private Button mLoginBT;
     public ProgressDialog progressDialog;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
