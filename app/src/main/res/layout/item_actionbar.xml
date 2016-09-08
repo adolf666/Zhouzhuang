@@ -13,12 +13,11 @@
         <TextView
             android:id="@+id/tv_left_actionbar"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:textColor="#cccc66"
-            android:layout_marginLeft="8dp"
-            android:text="左"/>
+            android:layout_marginLeft="8dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,10 +29,9 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/tv_rigth_actionbar"
             android:layout_alignParentRight="true"
-            android:text="右"
             android:layout_marginRight="8dp"
             android:textColor="#cccc66"
             android:layout_centerVertical="true"

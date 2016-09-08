@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         mNavigationTextView.setOnClickListener(this);
         mStrategyTextView.setOnClickListener(this);
 
-        initActionBar("个人",0,"周庄博物馆","扫描",0);
+        initActionBar("",R.drawable.personal_center_selector,"周庄博物馆","",R.drawable.scan_selector);
         initViewPager();
     }
 

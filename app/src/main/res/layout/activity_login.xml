@@ -13,9 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="11dp"
-        android:paddingRight="11dp"
-        android:layout_marginTop="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@mipmap/bg_twoinput01">
         <TextView
             android:layout_width="55dp"
             android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+
             android:hint="输入用户名"/>
     </LinearLayout>
 
@@ -32,9 +34,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="11dp"
-        android:paddingRight="11dp"
-        android:layout_marginTop="4dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="4dp"
+        android:background="@mipmap/bg_twoinput02">
         <TextView
             android:layout_width="55dp"
             android:layout_height="wrap_content"
@@ -44,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+
             android:hint="输入登录密码"/>
     </LinearLayout>
 
@@ -51,8 +55,10 @@
         android:id="@+id/bt_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="登录"
+        android:text="立即登录"
+        android:textColor="#FFFFFF"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_selector"/>
 </LinearLayout>

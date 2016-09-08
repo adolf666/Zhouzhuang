@@ -57,9 +57,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
                 mRightActionBar.setText(rightActionBarText);
             }
             if (rightActionBarDarwable>0){
-                Drawable drawable = ContextCompat.getDrawable(this,rightActionBarDarwable);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
-                mLeftActionBar.setCompoundDrawables(null, null,drawable, null);
+                mRightActionBar.setBackgroundResource(rightActionBarDarwable);
             }
             mRightActionBar.setOnClickListener(this);
         }
