@@ -20,6 +20,8 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         initActionBar("返回",0,"个人中心","",0);
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
