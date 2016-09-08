@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
-import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.util.Constants;
@@ -99,7 +98,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private List<Spots> mSpotsList;
     private Spots mSpots;
-    private MainActivity mainActivity;
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.icon_marka);
@@ -129,7 +127,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainActivity = new MainActivity();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -222,11 +219,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.start();
                 break;
             case R.id.bt_audio_play:
-              if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
-                    downloadAudio();
-                }else{
+//              if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
+//                    downloadAudio();
+//                }else{
                     playAudio(mSpots.getVideoLocation());
-                }
+//                }
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -282,7 +279,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     public void playAudio(String filePath){
 
-      SoundBroadUtils.getInstance().playSound(mainActivity, R.raw.rain);
+      SoundBroadUtils.getInstance().playSound(getActivity(), R.raw.rain);
 
 
     }
@@ -368,7 +365,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 dialog.setContentView(initDialogView(mSpots));
                 dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
                 dialog.setTitle(mSpots.getTitle());
-                 dialog();
+//                 dialog();
                 Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -442,21 +439,21 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             public void onClick(DialogInterface dialog, int which) {
                 switch(which){
                     case Dialog.BUTTON_POSITIVE:
-                        Toast.makeText(mainActivity, "导航" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "导航" , Toast.LENGTH_SHORT).show();
                         //soundPool.pause(soundPool.play(1,1, 1, 0, 0, 1));
                         break;
                     case Dialog.BUTTON_NEGATIVE:
-                        Toast.makeText(mainActivity, "详细" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "详细" , Toast.LENGTH_SHORT).show();
 
                         break;
                     case Dialog.BUTTON_NEUTRAL:
-                        Toast.makeText(mainActivity, "语音", Toast.LENGTH_SHORT).show();
-                        SoundBroadUtils.getInstance().playSound(mainActivity, R.raw.rain);
+                        Toast.makeText(getActivity(), "语音", Toast.LENGTH_SHORT).show();
+                        SoundBroadUtils.getInstance().playSound(getActivity(), R.raw.rain);
                         break;
                 }
             }
         };
-        AlertDialog.Builder builder=new AlertDialog.Builder(mainActivity);  //先得到构造器
+        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());  //先得到构造器
         builder.setTitle("沈厅"); //设置标题
         builder.setMessage("沈厅位于周庄富安桥东堍南侧的南市街上，坐东朝西，七进五门楼"); //设置内容
         builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
