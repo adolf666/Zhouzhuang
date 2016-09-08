@@ -25,7 +25,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/centerphoto" />
 
         </RelativeLayout>
 
@@ -75,30 +75,17 @@
                 android:drawablePadding="8dp"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="18dp">
-            <TextView
-                android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-                android:text="地区"/>
-            <EditText
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="江苏南京"
-                android:paddingLeft="15dp"
-                android:background="@null"/>
-            </LinearLayout>
+
         <TextView
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:text="保存修改"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:gravity="center"
-            />
+            android:textSize="36px"
+            android:background="@mipmap/btn_login_default"/>
     </LinearLayout>
 
 </LinearLayout>
