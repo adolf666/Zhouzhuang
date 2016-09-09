@@ -1,5 +1,8 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 
 /**
  * Created by gpp on 2016/9/8 0008.
@@ -50,8 +54,38 @@ public class PersonSettingActivity extends BaseActivity{
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                Toast.makeText(this,"缓存已清除",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"缓存已清除",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.login_off:
+                dialog();
 
                 break;
+
         }}
+
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PersonSettingActivity.this,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        builder.setMessage("确认注销?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+           @Override
+           public void onClick(DialogInterface dialog, int which) {
+               dialog.dismiss();
+               Intent intent1 = new Intent();
+               intent1.setClass(PersonSettingActivity.this,MainActivity.class);
+               intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               startActivity(intent1);
+               SharedPreferencesUtils.putBoolean(PersonSettingActivity.this,"AutoLogin",false);
+               SharedPreferencesUtils.getString(PersonSettingActivity.this,"AccountInfo",null);
+               finish();
+              }
+           });
+         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+             public void onClick(DialogInterface dialog, int which) {
+               dialog.dismiss();
+                 }
+         });
+        builder.create().show();
+    }
 }

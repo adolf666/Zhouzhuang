@@ -46,7 +46,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginRight="18dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1.5"
             android:orientation="vertical">
@@ -54,7 +53,8 @@
             <RelativeLayout
                 android:id="@+id/rl_person_info"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="48dp"
+                android:background="@drawable/personal_info_selector">
 
                 <TextView
                     android:id="@+id/textView"
@@ -72,14 +72,17 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_more" />
+                    android:src="@mipmap/ic_more"
+                    android:layout_marginRight="18dp"/>
             </RelativeLayout>
 
 
             <RelativeLayout
                 android:id="@+id/rl_setting"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/personal_info_selector">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -97,21 +100,23 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_more" />
+                    android:src="@mipmap/ic_more"
+                    android:layout_marginRight="18dp"/>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_suggestion"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/personal_info_selector">
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:drawableLeft="@mipmap/icon_suggest"
                     android:paddingLeft="11dp"
+                    android:layout_centerVertical="true"
                     android:text="意见反馈"
                     android:drawablePadding="8dp"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -121,14 +126,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_more" />
+                    android:src="@mipmap/ic_more"
+                    android:layout_marginRight="18dp"/>
             </RelativeLayout>
-
             <RelativeLayout
                 android:id="@+id/rl_zhouzhuang_lib"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                >
+                android:layout_marginTop="10dp"
+                android:background="@drawable/personal_info_selector">
 
                 <TextView
                     android:id="@+id/textView4"
@@ -146,7 +152,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_more" />
+                    android:src="@mipmap/ic_more"
+                    android:layout_marginRight="18dp"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

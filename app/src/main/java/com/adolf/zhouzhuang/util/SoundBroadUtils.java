@@ -2,6 +2,9 @@ package com.adolf.zhouzhuang.util;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
+
+import java.net.URI;
 
 /**
  * Created by gpp on 2016/9/8 0008.
@@ -33,13 +36,19 @@ public class SoundBroadUtils {
         is_palying = true;
         playBroadSound(context,resId);
     }
-
+    public void  pauseSound(boolean is_pause){
+        if(is_pause){
+            mp.start();
+        }else{
+            mp.pause();
+        }
+    }
     private void playBroadSound(final Context context, final int resId){
         if(mp != null){
             mp.release();
             mp = null;
         }
-        mp = MediaPlayer.create(context,resId);
+        mp = MediaPlayer.create(context, Uri.parse(SdCardUtil.getSdPath() +"/DCIM/TRANS"+"/rain.mp3"));
         try {
             mp.start();
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
