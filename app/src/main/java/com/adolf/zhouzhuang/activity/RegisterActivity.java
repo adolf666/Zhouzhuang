@@ -47,7 +47,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mRegisterBT =(Button) findViewById(R.id.bt_register);
         mProtoalTV = (TextView) findViewById(R.id.tv_protoal);
         mRegisterBT.setOnClickListener(this);
-        initActionBar("返回",0,"注册新用户","登录",0);
+        initActionBar("返回",R.drawable.back_selected,"注册新用户","登录",0);
         createLink(mProtoalTV);
     }
 

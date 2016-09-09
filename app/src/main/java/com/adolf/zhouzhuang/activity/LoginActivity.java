@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity{
         mPasswordET = (EditText) findViewById(R.id.et_password);
         mLoginBT = (Button) findViewById(R.id.bt_login);
         mLoginBT.setOnClickListener(this);
-        initActionBar("返回",0,"登录","注册",0);
+        initActionBar("返回",R.drawable.back_selected,"登录","注册",0);
         ((ZhouzhuangApplication)getApplication()).getDaoSession();
     }
 
