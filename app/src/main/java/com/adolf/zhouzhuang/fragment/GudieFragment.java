@@ -94,10 +94,12 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     private TextView mWalkNavigationTV,mLineRecommend,mSpotsListTV;
     private ListView mSpotsListLV;
+    private ImageView mPause;
     private boolean isSpotsListViewVisible = false;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private List<Spots> mSpotsList;
     private Spots mSpots;
+    private boolean isPause = false;
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.icon_marka);
@@ -170,6 +172,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mLineRecommend = (TextView) view.findViewById(R.id.tv_recommend_line);
         mSpotsListTV = (TextView) view.findViewById(R.id.tv_spots_list);
         mSpotsListLV = (ListView) view.findViewById(R.id.lv_spots_list);
+        mPause = (ImageView)view.findViewById(R.id.img_pause);
+        mPause.setOnClickListener(this);
         mWalkNavigationTV.setOnClickListener(this);
         mLineRecommend.setOnClickListener(this);
         mSpotsListTV.setOnClickListener(this);
@@ -239,6 +243,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             case R.id.tv_spots_list:
                 isShowSpotList();
                 break;
+            case R.id.img_pause:
+                SoundBroadUtils.getInstance().pauseSound(isPause);
+                isPause = !isPause;
+                break;
+
         }
     }
 
@@ -271,7 +280,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
     public void downloadFinish(String filePath){
-        mSpots.setIsDownLoadAudio(true);
+       // mSpots.setIsDownLoadAudio(true);
         mSpots.setVideoLocation(filePath);
         mSpotsDataBaseHelper.updateSpots(mSpots);
         playAudio(filePath);
@@ -279,7 +288,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     public void playAudio(String filePath){
 
-      SoundBroadUtils.getInstance().playSound(getActivity(), R.raw.rain);
+      SoundBroadUtils.getInstance().playSound(getActivity(), 0);
 
 
     }
@@ -448,7 +457,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                         break;
                     case Dialog.BUTTON_NEUTRAL:
                         Toast.makeText(getActivity(), "语音", Toast.LENGTH_SHORT).show();
-                        SoundBroadUtils.getInstance().playSound(getActivity(), R.raw.rain);
+                        SoundBroadUtils.getInstance().playSound(getActivity(), 0);
                         break;
                 }
             }
