@@ -62,7 +62,7 @@
                 android:id="@+id/et_user_sex_man"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/btn_choose_focus"
+                android:drawableLeft="@drawable/sex_selected"
                 android:text="男"
                 android:drawablePadding="8dp"
                 android:layout_marginLeft="10dp"/>
@@ -70,7 +70,7 @@
                 android:id="@+id/et_user_sex_woman"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/btn_choose_default"
+                android:drawableLeft="@drawable/sex_selected"
                 android:text="女"
                 android:drawablePadding="8dp"
                 android:layout_marginLeft="10dp"/>
