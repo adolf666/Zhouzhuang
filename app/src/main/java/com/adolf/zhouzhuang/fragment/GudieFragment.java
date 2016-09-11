@@ -232,11 +232,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.start();
                 break;
             case R.id.bt_audio_play:
-              if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
+            /*  if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
                     downloadAudio();
-                }else{
+                }else{*/
                     playAudio(mSpots.getVideoLocation());
-                }
+              //  }
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -259,10 +259,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 SoundBroadUtils.getInstance().pauseSound(isPause);
                 if(isPause){
                     mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-                    mVocie_Prompt.setText("当前暂停播放“沈厅”语音导览");
+                    mVocie_Prompt.setText("正在为您播放沈厅语音导览");
                 }else {
                     mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
-                    mVocie_Prompt.setText("正在为您播放沈厅语音导览");
+                    mVocie_Prompt.setText("当前暂停播放“沈厅”语音导览");
                 }
                 isPause = !isPause;
                 break;
@@ -310,8 +310,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     public void playAudio(String filePath){
 
-      SoundBroadUtils.getInstance().playSound(getActivity(), filePath);
+      SoundBroadUtils.getInstance().playSound(getActivity(), R.raw._data_video_spot_3);
         mNotice.setVisibility(View.VISIBLE);
+        mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+        mVocie_Prompt.setText("正在为您播放沈厅语音导览");
 
     }
 

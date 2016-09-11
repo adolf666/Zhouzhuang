@@ -7,8 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_notice"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:gravity="center_vertical"
+        android:layout_height="32dp"
         android:background="@mipmap/bar_tab">
 
         <ImageView
@@ -16,6 +15,7 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:src="@mipmap/button_pause"/>
 
         <TextView
@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/img_pause"/>
+            android:layout_toRightOf="@+id/img_pause"
+            android:text="正在为您播放沈厅语音导览"/>
         <ImageView
             android:id="@+id/img_close"
             android:layout_marginLeft="20dp"
