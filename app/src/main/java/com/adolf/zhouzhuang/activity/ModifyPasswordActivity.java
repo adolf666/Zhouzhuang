@@ -25,7 +25,7 @@ public class ModifyPasswordActivity extends BaseActivity {
         initView();
     }
     private void initView(){
-        initActionBar("返回",0,"修改个人信息","",0);
+        initActionBar("返回",R.drawable.back_selected,"修改个人信息","",0);
         mOldPassword = (EditText)findViewById(R.id.edit_old_password);
         mNewPassword = (EditText)findViewById(R.id.edit_new_password);
         mConfirmPassword = (EditText)findViewById(R.id.edit_confirm_password);

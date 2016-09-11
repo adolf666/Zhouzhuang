@@ -24,7 +24,7 @@ private  TextView mSaveBtn;
     }
 
     private void initView() {
-        initActionBar("返回", 0, "修改个人信息", "", 0);
+        initActionBar("返回", R.drawable.back_selected, "修改个人信息", "", 0);
         mSaveBtn = (TextView)findViewById(R.id.tv_save_modify);
         RadioGroup group = (RadioGroup) this.findViewById(R.id.radioGroup);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

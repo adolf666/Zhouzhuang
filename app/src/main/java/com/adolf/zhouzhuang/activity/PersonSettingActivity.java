@@ -28,7 +28,7 @@ public class PersonSettingActivity extends BaseActivity{
         initView();
     }
     private void initView(){
-        initActionBar("返回",0,"个人设置","",0);
+        initActionBar("返回",R.drawable.back_selected,"个人设置","",0);
 
         mModifyPassword = (RelativeLayout)findViewById(R.id.rl_modify_password);
         mCleanStore = (TextView)findViewById(R.id.clean_store);

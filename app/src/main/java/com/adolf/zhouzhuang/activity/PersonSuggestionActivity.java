@@ -17,7 +17,7 @@ public class PersonSuggestionActivity extends BaseActivity{
         initView();
     }
     private void initView(){
-        initActionBar("返回",0,"个人建议","",0);
+        initActionBar("返回",R.drawable.back_selected,"个人建议","",0);
     }
     @Override
     public void onClick(View v) {

@@ -26,7 +26,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         initView();
     }
     private void initView(){
-        initActionBar("返回",0,"个人中心","",0);
+        initActionBar("返回",R.drawable.back_selected,"个人中心","",0);
 
         mPersonInfo = (RelativeLayout) findViewById(R.id.rl_person_info);
         mSetting = (RelativeLayout) findViewById(R.id.rl_setting);
