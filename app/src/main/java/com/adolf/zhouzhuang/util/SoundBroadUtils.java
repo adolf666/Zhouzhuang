@@ -29,12 +29,12 @@ public class SoundBroadUtils {
     private final int MAX_BROAD_TIME = 2;
 
 
-    public synchronized void playSound(final Context context, final int resId) {
+    public synchronized void playSound(final Context context, final String filePath) {
         if(is_palying){
             return;
         }
         is_palying = true;
-        playBroadSound(context,resId);
+        playBroadSound(context,filePath);
     }
     public void  pauseSound(boolean is_pause){
         if(mp != null){
@@ -45,12 +45,12 @@ public class SoundBroadUtils {
         }
         }
     }
-    private void playBroadSound(final Context context, final int resId){
+    private void playBroadSound(final Context context, final String filePath){
         if(mp != null){
             mp.release();
             mp = null;
         }
-        mp = MediaPlayer.create(context, Uri.parse(SdCardUtil.getSdPath() +"/DCIM/TRANS"+"/rain.mp3"));
+        mp = MediaPlayer.create(context, Uri.parse(filePath));
         try {
             mp.start();
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -58,7 +58,7 @@ public class SoundBroadUtils {
                 public void onCompletion(MediaPlayer mp) {
                     bocast_time++;
                     if (bocast_time < MAX_BROAD_TIME + 1){
-                        playBroadSound(context,resId);
+                        playBroadSound(context,filePath);
                     }else{
                         bocast_time = 1;
                         is_palying = false;

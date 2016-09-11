@@ -89,9 +89,13 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
         mNewsTv = (TextView) view.findViewById(R.id.tv_news);
         TextView tv_exhibition = (TextView) view.findViewById(R.id.tv_exhibition);
         TextView tv_pic1 = (TextView) view.findViewById(R.id.tv_pic1);
+        TextView tv_pic2 = (TextView) view.findViewById(R.id.tv_pic2);
+        TextView tv_pic3 = (TextView) view.findViewById(R.id.tv_pic3);
         tv_exhibition.setOnClickListener(this);
         mNewsTv.setOnClickListener(this);
         tv_pic1.setOnClickListener(this);
+        tv_pic2.setOnClickListener(this);
+        tv_pic3.setOnClickListener(this);
         return view;
     }
 
@@ -160,6 +164,13 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
                 break;
             case  R.id.tv_pic1:
                 startActivity(new Intent(getActivity(), PanoramaActivity.class));
+                break;
+            case R.id.tv_pic2:
+                startActivity(new Intent(getActivity(), PanoramaActivity.class));
+                break;
+            case R.id.tv_pic3:
+                startActivity(new Intent(getActivity(), PanoramaActivity.class));
+                break;
         }
     }
 }

@@ -16,4 +16,48 @@
         <item>嗨购5折不要停</item>
         <item>以诚感人者，人亦诚而应。</item>
     </array>
+
+
+    <string-array name="actions_images">
+        <item>@mipmap/anim1</item>
+        <item>@mipmap/anim2</item>
+        <item>@mipmap/anim3</item>
+        <item>@mipmap/anim4</item>
+        <item>@mipmap/anim5</item>
+        <item>@mipmap/anim6</item>
+        <item>@mipmap/anim7</item>
+        <item>@mipmap/anim8</item>
+        <item>@mipmap/anim9</item>
+        <item>@mipmap/anim10</item>
+        <item>@mipmap/anim11</item>
+        <item>@mipmap/anim12</item>
+        <item>@mipmap/anim13</item>
+        <item>@mipmap/anim14</item>
+        <item>@mipmap/anim15</item>
+        <item>@mipmap/anim16</item>
+        <item>@mipmap/anim17</item>
+        <item>@mipmap/anim19</item>
+        <item>@mipmap/anim20</item>
+        <item>@mipmap/anim21</item>
+        <item>@mipmap/anim22</item>
+        <item>@mipmap/anim23</item>
+        <item>@mipmap/anim24</item>
+        <item>@mipmap/anim25</item>
+        <item>@mipmap/anim26</item>
+        <item>@mipmap/anim27</item>
+        <item>@mipmap/anim28</item>
+        <item>@mipmap/anim29</item>
+        <item>@mipmap/anim30</item>
+        <item>@mipmap/anim31</item>
+        <item>@mipmap/anim32</item>
+        <item>@mipmap/anim33</item>
+        <item>@mipmap/anim34</item>
+        <item>@mipmap/anim35</item>
+        <item>@mipmap/anim36</item>
+        <item>@mipmap/anim37</item>
+        <item>@mipmap/anim38</item>
+        <item>@mipmap/anim39</item>
+        <item>@mipmap/anim40</item>
+
+    </string-array>
 </resources>

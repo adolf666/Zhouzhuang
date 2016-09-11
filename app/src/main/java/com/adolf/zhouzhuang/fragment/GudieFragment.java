@@ -28,6 +28,7 @@ import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.UniversalDialog;
+import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.SelectPopupWindow;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -105,7 +106,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private boolean isPause = false;
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
-            .fromResource(R.mipmap.icon_marka);
+            .fromResource(R.mipmap.btn_voice_default);
 
     public GudieFragment() {
         // Required empty public constructor
@@ -231,11 +232,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.start();
                 break;
             case R.id.bt_audio_play:
-//              if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
-//                    downloadAudio();
-//                }else{
+              if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
+                    downloadAudio();
+                }else{
                     playAudio(mSpots.getVideoLocation());
-//                }
+                }
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -243,7 +244,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.tv_walk_navigetion:
-
+                Utils.openBaiduMap(getActivity(),120.85622,31.11700,"123","456");
+                break;
+            case R.id.tv_navigation_map:
+                Utils.openBaiduMap(getActivity(),120.85622,31.11700,"123","456");
                 break;
             case R.id.tv_recommend_line:
 
@@ -306,7 +310,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     public void playAudio(String filePath){
 
-      SoundBroadUtils.getInstance().playSound(getActivity(), 0);
+      SoundBroadUtils.getInstance().playSound(getActivity(), filePath);
         mNotice.setVisibility(View.VISIBLE);
 
     }
@@ -403,8 +407,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         ImageView soptIV = (ImageView) view.findViewById(R.id.iv_spots_img);
         Button audioPlay  = (Button) view.findViewById(R.id.bt_audio_play);
         Button detail = (Button) view.findViewById(R.id.bt_detail);
+        Button navigation = (Button) view.findViewById(R.id.tv_navigation_map);
         TextView spotInfo = (TextView) view.findViewById(R.id.tv_spot_info);
         audioPlay.setOnClickListener(this);
+        navigation.setOnClickListener(this);
         spotInfo.setText(spots.getBrief());
         return view;
     }
