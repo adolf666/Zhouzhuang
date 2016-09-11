@@ -82,8 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#aaaaaa"
-        android:layout_below="@+id/ll_guide_list"
-        android:layout_above="@+id/bmapView"/>
+        android:layout_below="@+id/ll_guide_list"/>
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/bmapView"
