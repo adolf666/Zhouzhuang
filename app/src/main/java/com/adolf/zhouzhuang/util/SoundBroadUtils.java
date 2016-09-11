@@ -37,10 +37,12 @@ public class SoundBroadUtils {
         playBroadSound(context,resId);
     }
     public void  pauseSound(boolean is_pause){
+        if(mp != null){
         if(is_pause){
             mp.start();
         }else{
             mp.pause();
+        }
         }
     }
     private void playBroadSound(final Context context, final int resId){

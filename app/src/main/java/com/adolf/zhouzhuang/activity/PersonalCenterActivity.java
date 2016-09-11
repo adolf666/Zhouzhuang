@@ -51,26 +51,23 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 Intent intent1 = new Intent();
                 intent1.setClass(PersonalCenterActivity.this, PersonalInfoActivity.class);
                 startActivity(intent1);
-                finish();
                 break;
             case R.id.rl_setting:
                 Intent intent2 = new Intent();
                 intent2.setClass(PersonalCenterActivity.this, PersonSettingActivity.class);
                 startActivity(intent2);
-                finish();
+
                 break;
             case R.id.rl_suggestion:
                 Intent intent3 = new Intent();
                 intent3.setClass(PersonalCenterActivity.this, PersonSuggestionActivity.class);
                 startActivity(intent3);
-                finish();
                 break;
 
             case R.id.rl_zhouzhuang_lib:
                 Intent intent4 = new Intent();
                 intent4.setClass(PersonalCenterActivity.this, ZhouzhuangLibActivity.class);
                 startActivity(intent4);
-                finish();
                 break;
 
         }

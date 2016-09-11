@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center_vertical"
-
+        android:layout_marginTop="10dp"
         android:background="@drawable/personal_info_selector">
         <TextView
             android:layout_marginLeft="18dp"

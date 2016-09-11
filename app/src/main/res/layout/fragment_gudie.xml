@@ -51,29 +51,42 @@
         android:layout_below="@+id/ll_guide_list"
         android:clickable="true" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/rl_notice"
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="300dp"
-        android:layout_marginStart="40dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@mipmap/bar_tab">
 
         <ImageView
             android:id="@+id/img_pause"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/btn_menu01_default"/>
+            android:src="@mipmap/button_pause"/>
 
         <TextView
+            android:id="@+id/tv_voice_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="正在播放沈厅语音导航"
-            android:layout_marginLeft="10dp"/>
-    </LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_pause"/>
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/note_btn_close_white"
+            android:layout_marginRight="18dp"/>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/bt_loaction"

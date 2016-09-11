@@ -34,7 +34,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:background="@drawable/personal_info_selector">
+            android:background="@mipmap/bg_threeinput01">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:cursorVisible="true"
                 android:background="@null"
                 />
         </LinearLayout>

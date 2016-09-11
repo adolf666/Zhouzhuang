@@ -95,6 +95,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private TextView mWalkNavigationTV,mLineRecommend,mSpotsListTV;
     private ListView mSpotsListLV;
     private ImageView mPause;
+    private ImageView mClose;
+    private RelativeLayout mNotice;
+    private TextView mVocie_Prompt;
     private boolean isSpotsListViewVisible = false;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private List<Spots> mSpotsList;
@@ -173,6 +176,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mSpotsListTV = (TextView) view.findViewById(R.id.tv_spots_list);
         mSpotsListLV = (ListView) view.findViewById(R.id.lv_spots_list);
         mPause = (ImageView)view.findViewById(R.id.img_pause);
+        mClose = (ImageView)view.findViewById(R.id.img_close);
+        mNotice = (RelativeLayout)view.findViewById(R.id.rl_notice);
+        mVocie_Prompt = (TextView)view.findViewById(R.id.tv_voice_prompt);
+        mNotice.setVisibility(View.GONE);
+        mClose.setOnClickListener(this);
         mPause.setOnClickListener(this);
         mWalkNavigationTV.setOnClickListener(this);
         mLineRecommend.setOnClickListener(this);
@@ -245,7 +253,17 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.img_pause:
                 SoundBroadUtils.getInstance().pauseSound(isPause);
+                if(isPause){
+                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                    mVocie_Prompt.setText("当前暂停播放“沈厅”语音导览");
+                }else {
+                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
+                    mVocie_Prompt.setText("正在为您播放沈厅语音导览");
+                }
                 isPause = !isPause;
+                break;
+            case R.id.img_close:
+                mNotice.setVisibility(View.GONE);
                 break;
 
         }
@@ -289,7 +307,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     public void playAudio(String filePath){
 
       SoundBroadUtils.getInstance().playSound(getActivity(), 0);
-
+        mNotice.setVisibility(View.VISIBLE);
 
     }
 
@@ -374,7 +392,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 dialog.setContentView(initDialogView(mSpots));
                 dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
                 dialog.setTitle(mSpots.getTitle());
-//                 dialog();
                 Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -441,35 +458,5 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
 
-    private void dialog(){
-        DialogInterface.OnClickListener dialogOnclicListener=new DialogInterface.OnClickListener(){
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch(which){
-                    case Dialog.BUTTON_POSITIVE:
-                        Toast.makeText(getActivity(), "导航" , Toast.LENGTH_SHORT).show();
-                        //soundPool.pause(soundPool.play(1,1, 1, 0, 0, 1));
-                        break;
-                    case Dialog.BUTTON_NEGATIVE:
-                        Toast.makeText(getActivity(), "详细" , Toast.LENGTH_SHORT).show();
-
-                        break;
-                    case Dialog.BUTTON_NEUTRAL:
-                        Toast.makeText(getActivity(), "语音", Toast.LENGTH_SHORT).show();
-                        SoundBroadUtils.getInstance().playSound(getActivity(), 0);
-                        break;
-                }
-            }
-        };
-        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());  //先得到构造器
-        builder.setTitle("沈厅"); //设置标题
-        builder.setMessage("沈厅位于周庄富安桥东堍南侧的南市街上，坐东朝西，七进五门楼"); //设置内容
-        builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
-        builder.setPositiveButton("导航",dialogOnclicListener);
-        builder.setNeutralButton(" 语音", dialogOnclicListener);
-        builder.setNegativeButton("详细", dialogOnclicListener);
-        builder.create().show();
-    }
 
 }
