@@ -18,7 +18,7 @@
             android:layout_weight="1.0"
             android:gravity="center"
             android:text="临时展览"
-            android:textColor="#000000"
+            android:textColor="#cccc66"
             android:textSize="20.0dip" />
 
         <TextView

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:gravity="center_vertical">
 
 
@@ -15,11 +15,12 @@
         android:layout_marginLeft="5dp"
         android:drawableLeft="@mipmap/btn_voice_default"
         android:paddingRight="15dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
         android:text="沈厅"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:paddingLeft="15dp"
+        android:textColor="#666666"
         android:gravity="center_vertical"
         android:drawableRight="@mipmap/arrow_default"/>
 
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="30dp"
         android:src="@mipmap/guide_list_selected"
         android:visibility="invisible" />
 

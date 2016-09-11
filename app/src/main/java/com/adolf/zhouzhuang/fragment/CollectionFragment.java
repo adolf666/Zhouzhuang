@@ -1,6 +1,8 @@
 package com.adolf.zhouzhuang.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +11,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
 import com.adolf.zhouzhuang.object.Exhibit;
@@ -48,6 +52,9 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     private List<View> mViewPagerViews;
     private ExhibitAdapter mExhibitAdapter;
     private ViewPager viewPager;
+    private TextView tempExhibit;
+    private TextView displayExhibit;
+    private TextView spotsExhibit;
 
     public CollectionFragment() {
         // Required empty public constructor
@@ -103,18 +110,59 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
             mViewPagerViews.add(new View(getActivity()));
         }
         viewPager = (ViewPager) view.findViewById(R.id.vPager);
-        TextView tempExhibit = (TextView) view.findViewById(R.id.text1);
-        TextView displayExhibit = (TextView) view.findViewById(R.id.text2);
-        TextView spotsExhibit = (TextView) view.findViewById(R.id.text3);
+        tempExhibit = (TextView) view.findViewById(R.id.text1);
+        displayExhibit = (TextView) view.findViewById(R.id.text2);
+        spotsExhibit = (TextView) view.findViewById(R.id.text3);
         tempExhibit.setOnClickListener(this);
         displayExhibit.setOnClickListener(this);
         spotsExhibit.setOnClickListener(this);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        tempExhibit.setTextColor(Color.parseColor("#cccc66"));
+                        displayExhibit.setTextColor(Color.parseColor("#666666"));
+                        spotsExhibit.setTextColor(Color.parseColor("#666666"));
+                        break;
+                    case 1:
+                        tempExhibit.setTextColor(Color.parseColor("#666666"));
+                        displayExhibit.setTextColor(Color.parseColor("#cccc66"));
+                        spotsExhibit.setTextColor(Color.parseColor("#666666"));
+                        break;
+                    case 2:
+                        tempExhibit.setTextColor(Color.parseColor("#666666"));
+                        displayExhibit.setTextColor(Color.parseColor("#666666"));
+                        spotsExhibit.setTextColor(Color.parseColor("#cccc66"));
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
-    public void initViewPagerViews(List<Exhibit> exhibits ,int index){
+    public void initViewPagerViews(final List<Exhibit> exhibits ,int index){
         ListView lv = new ListView(getActivity());
         NewsAdapter adapter = new NewsAdapter(getActivity(),exhibits);
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent  = new Intent();
+                intent.setClass(getActivity(), WebViewActivity.class);
+                intent.putExtra("URL",exhibits.get(position).getDetailUrl());
+                startActivity(intent);
+            }
+        });
         mViewPagerViews.set(index,lv);
         if (mExhibitAdapter == null){
             mExhibitAdapter = new ExhibitAdapter(mViewPagerViews,getActivity());
@@ -165,12 +213,21 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         switch (view.getId()){
             case R.id.text1:
                 viewPager.setCurrentItem(0);
+                tempExhibit.setTextColor(Color.parseColor("#cccc66"));
+                displayExhibit.setTextColor(Color.parseColor("#666666"));
+                spotsExhibit.setTextColor(Color.parseColor("#666666"));
                 break;
             case R.id.text2:
                 viewPager.setCurrentItem(1);
+                tempExhibit.setTextColor(Color.parseColor("#666666"));
+                displayExhibit.setTextColor(Color.parseColor("#cccc66"));
+                spotsExhibit.setTextColor(Color.parseColor("#666666"));
                 break;
             case R.id.text3:
                 viewPager.setCurrentItem(2);
+                tempExhibit.setTextColor(Color.parseColor("#666666"));
+                displayExhibit.setTextColor(Color.parseColor("#666666"));
+                spotsExhibit.setTextColor(Color.parseColor("#cccc66"));
         }
     }
 }

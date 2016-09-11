@@ -44,14 +44,23 @@ public class SoundBroadUtils {
 
     public void  pauseSound(boolean is_pause){
         if(mp != null){
-        if(is_pause){
-            mp.start();
-        }else{
-            mp.pause();
-            is_Playing = false;
-        }
+            if(is_pause){
+                mp.start();
+            }else{
+                mp.pause();
+                is_Playing = false;
+            }
         }
     }
+
+    public void  stopSound(){
+        if(mp != null){
+            mp.stop();
+            mp.release();
+                is_Playing = false;
+            }
+        }
+
     private void playBroadSound(final Context context,final int resId){
         if(mp != null){
             mp.release();

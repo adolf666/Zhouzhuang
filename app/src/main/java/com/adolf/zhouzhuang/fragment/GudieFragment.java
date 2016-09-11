@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.util.Constants;
@@ -107,6 +108,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.btn_voice_default);
+   private UniversalDialog dialog;
 
     public GudieFragment() {
         // Required empty public constructor
@@ -236,18 +238,22 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                     downloadAudio();
                 }else{*/
                     playAudio(mSpots.getVideoLocation());
+                dialog.dismiss();
               //  }
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
+                intent.setClass(getActivity(), WebViewActivity.class);
                 intent.putExtra("URL",mSpots.getDetailUrl());
                 startActivity(intent);
+                dialog.dismiss();
                 break;
             case R.id.tv_walk_navigetion:
                 Utils.openBaiduMap(getActivity(),120.85622,31.11700,"123","456");
                 break;
             case R.id.tv_navigation_map:
                 Utils.openBaiduMap(getActivity(),120.85622,31.11700,"123","456");
+                dialog.dismiss();
                 break;
             case R.id.tv_recommend_line:
 
@@ -268,6 +274,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.img_close:
                 mNotice.setVisibility(View.GONE);
+                SoundBroadUtils.getInstance().stopSound();
                 break;
 
         }
@@ -393,7 +400,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             public boolean onMarkerClick(final Marker marker) {
                 mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
-                UniversalDialog dialog = new UniversalDialog(getActivity());
+                dialog = new UniversalDialog(getActivity());
                 dialog.show();
                 dialog.setContentView(initDialogView(mSpots));
                 dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
@@ -411,6 +418,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         Button detail = (Button) view.findViewById(R.id.bt_detail);
         Button navigation = (Button) view.findViewById(R.id.tv_navigation_map);
         TextView spotInfo = (TextView) view.findViewById(R.id.tv_spot_info);
+        detail.setOnClickListener(this);
         audioPlay.setOnClickListener(this);
         navigation.setOnClickListener(this);
         spotInfo.setText(spots.getBrief());
