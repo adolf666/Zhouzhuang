@@ -54,11 +54,6 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.asynchttpclient.AsyncCompletionHandler;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.DefaultAsyncHttpClient;
-import org.asynchttpclient.Response;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -313,22 +308,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 //                downloadFinish(filename);
 //            }
 //        });
-
-        AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient();
-        asyncHttpClient.prepareGet("http://www.example.com/").execute(new AsyncCompletionHandler<Response>(){
-
-            @Override
-            public Response onCompleted(Response response) throws Exception{
-                // Do something with the Response
-                // ...
-                return response;
-            }
-
-            @Override
-            public void onThrowable(Throwable t){
-                // Something wrong happened.
-            }
-        });
     }
 
     public void downloadFinish(String filePath){

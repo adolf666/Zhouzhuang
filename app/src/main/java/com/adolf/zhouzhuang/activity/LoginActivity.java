@@ -10,14 +10,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.ZhouzhuangApplication;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
+import com.adolf.zhouzhuang.httpUtils.HttpCallBack;
+import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.finalteam.okhttpfinal.HttpRequest;
 import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
-import cn.finalteam.okhttpfinal.RequestParams;
+import cz.msebera.android.httpclient.Header;
 
 public class LoginActivity extends BaseActivity{
     private EditText mUsernameET;
@@ -44,7 +55,7 @@ public class LoginActivity extends BaseActivity{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_login:
-                login();
+                loginNew();
                 break;
             case R.id.tv_rigth_actionbar:
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
@@ -55,33 +66,59 @@ public class LoginActivity extends BaseActivity{
         }
     }
 
-    public void login(){
-        progressDialog = ProgressDialog.show(this, "", "请稍候...", true, true);
+    public void loginNew(){
+        RequestParams params = new RequestParams();
+//        AsyncHttpClient client = clientUtils.getAsyncHttpClient();
         String userName = mUsernameET.getText().toString();
         String passWord = mPasswordET.getText().toString();
-        RequestParams params = new RequestParams();
-        params.addFormDataPart("username",userName);
-        params.addFormDataPart("password",passWord);
-        HttpRequest.post(ServiceAddress.LOGIN,params,new JsonHttpRequestCallback() {
+        params.add("username", userName);
+        params.add("password", passWord);
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.LOGIN,params,new JsonHttpResponseHandler(){
+
             @Override
-            protected void onSuccess(JSONObject jsonObject) {
-                super.onSuccess(jsonObject);
-                Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-                if (TextUtils.equals(jsonObject.getString("success"),"0")){
-                    SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
-                    SharedPreferencesUtils.getString(LoginActivity.this,"AccountInfo",jsonObject.getString("data"));
-                    finish();
-                }
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
+                SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",GsonUtil.jsonToBean(response,"data",LoginObj.class));
+                finish();
             }
 
             @Override
-            public void onFailure(int errorCode, String msg) {
-                super.onFailure(errorCode, msg);
-                progressDialog.dismiss();
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
                 SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",false);
                 Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+//    public void login(){
+//        progressDialog = ProgressDialog.show(this, "", "请稍候...", true, true);
+//        String userName = mUsernameET.getText().toString();
+//        String passWord = mPasswordET.getText().toString();
+//        RequestParams params = new RequestParams();
+//        params.addFormDataPart("username",userName);
+//        params.addFormDataPart("password",passWord);
+//        HttpRequest.post(ServiceAddress.LOGIN,params,new JsonHttpRequestCallback() {
+//            @Override
+//            protected void onSuccess(JSONObject jsonObject) {
+//                super.onSuccess(jsonObject);
+//                Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//                if (TextUtils.equals(jsonObject.getString("success"),"0")){
+//                    SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
+//                    SharedPreferencesUtils.getString(LoginActivity.this,"AccountInfo",jsonObject.getString("data"));
+//                    finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String msg) {
+//                super.onFailure(errorCode, msg);
+//                progressDialog.dismiss();
+//                SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",false);
+//                Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }
