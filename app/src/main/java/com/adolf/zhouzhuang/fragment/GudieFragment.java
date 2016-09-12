@@ -54,12 +54,18 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.asynchttpclient.AsyncCompletionHandler;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.asynchttpclient.Response;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.finalteam.okhttpfinal.FileDownloadCallback;
 import cn.finalteam.okhttpfinal.HttpRequest;
+import cn.finalteam.okhttpfinal.RequestParams;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -280,30 +286,47 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         }
     }
 
+
     public void downloadAudio(){
-        final String filename = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO +"/"+mSpots.getCreateTime() + ".mp3";
-        File saveFile = new File(filename);
-        HttpRequest.download(mSpots.getVideoLocation(),saveFile,new FileDownloadCallback(){
+//        final String filename = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO +"/"+mSpots.getCreateTime() + ".mp3";
+//        File saveFile = new File(filename);
+//        HttpRequest.download(mSpots.getVideoLocation(),saveFile,new FileDownloadCallback(){
+//
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//            }
+//
+//            @Override
+//            public void onProgress(int progress, long networkSpeed) {
+//                super.onProgress(progress, networkSpeed);
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                super.onFailure();
+//            }
+//
+//            @Override
+//            public void onDone() {
+//                super.onDone();
+//                downloadFinish(filename);
+//            }
+//        });
+
+        AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient();
+        asyncHttpClient.prepareGet("http://www.example.com/").execute(new AsyncCompletionHandler<Response>(){
 
             @Override
-            public void onStart() {
-                super.onStart();
+            public Response onCompleted(Response response) throws Exception{
+                // Do something with the Response
+                // ...
+                return response;
             }
 
             @Override
-            public void onProgress(int progress, long networkSpeed) {
-                super.onProgress(progress, networkSpeed);
-            }
-
-            @Override
-            public void onFailure() {
-                super.onFailure();
-            }
-
-            @Override
-            public void onDone() {
-                super.onDone();
-                downloadFinish(filename);
+            public void onThrowable(Throwable t){
+                // Something wrong happened.
             }
         });
     }
