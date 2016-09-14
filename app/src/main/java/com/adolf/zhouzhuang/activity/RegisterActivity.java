@@ -1,6 +1,5 @@
 package com.adolf.zhouzhuang.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,12 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
+import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
-import com.alibaba.fastjson.JSONObject;
+import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
+import com.adolf.zhouzhuang.util.Utils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import cn.finalteam.okhttpfinal.HttpRequest;
-import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
-import cn.finalteam.okhttpfinal.RequestParams;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private EditText mUSernameET;
@@ -86,26 +91,47 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             return;
         }
         RequestParams params = new RequestParams();
-        params.addFormDataPart("username",userName);
-        params.addFormDataPart("nickName","风驰天下");
-        params.addFormDataPart("password",passWord);
-        HttpRequest.post(ServiceAddress.REGISTER,params,new JsonHttpRequestCallback() {
+        params.add("username",userName);
+        params.add("nickName","风驰天下");
+        params.add("password",passWord);
+
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.REGISTER,params,new JsonHttpResponseHandler(){
+
             @Override
-            protected void onSuccess(JSONObject jsonObject) {
-                super.onSuccess(jsonObject);
-                Toast.makeText(RegisterActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                showToast("注册成功");
                 progressDialog.dismiss();
-                if (TextUtils.equals(jsonObject.getString("success"),"0")){
+                if (Utils.isRequestOK(statusCode) && response != null){
                     finish();
                 }
             }
 
             @Override
-            public void onFailure(int errorCode, String msg) {
-                super.onFailure(errorCode, msg);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
                 progressDialog.dismiss();
                 showToast("注册失败");
             }
         });
+
+//        HttpRequest.post(ServiceAddress.REGISTER,params,new JsonHttpRequestCallback() {
+//            @Override
+//            protected void onSuccess(JSONObject jsonObject) {
+//                super.onSuccess(jsonObject);
+//                Toast.makeText(RegisterActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//                if (TextUtils.equals(jsonObject.getString("success"),"0")){
+//                    finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String msg) {
+//                super.onFailure(errorCode, msg);
+//                progressDialog.dismiss();
+//                showToast("注册失败");
+//            }
+//        });
     }
 }

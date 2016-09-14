@@ -45,4 +45,9 @@ public class Utils {
     private static boolean isInstallPackage(String packageName) {
         return new File("/data/data/" + packageName).exists();
     }
+
+    //判断网络状态
+    public static boolean isRequestOK(int statusCode){
+        return statusCode == Constants.STATUS_OK;
+    }
 }
