@@ -2,6 +2,7 @@ package com.adolf.zhouzhuang.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.SpotsDao;
 import com.adolf.zhouzhuang.ZhouzhuangApplication;
+import com.adolf.zhouzhuang.util.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -40,6 +42,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         if (mLeftActionBar != null){
             if (!TextUtils.isEmpty(leftActionBarText)){
                 mLeftActionBar.setText(leftActionBarText);
+                mLeftActionBar.setTypeface(Utils.getType(this,0));
             }
             if (leftActionBarDrawable>0){
                 Drawable drawable = ContextCompat.getDrawable(this,leftActionBarDrawable);
@@ -50,11 +53,13 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         }
         if (mMiddleActionBar != null && !TextUtils.isEmpty(middleActionBarText)){
             mMiddleActionBar.setText(middleActionBarText);
+            mMiddleActionBar.setTypeface(Utils.getType(this,0));
         }
 
         if (mRightActionBar != null){
             if (!TextUtils.isEmpty(rightActionBarText)){
                 mRightActionBar.setText(rightActionBarText);
+                mRightActionBar.setTypeface(Utils.getType(this,0));
             }
             if (rightActionBarDarwable>0){
                 mRightActionBar.setBackgroundResource(rightActionBarDarwable);

@@ -35,11 +35,12 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:background="@mipmap/bg_threeinput01">
-
             <TextView
+                android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="17dp"
+                android:textSize="16sp"
                 android:text="用户名：" />
 
             <EditText
@@ -58,10 +59,12 @@
             android:orientation="horizontal"
             android:background="@mipmap/bg_threeinput02">
          <TextView
+             android:id="@+id/tv_sex"
              android:layout_height="wrap_content"
              android:layout_width="wrap_content"
              android:layout_marginLeft="17dp"
              android:text="性别："
+             android:textSize="16sp"
              />
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -75,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/radioMale"
                     android:text="男"
+                    android:textSize="16sp"
                     android:paddingLeft="5dp"
                     android:checked="true"
                     android:button="@drawable/sex_selected"
@@ -87,6 +91,7 @@
                     android:layout_marginLeft="10dp"
                     android:paddingLeft="5dp"
                     android:text="女"
+                    android:textSize="16sp"
                     android:button="@drawable/sex_selected">
                 </RadioButton>
                   </RadioGroup>
@@ -101,7 +106,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:gravity="center"
-            android:textSize="36px"
+            android:textSize="18sp"
             android:background="@drawable/login_selector"/>
     </LinearLayout>
 

@@ -2,11 +2,13 @@ package com.adolf.zhouzhuang.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
@@ -18,6 +20,7 @@ import com.adolf.zhouzhuang.httpUtils.HttpCallBack;
 import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
+import com.adolf.zhouzhuang.util.Utils;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -46,6 +49,11 @@ public class LoginActivity extends BaseActivity{
         mUsernameET = (EditText) findViewById(R.id.et_username);
         mPasswordET = (EditText) findViewById(R.id.et_password);
         mLoginBT = (Button) findViewById(R.id.bt_login);
+        TextView user_name = (TextView)findViewById(R.id.tv_user_name);
+        TextView password = (TextView)findViewById(R.id.tv_password);
+        mLoginBT.setTypeface(Utils.getType(this,0));
+        user_name.setTypeface(Utils.getType(this,3));
+        password.setTypeface(Utils.getType(this,3));
         mLoginBT.setOnClickListener(this);
         initActionBar("返回",R.drawable.back_selected,"登录","注册",0);
         ((ZhouzhuangApplication)getApplication()).getDaoSession();

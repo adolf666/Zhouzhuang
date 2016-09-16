@@ -43,6 +43,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        initActionBar("返回",R.drawable.back_selected,"注册新用户","登录",0);
         initView();
     }
     private void initView(){
@@ -52,7 +53,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mRegisterBT =(Button) findViewById(R.id.bt_register);
         mProtoalTV = (TextView) findViewById(R.id.tv_protoal);
         mRegisterBT.setOnClickListener(this);
-        initActionBar("返回",R.drawable.back_selected,"注册新用户","登录",0);
+
+        TextView userName = (TextView)findViewById(R.id.tv_user_name);
+        TextView password  = (TextView)findViewById(R.id.tv_password);
+        TextView confirmPassword = (TextView)findViewById(R.id.tv_confirm);
+        mRegisterBT.setTypeface(Utils.getType(this,0));
+        userName.setTypeface(Utils.getType(this,3));
+        password.setTypeface(Utils.getType(this,3));
+        confirmPassword.setTypeface(Utils.getType(this,3));
+
         createLink(mProtoalTV);
     }
 

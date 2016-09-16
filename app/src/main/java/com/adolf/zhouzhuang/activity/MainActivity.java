@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.adolf.zhouzhuang.fragment.GudieFragment;
 import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
+import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.CustomViewPager;
 import com.baidu.mapapi.SDKInitializer;
 
@@ -47,8 +49,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         mCollectionTextView = (TextView) findViewById(R.id.tv_collection);
         mNavigationTextView = (TextView) findViewById(R.id.tv_navigation);
         mStrategyTextView = (TextView) findViewById(R.id.tv_strategy);
-
-        mCustomerViewPager = (CustomViewPager) findViewById(R.id.viewpager);
+        //Typeface type = Typeface.createFromAsset (getAssets() , "fonts/FZSQKB.TTF" );
+        mMuseumTextView.setTypeface(Utils.getType(this,0));
+        mCollectionTextView.setTypeface(Utils.getType(this,0));
+        mNavigationTextView.setTypeface(Utils.getType(this,0));
+        mStrategyTextView.setTypeface(Utils.getType(this,0));
+      mCustomerViewPager = (CustomViewPager) findViewById(R.id.viewpager);
 
         mMuseumTextView.setOnClickListener(this);
         mCollectionTextView.setOnClickListener(this);

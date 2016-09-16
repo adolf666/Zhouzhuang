@@ -3,6 +3,7 @@ package com.adolf.zhouzhuang.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -113,6 +114,10 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         tempExhibit = (TextView) view.findViewById(R.id.text1);
         displayExhibit = (TextView) view.findViewById(R.id.text2);
         spotsExhibit = (TextView) view.findViewById(R.id.text3);
+        Typeface typeface = Typeface.createFromAsset (getActivity().getAssets() , "fonts/FZSQKB.TTF" );
+        tempExhibit.setTypeface(typeface);
+        displayExhibit.setTypeface(typeface);
+        spotsExhibit.setTypeface(typeface);
         tempExhibit.setOnClickListener(this);
         displayExhibit.setOnClickListener(this);
         spotsExhibit.setOnClickListener(this);

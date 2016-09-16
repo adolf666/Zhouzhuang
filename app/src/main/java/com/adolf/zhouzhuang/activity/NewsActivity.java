@@ -27,7 +27,7 @@ public class NewsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        initActionBar("返回",0,"新闻中心","",0);
+        initActionBar("返回",R.drawable.back_selected,"新闻中心","",0);
         initViews();
         getNews();
     }
@@ -68,5 +68,11 @@ public class NewsActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        switch (v.getId()) {
+            case R.id.tv_left_actionbar:
+                finish();
+                break;
+        }
+
     }
 }

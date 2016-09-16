@@ -150,6 +150,7 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
         mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         mBanner.setImages(mImages);
         mBanner.setBannerTitle(mTitles);
+        mBanner.setBackgroundResource(R.mipmap.bg_bannername);
         mBanner.setDelayTime(2500);
     }
 

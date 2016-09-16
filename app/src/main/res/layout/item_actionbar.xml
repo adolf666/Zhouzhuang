@@ -8,7 +8,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/rl_actionbar"
-        android:background="#336666">
+        android:background="@mipmap/bg_topbar">
 
         <TextView
             android:id="@+id/tv_left_actionbar"
@@ -24,7 +24,7 @@
             android:text="周庄"
             android:id="@+id/tv_middle_actionbar"
             android:textColor="#cccc66"
-            android:textSize="17sp"
+            android:textSize="20sp"
             android:layout_centerInParent="true"/>
 
         <TextView

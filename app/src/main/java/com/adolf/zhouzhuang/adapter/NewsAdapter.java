@@ -1,6 +1,7 @@
 package com.adolf.zhouzhuang.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.object.Exhibit;
+import com.adolf.zhouzhuang.util.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -60,6 +62,9 @@ public class NewsAdapter extends BaseAdapter {
 
         viewHolder.title.setText(exhibitList.get(position).getTitle());
         viewHolder.description.setText(exhibitList.get(position).getBrief());
+        viewHolder.title.setTypeface(Utils.getType(context,0));
+
+        viewHolder.description.setTypeface(Utils.getType(context,3));
         ImageLoader.getInstance().displayImage(exhibitList.get(position).getTitleImgLocation(), viewHolder.image);
 
         return convertView;

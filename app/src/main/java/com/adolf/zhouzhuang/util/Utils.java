@@ -2,6 +2,7 @@ package com.adolf.zhouzhuang.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -50,4 +51,22 @@ public class Utils {
     public static boolean isRequestOK(int statusCode){
         return statusCode == Constants.STATUS_OK;
     }
+
+    public static  Typeface getType(Context context,int i){
+         Typeface type = null;
+        switch (i){
+            case 0:
+                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZSQKB.TTF" );
+             break;
+            case 1:
+                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZS1JW.TTF" );
+                break;
+            case  3:
+                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZS3JW.TTF" );
+                break;
+        }
+        return type;
+    }
+
+
 }

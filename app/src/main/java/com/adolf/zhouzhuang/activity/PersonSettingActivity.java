@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
+import com.adolf.zhouzhuang.util.Utils;
 
 /**
  * Created by gpp on 2016/9/8 0008.
@@ -33,6 +34,11 @@ public class PersonSettingActivity extends BaseActivity{
         mModifyPassword = (RelativeLayout)findViewById(R.id.rl_modify_password);
         mCleanStore = (TextView)findViewById(R.id.clean_store);
         mLoginOff = (TextView)findViewById(R.id.login_off);
+
+        mCleanStore.setTypeface(Utils.getType(this,3));
+        mLoginOff.setTypeface(Utils.getType(this,3));
+        TextView modifyPassword = (TextView)findViewById(R.id.tv_modify_password);
+        modifyPassword.setTypeface(Utils.getType(this,3));
         mModifyPassword.setOnClickListener(this);
         mCleanStore.setOnClickListener(this);
         mLoginOff.setOnClickListener(this);
