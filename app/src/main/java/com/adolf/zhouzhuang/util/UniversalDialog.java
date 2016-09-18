@@ -23,7 +23,7 @@ public class UniversalDialog extends AlertDialog {
     private WindowManager.LayoutParams dialogLayoutParams;
 
     public UniversalDialog(Context context) {
-        this(context, R.style.MyDialogStyleBottom);
+        this(context, R.style.Dialog);
         // TODO Auto-generated constructor stub
     }
 

@@ -44,6 +44,7 @@ public class DaoGeneratorFactory {
         entity.addIntProperty("videoVersion");
         entity.addIntProperty("basicInfoVersion");
         entity.addBooleanProperty("isDownLoadAudio");
+        entity.addBooleanProperty("isFavorite");
     }
 
 }

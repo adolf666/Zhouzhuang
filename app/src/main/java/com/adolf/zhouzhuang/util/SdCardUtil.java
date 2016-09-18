@@ -2,6 +2,10 @@ package com.adolf.zhouzhuang.util;
 
 import android.os.Environment;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by zhl13045 on 2016/9/4.
@@ -33,6 +37,13 @@ public class SdCardUtil {
             return false;
     }
 
+    // 在sdcard卡上创建文件
+    public static File createSDFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        file.createNewFile();
+        return file;
+    }
+
     /*
      * 获取sd卡的文件路径
      * getExternalStorageDirectory 获取路径
@@ -50,5 +61,36 @@ public class SdCardUtil {
         if (!path1.exists()) {
             path1.mkdirs();
         }
+    }
+
+    /**
+     * 将一个inputstream里面的数据写入SD卡中 第一个参数为目录名 第二个参数为文件名
+     */
+    public static File write2SDFromInput(String path, InputStream inputstream) {
+        File file = null;
+        OutputStream output = null;
+        try {
+            file = createSDFile(path);
+            output = new FileOutputStream(file);
+// 4k为单位，每4K写一次
+            byte buffer[] = new byte[4 * 1024];
+            int temp = 0;
+            while ((temp = inputstream.read(buffer)) != -1) {
+// 获取指定信,防止写入没用的信息
+                output.write(buffer, 0, temp);
+            }
+            output.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return file;
     }
 }

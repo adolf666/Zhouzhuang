@@ -8,14 +8,21 @@ import android.os.Handler;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.resBody.SpotsResponse;
 import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
 import cn.finalteam.okhttpfinal.HttpRequest;
+import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
+import cz.msebera.android.httpclient.Header;
 
 public class LaunchActivity extends BaseActivity {
 //    private ProgressDialog dialog;
@@ -51,20 +58,21 @@ public class LaunchActivity extends BaseActivity {
     }
 
     public void getAllSpots(){
-        HttpRequest.get(ServiceAddress.ALL_SPOTS, new BaseHttpRequestCallback<SpotsResponse>(){
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.ALL_SPOTS, new JsonHttpResponseHandler(){
 
             @Override
-            protected void onSuccess(SpotsResponse spotsResponse) {
-                super.onSuccess(spotsResponse);
-                List<Spots> spotsList = spotsResponse.getData();
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                List<Spots> spotsList = GsonUtil.jsonToList(response,"data",Spots.class);
                 mSpotsDataBaseHelper.insertAllSpotsList(spotsList);
             }
 
             @Override
-            public void onFailure(int errorCode, String msg) {
-                super.onFailure(errorCode, msg);
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
+
     }
 
     public void initFileDir(){

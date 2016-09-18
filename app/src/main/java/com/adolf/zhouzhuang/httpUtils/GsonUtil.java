@@ -75,15 +75,12 @@ public class GsonUtil {
     /**
      * 转成list
      * 泛型在编译期类型被擦除导致报错
-     *
-     * @param gsonString
-     * @param cls
-     * @return
      */
-    public static <T> List<T> GsonToList(String gsonString, Class<T> cls) {
+    public static <T> List<T> GsonToList(JSONObject jsonObject,String data ,Class<T> cls) {
         List<T> list = null;
+        String extendJSon = getExtendJson(jsonObject,data);
         if (gson != null) {
-            list = gson.fromJson(gsonString, new TypeToken<List<T>>() {
+            list = gson.fromJson(extendJSon, new TypeToken<List<T>>() {
             }.getType());
         }
         return list;
@@ -98,10 +95,10 @@ public class GsonUtil {
      * @param <T>
      * @return
      */
-    public <T> List<T> jsonToList(String json, Class<T> cls) {
+    public static <T> List<T> jsonToList(JSONObject json,String data ,Class<T> cls) {
         Gson gson = new Gson();
         List<T> list = new ArrayList<T>();
-        JsonArray array = new JsonParser().parse(json).getAsJsonArray();
+        JsonArray array = new JsonParser().parse(getExtendJson(json,data)).getAsJsonArray();
         for (final JsonElement elem : array) {
             list.add(gson.fromJson(elem, cls));
         }

@@ -20,16 +20,20 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.Exhibit;
 import com.adolf.zhouzhuang.resBody.ExhibitResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
-import cn.finalteam.okhttpfinal.HttpRequest;
-import cn.finalteam.okhttpfinal.RequestParams;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -191,18 +195,17 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     //获取陈列信息，type的值为0:新闻列表 ，1:临时展馆，2:陈列展馆
     public void getExhibits(final String types){
         RequestParams params = new RequestParams();
-        params.addFormDataPart("type",types);
-        HttpRequest.post(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new BaseHttpRequestCallback<ExhibitResponse>(){
-
+        params.add("type",types);
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new JsonHttpResponseHandler(){
             @Override
-            protected void onSuccess(ExhibitResponse exhibitResponse) {
-                super.onSuccess(exhibitResponse);
-                initViewPagerViews(exhibitResponse.getData(), TextUtils.equals(types,"1")?0:1);
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                initViewPagerViews(GsonUtil.jsonToList(response,"data",Exhibit.class), TextUtils.equals(types,"1")?0:1);
             }
 
             @Override
-            public void onFailure(int errorCode, String msg) {
-                super.onFailure(errorCode, msg);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
     }

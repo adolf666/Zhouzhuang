@@ -7,15 +7,19 @@ import android.widget.ListView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.Exhibit;
 import com.adolf.zhouzhuang.resBody.ExhibitResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
-import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
-import cn.finalteam.okhttpfinal.HttpRequest;
-import cn.finalteam.okhttpfinal.RequestParams;
+import cz.msebera.android.httpclient.Header;
 
 public class NewsActivity extends BaseActivity {
     public ProgressDialog progressDialog;
@@ -38,18 +42,17 @@ public class NewsActivity extends BaseActivity {
 
     public void getNews(){
         RequestParams params = new RequestParams();
-        params.addFormDataPart("type","0");
-        HttpRequest.post(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new BaseHttpRequestCallback<ExhibitResponse>(){
-
+        params.add("type","0");
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new JsonHttpResponseHandler(){
             @Override
-            protected void onSuccess(ExhibitResponse exhibitResponse) {
-                super.onSuccess(exhibitResponse);
-                setNewsData(exhibitResponse.getData());
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                setNewsData(GsonUtil.jsonToList(response,"data",Exhibit.class));
             }
 
             @Override
-            public void onFailure(int errorCode, String msg) {
-                super.onFailure(errorCode, msg);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
     }

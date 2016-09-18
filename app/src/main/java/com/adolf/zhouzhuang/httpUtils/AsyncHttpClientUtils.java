@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestHandle;
@@ -39,6 +40,14 @@ public class AsyncHttpClientUtils {
 
     public AsyncHttpClient getAsyncHttpClient() {
         return client;
+    }
+
+    /**
+     * get方法不带参数
+     */
+    public RequestHandle get(String url,AsyncHttpResponseHandler httpCallBack){
+        RequestHandle requestHandle = client.get(url, httpCallBack);
+        return requestHandle;
     }
 
     /**
@@ -108,8 +117,7 @@ public class AsyncHttpClientUtils {
      * @param paramString
      * @param paramBinaryHttpResponseHandler
      */
-    public void downFile(String paramString,
-                         BinaryHttpResponseHandler paramBinaryHttpResponseHandler) {
+    public void downLoadFile(String paramString,BinaryHttpResponseHandler paramBinaryHttpResponseHandler) {
         try {
             client.get(paramString, paramBinaryHttpResponseHandler);
             return;

@@ -15,16 +15,22 @@ import android.widget.Toast;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.NewsActivity;
 import com.adolf.zhouzhuang.activity.PanoramaActivity;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.object.BannerObj;
 import com.adolf.zhouzhuang.resBody.BannerResponse;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
 import cn.finalteam.okhttpfinal.HttpRequest;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,17 +124,17 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
     }
 
     public void getBannerInfo(){
-        HttpRequest.post(ServiceAddress.BANNER,new BaseHttpRequestCallback<BannerResponse>(){
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.BANNER,new JsonHttpResponseHandler(){
 
             @Override
-            public void onFailure(int errorCode, String msg) {
-                super.onFailure(errorCode, msg);
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                initBannnerData(GsonUtil.jsonToList(response,"data",BannerObj.class));
             }
 
             @Override
-            protected void onSuccess(BannerResponse baseApiResponse) {
-                super.onSuccess(baseApiResponse);
-                initBannnerData(baseApiResponse.getData());
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
     }

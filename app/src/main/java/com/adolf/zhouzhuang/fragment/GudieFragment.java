@@ -25,6 +25,7 @@ import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
@@ -52,15 +53,20 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
+import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.finalteam.okhttpfinal.FileDownloadCallback;
 import cn.finalteam.okhttpfinal.HttpRequest;
 import cn.finalteam.okhttpfinal.RequestParams;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -235,12 +241,12 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mLocationClient.start();
                 break;
             case R.id.bt_audio_play:
-            /*  if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
+            if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
                     downloadAudio();
-                }else{*/
+                }else{
                     playAudio(mSpots.getVideoLocation());
                 dialog.dismiss();
-              //  }
+                }
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -283,33 +289,29 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
 
     public void downloadAudio(){
-//        final String filename = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO +"/"+mSpots.getCreateTime() + ".mp3";
-//        File saveFile = new File(filename);
-//        HttpRequest.download(mSpots.getVideoLocation(),saveFile,new FileDownloadCallback(){
-//
-//            @Override
-//            public void onStart() {
-//                super.onStart();
-//            }
-//
-//            @Override
-//            public void onProgress(int progress, long networkSpeed) {
-//                super.onProgress(progress, networkSpeed);
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                super.onFailure();
-//            }
-//
-//            @Override
-//            public void onDone() {
-//                super.onDone();
-//                downloadFinish(filename);
-//            }
-//        });
-    }
+        final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO +"/"+mSpots.getCreateTime() + ".mp3";
+        File saveFile = new File(filePath);
+        AsyncHttpClientUtils.getInstance().downLoadFile(mSpots.getVideoLocation(),new BinaryHttpResponseHandler(){
 
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] binaryData) {
+                InputStream inputstream = new ByteArrayInputStream(binaryData);
+                if (inputstream != null) {
+                    SdCardUtil.write2SDFromInput(filePath, inputstream);
+                    try {
+                        inputstream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] binaryData, Throwable error) {
+                Toast.makeText(getActivity(),"下载失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     public void downloadFinish(String filePath){
        // mSpots.setIsDownLoadAudio(true);
         mSpots.setVideoLocation(filePath);
@@ -415,15 +417,12 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     private View initDialogView(Spots spots){
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_guide,null);
-        ImageView soptIV = (ImageView) view.findViewById(R.id.iv_spots_img);
         Button audioPlay  = (Button) view.findViewById(R.id.bt_audio_play);
         Button detail = (Button) view.findViewById(R.id.bt_detail);
         Button navigation = (Button) view.findViewById(R.id.tv_navigation_map);
-        TextView spotInfo = (TextView) view.findViewById(R.id.tv_spot_info);
         detail.setOnClickListener(this);
         audioPlay.setOnClickListener(this);
         navigation.setOnClickListener(this);
-        spotInfo.setText(spots.getBrief());
         return view;
     }
 
