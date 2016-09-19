@@ -2,9 +2,7 @@ package com.adolf.zhouzhuang.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,25 +10,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
-import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.ZhouzhuangApplication;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
-import com.adolf.zhouzhuang.httpUtils.HttpCallBack;
 import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
-import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.finalteam.okhttpfinal.HttpRequest;
-import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
 import cz.msebera.android.httpclient.Header;
 
 public class LoginActivity extends BaseActivity{
@@ -76,7 +67,6 @@ public class LoginActivity extends BaseActivity{
 
     public void loginNew(){
         RequestParams params = new RequestParams();
-//        AsyncHttpClient client = clientUtils.getAsyncHttpClient();
         String userName = mUsernameET.getText().toString();
         String passWord = mPasswordET.getText().toString();
         params.add("username", userName);
@@ -86,8 +76,10 @@ public class LoginActivity extends BaseActivity{
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                LoginObj loginObj = GsonUtil.jsonToBean(response,"data",LoginObj.class);
                 SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
-                SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",GsonUtil.jsonToBean(response,"data",LoginObj.class));
+                SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",loginObj);
+                SharedPreferencesUtils.putInt(LoginActivity.this,"userId",loginObj.getUserId());
                 finish();
             }
 

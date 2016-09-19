@@ -5,21 +5,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.NewsActivity;
 import com.adolf.zhouzhuang.activity.PanoramaActivity;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
-import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.object.BannerObj;
-import com.adolf.zhouzhuang.resBody.BannerResponse;
+import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -28,8 +25,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
-import cn.finalteam.okhttpfinal.HttpRequest;
 import cz.msebera.android.httpclient.Header;
 
 /**

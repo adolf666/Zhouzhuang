@@ -31,7 +31,7 @@ public PersonalCollectAdapter(Context context,  List<Spots> mList){
     }
     private void  getData(){
         for(int i=0;i<mList.size();i++){
-            if(mList.get(i).getIsFavorite()){
+            if(mList.get(i).getIsFavorite() != null && mList.get(i).getIsFavorite()){
                 collectList.add(mList.get(i));
             }
         }

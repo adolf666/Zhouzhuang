@@ -10,6 +10,7 @@ public class LoginObj implements Serializable{
     public String nickName;
     public String sex;
     public String area;
+    public int userId;
 
     public String getUsername() {
         return username;
@@ -41,5 +42,13 @@ public class LoginObj implements Serializable{
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

@@ -10,7 +10,6 @@ import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
-import com.adolf.zhouzhuang.resBody.SpotsResponse;
 import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -19,9 +18,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import cn.finalteam.okhttpfinal.BaseHttpRequestCallback;
-import cn.finalteam.okhttpfinal.HttpRequest;
-import cn.finalteam.okhttpfinal.JsonHttpRequestCallback;
 import cz.msebera.android.httpclient.Header;
 
 public class LaunchActivity extends BaseActivity {

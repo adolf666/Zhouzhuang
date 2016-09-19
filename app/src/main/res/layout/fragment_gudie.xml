@@ -37,14 +37,17 @@
             android:layout_marginRight="18dp"/>
     </RelativeLayout>
 
-
+<RelativeLayout
+    android:id="@+id/ll_guide_list"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:layout_below="@+id/rl_notice">
     <LinearLayout
-        android:id="@+id/ll_guide_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#ffffff"
         android:orientation="horizontal"
-        android:layout_below="@+id/rl_notice">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/tv_walk_navigetion"
@@ -54,7 +57,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="步行导航"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tv_recommend_line"
@@ -73,9 +76,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="景点列表"
-            android:textSize="20sp" />
-
-
+            android:textSize="17sp" />
     </LinearLayout>
 
     <TextView
@@ -83,13 +84,31 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#aaaaaa"
-        android:layout_below="@+id/ll_guide_list"/>
+        android:layout_alignParentBottom="true"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</RelativeLayout>
     <com.baidu.mapapi.map.MapView
         android:id="@+id/bmapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/tv_devide"
+        android:layout_below="@+id/ll_guide_list"
         android:clickable="true" />
 
     <Button
@@ -110,7 +129,7 @@
         android:id="@+id/lv_spots_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_devide"
+        android:layout_below="@+id/ll_guide_list"
         android:background="#ffffff"
         android:visibility="gone" />
 </RelativeLayout>

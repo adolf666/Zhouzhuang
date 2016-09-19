@@ -46,6 +46,15 @@ public class SpotsDataBaseHelper {
         mSpotsDao.update(spots);
     }
 
+    public Spots getSpotsById(int pid){
+        if (pid == 0){
+            return null;
+        }
+        WhereCondition whereCondition = SpotsDao.Properties.Pid.eq(pid);
+        List<Spots> spotsList =  querySpots(whereCondition);
+        return findFirst(spotsList);
+    }
+
 
     //内部方法，不需要在外面调用
     private List<Spots> querySpots(WhereCondition whereCondition){

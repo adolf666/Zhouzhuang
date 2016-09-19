@@ -24,7 +24,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Pid = new Property(1, int.class, "pid", false, "PID");
+        public final static Property Pid = new Property(1, int.class, "userId", false, "PID");
         public final static Property Order = new Property(2, Integer.class, "order", false, "ORDER");
         public final static Property CreateTime = new Property(3, Long.class, "createTime", false, "CREATE_TIME");
         public final static Property Title = new Property(4, String.class, "title", false, "TITLE");
@@ -53,7 +53,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"spots\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"PID\" INTEGER NOT NULL ," + // 1: pid
+                "\"PID\" INTEGER NOT NULL ," + // 1: userId
                 "\"ORDER\" INTEGER," + // 2: order
                 "\"CREATE_TIME\" INTEGER," + // 3: createTime
                 "\"TITLE\" TEXT," + // 4: title
@@ -157,7 +157,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
     public Spots readEntity(Cursor cursor, int offset) {
         Spots entity = new Spots( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1), // pid
+            cursor.getInt(offset + 1), // userId
             cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // order
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // createTime
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // title

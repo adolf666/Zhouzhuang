@@ -1,14 +1,10 @@
 package com.adolf.zhouzhuang.fragment;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +18,20 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.activity.LoginActivity;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
+import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.SdCardUtil;
+import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.UniversalDialog;
 import com.adolf.zhouzhuang.util.Utils;
-import com.adolf.zhouzhuang.widget.SelectPopupWindow;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -41,7 +41,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.GroundOverlayOptions;
-import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -50,22 +49,20 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.loopj.android.http.BinaryHttpResponseHandler;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.finalteam.okhttpfinal.FileDownloadCallback;
-import cn.finalteam.okhttpfinal.HttpRequest;
-import cn.finalteam.okhttpfinal.RequestParams;
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -93,11 +90,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private Button mLoactionBT;
     boolean isFirstLoc = true; // 是否首次定位
 
-    private Marker mMarkerB;
-    private Marker mMarkerC;
-    private Marker mMarkerD;
-    private Marker mMarkerE;
-    private Marker mMarkerF;
     private OnFragmentInteractionListener mListener;
     private GuideListAdapter adapter;
 
@@ -262,6 +254,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 Utils.openBaiduMap(getActivity(),120.85622,31.11700,"123","456");
                 dialog.dismiss();
                 break;
+            case R.id.bt_favorite:
+                addFavorite();
+                break;
             case R.id.tv_recommend_line:
 
                 break;
@@ -420,9 +415,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         Button audioPlay  = (Button) view.findViewById(R.id.bt_audio_play);
         Button detail = (Button) view.findViewById(R.id.bt_detail);
         Button navigation = (Button) view.findViewById(R.id.tv_navigation_map);
+        Button favorite = (Button) view.findViewById(R.id.bt_favorite);
         detail.setOnClickListener(this);
         audioPlay.setOnClickListener(this);
         navigation.setOnClickListener(this);
+        favorite.setOnClickListener(this);
         return view;
     }
 
@@ -474,6 +471,26 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     }
 
+    private void addFavorite(){
+        RequestParams params = new RequestParams();
+        params.put("spotId", mSpots.getPid());
+        params.put("userId", SharedPreferencesUtils.getInt(getActivity(),"userId"));
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION,params,new JsonHttpResponseHandler(){
 
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                mSpots.setIsFavorite(true);
+                mSpotsDataBaseHelper.updateSpots(mSpots);
+                Toast.makeText(getActivity(),"收藏成功",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Toast.makeText(getActivity(),"收藏失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }
