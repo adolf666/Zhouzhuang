@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.util.Utils;
 
 import java.util.List;
@@ -18,11 +19,24 @@ import java.util.List;
  */
 public class PersonalCollectAdapter extends BaseAdapter {
     private Context context;
-    private List<String> collectList;
-public PersonalCollectAdapter(Context context, List<String> collectList){
+    private List<Spots> mList;
+    private  List<Spots> collectList;
+public PersonalCollectAdapter(Context context,  List<Spots> mList){
         this.context = context;
-        this.collectList = collectList;
+        this.mList = mList;
+    if(null!=mList){
+        getData();
     }
+
+    }
+    private void  getData(){
+        for(int i=0;i<mList.size();i++){
+            if(mList.get(i).getIsFavorite()){
+                collectList.add(mList.get(i));
+            }
+        }
+    }
+
     @Override
     public int getCount() {
         return collectList.size();
@@ -58,7 +72,7 @@ public PersonalCollectAdapter(Context context, List<String> collectList){
         }else {
             convertView.setBackgroundResource(R.mipmap.bg_threeinput02);
         }
-        viewHolder.mName.setText(collectList.get(position));
+        viewHolder.mName.setText(collectList.get(position).getTitle());
         viewHolder.mName.setTypeface(Utils.getType(context,3));
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

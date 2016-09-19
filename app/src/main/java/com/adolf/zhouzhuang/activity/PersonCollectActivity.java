@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.adapter.PersonalCollectAdapter;
+import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +33,19 @@ public class PersonCollectActivity extends BaseActivity {
 
     }
     private void initData(){
-        collectList = new ArrayList<>();
+      /*  collectList = new ArrayList<>();
         collectList.add("双桥");
         collectList.add("逸飞之家");
-        collectList.add("沈厅");
-        mAdapter = new PersonalCollectAdapter(this,collectList);
-        mListview.setAdapter(mAdapter);
+        collectList.add("沈厅");*/
+
+        SpotsDataBaseHelper spotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+        List<Spots> spotsList = spotsDataBaseHelper.getAllSpots();
+        if (spotsList != null && spotsList.size()>0){
+            mAdapter = new PersonalCollectAdapter(this,spotsList);
+            mListview.setAdapter(mAdapter);
+        }
+
+
     }
 
     @Override

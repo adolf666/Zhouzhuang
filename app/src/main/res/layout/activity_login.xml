@@ -6,9 +6,9 @@
     android:orientation="vertical"
     tools:context="com.adolf.zhouzhuang.activity.LoginActivity">
 
-    <include layout="@layout/item_actionbar"
+   <!-- <include layout="@layout/item_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="49dp"/>
+        android:layout_height="49dp"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="49dp"

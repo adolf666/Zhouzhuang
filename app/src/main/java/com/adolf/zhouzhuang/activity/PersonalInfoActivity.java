@@ -38,7 +38,9 @@ public class PersonalInfoActivity extends BaseActivity {
         mUserName = (EditText)findViewById(R.id.et_username);
         Object object = SharedPreferencesUtils.readObject(this,"AccountInfo");
         LoginObj obj = (LoginObj)object;
-        mUserName.setText(obj.getUsername());
+        if(obj.getUsername()!=null){
+            mUserName.setText(obj.getUsername());
+        }
         Editable text = mUserName.getText();
         Selection.setSelection(text, text.length());
         TextView user_name = (TextView)findViewById(R.id.tv_user_name);

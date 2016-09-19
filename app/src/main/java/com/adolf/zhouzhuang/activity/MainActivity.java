@@ -19,6 +19,7 @@ import com.adolf.zhouzhuang.adapter.ViewPagerAdapter;
 import com.adolf.zhouzhuang.fragment.BaseFragment;
 import com.adolf.zhouzhuang.fragment.CollectionFragment;
 import com.adolf.zhouzhuang.fragment.GudieFragment;
+import com.adolf.zhouzhuang.fragment.LoginFragment;
 import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
@@ -54,7 +55,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         mCollectionTextView.setTypeface(Utils.getType(this,0));
         mNavigationTextView.setTypeface(Utils.getType(this,0));
         mStrategyTextView.setTypeface(Utils.getType(this,0));
-      mCustomerViewPager = (CustomViewPager) findViewById(R.id.viewpager);
+        mCustomerViewPager = (CustomViewPager) findViewById(R.id.viewpager);
 
         mMuseumTextView.setOnClickListener(this);
         mCollectionTextView.setOnClickListener(this);
@@ -71,10 +72,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         CollectionFragment collectionFragment = new CollectionFragment();
         GudieFragment gudieFragment = new GudieFragment();
         StrategyFragment strategyFragment = new StrategyFragment();
+        LoginFragment loginFragment = new LoginFragment();
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
         fragmentArrayList.add(gudieFragment);
-        fragmentArrayList.add(strategyFragment);
+        boolean isAutoLogin = SharedPreferencesUtils.getBoolean(MainActivity.this,"AutoLogin",false);
+        if(isAutoLogin){
+            fragmentArrayList.add(strategyFragment);
+        }else {
+            fragmentArrayList.add(loginFragment);
+        }
+
         mCustomerViewPager.setScrollble(false);
         mCustomerViewPager.setOffscreenPageLimit(3);
         mCustomerViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragmentArrayList));
@@ -90,6 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 break;
             case R.id.tv_navigation:
                 setBottomBarBackground(2);
+
                 break;
             case R.id.tv_strategy:
                 setBottomBarBackground(3);
