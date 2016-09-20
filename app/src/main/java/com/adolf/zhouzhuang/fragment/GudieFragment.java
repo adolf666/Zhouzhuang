@@ -286,7 +286,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     public void downloadAudio(){
         final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO +"/"+mSpots.getCreateTime() + ".mp3";
         File saveFile = new File(filePath);
-        AsyncHttpClientUtils.getInstance().downLoadFile(mSpots.getVideoLocation(),new BinaryHttpResponseHandler(){
+        String[] allowedContentTypes = new String[] { ".*" };
+        AsyncHttpClientUtils.getInstance().downLoadFile(mSpots.getVideoLocation(),new BinaryHttpResponseHandler(allowedContentTypes){
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] binaryData) {
@@ -299,6 +300,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                         e.printStackTrace();
                     }
                 }
+                downloadFinish(filePath);
             }
 
             @Override
@@ -308,7 +310,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         });
     }
     public void downloadFinish(String filePath){
-       // mSpots.setIsDownLoadAudio(true);
+        mSpots.setIsDownLoadAudio(true);
         mSpots.setVideoLocation(filePath);
         mSpotsDataBaseHelper.updateSpots(mSpots);
         playAudio(filePath);
