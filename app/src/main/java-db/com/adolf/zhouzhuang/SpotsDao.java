@@ -24,7 +24,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Pid = new Property(1, int.class, "userId", false, "PID");
+        public final static Property Pid = new Property(1, int.class, "pid", false, "PID");
         public final static Property Order = new Property(2, Integer.class, "order", false, "ORDER");
         public final static Property CreateTime = new Property(3, Long.class, "createTime", false, "CREATE_TIME");
         public final static Property Title = new Property(4, String.class, "title", false, "TITLE");
@@ -36,7 +36,6 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
         public final static Property VideoVersion = new Property(10, Integer.class, "videoVersion", false, "VIDEO_VERSION");
         public final static Property BasicInfoVersion = new Property(11, Integer.class, "basicInfoVersion", false, "BASIC_INFO_VERSION");
         public final static Property IsDownLoadAudio = new Property(12, Boolean.class, "isDownLoadAudio", false, "IS_DOWN_LOAD_AUDIO");
-        public final static Property IsFavorite = new Property(13, Boolean.class, "isFavorite", false, "IS_FAVORITE");
     };
 
 
@@ -53,7 +52,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"spots\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"PID\" INTEGER NOT NULL ," + // 1: userId
+                "\"PID\" INTEGER NOT NULL ," + // 1: pid
                 "\"ORDER\" INTEGER," + // 2: order
                 "\"CREATE_TIME\" INTEGER," + // 3: createTime
                 "\"TITLE\" TEXT," + // 4: title
@@ -64,8 +63,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
                 "\"VIDEO_LOCATION\" TEXT," + // 9: videoLocation
                 "\"VIDEO_VERSION\" INTEGER," + // 10: videoVersion
                 "\"BASIC_INFO_VERSION\" INTEGER," + // 11: basicInfoVersion
-                "\"IS_DOWN_LOAD_AUDIO\" INTEGER," + // 12: isDownLoadAudio
-                "\"IS_FAVORITE\" INTEGER);"); // 13: isFavorite
+                "\"IS_DOWN_LOAD_AUDIO\" INTEGER);"); // 12: isDownLoadAudio
     }
 
     /** Drops the underlying database table. */
@@ -139,11 +137,6 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
         if (isDownLoadAudio != null) {
             stmt.bindLong(13, isDownLoadAudio ? 1L: 0L);
         }
- 
-        Boolean isFavorite = entity.getIsFavorite();
-        if (isFavorite != null) {
-            stmt.bindLong(14, isFavorite ? 1L: 0L);
-        }
     }
 
     /** @inheritdoc */
@@ -157,7 +150,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
     public Spots readEntity(Cursor cursor, int offset) {
         Spots entity = new Spots( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1), // userId
+            cursor.getInt(offset + 1), // pid
             cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // order
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // createTime
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // title
@@ -168,8 +161,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // videoLocation
             cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // videoVersion
             cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // basicInfoVersion
-            cursor.isNull(offset + 12) ? null : cursor.getShort(offset + 12) != 0, // isDownLoadAudio
-            cursor.isNull(offset + 13) ? null : cursor.getShort(offset + 13) != 0 // isFavorite
+            cursor.isNull(offset + 12) ? null : cursor.getShort(offset + 12) != 0 // isDownLoadAudio
         );
         return entity;
     }
@@ -190,7 +182,6 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
         entity.setVideoVersion(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
         entity.setBasicInfoVersion(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
         entity.setIsDownLoadAudio(cursor.isNull(offset + 12) ? null : cursor.getShort(offset + 12) != 0);
-        entity.setIsFavorite(cursor.isNull(offset + 13) ? null : cursor.getShort(offset + 13) != 0);
      }
     
     /** @inheritdoc */
