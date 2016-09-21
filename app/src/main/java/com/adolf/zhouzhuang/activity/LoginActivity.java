@@ -14,6 +14,7 @@ import com.adolf.zhouzhuang.ZhouzhuangApplication;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
+import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
@@ -29,12 +30,14 @@ public class LoginActivity extends BaseActivity{
     private EditText mPasswordET;
     private Button mLoginBT;
     public ProgressDialog progressDialog;
+    private int mGoToActivity = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        initBundle();
     }
     private void initView(){
         mUsernameET = (EditText) findViewById(R.id.et_username);
@@ -48,6 +51,10 @@ public class LoginActivity extends BaseActivity{
         mLoginBT.setOnClickListener(this);
         initActionBar("返回",R.drawable.back_selected,"登录","注册",0);
         ((ZhouzhuangApplication)getApplication()).getDaoSession();
+    }
+
+    private void initBundle(){
+        mGoToActivity = getIntent().getIntExtra("GOTO_ACTIVITY",-1);
     }
 
     @Override
@@ -66,6 +73,7 @@ public class LoginActivity extends BaseActivity{
     }
 
     public void loginNew(){
+        progressDialog = ProgressDialog.show(LoginActivity.this, "", "正在登录...", true, true);
         RequestParams params = new RequestParams();
         String userName = mUsernameET.getText().toString();
         String passWord = mPasswordET.getText().toString();
@@ -76,49 +84,41 @@ public class LoginActivity extends BaseActivity{
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                progressDialog.dismiss();
+
                 LoginObj loginObj = GsonUtil.jsonToBean(response,"data",LoginObj.class);
                 SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
                 SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",loginObj);
-                SharedPreferencesUtils.putInt(LoginActivity.this,"userId",loginObj.getUserId());
-                finish();
+                SharedPreferencesUtils.putInt(LoginActivity.this,"pid",loginObj.getPid());
+                goToActivity();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+                progressDialog.dismiss();
                 SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",false);
                 Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-//    public void login(){
-//        progressDialog = ProgressDialog.show(this, "", "请稍候...", true, true);
-//        String userName = mUsernameET.getText().toString();
-//        String passWord = mPasswordET.getText().toString();
-//        RequestParams params = new RequestParams();
-//        params.addFormDataPart("username",userName);
-//        params.addFormDataPart("password",passWord);
-//        HttpRequest.post(ServiceAddress.LOGIN,params,new JsonHttpRequestCallback() {
-//            @Override
-//            protected void onSuccess(JSONObject jsonObject) {
-//                super.onSuccess(jsonObject);
-//                Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
-//                progressDialog.dismiss();
-//                if (TextUtils.equals(jsonObject.getString("success"),"0")){
-//                    SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
-//                    SharedPreferencesUtils.getString(LoginActivity.this,"AccountInfo",jsonObject.getString("data"));
-//                    finish();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String msg) {
-//                super.onFailure(errorCode, msg);
-//                progressDialog.dismiss();
-//                SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",false);
-//                Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void goToActivity(){
+        Intent intent = new Intent();
+        switch (mGoToActivity){
+            case Constants.PERSONAL_INFO_PAGE:
+                intent.setClass(LoginActivity.this,PersonalInfoActivity.class);
+                break;
+            case Constants.SETTING_PAGE:
+                intent.setClass(LoginActivity.this,PersonalInfoActivity.class);
+                break;
+            case Constants.COLLECTION_LIST_PAGE:
+
+                break;
+            default:
+                break;
+        }
+        startActivity(intent);
+        finish();
+    }
 }

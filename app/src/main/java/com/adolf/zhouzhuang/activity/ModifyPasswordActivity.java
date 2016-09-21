@@ -59,7 +59,7 @@ public class ModifyPasswordActivity extends BaseActivity {
                     Object object = SharedPreferencesUtils.readObject(this, "AccountInfo");
                     LoginObj obj = (LoginObj) object;
                     if (obj.getUsername() != null) {
-                        params.put("pid",obj.getUserId());
+                        params.put("pid",obj.getPid());
                     }
                     params.put("oldPassword", mOldPassword.getText().toString());
                     params.put("newPassword", mNewPassword.getText().toString());

@@ -19,6 +19,7 @@ public class Spots {
     private Integer videoVersion;
     private Integer basicInfoVersion;
     private Boolean isDownLoadAudio;
+    private Boolean isFavorite;
 
     public Spots() {
     }
@@ -27,7 +28,7 @@ public class Spots {
         this.id = id;
     }
 
-    public Spots(Long id, int pid, Integer order, Long createTime, String title, String brief, String detailUrl, String lat, String lng, String videoLocation, Integer videoVersion, Integer basicInfoVersion, Boolean isDownLoadAudio) {
+    public Spots(Long id, int pid, Integer order, Long createTime, String title, String brief, String detailUrl, String lat, String lng, String videoLocation, Integer videoVersion, Integer basicInfoVersion, Boolean isDownLoadAudio, Boolean isFavorite) {
         this.id = id;
         this.pid = pid;
         this.order = order;
@@ -41,6 +42,7 @@ public class Spots {
         this.videoVersion = videoVersion;
         this.basicInfoVersion = basicInfoVersion;
         this.isDownLoadAudio = isDownLoadAudio;
+        this.isFavorite = isFavorite;
     }
 
     public Long getId() {
@@ -145,6 +147,14 @@ public class Spots {
 
     public void setIsDownLoadAudio(Boolean isDownLoadAudio) {
         this.isDownLoadAudio = isDownLoadAudio;
+    }
+
+    public Boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(Boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 
 }

@@ -25,7 +25,8 @@
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/img_pause"
-            android:text="正在为您播放沈厅语音导览"/>
+            android:text="正在为您播放沈厅语音导览"
+            android:textColor="#ffffff"/>
         <ImageView
             android:id="@+id/img_close"
             android:layout_marginLeft="20dp"
@@ -36,6 +37,15 @@
             android:src="@mipmap/note_btn_close_white"
             android:layout_marginRight="18dp"/>
     </RelativeLayout>
+
+    <ProgressBar
+    android:id="@+id/pb_progressbar"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp"
+    android:max="100"
+    android:progress="50"
+        android:visibility="gone"/>
 
 <RelativeLayout
     android:id="@+id/ll_guide_list"

@@ -10,7 +10,7 @@ public class LoginObj implements Serializable{
     public String nickName;
     public String sex;
     public String area;
-    public int userId;
+    public int pid;
 
     public String getUsername() {
         return username;
@@ -44,11 +44,11 @@ public class LoginObj implements Serializable{
         this.area = area;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getPid() {
+        return pid;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 }

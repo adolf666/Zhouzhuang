@@ -19,22 +19,11 @@ import java.util.List;
  */
 public class PersonalCollectAdapter extends BaseAdapter {
     private Context context;
-    private List<Spots> mList;
-    private  List<Spots> collectList;
-public PersonalCollectAdapter(Context context,  List<Spots> mList){
-        this.context = context;
-        this.mList = mList;
-    if(null!=mList){
-        getData();
-    }
+    private List<Spots> collectList;
 
-    }
-    private void  getData(){
-        for(int i=0;i<mList.size();i++){
-            if(mList.get(i).getIsFavorite() != null && mList.get(i).getIsFavorite()){
-                collectList.add(mList.get(i));
-            }
-        }
+    public PersonalCollectAdapter(Context context, List<Spots> mList) {
+        this.context = context;
+        this.collectList = mList;
     }
 
     @Override
@@ -55,25 +44,25 @@ public PersonalCollectAdapter(Context context,  List<Spots> mList){
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        if (null ==convertView){
+        if (null == convertView) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.item_personal_collect, null);
-            viewHolder.mName = (TextView)convertView.findViewById(R.id.tv_collect_name);
-            viewHolder.imageView= (ImageView)convertView.findViewById(R.id.img_delete_collect) ;
+            viewHolder.mName = (TextView) convertView.findViewById(R.id.tv_collect_name);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.img_delete_collect);
 
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if(0==position){
+        if (0 == position) {
             convertView.setBackgroundResource(R.mipmap.bg_threeinput01);
-        }else if(collectList.size()-1 ==position){
+        } else if (collectList.size() - 1 == position) {
             convertView.setBackgroundResource(R.mipmap.bg_threeinput03);
-        }else {
+        } else {
             convertView.setBackgroundResource(R.mipmap.bg_threeinput02);
         }
         viewHolder.mName.setText(collectList.get(position).getTitle());
-        viewHolder.mName.setTypeface(Utils.getType(context,3));
+        viewHolder.mName.setTypeface(Utils.getType(context, 3));
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +72,6 @@ public PersonalCollectAdapter(Context context,  List<Spots> mList){
         });
         return convertView;
     }
-
 
 
     private static class ViewHolder {

@@ -20,6 +20,7 @@ import com.adolf.zhouzhuang.util.Utils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -93,7 +94,7 @@ public class PersonalInfoActivity extends BaseActivity {
             case R.id.tv_save_modify:
                 RequestParams params = new RequestParams();
                 if(null!=loginObj){
-                    params.put("pid", loginObj.getUserId());
+                    params.put("pid", loginObj.getPid());
                 }
                 params.put("sex", mSex);
                 params.put("area", mUserArea.getText().toString());
@@ -104,8 +105,15 @@ public class PersonalInfoActivity extends BaseActivity {
                         Toast.makeText(PersonalInfoActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }
+
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        Toast.makeText(PersonalInfoActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                         super.onFailure(statusCode, headers, throwable, errorResponse);
                         Toast.makeText(PersonalInfoActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
                     }

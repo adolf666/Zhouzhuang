@@ -296,6 +296,21 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         AsyncHttpClientUtils.getInstance().downLoadFile(mSpots.getVideoLocation(),new BinaryHttpResponseHandler(allowedContentTypes){
 
             @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] binaryData) {
                 InputStream inputstream = new ByteArrayInputStream(binaryData);
                 if (inputstream != null) {
@@ -482,7 +497,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private void addFavorite(){
         RequestParams params = new RequestParams();
         params.put("spotId", mSpots.getPid());
-        params.put("userId", SharedPreferencesUtils.getInt(getActivity(),"userId"));
+        params.put("userId", SharedPreferencesUtils.getInt(getActivity(),"pid"));
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION,params,new JsonHttpResponseHandler(){
 
             @Override

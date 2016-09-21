@@ -10,4 +10,8 @@ public class Constants {
 
     //网络返回状态值
     public static final int STATUS_OK = 200;
+
+    public static final int PERSONAL_INFO_PAGE = 0;
+    public static final int SETTING_PAGE = 1;
+    public static final int COLLECTION_LIST_PAGE = 2;
 }

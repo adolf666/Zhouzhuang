@@ -67,7 +67,7 @@ public class PersonCollectActivity extends BaseActivity {
 
     public void getAllFavorite(){
         RequestParams params = new RequestParams();
-        params.put("userId", SharedPreferencesUtils.getInt(this,"userId"));
+        params.put("userId", SharedPreferencesUtils.getInt(this,"pid"));
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_LIST,params,new JsonHttpResponseHandler(){
 
             @Override
@@ -89,7 +89,7 @@ public class PersonCollectActivity extends BaseActivity {
     public void cancelCollection(String spotsId){
         RequestParams params = new RequestParams();
         params.put("spotId",spotsId);
-        params.put("userId",SharedPreferencesUtils.getInt(this,"userId"));
+        params.put("pid",SharedPreferencesUtils.getInt(this,"pid"));
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

@@ -1,15 +1,11 @@
 package com.adolf.zhouzhuang.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -19,13 +15,12 @@ import com.adolf.zhouzhuang.adapter.ViewPagerAdapter;
 import com.adolf.zhouzhuang.fragment.BaseFragment;
 import com.adolf.zhouzhuang.fragment.CollectionFragment;
 import com.adolf.zhouzhuang.fragment.GudieFragment;
-import com.adolf.zhouzhuang.fragment.LoginFragment;
+import com.adolf.zhouzhuang.fragment.PersonalCenterFragment;
 import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.CustomViewPager;
-import com.baidu.mapapi.SDKInitializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         CollectionFragment collectionFragment = new CollectionFragment();
         GudieFragment gudieFragment = new GudieFragment();
         StrategyFragment strategyFragment = new StrategyFragment();
-        LoginFragment loginFragment = new LoginFragment();
+        PersonalCenterFragment loginFragment = new PersonalCenterFragment();
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
         fragmentArrayList.add(gudieFragment);
