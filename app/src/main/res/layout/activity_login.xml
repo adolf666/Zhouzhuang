@@ -109,7 +109,6 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="5dp"
-                    android:text="王老师"
                     android:textColor="#cccc66"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -170,7 +169,7 @@
                     android:gravity="center_vertical"
                     android:text="游玩攻略"
                     android:drawablePadding="8dp"
-                    android:background="@drawable/personal_suggest_selector"
+                    android:background="@drawable/personal_setting_selector"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
                 <TextView
                     android:id="@+id/tv_suggestion"

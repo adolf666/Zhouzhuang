@@ -49,6 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:background="@null"
+                android:textSize="16sp"
+                android:hint="请输入您的用户名"
                 />
         </LinearLayout>
 
@@ -95,8 +97,31 @@
                     android:button="@drawable/sex_selected">
                 </RadioButton>
                   </RadioGroup>
-        </LinearLayout>
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:background="@mipmap/bg_threeinput03">
+            <TextView
+                android:id="@+id/tv_user_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:textSize="16sp"
+                android:text="地区：" />
+
+            <EditText
+                android:id="@+id/et_userarea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@null"
+                android:textSize="16sp"
+                android:hint="请输入您的地址"
+                />
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_save_modify"
             android:layout_marginTop="20dp"

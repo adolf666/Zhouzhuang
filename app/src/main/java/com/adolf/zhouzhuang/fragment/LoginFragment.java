@@ -49,6 +49,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
     private TextView  mSetting;
     private TextView  mCollect;
     private TextView  mUserName;
+    private TextView mStrategy;
     private LinearLayout mLoginLinearLayout;
     private LinearLayout mPersonalCenterinearLayout;
 
@@ -87,7 +88,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
         mCollect = (TextView)view.findViewById(R.id.tv_collect);
         mSetting = (TextView ) view.findViewById(R.id.tv_setting);
         mSuggestion = (TextView) view.findViewById(R.id.tv_suggestion);
-        TextView mStrategy = (TextView)view.findViewById(R.id.tv_strategy);
+        mStrategy = (TextView)view.findViewById(R.id.tv_strategy);
         mUserName.setTypeface(Utils.getType(getActivity(),3));
         mPersonInfo.setTypeface(Utils.getType(getActivity(),3));
         mCollect.setTypeface(Utils.getType(getActivity(),3));

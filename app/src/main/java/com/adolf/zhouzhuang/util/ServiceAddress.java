@@ -14,4 +14,6 @@ public class ServiceAddress {
     public static String COLLECTION = head + "collect";
     public static String COLLECTION_LIST = head + "getCollectList";
     public static String COLLECTION_CANCEL = head + "cancelCollect";
+    public static String UPDGRAD_USER_INFO= head + "updgradeUserInfo";
+    public static String UPDATE_PASSWORD = head + "updatePassword";
 }
