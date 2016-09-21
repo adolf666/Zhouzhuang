@@ -165,8 +165,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 progressDialog.dismiss();
+
+                LoginObj loginObj = GsonUtil.jsonToBean(response,"data",LoginObj.class);
                 SharedPreferencesUtils.putBoolean(getActivity(),"AutoLogin",true);
-                SharedPreferencesUtils.saveObject(getActivity(),"AccountInfo", GsonUtil.jsonToBean(response,"data",LoginObj.class));
+                SharedPreferencesUtils.saveObject(getActivity(),"AccountInfo",loginObj);
+                SharedPreferencesUtils.putInt(getActivity(),"userId",loginObj.getUserId());
                 updateInterface(SharedPreferencesUtils.getBoolean(getActivity(),"AutoLogin",false));
             }
 

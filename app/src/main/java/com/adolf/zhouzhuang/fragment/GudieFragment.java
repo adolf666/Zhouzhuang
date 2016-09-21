@@ -49,6 +49,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.loopj.android.http.BinaryHttpResponseHandler;
@@ -108,6 +109,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.btn_voice_default);
    private UniversalDialog dialog;
+    private TextView mTipLeft;
+    private TextView mTipRight;
 
     public GudieFragment() {
         // Required empty public constructor
@@ -181,6 +184,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mClose = (ImageView)view.findViewById(R.id.img_close);
         mNotice = (RelativeLayout)view.findViewById(R.id.rl_notice);
         mVocie_Prompt = (TextView)view.findViewById(R.id.tv_voice_prompt);
+        mTipLeft = (TextView) view.findViewById(R.id.tv_tip_left);
+        mTipRight = (TextView) view.findViewById(R.id.tv_tip_right);
         mNotice.setVisibility(View.GONE);
         mClose.setOnClickListener(this);
         mPause.setOnClickListener(this);
@@ -213,6 +218,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     public void isShowSpotList(){
         mSpotsListLV.setVisibility(isSpotsListViewVisible ? View.GONE : View.VISIBLE);
+        mTipRight.setVisibility(isSpotsListViewVisible?View.INVISIBLE:View.VISIBLE);
         isSpotsListViewVisible = !isSpotsListViewVisible;
     }
 

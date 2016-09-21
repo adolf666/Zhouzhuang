@@ -13,5 +13,5 @@ public class ServiceAddress {
     public static String NEWS_EXHIBITION_TEMPORARY = head +"getList";
     public static String COLLECTION = head + "collect";
     public static String COLLECTION_LIST = head + "getCollectList";
-    public static String COLLECTION_CANCEL = head + "getCollectList";
+    public static String COLLECTION_CANCEL = head + "cancelCollect";
 }
