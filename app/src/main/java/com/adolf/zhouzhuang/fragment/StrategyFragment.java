@@ -88,7 +88,7 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
         mUserName = (TextView)view.findViewById(R.id.tv_user_name);
         Object object = SharedPreferencesUtils.readObject(getActivity(),"AccountInfo");
         LoginObj obj = (LoginObj)object;
-        if(obj.getUsername()!=null){
+        if(obj != null && obj.getUsername()!=null){
             mUserName.setText(obj.getUsername());
         }
         mPersonInfo = (TextView )view.findViewById(R.id.tv_person_info);

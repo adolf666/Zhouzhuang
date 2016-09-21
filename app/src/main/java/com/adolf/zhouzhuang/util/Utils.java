@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.File;
  * Created by adolf on 2016/9/11.
  */
 public class Utils {
+    //调用外部百度地图
     public  static void openBaiduMap(Context context, double lon, double lat, String title, String describle) {
         try {
             StringBuilder loc = new StringBuilder();
@@ -68,4 +70,14 @@ public class Utils {
         return type;
     }
 
+    //判断是否自动登录
+    public static boolean isAutoLogin(Context context){
+        return SharedPreferencesUtils.getBoolean(context,"AutoLogin",false);
+    }
+
+    //显示和隐藏输入法
+    public static void displayOrHideIM(Context context){
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }

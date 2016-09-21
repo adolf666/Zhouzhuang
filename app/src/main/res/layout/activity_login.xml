@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.adolf.zhouzhuang.activity.LoginActivity">
 
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
    <!-- <include layout="@layout/item_actionbar"
         android:layout_width="match_parent"
         android:layout_height="49dp"/>-->
@@ -67,4 +72,119 @@
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:background="@drawable/login_selector"/>
-</LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_personal_center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:background="@mipmap/bg_center">
+
+                <ImageView
+                    android:id="@+id/iv_portrait"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/centerphoto" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_portrait"
+                    android:layout_centerInParent="true"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="5dp"
+                    android:text="王老师"
+                    android:textColor="#cccc66"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1.5"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_person_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/icon_personalinfo"
+                    android:paddingLeft="11dp"
+                    android:drawablePadding="8dp"
+                    android:text="个人信息"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="@drawable/personal_info_selector"/>
+
+                <TextView
+                    android:id="@+id/tv_collect"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_favor"
+                    android:paddingLeft="11dp"
+                    android:layout_centerVertical="true"
+                    android:text="我的收藏"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/personal_info_selector"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/tv_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_setting"
+                    android:paddingLeft="11dp"
+                    android:text="设置"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/personal_setting_selector"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/tv_strategy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_suggest"
+                    android:paddingLeft="11dp"
+                    android:gravity="center_vertical"
+                    android:text="游玩攻略"
+                    android:drawablePadding="8dp"
+                    android:background="@drawable/personal_suggest_selector"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                <TextView
+                    android:id="@+id/tv_suggestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_suggest"
+                    android:paddingLeft="11dp"
+                    android:gravity="center_vertical"
+                    android:text="意见反馈"
+                    android:drawablePadding="8dp"
+                    android:background="@drawable/personal_suggest_selector"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

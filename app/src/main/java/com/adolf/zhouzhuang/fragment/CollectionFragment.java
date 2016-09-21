@@ -60,6 +60,9 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     private TextView tempExhibit;
     private TextView displayExhibit;
     private TextView spotsExhibit;
+    private TextView mLabel1;
+    private TextView mLabel2;
+    private TextView mLabel3;
 
     public CollectionFragment() {
         // Required empty public constructor
@@ -118,6 +121,10 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         tempExhibit = (TextView) view.findViewById(R.id.text1);
         displayExhibit = (TextView) view.findViewById(R.id.text2);
         spotsExhibit = (TextView) view.findViewById(R.id.text3);
+        mLabel1= (TextView)view.findViewById(R.id.tv_label1);
+        mLabel2= (TextView)view.findViewById(R.id.tv_label2);
+        mLabel3= (TextView)view.findViewById(R.id.tv_label3);
+
         Typeface typeface = Typeface.createFromAsset (getActivity().getAssets() , "fonts/FZSQKB.TTF" );
         tempExhibit.setTypeface(typeface);
         displayExhibit.setTypeface(typeface);
@@ -130,28 +137,10 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
-                switch (position){
-                    case 0:
-                        tempExhibit.setTextColor(Color.parseColor("#cccc66"));
-                        displayExhibit.setTextColor(Color.parseColor("#666666"));
-                        spotsExhibit.setTextColor(Color.parseColor("#666666"));
-                        break;
-                    case 1:
-                        tempExhibit.setTextColor(Color.parseColor("#666666"));
-                        displayExhibit.setTextColor(Color.parseColor("#cccc66"));
-                        spotsExhibit.setTextColor(Color.parseColor("#666666"));
-                        break;
-                    case 2:
-                        tempExhibit.setTextColor(Color.parseColor("#666666"));
-                        displayExhibit.setTextColor(Color.parseColor("#666666"));
-                        spotsExhibit.setTextColor(Color.parseColor("#cccc66"));
-                }
-
+                tabSwitch( position);
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -216,26 +205,28 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         mListener = null;
     }
 
+    private  void tabSwitch(int position){
+        tempExhibit.setTextColor(position==0?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
+        displayExhibit.setTextColor(position==1?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
+        spotsExhibit.setTextColor(position==2?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
+        mLabel1.setBackgroundColor(position==0?Color.parseColor("#cccc66"):Color.parseColor("#ffffff"));
+        mLabel2.setBackgroundColor(position==1?Color.parseColor("#cccc66"):Color.parseColor("#ffffff"));
+        mLabel3.setBackgroundColor(position==2?Color.parseColor("#cccc66"):Color.parseColor("#ffffff"));
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.text1:
                 viewPager.setCurrentItem(0);
-                tempExhibit.setTextColor(Color.parseColor("#cccc66"));
-                displayExhibit.setTextColor(Color.parseColor("#666666"));
-                spotsExhibit.setTextColor(Color.parseColor("#666666"));
+                tabSwitch(0);
                 break;
             case R.id.text2:
                 viewPager.setCurrentItem(1);
-                tempExhibit.setTextColor(Color.parseColor("#666666"));
-                displayExhibit.setTextColor(Color.parseColor("#cccc66"));
-                spotsExhibit.setTextColor(Color.parseColor("#666666"));
+                tabSwitch(1);
                 break;
             case R.id.text3:
                 viewPager.setCurrentItem(2);
-                tempExhibit.setTextColor(Color.parseColor("#666666"));
-                displayExhibit.setTextColor(Color.parseColor("#666666"));
-                spotsExhibit.setTextColor(Color.parseColor("#cccc66"));
+                tabSwitch(2);
         }
     }
 }
