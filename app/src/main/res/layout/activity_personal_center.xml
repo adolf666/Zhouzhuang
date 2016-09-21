@@ -66,10 +66,6 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:background="@drawable/personal_info_selector"/>
 
-
-
-
-
                 <TextView
                     android:id="@+id/tv_collect"
                     android:layout_marginTop="10dp"
@@ -84,10 +80,6 @@
                     android:background="@drawable/personal_info_selector"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
-
-
-
                 <TextView
                     android:id="@+id/tv_setting"
                     android:layout_width="match_parent"
@@ -100,12 +92,6 @@
                     android:background="@drawable/personal_setting_selector"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
-
-
-
-
-
                 <TextView
                     android:id="@+id/tv_suggestion"
                     android:layout_width="match_parent"
@@ -117,8 +103,6 @@
                     android:drawablePadding="8dp"
                     android:background="@drawable/personal_suggest_selector"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
-
-
 
         </LinearLayout>
     </LinearLayout>
