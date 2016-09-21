@@ -79,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -161,6 +161,17 @@
                     android:background="@drawable/personal_setting_selector"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
+                <TextView
+                    android:id="@+id/tv_strategy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_suggest"
+                    android:paddingLeft="11dp"
+                    android:gravity="center_vertical"
+                    android:text="游玩攻略"
+                    android:drawablePadding="8dp"
+                    android:background="@drawable/personal_suggest_selector"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
                 <TextView
                     android:id="@+id/tv_suggestion"
                     android:layout_width="match_parent"

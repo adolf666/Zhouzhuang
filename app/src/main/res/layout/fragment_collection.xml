@@ -2,56 +2,96 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#aaaaaa">
+    android:background="#aaaaaa"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="40.0dip"
-        android:background="#FFFFFF" >
+        android:background="#FFFFFF">
 
-        <TextView
-            android:id="@+id/text1"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="临时展览"
-            android:textColor="#cccc66"
-            android:textSize="20.0dip" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#666666"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="陈列展览"
-            android:textColor="#000000"
-            android:textSize="20.0dip" />
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="fill_parent"
+                android:layout_height="36dp"
+                android:gravity="center"
+                android:text="临时展览"
+                android:textColor="#cccc66"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:id="@+id/tv_label1"
+                android:layout_width="fill_parent"
+                android:layout_height="4dp"
+                android:background="#cccc66" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#666666"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <TextView
-            android:id="@+id/text3"
+            android:background="#666666" />
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="文物全景"
-            android:textColor="#000000"
-            android:textSize="20.0dip" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="fill_parent"
+                android:layout_height="36dp"
+                android:gravity="center"
+                android:text="陈列展览"
+                android:textColor="#000000"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:id="@+id/tv_label2"
+                android:layout_width="fill_parent"
+                android:layout_height="4dp"
+                android:background="#FFFFFF" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#666666" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="文物全景"
+                android:textColor="#000000"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:id="@+id/tv_label3"
+                android:layout_width="fill_parent"
+                android:layout_height="4dp"
+                android:background="#FFFFFF" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <ImageView
@@ -67,11 +107,11 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_weight="1.0"
-        android:flipInterval="30"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="12dp"
+        android:layout_weight="1.0"
         android:background="#ffffff"
+        android:flipInterval="30"
         android:persistentDrawingCache="animation" />
 </LinearLayout>
