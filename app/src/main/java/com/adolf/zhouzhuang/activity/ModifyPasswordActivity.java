@@ -46,7 +46,6 @@ public class ModifyPasswordActivity extends BaseActivity {
         mBtnSave = (TextView)findViewById(R.id.btn_save);
         mBtnSave.setOnClickListener(this);
      }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){

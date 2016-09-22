@@ -7,12 +7,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Administrator on 2016/9/15.
@@ -66,6 +76,7 @@ public class PersonalCollectAdapter extends BaseAdapter {
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cancelCollection(collectList.get(position).getId().toString());
                 collectList.remove(position);
                 notifyDataSetChanged();
             }
@@ -73,10 +84,28 @@ public class PersonalCollectAdapter extends BaseAdapter {
         return convertView;
     }
 
-
     private static class ViewHolder {
         ImageView imageView;
         TextView mName;
+    }
+
+    public void cancelCollection(String spotsId){
+        RequestParams params = new RequestParams();
+        params.put("spotId",spotsId);
+        params.put("pid", SharedPreferencesUtils.getInt(context,"pid"));
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(context,"取消收藏成功",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Toast.makeText(context,"取消收藏失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }
