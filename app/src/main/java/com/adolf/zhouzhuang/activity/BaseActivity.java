@@ -23,9 +23,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  * Created by adolf on 2016/8/18.
  */
 public class BaseActivity extends FragmentActivity implements View.OnClickListener{
-    private TextView mLeftActionBar;
-    private TextView mMiddleActionBar;
-    private TextView mRightActionBar;
+    public TextView mLeftActionBar;
+    public TextView mMiddleActionBar;
+    public TextView mRightActionBar;
     private ImageLoaderConfiguration config ;
 
     @Override

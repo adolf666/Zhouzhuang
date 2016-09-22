@@ -87,15 +87,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         switch (v.getId()){
             case R.id.tv_museum:
                 setBottomBarBackground(0);
+                initActionBar("",R.drawable.personal_center_selector,"周庄博物馆","",R.drawable.scan_selector);
                 break;
             case R.id.tv_collection:
                 setBottomBarBackground(1);
+                initActionBar("",R.drawable.personal_center_selector,"周庄博物馆","",R.drawable.scan_selector);
                 break;
             case R.id.tv_navigation:
                 setBottomBarBackground(2);
+                initActionBar("",R.drawable.personal_center_selector,"周庄博物馆","",R.drawable.scan_selector);
                 break;
             case R.id.tv_strategy:
                 setBottomBarBackground(3);
+                mLeftActionBar.setCompoundDrawables(null,null, null, null);
                 break;
             case R.id.tv_left_actionbar:
                 autoLoginLogic();

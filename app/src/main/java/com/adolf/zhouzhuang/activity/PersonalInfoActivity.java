@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 /**
  * Created by gpp on 2016/9/8 0008.
@@ -105,6 +106,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 }
                 params.put("sex", mSex);
                 params.put("area", mUserArea.getText().toString());
+                params.setContentEncoding("UTF-8");
                 AsyncHttpClientUtils.getInstance().get(ServiceAddress.UPDGRAD_USER_INFO, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
