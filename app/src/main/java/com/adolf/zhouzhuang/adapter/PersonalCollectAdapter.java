@@ -76,7 +76,7 @@ public class PersonalCollectAdapter extends BaseAdapter {
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelCollection(collectList.get(position).getId().toString());
+                cancelCollection(String.valueOf(collectList.get(position).getPid()));
                 collectList.remove(position);
                 notifyDataSetChanged();
             }
@@ -92,7 +92,7 @@ public class PersonalCollectAdapter extends BaseAdapter {
     public void cancelCollection(String spotsId){
         RequestParams params = new RequestParams();
         params.put("spotId",spotsId);
-        params.put("pid", SharedPreferencesUtils.getInt(context,"pid"));
+        params.put("userId", SharedPreferencesUtils.getInt(context,"pid"));
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
