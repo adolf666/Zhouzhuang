@@ -1,6 +1,7 @@
 package com.adolf.zhouzhuang.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -29,7 +30,6 @@ import cz.msebera.android.httpclient.Header;
 public class PersonCollectActivity extends BaseActivity {
 
     private ListView mListview;
-    private List<String> collectList;
     private PersonalCollectAdapter mAdapter;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     @Override
@@ -76,6 +76,7 @@ public class PersonCollectActivity extends BaseActivity {
                List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
                 List<Spots> favoriteSpotsList = getSpotsListFromIdList(favoriteList);
                 setListViewData(favoriteSpotsList);
+                Toast.makeText(PersonCollectActivity.this,"获取收藏列表成功",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -105,10 +106,10 @@ public class PersonCollectActivity extends BaseActivity {
         });
 
     }
-
     private List<Spots> getSpotsListFromIdList(List<Integer> spots){
         List<Spots> spotsList = new ArrayList<>();
         for (int i = 0; i < spots.size(); i++) {
+            //spotsList.clear();
             spotsList.add(mSpotsDataBaseHelper.getSpotsById(spots.get(i)));
         }
         return spotsList;

@@ -209,9 +209,9 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         tempExhibit.setTextColor(position==0?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
         displayExhibit.setTextColor(position==1?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
         spotsExhibit.setTextColor(position==2?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
-        mLabel1.setBackgroundColor(position==0?Color.parseColor("#cccc66"):Color.parseColor("#ffffff"));
-        mLabel2.setBackgroundColor(position==1?Color.parseColor("#cccc66"):Color.parseColor("#ffffff"));
-        mLabel3.setBackgroundColor(position==2?Color.parseColor("#cccc66"):Color.parseColor("#ffffff"));
+        mLabel1.setBackgroundColor(position==0?Color.parseColor("#4A4A4A"):Color.parseColor("#ffffff"));
+        mLabel2.setBackgroundColor(position==1?Color.parseColor("#4A4A4A"):Color.parseColor("#ffffff"));
+        mLabel3.setBackgroundColor(position==2?Color.parseColor("#4A4A4A"):Color.parseColor("#ffffff"));
     }
     @Override
     public void onClick(View view) {

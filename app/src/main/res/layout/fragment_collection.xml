@@ -30,7 +30,7 @@
                 android:id="@+id/tv_label1"
                 android:layout_width="fill_parent"
                 android:layout_height="4dp"
-                android:background="#cccc66" />
+                android:background="#4A4A4A" />
         </LinearLayout>
 
         <TextView
