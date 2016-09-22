@@ -108,4 +108,14 @@ public class PanoramaActivity extends BaseActivity implements GestureDetector.On
     public boolean onTouchEvent(MotionEvent event) {
         return mGestureDetector.onTouchEvent(event);
     }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_left_actionbar:
+                finish();
+                break;
+        }
+    }
 }

@@ -31,7 +31,9 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         mUserName = (TextView)findViewById(R.id.tv_user_name);
         Object object = SharedPreferencesUtils.readObject(this,"AccountInfo");
         LoginObj obj = (LoginObj)object;
-        mUserName.setText(obj.getUsername());
+        if(null!=obj&&null!=obj.getUsername()){
+            mUserName.setText(obj.getUsername());
+        }
         mPersonInfo = (TextView ) findViewById(R.id.tv_person_info);
         mCollect = (TextView)findViewById(R.id.tv_collect);
         mSetting = (TextView ) findViewById(R.id.tv_setting);

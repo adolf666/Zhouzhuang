@@ -93,7 +93,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 break;
             case R.id.tv_navigation:
                 setBottomBarBackground(2);
-
                 break;
             case R.id.tv_strategy:
                 setBottomBarBackground(3);
@@ -148,6 +147,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
                 mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
                 mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
+                initActionBar("",R.drawable.personal_center_selector,"周庄博物馆","",R.drawable.scan_selector);
                 break;
             case 1:
                 mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
@@ -158,6 +158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 mCollectionTextView.setTextColor(Color.parseColor(textColorFocus));
                 mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
                 mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
+                initActionBar("",R.drawable.personal_center_selector,"馆藏珍品","",R.drawable.scan_selector);
                 break;
             case 2:
                 mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
@@ -168,6 +169,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
                 mNavigationTextView.setTextColor(Color.parseColor(textColorFocus));
                 mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
+                initActionBar("",R.drawable.personal_center_selector,"周庄导览","",R.drawable.scan_selector);
                 break;
             case 3:
                 mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
@@ -178,6 +180,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
                 mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
                 mStrategyTextView.setTextColor(Color.parseColor(textColorFocus));
+                initActionBar("",R.drawable.personal_center_selector,"个人中心","",R.drawable.scan_selector);
                 break;
         }
 

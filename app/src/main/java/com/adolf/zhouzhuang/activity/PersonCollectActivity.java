@@ -76,7 +76,6 @@ public class PersonCollectActivity extends BaseActivity {
                List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
                 List<Spots> favoriteSpotsList = getSpotsListFromIdList(favoriteList);
                 setListViewData(favoriteSpotsList);
-                Toast.makeText(PersonCollectActivity.this,"获取收藏列表成功",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -87,25 +86,6 @@ public class PersonCollectActivity extends BaseActivity {
         });
     }
 
-    public void cancelCollection(String spotsId){
-        RequestParams params = new RequestParams();
-        params.put("spotId",spotsId);
-        params.put("pid",SharedPreferencesUtils.getInt(this,"pid"));
-        AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                Toast.makeText(PersonCollectActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                Toast.makeText(PersonCollectActivity.this,"取消收藏失败",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
     private List<Spots> getSpotsListFromIdList(List<Integer> spots){
         List<Spots> spotsList = new ArrayList<>();
         for (int i = 0; i < spots.size(); i++) {

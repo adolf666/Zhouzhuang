@@ -40,7 +40,6 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="5dp"
-                android:text="王老师"
                 android:textColor="#cccc66"
                 android:textSize="15sp" />
         </RelativeLayout>

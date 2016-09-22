@@ -76,6 +76,13 @@ public class PersonalInfoActivity extends BaseActivity {
         are.setTypeface(Utils.getType(this, 3));
         mSaveBtn.setOnClickListener(this);
         RadioGroup group = (RadioGroup) this.findViewById(R.id.radioGroup);
+        if (null!=loginObj&&loginObj.getSex() != null) {
+         if(loginObj.getSex().equals("0")){
+             group.check(R.id.radioMale);
+         }else {
+             group.check(R.id.radioFemale);
+         }
+        }
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup arg0, int arg1) {
@@ -102,6 +109,10 @@ public class PersonalInfoActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
+                        loginObj.setArea(mUserArea.getText().toString());
+                        loginObj.setSex(mSex);
+                        loginObj.setUsername(mUserName.getText().toString());
+                        SharedPreferencesUtils.saveObject(PersonalInfoActivity.this,"AccountInfo",loginObj);
                         Toast.makeText(PersonalInfoActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }

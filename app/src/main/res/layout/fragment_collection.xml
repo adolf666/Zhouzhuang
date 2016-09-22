@@ -28,7 +28,8 @@
 
             <TextView
                 android:id="@+id/tv_label1"
-                android:layout_width="fill_parent"
+                android:layout_width="85dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="4dp"
                 android:background="#4A4A4A" />
         </LinearLayout>
@@ -57,7 +58,8 @@
 
             <TextView
                 android:id="@+id/tv_label2"
-                android:layout_width="fill_parent"
+                android:layout_width="85dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="4dp"
                 android:background="#FFFFFF" />
         </LinearLayout>
@@ -87,8 +89,9 @@
 
             <TextView
                 android:id="@+id/tv_label3"
-                android:layout_width="fill_parent"
                 android:layout_height="4dp"
+                android:layout_width="85dp"
+                android:layout_gravity="center_horizontal"
                 android:background="#FFFFFF" />
         </LinearLayout>
 
