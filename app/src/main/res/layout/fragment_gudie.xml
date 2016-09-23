@@ -142,18 +142,33 @@
         android:text="定位"
         android:visibility="gone"/>
 
+    <LinearLayout
+        android:id="@+id/ll_spots_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/ll_guide_list"
+        android:visibility="gone">
     <ListView
         android:id="@+id/lv_spots_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_guide_list"
         android:background="#ffffff"
-        android:visibility="gone" />
-    <ListView
-        android:id="@+id/lv_guide_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_guide_list"
-        android:background="#ffffff"
-        android:visibility="gone" />
+        android:visibility="gone"/>
+
+        <ListView
+            android:id="@+id/lv_guide_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_guide_list"
+            android:background="#ffffff"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#b3000000"/>
+    </LinearLayout>
+
 </RelativeLayout>

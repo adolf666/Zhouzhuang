@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,17 +64,9 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GudieFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GudieFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class GudieFragment extends BaseFragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -111,6 +104,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
    private UniversalDialog dialog;
     private TextView mTipLeft;
     private TextView mTipRight;
+    private LinearLayout mSpotsListLinearLayout;
+    private TextView mBackgroundTV;
 
     public GudieFragment() {
         // Required empty public constructor
@@ -153,23 +148,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         initViews(view);
         initBaiduMap();
         initSpotsListViewData();
-//        mLoactionBT.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 开启定位图层
-//                mBaiduMap.setMyLocationEnabled(true);
-//                // 定位初始化
-//                mLocationClient = new LocationClient(getActivity());
-//                mLocationClient.registerLocationListener(myListener);
-//                LocationClientOption option = new LocationClientOption();
-//                option.setOpenGps(true); // 打开gps
-//                option.setCoorType("bd09ll"); // 设置坐标类型
-//                option.setScanSpan(1000);
-//                mLocationClient.setLocOption(option);
-//                mLocationClient.start();
-//
-//            }
-//        });
         return view;
     }
 
@@ -188,6 +166,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mTipLeft = (TextView) view.findViewById(R.id.tv_tip_left);
         mTipRight = (TextView) view.findViewById(R.id.tv_tip_right);
         mTipLeft = (TextView) view.findViewById(R.id.tv_tip_left);
+        mSpotsListLinearLayout = (LinearLayout) view.findViewById(R.id.ll_spots_list);
+        mBackgroundTV = (TextView) view.findViewById(R.id.tv_bg);
         mNotice.setVisibility(View.GONE);
         mClose.setOnClickListener(this);
         mPause.setOnClickListener(this);
@@ -195,6 +175,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mLineRecommend.setOnClickListener(this);
         mSpotsListTV.setOnClickListener(this);
         mLoactionBT.setOnClickListener(this);
+        mBackgroundTV.setOnClickListener(this);
+        mBackgroundTV.requestFocus();
     }
 
     public void getSpotsList(){
@@ -241,13 +223,14 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         isLeftSpotsListViewVisible = false;
         mGuideListLV.setVisibility(View.GONE);
         mTipLeft.setVisibility(View.INVISIBLE);
-
+        mSpotsListLinearLayout.setVisibility(View.GONE);
         final Handler handler=new Handler();
         Runnable runnable=new Runnable(){
             @Override
             public void run() {
                 mSpotsListLV.setVisibility(isRightSpotsListViewVisible ? View.GONE : View.VISIBLE);
                 mTipRight.setVisibility(isRightSpotsListViewVisible ?View.INVISIBLE:View.VISIBLE);
+                mSpotsListLinearLayout.setVisibility(isRightSpotsListViewVisible ? View.GONE : View.VISIBLE);
                 isRightSpotsListViewVisible = !isRightSpotsListViewVisible;
             }
         };
@@ -257,6 +240,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         isRightSpotsListViewVisible = false;
         mSpotsListLV.setVisibility(View.GONE);
         mTipRight.setVisibility(View.INVISIBLE);
+        mSpotsListLinearLayout.setVisibility(View.GONE);
 
         Handler handler=new Handler();
         Runnable runnable= new Runnable(){
@@ -264,8 +248,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             public void run() {
                 mGuideListLV.setVisibility(isLeftSpotsListViewVisible ? View.GONE : View.VISIBLE);
                 mTipLeft.setVisibility(isLeftSpotsListViewVisible ?View.INVISIBLE:View.VISIBLE);
+                mSpotsListLinearLayout.setVisibility(isLeftSpotsListViewVisible ? View.GONE : View.VISIBLE);
                 isLeftSpotsListViewVisible = !isLeftSpotsListViewVisible;
-
             }
 
         };
@@ -421,17 +405,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private void initBaiduMap(){
         locationToZhouzhuang(31.121492,120.85681);
         addLayerToMap();
-//        // 开启定位图层
-//        mBaiduMap.setMyLocationEnabled(true);
-//        // 定位初始化
-//        mLocationClient = new LocationClient(getActivity());
-//        mLocationClient.registerLocationListener(myListener);
-//        LocationClientOption option = new LocationClientOption();
-//        option.setOpenGps(true); // 打开gps
-//        option.setCoorType("bd09ll"); // 设置坐标类型
-//        option.setScanSpan(1000);
-//        mLocationClient.setLocOption(option);
-//        mLocationClient.start();
 
     }
 
