@@ -90,7 +90,8 @@ public class LoginActivity extends BaseActivity{
                 SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
                 SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",loginObj);
                 SharedPreferencesUtils.putInt(LoginActivity.this,"pid",loginObj.getPid());
-                goToActivity();
+               // goToActivity();
+                finish();
             }
 
             @Override

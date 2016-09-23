@@ -1,9 +1,11 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.text.Editable;
 import android.text.Selection;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -41,10 +43,11 @@ public class PersonalInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_personal_info);
         initView();
+        Log.i("ddddddd","onCreate"+"PersonalInfoActivity");
     }
 
     private void initView() {
-        initActionBar("返回", R.drawable.back_selected, "修改个人信息", "", 0);
+        initActionBar("返回", R.drawable.back_selected, "完善个人信息", "", 0);
         mSaveBtn = (TextView) findViewById(R.id.tv_save_modify);
         mUserName = (EditText) findViewById(R.id.et_username);
         mUserArea =(EditText)findViewById(R.id.et_userarea);

@@ -55,7 +55,7 @@
             android:gravity="center"
             android:drawableTop="@mipmap/btn_menu04_default"
             android:textColor="#8e8e99"
-            android:text="游玩攻略"
+            android:text="个人中心"
             android:drawablePadding="7dp"/>
     </LinearLayout>
 </LinearLayout>

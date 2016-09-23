@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class PersonSettingActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_setting);
         initView();
+        Log.i("ddddddd","onCreate"+"PersonSettingActivity");
     }
     private void initView(){
         initActionBar("返回",R.drawable.back_selected,"个人设置","",0);
@@ -77,10 +79,6 @@ public class PersonSettingActivity extends BaseActivity{
            @Override
            public void onClick(DialogInterface dialog, int which) {
                dialog.dismiss();
-               Intent intent1 = new Intent();
-               intent1.setClass(PersonSettingActivity.this,MainActivity.class);
-               intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-               startActivity(intent1);
                SharedPreferencesUtils.putBoolean(PersonSettingActivity.this,"AutoLogin",false);
                SharedPreferencesUtils.getString(PersonSettingActivity.this,"AccountInfo",null);
                finish();

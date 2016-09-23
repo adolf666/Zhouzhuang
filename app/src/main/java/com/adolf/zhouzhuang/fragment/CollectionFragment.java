@@ -25,6 +25,7 @@ import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.Exhibit;
 import com.adolf.zhouzhuang.resBody.ExhibitResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.adolf.zhouzhuang.util.Utils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -125,10 +126,9 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         mLabel2= (TextView)view.findViewById(R.id.tv_label2);
         mLabel3= (TextView)view.findViewById(R.id.tv_label3);
 
-        Typeface typeface = Typeface.createFromAsset (getActivity().getAssets() , "fonts/FZSQKB.TTF" );
-        tempExhibit.setTypeface(typeface);
-        displayExhibit.setTypeface(typeface);
-        spotsExhibit.setTypeface(typeface);
+        tempExhibit.setTypeface(Utils.getType(getActivity(), 0));
+        displayExhibit.setTypeface(Utils.getType(getActivity(), 0));
+        spotsExhibit.setTypeface(Utils.getType(getActivity(), 0));
         tempExhibit.setOnClickListener(this);
         displayExhibit.setOnClickListener(this);
         spotsExhibit.setOnClickListener(this);
@@ -152,6 +152,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         ListView lv = new ListView(getActivity());
         NewsAdapter adapter = new NewsAdapter(getActivity(),exhibits);
         lv.setAdapter(adapter);
+        lv.setDividerHeight(20);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

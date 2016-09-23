@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="10dp">
 
     <ImageView
         android:id="@+id/iv_image"
@@ -20,7 +21,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:textSize="15sp"
         android:textColor="#000000"/>
 
@@ -35,5 +36,6 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="13sp"
+        android:lineSpacingExtra="1dp"
         android:textColor="#333333"/>
 </LinearLayout>
