@@ -61,9 +61,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     private TextView tempExhibit;
     private TextView displayExhibit;
     private TextView spotsExhibit;
-    private TextView mLabel1;
-    private TextView mLabel2;
-    private TextView mLabel3;
+
 
     public CollectionFragment() {
         // Required empty public constructor
@@ -122,13 +120,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         tempExhibit = (TextView) view.findViewById(R.id.text1);
         displayExhibit = (TextView) view.findViewById(R.id.text2);
         spotsExhibit = (TextView) view.findViewById(R.id.text3);
-        mLabel1= (TextView)view.findViewById(R.id.tv_label1);
-        mLabel2= (TextView)view.findViewById(R.id.tv_label2);
-        mLabel3= (TextView)view.findViewById(R.id.tv_label3);
 
-        tempExhibit.setTypeface(Utils.getType(getActivity(), 0));
-        displayExhibit.setTypeface(Utils.getType(getActivity(), 0));
-        spotsExhibit.setTypeface(Utils.getType(getActivity(), 0));
         tempExhibit.setOnClickListener(this);
         displayExhibit.setOnClickListener(this);
         spotsExhibit.setOnClickListener(this);
@@ -169,7 +161,6 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         }else{
             mExhibitAdapter.notifyDataSetChanged();
         }
-
     }
 
     @Override
@@ -207,12 +198,9 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     }
 
     private  void tabSwitch(int position){
-        tempExhibit.setTextColor(position==0?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
-        displayExhibit.setTextColor(position==1?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
-        spotsExhibit.setTextColor(position==2?Color.parseColor("#cccc66"):Color.parseColor("#666666"));
-        mLabel1.setBackgroundColor(position==0?Color.parseColor("#4A4A4A"):Color.parseColor("#ffffff"));
-        mLabel2.setBackgroundColor(position==1?Color.parseColor("#4A4A4A"):Color.parseColor("#ffffff"));
-        mLabel3.setBackgroundColor(position==2?Color.parseColor("#4A4A4A"):Color.parseColor("#ffffff"));
+        tempExhibit.setBackground(position==0?getResources().getDrawable(R.mipmap.tab01_focus):getResources().getDrawable(R.mipmap.tab01_default));
+        displayExhibit.setBackground(position==1?getResources().getDrawable(R.mipmap.tab02_focus):getResources().getDrawable(R.mipmap.tab02_default));
+        spotsExhibit.setBackground(position==2?getResources().getDrawable(R.mipmap.tab03_focus):getResources().getDrawable(R.mipmap.tab03_default));
     }
     @Override
     public void onClick(View view) {

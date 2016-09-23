@@ -3,23 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="10dp">
-
+   >
+<TextView
+    android:id="@+id/view_divide"
+    android:layout_width="match_parent"
+    android:layout_height="10dp"
+    android:background="#8e8e99"
+    android:visibility="gone"
+    />
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:scaleType="fitXY"
-        android:src="@mipmap/box01_image_eg"/>
+        android:src="@mipmap/box01_image"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@mipmap/box02_info">
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="吴地遗珍"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="8dp"
         android:textSize="15sp"
@@ -30,12 +41,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="一万年前，苏州，一万年前，苏州，一万年前，苏州一万年前，苏州一万年前，苏州一万年前，苏州一万年前，苏州"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="8dp"
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="13sp"
         android:lineSpacingExtra="1dp"
         android:textColor="#333333"/>
+        </LinearLayout>
 </LinearLayout>

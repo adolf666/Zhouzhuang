@@ -27,7 +27,7 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by Administrator on 2016/9/15.
  */
-public class PersonalCollectAdapter extends BaseAdapter {
+public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<Spots> collectList;
 
@@ -73,15 +73,27 @@ public class PersonalCollectAdapter extends BaseAdapter {
         }
         viewHolder.mName.setText(collectList.get(position).getTitle());
         viewHolder.mName.setTypeface(Utils.getType(context, 3));
-        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.imageView.setTag(position);
+        viewHolder.imageView.setOnClickListener(this);
+        /*viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cancelCollection(String.valueOf(collectList.get(position).getPid()));
                 collectList.remove(position);
                 notifyDataSetChanged();
             }
-        });
+        });*/
         return convertView;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.img_delete_collect){
+            int position =(Integer) view.getTag();
+            cancelCollection(String.valueOf(collectList.get(position).getPid()));
+            collectList.remove(position);
+            notifyDataSetChanged();
+        }
     }
 
     private static class ViewHolder {

@@ -110,7 +110,6 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
                 Intent intentPerson = new Intent();
                 if (Utils.isAutoLogin(getActivity())){
                     intentPerson.setClass(getActivity(),PersonalInfoActivity.class);
-                    startActivity(intentPerson);
                 }else{
                     intentPerson.setClass(getActivity(), LoginActivity.class);
                 }
@@ -135,7 +134,6 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
                 break;
         }
     }
-
     @Override
     public void onResume() {
         super.onResume();
