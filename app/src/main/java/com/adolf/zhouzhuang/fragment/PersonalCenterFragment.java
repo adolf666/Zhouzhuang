@@ -96,7 +96,6 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
         Intent intent = new Intent();
         if (Utils.isAutoLogin(getActivity())){
             intent.setClass(getActivity(),classToGo);
-            startActivity(intent);
         }else{
             intent.setClass(getActivity(), LoginActivity.class);
             intent.putExtra("GOTO_ACTIVITY",flagToGo);
