@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tv_scenery"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:paddingLeft="28dp"
+        android:drawableLeft="@mipmap/icon_sound"
+        android:text="沈厅"
+        android:textSize="17sp"
+        android:textColor="#333333"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:drawableRight="@mipmap/arrow_default"
+        android:background="#ebFFFFFF"
+        android:paddingRight="15dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="28dp"
+        android:layout_alignBottom="@+id/tv_scenery"
+        android:background="#e6e6e6"/>
+
+</RelativeLayout>

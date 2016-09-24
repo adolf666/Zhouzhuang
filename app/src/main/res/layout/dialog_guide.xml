@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:background="@mipmap/mask_jingdain"
         android:paddingBottom="15dp"
-        android:paddingTop="15dp"
+        android:paddingTop="10dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
     <RelativeLayout
@@ -22,15 +22,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="省厅"
+        android:layout_centerVertical="true"
         android:textColor="#ffffff"
         android:gravity="center_vertical"
         android:textSize="15sp"
         />
-        <TextView
+        <ImageView
             android:id="@+id/tv_close"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:background="@drawable/dialog_selector_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/dialog_selector_close"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"/>

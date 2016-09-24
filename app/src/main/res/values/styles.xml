@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="text_18_ffffff">
         <item name="android:textSize">18.0dip</item>
         <item name="android:textColor">#ffffffff</item>
@@ -60,17 +61,19 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 模糊 -->
     </style>
+
     <style name="VerticalDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
         <item name="android:background">@drawable/general_item_divider</item>
     </style>
 
-    <!--<style name="StyleProgressBarMini" parent="@android:style/Widget.ProgressBar.Horizontal">-->
-    <!--<item name="android:maxHeight">50dip</item>-->
-    <!--<item name="android:minHeight">10dip</item>-->
-    <!--<item name="android:indeterminateOnly">false</item>-->
-    <!--<item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>-->
-    <!--<item name="android:progressDrawable">@drawable/shape_progressbar_mini</item>-->
-    <!--</style>-->
+    <style name="StyleProgressBarMini" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">50dip</item>
+        <item name="android:minHeight">10dip</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:progressDrawable">@drawable/shape_progressbar_mini</item>
+    </style>
+
 </resources>

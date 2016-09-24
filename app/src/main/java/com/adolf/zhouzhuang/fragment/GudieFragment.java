@@ -2,10 +2,11 @@ package com.adolf.zhouzhuang.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
+import com.adolf.zhouzhuang.adapter.SpotsListAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.util.Constants;
@@ -34,7 +37,6 @@ import com.adolf.zhouzhuang.util.Utils;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -78,16 +80,17 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private BMapManager bMapManager;
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListenner();
-    private Button mLoactionBT;
+    private TextView mLoactionTV;
     boolean isFirstLoc = true; // 是否首次定位
 
     private OnFragmentInteractionListener mListener;
-    private GuideListAdapter adapter;
+    private GuideListAdapter mGuideListAdapter;
+    private SpotsListAdapter mSpotsListAdapter;
 
-    private View mLineRecommend;
     private TextView mWalkNavigationTV,mSpotsListTV;
     private ListView mSpotsListLV;
     private ListView mGuideListLV;
+    private ImageView mFrameIV;
     private ImageView mPause;
     private ImageView mClose;
     private RelativeLayout mNotice;
@@ -102,11 +105,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.btn_voice_default);
    private UniversalDialog dialog;
-    private TextView mTipLeft;
-    private TextView mTipRight;
     private LinearLayout mSpotsListLinearLayout;
     private TextView mBackgroundTV;
-
+    private List<Spots> spotsList;
+    private ProgressBar mProgressBar;
+    private AnimationDrawable animationDrawable;
     public GudieFragment() {
         // Required empty public constructor
     }
@@ -147,54 +150,56 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.fragment_gudie, container, false);
         initViews(view);
         initBaiduMap();
-        initSpotsListViewData();
+        initGuideListViewAndSpotsListViewData();
         return view;
     }
 
     public void initViews(View view){
         mMapView = (MapView) view.findViewById(R.id.bmapView);
-        mLoactionBT = (Button) view.findViewById(R.id.bt_loaction);
+        mLoactionTV = (TextView) view.findViewById(R.id.tv_loaction);
         mWalkNavigationTV = (TextView) view.findViewById(R.id.tv_walk_navigetion);
-        mLineRecommend = view.findViewById(R.id.tv_recommend_line);
         mSpotsListTV = (TextView) view.findViewById(R.id.tv_spots_list);
         mSpotsListLV = (ListView) view.findViewById(R.id.lv_spots_list);
         mGuideListLV = (ListView) view.findViewById(R.id.lv_guide_list);
+        mFrameIV = (ImageView)view.findViewById(R.id.iv_frame);
         mPause = (ImageView)view.findViewById(R.id.img_pause);
         mClose = (ImageView)view.findViewById(R.id.img_close);
         mNotice = (RelativeLayout)view.findViewById(R.id.rl_notice);
         mVocie_Prompt = (TextView)view.findViewById(R.id.tv_voice_prompt);
-        mTipLeft = (TextView) view.findViewById(R.id.tv_tip_left);
-        mTipRight = (TextView) view.findViewById(R.id.tv_tip_right);
-        mTipLeft = (TextView) view.findViewById(R.id.tv_tip_left);
         mSpotsListLinearLayout = (LinearLayout) view.findViewById(R.id.ll_spots_list);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progressbar);
         mBackgroundTV = (TextView) view.findViewById(R.id.tv_bg);
         mNotice.setVisibility(View.GONE);
         mClose.setOnClickListener(this);
         mPause.setOnClickListener(this);
         mWalkNavigationTV.setOnClickListener(this);
-        mLineRecommend.setOnClickListener(this);
         mSpotsListTV.setOnClickListener(this);
-        mLoactionBT.setOnClickListener(this);
+        mLoactionTV.setOnClickListener(this);
         mBackgroundTV.setOnClickListener(this);
         mBackgroundTV.requestFocus();
+        mFrameIV.setBackgroundResource(R.drawable.anim_paly_audio);
+        animationDrawable =(AnimationDrawable) mFrameIV.getBackground();
     }
 
     public void getSpotsList(){
         mSpotsList = mSpotsDataBaseHelper.getAllSpots();
     }
 
-    public void initSpotsListViewData(){
+    public void initGuideListViewAndSpotsListViewData(){
         SpotsDataBaseHelper spotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
-        List<Spots> spotsList = spotsDataBaseHelper.getAllSpots();
+        spotsList = spotsDataBaseHelper.getAllSpots();
         if (spotsList != null && spotsList.size()>0){
-           adapter = new GuideListAdapter(spotsList,getActivity());
-            mSpotsListLV.setAdapter(adapter);
-            mGuideListLV.setAdapter(adapter);
+           mGuideListAdapter = new GuideListAdapter(spotsList,getActivity());
+            mSpotsListAdapter = new SpotsListAdapter(spotsList,getActivity());
+            mSpotsListLV.setAdapter(mSpotsListAdapter);
+            mGuideListLV.setAdapter(mGuideListAdapter);
         }
         mGuideListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Utils.openBaiduMap(getActivity(),120.85622,31.11700,"123","步行导航");
+                setTabResourceState();
+                mSpotsListLinearLayout.setVisibility(View.GONE);
                 isLeftSpotsListViewVisible = false;
                 mGuideListLV.setVisibility(View.GONE);
             }
@@ -203,18 +208,19 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mSpotsListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setmSelectedIndex(position);
+                setTabResourceState();
+                mSpotsListLinearLayout.setVisibility(View.GONE);
                 if (position == 0){
                     locationToZhouzhuang(31.11500, 120.85522);
                 }else if(position == 1){
                     locationToZhouzhuang(31.11500, 120.85742);
                 }else{
-//                    locationToZhouzhuang(Double.parseDouble(((Spots)adapter.getItem(position)).getLat()),Double.parseDouble(((Spots)adapter.getItem(position)).getLng()));
+//                    locationToZhouzhuang(Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLat()),Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLng()));
                     locationToZhouzhuang(31.121492,120.85681);
                 }
-
                 isRightSpotsListViewVisible = false;
                 mSpotsListLV.setVisibility(View.GONE);
+                showSpotsDialog(spotsList.get(position));
             }
         });
     }
@@ -222,33 +228,33 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     public void isShowRightSpotList(){
         isLeftSpotsListViewVisible = false;
         mGuideListLV.setVisibility(View.GONE);
-        mTipLeft.setVisibility(View.INVISIBLE);
         mSpotsListLinearLayout.setVisibility(View.GONE);
+        mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
         final Handler handler=new Handler();
         Runnable runnable=new Runnable(){
             @Override
             public void run() {
                 mSpotsListLV.setVisibility(isRightSpotsListViewVisible ? View.GONE : View.VISIBLE);
-                mTipRight.setVisibility(isRightSpotsListViewVisible ?View.INVISIBLE:View.VISIBLE);
                 mSpotsListLinearLayout.setVisibility(isRightSpotsListViewVisible ? View.GONE : View.VISIBLE);
+                mSpotsListTV.setBackgroundResource(isRightSpotsListViewVisible?R.drawable.spot_list_selector :  R.mipmap.btn_scenicspot_focus);
                 isRightSpotsListViewVisible = !isRightSpotsListViewVisible;
             }
         };
         handler.postDelayed(runnable, 100);
     }
+
     public void isShowLeftSpotList(){
         isRightSpotsListViewVisible = false;
         mSpotsListLV.setVisibility(View.GONE);
-        mTipRight.setVisibility(View.INVISIBLE);
         mSpotsListLinearLayout.setVisibility(View.GONE);
-
+        mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
         Handler handler=new Handler();
         Runnable runnable= new Runnable(){
             @Override
             public void run() {
                 mGuideListLV.setVisibility(isLeftSpotsListViewVisible ? View.GONE : View.VISIBLE);
-                mTipLeft.setVisibility(isLeftSpotsListViewVisible ?View.INVISIBLE:View.VISIBLE);
                 mSpotsListLinearLayout.setVisibility(isLeftSpotsListViewVisible ? View.GONE : View.VISIBLE);
+                mWalkNavigationTV.setBackgroundResource(isLeftSpotsListViewVisible ?R.drawable.navigation_selector : R.mipmap.btn_guide_focus);
                 isLeftSpotsListViewVisible = !isLeftSpotsListViewVisible;
             }
 
@@ -260,26 +266,28 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.bt_loaction:
-                // 开启定位图层
-                mBaiduMap.setMyLocationEnabled(true);
-                // 定位初始化
-                mLocationClient = new LocationClient(getActivity());
-                mLocationClient.registerLocationListener(myListener);
-                LocationClientOption option = new LocationClientOption();
-                option.setOpenGps(true); // 打开gps
-                option.setCoorType("bd09ll"); // 设置坐标类型
-                option.setScanSpan(1000);
-                mLocationClient.setLocOption(option);
-                mLocationClient.start();
+            case R.id.tv_loaction:
+//                // 开启定位图层
+//                mBaiduMap.setMyLocationEnabled(true);
+//                // 定位初始化
+//                mLocationClient = new LocationClient(getActivity());
+//                mLocationClient.registerLocationListener(myListener);
+//                LocationClientOption option = new LocationClientOption();
+//                option.setOpenGps(true); // 打开gps
+//                option.setCoorType("bd09ll"); // 设置坐标类型
+//                option.setScanSpan(1000);
+//                mLocationClient.setLocOption(option);
+//                mLocationClient.start();
+
+                locationToZhouzhuang(31.121492,120.85681);
                 break;
             case R.id.bt_audio_play:
             if (mSpots.getIsDownLoadAudio() == null || mSpots.getIsDownLoadAudio() == false){
                     downloadAudio();
                 }else{
                     playAudio(mSpots.getVideoLocation());
-                dialog.dismiss();
                 }
+                dialog.dismiss();
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -296,10 +304,16 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 dialog.dismiss();
                 break;
             case R.id.bt_favorite:
-                addFavorite();
-                break;
-            case R.id.tv_recommend_line:
-
+                if (!Utils.isAutoLogin(getActivity())){
+                    Toast.makeText(getActivity(),"您还没登录，请先登录...",Toast.LENGTH_SHORT).show();
+                }else{
+                    if (mSpots.getIsFavorite() == null || !mSpots.getIsFavorite()){
+                        addFavorite();
+                    }else{
+                        cancelCollection();
+                    }
+                }
+                dialog.dismiss();
                 break;
             case R.id.tv_spots_list:
                 isShowRightSpotList();
@@ -308,23 +322,37 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 SoundBroadUtils.getInstance().pauseSound(isPause);
                 if(isPause){
                     mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-                    mVocie_Prompt.setText("正在为您播放沈厅语音导览");
+                    animationDrawable.start();
+                    mVocie_Prompt.setText("正在为您播放"+mSpots.getTitle()+"语音导览...");
                 }else {
                     mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
-                    mVocie_Prompt.setText("当前暂停播放“沈厅”语音导览");
+                    animationDrawable.stop();
+                    mVocie_Prompt.setText("当前暂停播放"+mSpots.getTitle()+"语音导览");
                 }
                 isPause = !isPause;
                 break;
             case R.id.img_close:
                 mNotice.setVisibility(View.GONE);
+                animationDrawable.stop();
                 SoundBroadUtils.getInstance().stopSound();
                 break;
             case R.id.tv_close:
                 dialog.dismiss();
-
+                break;
+            case R.id.tv_bg:
+                isRightSpotsListViewVisible = false;
+                mSpotsListLV.setVisibility(View.GONE);
+                mSpotsListLinearLayout.setVisibility(View.GONE);
+                isLeftSpotsListViewVisible = false;
+                mGuideListLV.setVisibility(View.GONE);
+                setTabResourceState();
         }
     }
 
+    public void setTabResourceState(){
+        mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
+        mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
+    }
 
     public void downloadAudio(){
         final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO +"/"+mSpots.getCreateTime() + ".mp3";
@@ -335,16 +363,24 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
                 super.onProgress(bytesWritten, totalSize);
+                int count = (int) ((bytesWritten * 1.0 / totalSize) * 100);
+                mProgressBar.setProgress(count);
+                Log.i("Progress","bytesWritten = " + bytesWritten +"**************totalSize=" +totalSize);
             }
 
             @Override
             public void onStart() {
                 super.onStart();
+                mProgressBar.setVisibility(View.VISIBLE);
+                mNotice.setVisibility(View.GONE);
+                animationDrawable.stop();
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
+                mProgressBar.setVisibility(View.GONE);
+                downloadFinish(filePath);
             }
 
             @Override
@@ -376,10 +412,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 
     public void playAudio(String filePath){
 
-      SoundBroadUtils.getInstance().playSound(getActivity(), R.raw._data_video_spot_3);
+      SoundBroadUtils.getInstance().playSound(getActivity(), filePath);
         mNotice.setVisibility(View.VISIBLE);
+        animationDrawable.start();
         mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-        mVocie_Prompt.setText("正在为您播放沈厅语音导览");
+        mVocie_Prompt.setText("正在为您播放" +mSpots.getTitle()+"语音导览...");
 
     }
 
@@ -421,9 +458,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
     public void addLayerToMap(){
-        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromResource(R.mipmap.laier);
-        LatLng southwest = new LatLng(31.111000, 120.84622);
-        LatLng northeast = new LatLng(31.121222, 120.86688);
+        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromResource(R.mipmap.layer);
+        LatLng southwest = new LatLng(31.106000, 120.84260);
+        LatLng northeast = new LatLng(31.138000, 120.87570);
         LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
                 .include(southwest).build();
         OverlayOptions ooGround = new GroundOverlayOptions()
@@ -443,39 +480,47 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 latlng = new LatLng(Double.parseDouble(mSpotsList.get(i).getLng()),Double.parseDouble(mSpotsList.get(i).getLat()));
             }
             MarkerOptions ooA = new MarkerOptions().position(latlng).icon(bdA).zIndex(9).draggable(false);
-            ooA.animateType(MarkerOptions.MarkerAnimateType.drop);
+            ooA.animateType(MarkerOptions.MarkerAnimateType.grow);
             Marker marker = (Marker) (mBaiduMap.addOverlay(ooA));
             marker.setTitle(mSpotsList.get(i).getTitle());
         }
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             public boolean onMarkerClick(final Marker marker) {
                 mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
-                dialog = new UniversalDialog(getActivity());
-                dialog.show();
-                dialog.setContentView(initDialogView(mSpots));
-                dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
-                dialog.setTitle(mSpots.getTitle());
-                Toast.makeText(getActivity(),"点击了"+ marker.getTitle(),Toast.LENGTH_SHORT).show();
+                showSpotsDialog(mSpots);
                 return true;
             }
         });
     }
 
+    private void showSpotsDialog(Spots spots){
+        mSpots = spots;
+        if (dialog == null){
+            dialog = new UniversalDialog(getActivity());
+        }
+        dialog.show();
+        dialog.setContentView(initDialogView(mSpots));
+        dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
+        dialog.setTitle(mSpots.getTitle());
+    }
+
     private View initDialogView(Spots spots){
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_guide,null);
-        Button audioPlay  = (Button) view.findViewById(R.id.bt_audio_play);
-        Button detail = (Button) view.findViewById(R.id.bt_detail);
-        Button navigation = (Button) view.findViewById(R.id.tv_navigation_map);
-        Button favorite = (Button) view.findViewById(R.id.bt_favorite);
-        TextView tv_spot_title = (TextView) view.findViewById(R.id.tv_spot_title);
-        TextView tv_close = (TextView) view.findViewById(R.id.tv_close);
+        View mDialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_guide,null);
+        Button audioPlay  = (Button) mDialogView.findViewById(R.id.bt_audio_play);
+        Button detail = (Button) mDialogView.findViewById(R.id.bt_detail);
+        Button navigation = (Button) mDialogView.findViewById(R.id.tv_navigation_map);
+        Button favorite = (Button) mDialogView.findViewById(R.id.bt_favorite);
+        TextView tv_spot_title = (TextView) mDialogView.findViewById(R.id.tv_spot_title);
+        ImageView tv_close = (ImageView) mDialogView.findViewById(R.id.tv_close);
+        boolean isNoFavor = spots.getIsFavorite() == null|| spots.getIsFavorite() == false;
+        favorite.setBackgroundResource(isNoFavor?R.drawable.dialog_selector_add_favor:R.drawable.dialog_selector_favor);
         tv_spot_title.setText(spots.getTitle());
         detail.setOnClickListener(this);
         audioPlay.setOnClickListener(this);
         navigation.setOnClickListener(this);
         favorite.setOnClickListener(this);
         tv_close.setOnClickListener(this);
-        return view;
+        return mDialogView;
     }
 
     public class MyLocationListenner implements BDLocationListener{
@@ -546,6 +591,27 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 Toast.makeText(getActivity(),"收藏失败",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void cancelCollection(){
+        RequestParams params = new RequestParams();
+        params.put("spotId",mSpots.getPid());
+        params.put("userId", SharedPreferencesUtils.getInt(getActivity(),"pid"));
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                mSpots.setIsFavorite(false);
+                mSpotsDataBaseHelper.updateSpots(mSpots);
+                Toast.makeText(getActivity(),"取消收藏成功",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Toast.makeText(getActivity(),"取消收藏失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

@@ -1,37 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:gravity="center_vertical">
+    android:layout_height="match_parent">
 
 
     <TextView
         android:id="@+id/tv_scenery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:drawableLeft="@mipmap/btn_voice_default"
-        android:paddingRight="15dp"
-        android:paddingBottom="3dp"
-        android:paddingTop="3dp"
+        android:paddingLeft="28dp"
+        android:drawableLeft="@mipmap/icon_walkto"
         android:text="沈厅"
         android:textSize="17sp"
-        android:paddingLeft="15dp"
-        android:textColor="#666666"
+        android:textColor="#333333"
+        android:drawablePadding="10dp"
         android:gravity="center_vertical"
-        android:drawableRight="@mipmap/arrow_default"/>
+        android:drawableRight="@mipmap/arrow_default"
+        android:background="#ebFFFFFF"
+        android:paddingRight="15dp"/>
 
-    <ImageView
-        android:id="@+id/iv_selected_scenery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="30dp"
-        android:src="@mipmap/guide_list_selected"
-        android:visibility="invisible" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="28dp"
+        android:layout_alignBottom="@+id/tv_scenery"
+        android:background="#e6e6e6"/>
 
 </RelativeLayout>

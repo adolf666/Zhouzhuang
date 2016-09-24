@@ -21,18 +21,10 @@ import java.util.List;
 public class GuideListAdapter extends BaseAdapter {
     private List<Spots> mList;
     private Context mContext;
-    private int mSelectedIndex = -1;
 
     public GuideListAdapter(List<Spots> mList, Context mContext) {
         this.mList = mList;
         this.mContext = mContext;
-    }
-
-    public void setmSelectedIndex(int index){
-        if (index>=0){
-            mSelectedIndex = index;
-        }
-        notifyDataSetChanged();
     }
 
     @Override
@@ -56,20 +48,17 @@ public class GuideListAdapter extends BaseAdapter {
         if (null == convertView) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_guide_list, null);
-            viewHolder.image = (ImageView) convertView.findViewById(R.id.iv_selected_scenery);
             viewHolder.title = (TextView) convertView.findViewById(R.id.tv_scenery);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.title.setText(mList.get(position).getTitle());
-        viewHolder.image.setVisibility(mSelectedIndex == position ? View.VISIBLE:View.INVISIBLE);
         return convertView;
 
     }
 
     private static class ViewHolder {
-        ImageView image;
         TextView title;
     }
 }

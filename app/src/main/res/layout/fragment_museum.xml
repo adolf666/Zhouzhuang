@@ -10,7 +10,7 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:default_image="@mipmap/loading2"
+        app:default_image="@mipmap/banner_default"
         app:indicator_drawable_selected="@mipmap/point_focus"
         app:indicator_drawable_unselected="@mipmap/point_default"
         app:indicator_height="6dp"

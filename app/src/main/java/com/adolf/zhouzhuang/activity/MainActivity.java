@@ -19,6 +19,7 @@ import com.adolf.zhouzhuang.fragment.PersonalCenterFragment;
 import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
+import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.CustomViewPager;
 
@@ -188,5 +189,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 break;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SoundBroadUtils.getInstance().stopSound();
     }
 }

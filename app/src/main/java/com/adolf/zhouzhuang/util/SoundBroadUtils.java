@@ -42,6 +42,16 @@ public class SoundBroadUtils {
         playBroadSound(context, resId);
     }
 
+    public synchronized void playSound(final Context context, String filePath) {
+
+        if(is_Playing){
+            stopSound();
+
+        }
+        is_Playing=true;
+        playBroadSound(context, filePath);
+    }
+
     public void  pauseSound(boolean is_pause){
         if(mp != null){
             if(is_pause){
@@ -89,7 +99,7 @@ public class SoundBroadUtils {
             is_Playing = false;
         }
     }
-   /* private void playBroadSound(final Context context, final String filePath){
+   private void playBroadSound(final Context context, final String filePath){
         if(mp != null){
             mp.release();
             mp = null;
@@ -105,7 +115,7 @@ public class SoundBroadUtils {
                         playBroadSound(context,filePath);
                     }else{
                         bocast_time = 1;
-                        is_palying = false;
+                        is_Playing = false;
                         mp.release();
                     }
                 }
@@ -113,10 +123,10 @@ public class SoundBroadUtils {
         } catch (Exception e) {
             e.printStackTrace();
             bocast_time = 1;
-            is_palying = false;
+            is_Playing = false;
             mp.release();
         }
-    }*/
+    }
 
     public static String getLogTag() {
         return SoundBroadUtils.class.getSimpleName();

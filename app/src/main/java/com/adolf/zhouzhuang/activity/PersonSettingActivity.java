@@ -12,8 +12,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
+import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by gpp on 2016/9/8 0008.
@@ -23,6 +35,7 @@ public class PersonSettingActivity extends BaseActivity{
     private RelativeLayout mModifyPassword;
     private TextView mCleanStore;
     private TextView mLoginOff;
+    private SpotsDataBaseHelper mSpotsDataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +45,7 @@ public class PersonSettingActivity extends BaseActivity{
     }
     private void initView(){
         initActionBar("返回",R.drawable.back_selected,"个人设置","",0);
-
+        mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         mModifyPassword = (RelativeLayout)findViewById(R.id.rl_modify_password);
         mCleanStore = (TextView)findViewById(R.id.clean_store);
         mLoginOff = (TextView)findViewById(R.id.login_off);
@@ -79,9 +92,8 @@ public class PersonSettingActivity extends BaseActivity{
            @Override
            public void onClick(DialogInterface dialog, int which) {
                dialog.dismiss();
-               SharedPreferencesUtils.putBoolean(PersonSettingActivity.this,"AutoLogin",false);
-               SharedPreferencesUtils.getString(PersonSettingActivity.this,"AccountInfo",null);
-               finish();
+               getAllSpots();
+
               }
            });
          builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -91,5 +103,27 @@ public class PersonSettingActivity extends BaseActivity{
                  }
          });
         builder.create().show();
+    }
+
+    public void getAllSpots(){
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.ALL_SPOTS, new JsonHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                List<Spots> spotsList = GsonUtil.jsonToList(response,"data",Spots.class);
+                mSpotsDataBaseHelper.insertAllSpotsList(spotsList);
+                SharedPreferencesUtils.putBoolean(PersonSettingActivity.this,"AutoLogin",false);
+                SharedPreferencesUtils.getString(PersonSettingActivity.this,"AccountInfo",null);
+                finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                showToast("注销失败...");
+            }
+        });
+
     }
 }
