@@ -3,6 +3,7 @@ package com.adolf.zhouzhuang.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.util.Utils;
@@ -32,6 +33,7 @@ public class PersonSuggestionActivity extends BaseActivity{
                 finish();
                 break;
             case R.id.tv_submit:
+                Toast.makeText(this,"提交成功",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }}
