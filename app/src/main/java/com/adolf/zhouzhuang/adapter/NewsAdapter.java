@@ -60,11 +60,8 @@ public class NewsAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if(position==0){
-            viewHolder.mDivide.setVisibility(View.VISIBLE);
-        }else {
-            viewHolder.mDivide.setVisibility(View.GONE);
-        }
+
+
         viewHolder.title.setText(exhibitList.get(position).getTitle());
         viewHolder.description.setText(exhibitList.get(position).getBrief());
         viewHolder.title.setTypeface(Utils.getType(context,0));

@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp"
         android:layout_marginTop="15dp"
         android:background="@mipmap/bg_twoinput01">
         <TextView
@@ -29,6 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
+            android:layout_marginLeft="20dp"
+            android:textColorHint="#aaaaaa"
             android:hint="输入用户名"/>
     </LinearLayout>
 
@@ -36,8 +38,8 @@
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp"
         android:background="@mipmap/bg_twoinput02">
         <TextView
             android:id="@+id/tv_password"
@@ -52,7 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
+            android:layout_marginLeft="20dp"
             android:hint="输入登录密码"
+            android:textColorHint="#aaaaaa"
             android:inputType="textPassword"/>
     </LinearLayout>
 
@@ -62,8 +66,8 @@
         android:layout_height="wrap_content"
         android:text="立即登录"
         android:textColor="#FFFFFF"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:background="@drawable/login_selector"/>

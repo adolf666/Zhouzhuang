@@ -21,6 +21,7 @@ import com.adolf.zhouzhuang.activity.PersonSettingActivity;
 import com.adolf.zhouzhuang.activity.PersonSuggestionActivity;
 import com.adolf.zhouzhuang.activity.PersonalInfoActivity;
 import com.adolf.zhouzhuang.activity.RegisterActivity;
+import com.adolf.zhouzhuang.adapter.PersonalCollectAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
@@ -92,7 +93,7 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
         mPersonInfo.setVisibility(View.VISIBLE);
     }
 
-    private void isLoginFirstAndGoToActivity(Class<?> classToGo,int flagToGo){
+    /*private void isLoginFirstAndGoToActivity(Class<?> classToGo,int flagToGo){
         Intent intent = new Intent();
         if (Utils.isAutoLogin(getActivity())){
             intent.setClass(getActivity(),classToGo);
@@ -101,7 +102,7 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
             intent.putExtra("GOTO_ACTIVITY",flagToGo);
         }
         startActivity(intent);
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -116,15 +117,27 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
                 startActivity(intentPerson);
                 break;
             case R.id.tv_setting:
-                isLoginFirstAndGoToActivity(PersonSettingActivity.class,Constants.SETTING_PAGE);
+                Intent intentSetting = new Intent();
+                if (Utils.isAutoLogin(getActivity())){
+                    intentSetting.setClass(getActivity(),PersonSettingActivity.class);
+                }else{
+                    intentSetting.setClass(getActivity(), LoginActivity.class);
+                }
+                startActivity(intentSetting);
                 break;
             case R.id.tv_suggestion:
-                Intent intent3 = new Intent();
-                intent3.setClass(getActivity(), PersonSuggestionActivity.class);
-                startActivity(intent3);
+                Intent intentSuggestion = new Intent();
+                intentSuggestion.setClass(getActivity(), PersonSuggestionActivity.class);
+                startActivity(intentSuggestion);
                 break;
             case R.id.tv_collect:
-                isLoginFirstAndGoToActivity(PersonCollectActivity.class,Constants.COLLECTION_LIST_PAGE);
+                Intent intentCollect = new Intent();
+                if (Utils.isAutoLogin(getActivity())){
+                    intentCollect.setClass(getActivity(),PersonCollectActivity.class);
+                }else{
+                    intentCollect.setClass(getActivity(), LoginActivity.class);
+                }
+                startActivity(intentCollect);
                 break;
             case R.id.iv_portrait:
             case R.id.tv_name:

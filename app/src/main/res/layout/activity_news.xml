@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:orientation="vertical"
+    android:orientation="vertical"
+    android:background="#e6e6e6"
     tools:context="com.adolf.zhouzhuang.activity.NewsActivity">
     <include layout="@layout/item_actionbar"
         android:layout_width="match_parent"
@@ -12,6 +13,9 @@
     <ListView
         android:id="@+id/lv_news"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        />
 
 </LinearLayout>

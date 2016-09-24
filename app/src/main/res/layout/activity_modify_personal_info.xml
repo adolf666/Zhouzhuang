@@ -37,7 +37,7 @@
             android:background="@mipmap/bg_threeinput01">
             <TextView
                 android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="17dp"
                 android:textSize="16sp"
@@ -50,6 +50,7 @@
                 android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:textSize="16sp"
+                android:textColorHint="#aaaaaa"
                 android:hint="请输入您的用户名"
                 />
         </LinearLayout>
@@ -63,7 +64,7 @@
          <TextView
              android:id="@+id/tv_sex"
              android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
+             android:layout_width="70dp"
              android:layout_marginLeft="17dp"
              android:text="性别："
              android:textSize="16sp"
@@ -73,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="12dp">
+                android:paddingLeft="20dp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -106,10 +107,10 @@
             android:background="@mipmap/bg_threeinput03">
             <TextView
                 android:id="@+id/tv_user_area"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="17dp"
                 android:textSize="16sp"
+                android:layout_width="70dp"
                 android:text="地区：" />
 
             <EditText
@@ -119,6 +120,7 @@
                 android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:textSize="16sp"
+                android:textColorHint="#aaaaaa"
                 android:hint="请输入您的地址"
                 />
         </LinearLayout>

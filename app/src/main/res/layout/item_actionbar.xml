@@ -16,14 +16,15 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
-            android:textColor="#cccc66"
+            android:textColor="#e6c59a"
+            android:textSize="15sp"
             android:layout_marginLeft="8dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="周庄"
             android:id="@+id/tv_middle_actionbar"
-            android:textColor="#cccc66"
+            android:textColor="#e6c59a"
             android:textSize="20sp"
             android:layout_centerInParent="true"/>
 
@@ -32,9 +33,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_rigth_actionbar"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:textColor="#cccc66"
+            android:layout_marginRight="10dp"
+            android:textColor="#e6c59a"
             android:layout_centerVertical="true"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:textSize="15sp"/>
     </RelativeLayout>
 </RelativeLayout>

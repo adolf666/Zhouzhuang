@@ -144,7 +144,6 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         ListView lv = new ListView(getActivity());
         NewsAdapter adapter = new NewsAdapter(getActivity(),exhibits);
         lv.setAdapter(adapter);
-        lv.setDividerHeight(20);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

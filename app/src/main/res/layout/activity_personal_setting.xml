@@ -8,22 +8,18 @@
         layout="@layout/item_actionbar"
         android:layout_width="match_parent"
         android:layout_height="49dp" />
-    <RelativeLayout
-        android:id="@+id/rl_modify_password"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/personal_info_selector">
+
         <TextView
             android:id="@+id/tv_modify_password"
-            android:layout_marginLeft="18dp"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_width="match_parent"
             android:text="修改密码"
             android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:background="@drawable/personal_off_login"
+            android:layout_marginTop="10dp"
             />
-        </RelativeLayout>
 
     <TextView
         android:id="@+id/clean_store"
@@ -33,14 +29,16 @@
         android:textSize="16sp"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:background="@mipmap/bg_threeinput02"/>
+        android:background="@drawable/personal_off_login"
+        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/login_off"
         android:layout_height="48dp"
         android:layout_width="match_parent"
         android:text="注销登录"
-        android:background="@mipmap/bg_threeinput03"
+        android:background="@drawable/personal_off_login"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"/>
 </LinearLayout>

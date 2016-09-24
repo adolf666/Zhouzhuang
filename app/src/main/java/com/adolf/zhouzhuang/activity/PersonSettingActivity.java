@@ -32,7 +32,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class PersonSettingActivity extends BaseActivity{
 
-    private RelativeLayout mModifyPassword;
+    private TextView mModifyPassword;
     private TextView mCleanStore;
     private TextView mLoginOff;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
@@ -41,12 +41,11 @@ public class PersonSettingActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_setting);
         initView();
-        Log.i("ddddddd","onCreate"+"PersonSettingActivity");
     }
     private void initView(){
         initActionBar("返回",R.drawable.back_selected,"个人设置","",0);
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
-        mModifyPassword = (RelativeLayout)findViewById(R.id.rl_modify_password);
+        mModifyPassword = (TextView)findViewById(R.id.tv_modify_password);
         mCleanStore = (TextView)findViewById(R.id.clean_store);
         mLoginOff = (TextView)findViewById(R.id.login_off);
 
@@ -64,7 +63,7 @@ public class PersonSettingActivity extends BaseActivity{
             case R.id.tv_left_actionbar:
                 finish();
                 break;
-            case R.id.rl_modify_password:
+            case R.id.tv_modify_password:
                 Intent intent = new Intent();
                 intent.setClass(PersonSettingActivity.this,ModifyPasswordActivity.class);
                 startActivity(intent);

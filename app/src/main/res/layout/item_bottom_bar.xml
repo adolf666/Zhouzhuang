@@ -9,8 +9,9 @@
     android:background="#bbbbbb"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="7.5dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -21,7 +22,7 @@
             android:drawableTop="@mipmap/btn_menu01_focused"
             android:gravity="center"
             android:textColor="#333240"
-            android:drawablePadding="7dp"
+            android:drawablePadding="7.5dp"
             android:text="周庄博物馆"
             />
 
@@ -34,7 +35,7 @@
             android:drawableTop="@mipmap/btn_menu02_default"
             android:textColor="#8e8e99"
             android:text="馆藏珍品"
-            android:drawablePadding="7dp"/>
+            android:drawablePadding="7.5dp"/>
 
         <TextView
             android:id="@+id/tv_navigation"
@@ -45,7 +46,7 @@
             android:drawableTop="@mipmap/btn_menu03_default"
             android:textColor="#8e8e99"
             android:text="周庄导览"
-            android:drawablePadding="7dp"/>
+            android:drawablePadding="7.5dp"/>
 
         <TextView
             android:id="@+id/tv_strategy"
@@ -56,6 +57,6 @@
             android:drawableTop="@mipmap/btn_menu04_default"
             android:textColor="#8e8e99"
             android:text="个人中心"
-            android:drawablePadding="7dp"/>
+            android:drawablePadding="7.5dp"/>
     </LinearLayout>
 </LinearLayout>
