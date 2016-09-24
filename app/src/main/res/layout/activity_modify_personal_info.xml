@@ -128,12 +128,13 @@
             android:id="@+id/tv_save_modify"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="45dp"
             android:text="保存修改"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:gravity="center"
             android:textSize="18sp"
+            android:textColor="@color/bg_white"
             android:background="@drawable/login_selector"/>
     </LinearLayout>
 

@@ -13,6 +13,7 @@ import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
+import com.adolf.zhouzhuang.util.Utils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -39,11 +40,20 @@ public class ModifyPasswordActivity extends BaseActivity {
         initView();
     }
     private void initView(){
-        initActionBar("返回",R.drawable.back_selected,"修改个人信息","",0);
+        initActionBar("返回",R.drawable.back_selected,"修改密码","",0);
         mOldPassword = (EditText)findViewById(R.id.edit_old_password);
         mNewPassword = (EditText)findViewById(R.id.edit_new_password);
         mConfirmPassword = (EditText)findViewById(R.id.edit_confirm_password);
         mBtnSave = (TextView)findViewById(R.id.btn_save);
+
+        TextView mOlaPassword = (TextView)findViewById(R.id.tv_old_password);
+        TextView mNewPassword = (TextView)findViewById(R.id.tv_new_password);
+        TextView mConfirmPassword = (TextView)findViewById(R.id.tv_confirm_password);
+
+        mOlaPassword.setTypeface(Utils.getType(this,3));
+        mNewPassword .setTypeface(Utils.getType(this,3));
+        mConfirmPassword.setTypeface(Utils.getType(this,3));
+        mBtnSave.setTypeface(Utils.getType(this,0));
         mBtnSave.setOnClickListener(this);
      }
     @Override
