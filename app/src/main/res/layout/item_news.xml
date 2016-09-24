@@ -47,7 +47,7 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="13sp"
-        android:lineSpacingExtra="1dp"
+        android:lineSpacingExtra="2dp"
         android:textColor="#333333"/>
         </LinearLayout>
 </LinearLayout>

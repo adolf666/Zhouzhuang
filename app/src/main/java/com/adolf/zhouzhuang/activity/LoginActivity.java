@@ -87,11 +87,14 @@ public class LoginActivity extends BaseActivity{
                 progressDialog.dismiss();
 
                 LoginObj loginObj = GsonUtil.jsonToBean(response,"data",LoginObj.class);
-                SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
-                SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",loginObj);
-                SharedPreferencesUtils.putInt(LoginActivity.this,"pid",loginObj.getPid());
-               // goToActivity();
-                finish();
+                String message  = GsonUtil.getExtendJson(response,"message");
+               if(null!=loginObj){
+                   SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
+                   SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",loginObj);
+                   SharedPreferencesUtils.putInt(LoginActivity.this,"pid",loginObj.getPid());
+                   finish();
+                }
+                Toast.makeText(LoginActivity.this,message,Toast.LENGTH_SHORT).show();
             }
 
             @Override

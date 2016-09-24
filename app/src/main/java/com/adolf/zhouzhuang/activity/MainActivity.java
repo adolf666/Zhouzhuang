@@ -67,18 +67,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         MuseumFragment museumFragment = new MuseumFragment();
         CollectionFragment collectionFragment = new CollectionFragment();
         GudieFragment gudieFragment = new GudieFragment();
-        StrategyFragment strategyFragment = new StrategyFragment();
-        PersonalCenterFragment loginFragment = new PersonalCenterFragment();
+        PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
         fragmentArrayList.add(gudieFragment);
-        boolean isAutoLogin = SharedPreferencesUtils.getBoolean(MainActivity.this,"AutoLogin",false);
-        if(isAutoLogin){
-            fragmentArrayList.add(strategyFragment);
-        }else {
-            fragmentArrayList.add(loginFragment);
-        }
-
+        fragmentArrayList.add(personalCenterFragment);
         mCustomerViewPager.setScrollble(false);
         mCustomerViewPager.setOffscreenPageLimit(3);
         mCustomerViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragmentArrayList));
@@ -103,7 +96,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 mLeftActionBar.setCompoundDrawables(null,null, null, null);
                 break;
             case R.id.tv_left_actionbar:
-                autoLoginLogic();
+              //  autoLoginLogic();
                 break;
             case R.id.tv_rigth_actionbar:
                 Intent intent2 = new Intent();

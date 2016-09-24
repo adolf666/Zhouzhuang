@@ -43,7 +43,6 @@ public class PersonalInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_personal_info);
         initView();
-        Log.i("ddddddd","onCreate"+"PersonalInfoActivity");
     }
 
     private void initView() {
@@ -118,20 +117,20 @@ public class PersonalInfoActivity extends BaseActivity {
                         loginObj.setSex(mSex);
                         loginObj.setUsername(mUserName.getText().toString());
                         SharedPreferencesUtils.saveObject(PersonalInfoActivity.this,"AccountInfo",loginObj);
-                        Toast.makeText(PersonalInfoActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PersonalInfoActivity.this, "完善个人信息成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         super.onFailure(statusCode, headers, responseString, throwable);
-                        Toast.makeText(PersonalInfoActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PersonalInfoActivity.this, "完善个人信息失败", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                         super.onFailure(statusCode, headers, throwable, errorResponse);
-                        Toast.makeText(PersonalInfoActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PersonalInfoActivity.this, "完善个人信息失败", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
