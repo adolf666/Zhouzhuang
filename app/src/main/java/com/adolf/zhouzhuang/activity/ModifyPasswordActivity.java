@@ -53,7 +53,10 @@ public class ModifyPasswordActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_save:
-                if(mNewPassword.getText().toString().equals(mConfirmPassword.getText().toString())){
+                if( mOldPassword.getText().toString().isEmpty()){
+                    Toast.makeText(ModifyPasswordActivity.this,"您输入的的旧密码为空",Toast.LENGTH_SHORT).show();
+                }else if(!mNewPassword.getText().toString().isEmpty()&&!mConfirmPassword.getText().toString().isEmpty()
+                        &&mNewPassword.getText().toString().equals(mConfirmPassword.getText().toString())){
                     RequestParams params = new RequestParams();
                     Object object = SharedPreferencesUtils.readObject(this, "AccountInfo");
                     LoginObj obj = (LoginObj) object;
@@ -79,8 +82,11 @@ public class ModifyPasswordActivity extends BaseActivity {
                     });
 
 
+                }else if(mNewPassword.getText().toString().isEmpty()){
+                    Toast.makeText(ModifyPasswordActivity.this,"您输入新密码为空！",Toast.LENGTH_SHORT).show();
+                }else if(mConfirmPassword.getText().toString().isEmpty()){
+                    Toast.makeText(ModifyPasswordActivity.this,"您输入确认密码为空！",Toast.LENGTH_SHORT).show();
                 }else {
-
                     Toast.makeText(ModifyPasswordActivity.this,"新密码和确认密码不一致，请重新输入！",Toast.LENGTH_SHORT).show();
                 }
 
