@@ -6,10 +6,14 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 
 public class WebViewActivity extends BaseActivity implements View.OnClickListener{
+    public static final String  NAME = "name";
     private WebView mWebView;
     private String mUrl;
+    private int mSpotId;
+    private SpotsDataBaseHelper mSpotsDataBaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +25,20 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     }
     public void initViews(){
         mWebView = (WebView)findViewById(R.id.webview);
-        initActionBar("返回",R.drawable.back_selected,"苏州乐园","",0);
+        mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
     }
     public void initBundle(){
+        mSpotId = getIntent().getIntExtra("SpotsId",0);
         mUrl = getIntent().getStringExtra("URL");
+        if(mSpotId != 0){
+            initActionBar("返回",R.drawable.back_selected,mSpotsDataBaseHelper.getSpotsById(mSpotId).getTitle(),"",0);
+        }else {
+            initActionBar("返回", R.drawable.back_selected, "苏州乐园", "", 0);
+        }
     }
     public void setWebViewInfo(){
         initWebViewSetting();
-        mWebView.loadUrl(mUrl);
+        mWebView.loadUrl("http://"+ mUrl);
         mWebView.setWebViewClient(new WebViewClient(){
 
             @Override
