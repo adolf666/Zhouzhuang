@@ -5,11 +5,13 @@
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/img_pic"
+        android:paddingTop="15dp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         />
       <TextView
          android:id="@+id/tv_scenic_name"
+          android:layout_marginTop="10dp"
           android:layout_height="wrap_content"
           android:layout_width="match_parent"
           />

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.object.Exhibit;
 import com.adolf.zhouzhuang.object.StrategyObject;
+import com.adolf.zhouzhuang.util.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -66,6 +67,8 @@ public class StrategyAdapter extends BaseAdapter {
         ImageLoader.getInstance().displayImage(item.getCreatorimgurl(), viewHolder.mPhoto);
         viewHolder.mName.setText(item.getTitle());
         viewHolder.mDesc.setText(item.getCreatorname());
+        viewHolder.mName.setTypeface(Utils.getType(context,3));
+        viewHolder.mDesc.setTypeface(Utils.getType(context,3));
         return convertView;
     }
 
