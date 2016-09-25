@@ -210,6 +210,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Utils.openBaiduMap(getActivity(),120.85622,31.11700,"123","步行导航");
+                mSpots = spotsList.get(i);
                 showNaviDialog();
                 setTabResourceState();
                 mSpotsListLinearLayout.setVisibility(View.GONE);
