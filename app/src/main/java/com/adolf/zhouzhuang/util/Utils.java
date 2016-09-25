@@ -73,9 +73,19 @@ public class Utils {
                 .append("&dev=").append(dev)
                 .append("&style=").append(style);
 
+
         Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
         intent.setPackage("com.autonavi.minimap");
-        context.startActivity(intent);
+
+        if (isInstallPackage("com.autonavi.minimap")) {
+            context.startActivity(intent); //启动调用
+
+            Log.e("GasStation", "百度地图客户端已经安装");
+        } else {
+            Toast.makeText(context,"没有安装高德地图客户端",Toast.LENGTH_SHORT).show();
+            Log.e("GasStation", "没有安装百度地图客户端");
+        }
+
     }
 
     private static boolean isInstallPackage(String packageName) {

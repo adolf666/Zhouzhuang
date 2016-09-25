@@ -360,11 +360,16 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 setTabResourceState();
                 break;
             case R.id.tv_open_baidu:
-                Utils.openBaiduMap(getActivity(),Double.parseDouble(mSpots.getLng()),Double.parseDouble(mSpots.getLat()),"123","步行导航");
+                if (mSpots.getLng() != null && mSpots.getLat() != null){
+                    Utils.openBaiduMap(getActivity(),Double.parseDouble(mSpots.getLng()),Double.parseDouble(mSpots.getLat()),"123","步行导航");
+                }else{
+                    Toast.makeText(getActivity(),"未能获取经纬度",Toast.LENGTH_SHORT).show();
+                }
+
                 bottomDialog.dismiss();
                 break;
             case R.id.tv_open_gaode:
-                Utils.goToNaviActivity(getActivity(),"test",null,mSpots.getLng(),mSpots.getLng(),"1","2");
+                Utils.goToNaviActivity(getActivity(),"test",null,mSpots.getLat(),mSpots.getLng(),"1","2");
                 bottomDialog.dismiss();
                 break;
             case R.id.btn_cancel:
