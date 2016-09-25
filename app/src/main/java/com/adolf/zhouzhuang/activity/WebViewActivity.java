@@ -8,8 +8,10 @@ import android.webkit.WebViewClient;
 import com.adolf.zhouzhuang.R;
 
 public class WebViewActivity extends BaseActivity implements View.OnClickListener{
+    public static final String  NAME = "name";
     private WebView mWebView;
     private String mUrl;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +23,15 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     }
     public void initViews(){
         mWebView = (WebView)findViewById(R.id.webview);
-        initActionBar("返回",R.drawable.back_selected,"苏州乐园","",0);
     }
     public void initBundle(){
+        mTitle = getIntent().getStringExtra("name");
         mUrl = getIntent().getStringExtra("URL");
+        if(!mTitle.isEmpty()){
+            initActionBar("返回",R.drawable.back_selected,mTitle,"",0);
+        }else {
+            initActionBar("返回", R.drawable.back_selected, "苏州乐园", "", 0);
+        }
     }
     public void setWebViewInfo(){
         initWebViewSetting();

@@ -21,6 +21,7 @@ import com.adolf.zhouzhuang.activity.PersonSettingActivity;
 import com.adolf.zhouzhuang.activity.PersonSuggestionActivity;
 import com.adolf.zhouzhuang.activity.PersonalInfoActivity;
 import com.adolf.zhouzhuang.activity.RegisterActivity;
+import com.adolf.zhouzhuang.activity.StrategyActivity;
 import com.adolf.zhouzhuang.adapter.PersonalCollectAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
@@ -80,6 +81,7 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
         mSetting.setTypeface(Utils.getType(getActivity(),3));
         mSuggestion.setTypeface(Utils.getType(getActivity(),3));
         mStrategy.setTypeface(Utils.getType(getActivity(),3));
+        mStrategy.setOnClickListener(this);
         mPersonInfo.setOnClickListener(this);
         mSetting.setOnClickListener(this);
         mSuggestion.setOnClickListener(this);
@@ -138,6 +140,11 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
                     intentCollect.setClass(getActivity(), LoginActivity.class);
                 }
                 startActivity(intentCollect);
+                break;
+            case R.id.tv_strategy:
+                Intent intentStrategy = new Intent();
+                intentStrategy.setClass(getActivity(),StrategyActivity.class);
+                startActivity(intentStrategy);
                 break;
             case R.id.iv_portrait:
             case R.id.tv_name:
