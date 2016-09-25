@@ -14,7 +14,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     private String mUrl;
     private int mSpotId;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
-
+    private String mTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +26,17 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     public void initViews(){
         mWebView = (WebView)findViewById(R.id.webview);
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+
     }
     public void initBundle(){
         mSpotId = getIntent().getIntExtra("SpotsId",0);
         mUrl = getIntent().getStringExtra("URL");
+        mTitle = getIntent().getStringExtra("name");
         if(mSpotId != 0){
             initActionBar("返回",R.drawable.back_selected,mSpotsDataBaseHelper.getSpotsById(mSpotId).getTitle(),"",0);
-        }else {
+        }else if(!mTitle.isEmpty()){
+            initActionBar("返回", R.drawable.back_selected, mTitle, "", 0);
+        } else  {
             initActionBar("返回", R.drawable.back_selected, "苏州乐园", "", 0);
         }
     }
