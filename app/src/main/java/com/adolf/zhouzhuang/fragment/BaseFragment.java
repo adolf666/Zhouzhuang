@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.adolf.zhouzhuang.FavoritesDao;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.SpotsDao;
 import com.adolf.zhouzhuang.ZhouzhuangApplication;
@@ -110,5 +111,9 @@ public class BaseFragment extends Fragment {
     }
     public SpotsDao getSpotsDao(){
         return ((ZhouzhuangApplication) getActivity().getApplicationContext()).getDaoSession().getSpotsDao();
+    }
+
+    public FavoritesDao getFavoriteDao(){
+        return ((ZhouzhuangApplication) getActivity().getApplicationContext()).getDaoSession().getFavoritesDao();
     }
 }

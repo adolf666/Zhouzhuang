@@ -18,7 +18,7 @@ public class DaoGeneratorFactory {
 
         //添加实体
         addEntity(schema);
-
+        addFavoriteEntity(schema);
         String outDir="app/src/main/java-db";
         //调用DaoGenerator().generateAll方法自动生成代码到之前创建的java-gen目录下
         new DaoGenerator().generateAll(schema,outDir);
@@ -43,8 +43,16 @@ public class DaoGeneratorFactory {
         entity.addStringProperty("videoLocation");
         entity.addIntProperty("videoVersion");
         entity.addIntProperty("basicInfoVersion");
-        entity.addBooleanProperty("isDownLoadAudio");
-        entity.addBooleanProperty("isFavorite");
+        entity.addStringProperty("lat4show");
+        entity.addStringProperty("lng4show");
+    }
+
+    private static void addFavoriteEntity(Schema schema){
+        Entity entity = schema.addEntity("Favorites");
+        entity.setTableName("favorite");
+        entity.addIdProperty().autoincrement();//添加Id,自增长
+        entity.addIntProperty("userId");
+        entity.addIntProperty("spotsId");
     }
 
 }

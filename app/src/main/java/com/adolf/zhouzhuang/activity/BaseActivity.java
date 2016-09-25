@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adolf.zhouzhuang.Favorites;
+import com.adolf.zhouzhuang.FavoritesDao;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.SpotsDao;
 import com.adolf.zhouzhuang.ZhouzhuangApplication;
@@ -70,6 +72,10 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     public SpotsDao getSpotsDao(){
         return ((ZhouzhuangApplication) this.getApplicationContext()).getDaoSession().getSpotsDao();
+    }
+
+    public FavoritesDao getFavoriteDao(){
+        return ((ZhouzhuangApplication) this.getApplicationContext()).getDaoSession().getFavoritesDao();
     }
 
     public void showToast(String content){

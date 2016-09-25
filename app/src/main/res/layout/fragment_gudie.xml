@@ -54,16 +54,6 @@
             android:src="@mipmap/btn_close_default" />
     </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/pb_progressbar"
-        style="@style/StyleProgressBarMini"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@drawable/shape_progressbar_bg"
-        android:max="100"
-        android:progress="0"
-        android:visibility="gone"/>
     </RelativeLayout>
         <LinearLayout
             android:id="@+id/ll_guide_list"
@@ -116,13 +106,19 @@
         android:padding="5dp"
         android:background="@drawable/location_selector" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_spots_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_guide_list"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#b3000000" />
 
         <ListView
             android:id="@+id/lv_spots_list"
@@ -131,23 +127,18 @@
             android:background="#ffffff"
             android:divider="#00000000"
             android:dividerHeight="0dip"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_marginBottom="90dp"/>
 
         <ListView
             android:id="@+id/lv_guide_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_guide_list"
             android:background="#ffffff"
             android:divider="#00000000"
             android:dividerHeight="0dip"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#b3000000" />
-    </LinearLayout>
+            android:visibility="gone"
+            android:layout_marginBottom="90dp"/>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.adolf.zhouzhuang.util;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -101,6 +102,13 @@ public class UniversalDialog extends AlertDialog {
         dialogLayoutParams.height = height;
         dialogLayoutParams.width = width;
         dialogWindow.setAttributes(dialogLayoutParams);
+    }
+
+    public void setWH(Context context,WindowManager windowManager){
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = this.getWindow().getAttributes();
+        lp.width = (int)(display.getWidth()); //设置宽度
+        this.getWindow().setAttributes(lp);
     }
 }
 

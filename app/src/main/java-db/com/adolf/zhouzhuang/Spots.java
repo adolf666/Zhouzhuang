@@ -18,8 +18,8 @@ public class Spots {
     private String videoLocation;
     private Integer videoVersion;
     private Integer basicInfoVersion;
-    private Boolean isDownLoadAudio;
-    private Boolean isFavorite;
+    private String lat4show;
+    private String lng4show;
 
     public Spots() {
     }
@@ -28,7 +28,7 @@ public class Spots {
         this.id = id;
     }
 
-    public Spots(Long id, int pid, Integer order, Long createTime, String title, String brief, String detailUrl, String lat, String lng, String videoLocation, Integer videoVersion, Integer basicInfoVersion, Boolean isDownLoadAudio, Boolean isFavorite) {
+    public Spots(Long id, int pid, Integer order, Long createTime, String title, String brief, String detailUrl, String lat, String lng, String videoLocation, Integer videoVersion, Integer basicInfoVersion, String lat4show, String lng4show) {
         this.id = id;
         this.pid = pid;
         this.order = order;
@@ -41,8 +41,8 @@ public class Spots {
         this.videoLocation = videoLocation;
         this.videoVersion = videoVersion;
         this.basicInfoVersion = basicInfoVersion;
-        this.isDownLoadAudio = isDownLoadAudio;
-        this.isFavorite = isFavorite;
+        this.lat4show = lat4show;
+        this.lng4show = lng4show;
     }
 
     public Long getId() {
@@ -141,20 +141,20 @@ public class Spots {
         this.basicInfoVersion = basicInfoVersion;
     }
 
-    public Boolean getIsDownLoadAudio() {
-        return isDownLoadAudio;
+    public String getLat4show() {
+        return lat4show;
     }
 
-    public void setIsDownLoadAudio(Boolean isDownLoadAudio) {
-        this.isDownLoadAudio = isDownLoadAudio;
+    public void setLat4show(String lat4show) {
+        this.lat4show = lat4show;
     }
 
-    public Boolean getIsFavorite() {
-        return isFavorite;
+    public String getLng4show() {
+        return lng4show;
     }
 
-    public void setIsFavorite(Boolean isFavorite) {
-        this.isFavorite = isFavorite;
+    public void setLng4show(String lng4show) {
+        this.lng4show = lng4show;
     }
 
 }

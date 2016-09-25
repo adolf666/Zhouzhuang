@@ -1,5 +1,9 @@
 package com.adolf.zhouzhuang.util;
 
+import com.adolf.zhouzhuang.Favorites;
+
+import java.util.List;
+
 /**
  * Created by adolf on 2016/8/30.
  */

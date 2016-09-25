@@ -9,8 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adolf.zhouzhuang.Favorites;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.ZhouzhuangApplication;
+import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
@@ -23,6 +25,8 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
 
 public class LoginActivity extends BaseActivity{
@@ -31,6 +35,7 @@ public class LoginActivity extends BaseActivity{
     private Button mLoginBT;
     public ProgressDialog progressDialog;
     private int mGoToActivity = -1;
+    private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class LoginActivity extends BaseActivity{
         mLoginBT.setOnClickListener(this);
         initActionBar("返回",R.drawable.back_selected,"登录","注册",0);
         ((ZhouzhuangApplication)getApplication()).getDaoSession();
+        mFavoriteDataBaseHelper = new FavoriteDataBaseHelper(getFavoriteDao());
     }
 
     private void initBundle(){
@@ -92,8 +98,8 @@ public class LoginActivity extends BaseActivity{
                    SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
                    SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",loginObj);
                    SharedPreferencesUtils.putInt(LoginActivity.this,"pid",loginObj.getPid());
-                   finish();
                 }
+                getAllFavorite();
                 Toast.makeText(LoginActivity.this,message,Toast.LENGTH_SHORT).show();
             }
 
@@ -124,5 +130,41 @@ public class LoginActivity extends BaseActivity{
         }
         startActivity(intent);
         finish();
+    }
+
+
+    public void getAllFavorite(){
+
+        if (!Utils.isAutoLogin(this)) {
+            return;
+        }
+
+        RequestParams params = new RequestParams();
+        params.put("userId", SharedPreferencesUtils.getInt(this,"pid"));
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_LIST,params,new JsonHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
+                setFavoriteSpots(favoriteList, SharedPreferencesUtils.getInt(LoginActivity.this,"pid"));
+                finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
+
+    public void setFavoriteSpots(List<Integer> favoriteList,int userId){
+        mFavoriteDataBaseHelper.deleteAll();
+        for (int i = 0; i <favoriteList.size() ; i++) {
+            Favorites favorite = new Favorites();
+            favorite.setUserId(userId);
+            favorite.setSpotsId(favoriteList.get(i));
+            mFavoriteDataBaseHelper.addFavorite(favorite);
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
@@ -36,6 +37,7 @@ public class PersonSettingActivity extends BaseActivity{
     private TextView mCleanStore;
     private TextView mLoginOff;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
+    private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class PersonSettingActivity extends BaseActivity{
     private void initView(){
         initActionBar("返回",R.drawable.back_selected,"个人设置","",0);
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+        mFavoriteDataBaseHelper = new FavoriteDataBaseHelper(getFavoriteDao());
         mModifyPassword = (TextView)findViewById(R.id.tv_modify_password);
         mCleanStore = (TextView)findViewById(R.id.clean_store);
         mLoginOff = (TextView)findViewById(R.id.login_off);
@@ -91,7 +94,11 @@ public class PersonSettingActivity extends BaseActivity{
            @Override
            public void onClick(DialogInterface dialog, int which) {
                dialog.dismiss();
-               getAllSpots();
+               SharedPreferencesUtils.putBoolean(PersonSettingActivity.this,"AutoLogin",false);
+               SharedPreferencesUtils.getString(PersonSettingActivity.this,"AccountInfo",null);
+               mFavoriteDataBaseHelper.deleteAll();
+               finish();
+
 
               }
            });
@@ -102,27 +109,5 @@ public class PersonSettingActivity extends BaseActivity{
                  }
          });
         builder.create().show();
-    }
-
-    public void getAllSpots(){
-        AsyncHttpClientUtils.getInstance().get(ServiceAddress.ALL_SPOTS, new JsonHttpResponseHandler(){
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                List<Spots> spotsList = GsonUtil.jsonToList(response,"data",Spots.class);
-                mSpotsDataBaseHelper.insertAllSpotsList(spotsList);
-                SharedPreferencesUtils.putBoolean(PersonSettingActivity.this,"AutoLogin",false);
-                SharedPreferencesUtils.getString(PersonSettingActivity.this,"AccountInfo",null);
-                finish();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                showToast("注销失败...");
-            }
-        });
-
     }
 }

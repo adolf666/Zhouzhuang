@@ -1,45 +1,42 @@
 package com.adolf.zhouzhuang.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
 
+import com.adolf.zhouzhuang.Favorites;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
+import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
+import com.adolf.zhouzhuang.util.Utils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
 public class LaunchActivity extends BaseActivity {
-//    private ProgressDialog dialog;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
-    public ProgressDialog progressDialog;
+    private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laynch);
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+        mFavoriteDataBaseHelper = new FavoriteDataBaseHelper(getFavoriteDao());
         initFileDir();
         getAllSpots();
-//        dialog = new ProgressDialog(this);
-//
-//        dialog.setIndeterminate(true);
-//        dialog.show();
-//        dialog.setContentView(R.layout.item_progressdialog);
+        getAllFavorite();
         pageChange();
     }
 
@@ -58,9 +55,6 @@ public class LaunchActivity extends BaseActivity {
     }
 
     public void getAllSpots(){
-        if (mSpotsDataBaseHelper.getSpotsCount() > 0){
-            return;
-        }
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.ALL_SPOTS, new JsonHttpResponseHandler(){
 
             @Override
@@ -68,7 +62,6 @@ public class LaunchActivity extends BaseActivity {
                 super.onSuccess(statusCode, headers, response);
                 List<Spots> spotsList = GsonUtil.jsonToList(response,"data",Spots.class);
                 mSpotsDataBaseHelper.insertAllSpotsList(spotsList);
-                getAllFavorite();
             }
 
             @Override
@@ -80,6 +73,11 @@ public class LaunchActivity extends BaseActivity {
     }
 
     public void getAllFavorite(){
+
+        if (!Utils.isAutoLogin(this)) {
+            return;
+        }
+
         RequestParams params = new RequestParams();
         params.put("userId", SharedPreferencesUtils.getInt(this,"pid"));
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_LIST,params,new JsonHttpResponseHandler(){
@@ -88,7 +86,7 @@ public class LaunchActivity extends BaseActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
-                setFavoriteSpots(favoriteList);
+                setFavoriteSpots(favoriteList, SharedPreferencesUtils.getInt(LaunchActivity.this,"pid"));
             }
 
             @Override
@@ -98,21 +96,14 @@ public class LaunchActivity extends BaseActivity {
         });
     }
 
-    public void setFavoriteSpots(List<Integer> favoriteList){
-        List<Spots> favoriteSpotsList = getSpotsListFromIdList(favoriteList);
-        for (int i = 0; i < favoriteSpotsList.size(); i++) {
-            Spots spots = favoriteSpotsList.get(i);
-            spots.setIsFavorite(true);
-            mSpotsDataBaseHelper.updateSpots(spots);
+    public void setFavoriteSpots(List<Integer> favoriteList,int userId){
+        mFavoriteDataBaseHelper.deleteAll();
+        for (int i = 0; i <favoriteList.size() ; i++) {
+            Favorites favorite = new Favorites();
+            favorite.setUserId(userId);
+            favorite.setSpotsId(favoriteList.get(i));
+            mFavoriteDataBaseHelper.addFavorite(favorite);
         }
-    }
-
-    private List<Spots> getSpotsListFromIdList(List<Integer> spots){
-        List<Spots> spotsList = new ArrayList<>();
-        for (int i = 0; i < spots.size(); i++) {
-            spotsList.add(mSpotsDataBaseHelper.getSpotsById(spots.get(i)));
-        }
-        return spotsList;
     }
 
     public void initFileDir(){
