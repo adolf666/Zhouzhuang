@@ -96,8 +96,8 @@
     </style>
     <!-- ActionSheet进出动画 -->
     <style name="ActionSheetDialogAnimation" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@drawable/anim_pop_in</item>
-        <item name="android:windowExitAnimation">@drawable/anim_pop_out</item>
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
     </style>
 
 </resources>

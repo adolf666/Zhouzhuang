@@ -550,7 +550,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         //将布局设置给Dialog
         bottomDialog.setContentView(view);
         bottomDialog.setDialogGravity(UniversalDialog.DialogGravity.CENTERBOTTOM);
-//        bottomDialog.setBottomIn();
+        bottomDialog.setBottomIn();
         bottomDialog.setWH(getActivity(),getActivity().getWindowManager());
     }
 

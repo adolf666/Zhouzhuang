@@ -20,7 +20,7 @@ import javax.net.ssl.SSLException;
  */
 public class AsyncHttpClientUtils {
     public static final String TAG = AsyncHttpClientUtils.class.getSimpleName();
-    public static final int SOCKET_TIMEOUT = 20 * 1000;//默认超时时间
+    public static final int SOCKET_TIMEOUT = 5 * 1000;//默认超时时间
     private static AsyncHttpClientUtils instance = new AsyncHttpClientUtils();
     private static AsyncHttpClient client = new AsyncHttpClient();
 
