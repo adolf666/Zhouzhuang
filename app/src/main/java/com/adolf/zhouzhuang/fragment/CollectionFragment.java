@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,7 +141,8 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-    public void initViewPagerViews(final List<Exhibit> exhibits ,int index){
+    public void initViewPagerViews(final List<Exhibit> exhibits ,final int index){
+
         ListView lv = new ListView(getActivity());
         NewsAdapter adapter = new NewsAdapter(getActivity(),exhibits);
         lv.setAdapter(adapter);
@@ -150,6 +152,11 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
                 Intent intent  = new Intent();
                 intent.setClass(getActivity(), WebViewActivity.class);
                 intent.putExtra("URL",exhibits.get(position).getDetailUrl());
+                if(1==index){
+                    intent.putExtra(WebViewActivity.NAME,exhibits.get(position).getTitle());
+                }else if(0==index){
+                    intent.putExtra(WebViewActivity.NAME,"陈列展览");
+                }
                 startActivity(intent);
             }
         });

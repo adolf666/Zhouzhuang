@@ -60,4 +60,15 @@
         <item>@mipmap/anim40</item>
 
     </string-array>
+
+
+        <declare-styleable name="Theme">
+            <attr name="customImageViewStyle" format="reference" />
+        </declare-styleable>
+        <!-- 自定义圆角ImageView -->
+        <declare-styleable name="RoundImageView">
+            <attr name="circle" format="boolean" />
+            <attr name="radius" format="dimension" />
+        </declare-styleable>
+
 </resources>
