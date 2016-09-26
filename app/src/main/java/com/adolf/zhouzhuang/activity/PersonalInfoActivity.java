@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
@@ -51,8 +52,8 @@ public class PersonalInfoActivity extends BaseActivity {
         mUserName = (EditText) findViewById(R.id.et_username);
         mUserArea =(EditText)findViewById(R.id.et_userarea);
 
-        Object object= SharedPreferencesUtils.readObject(this, "AccountInfo");
-        loginObj = (LoginObj) object;
+//        Object object= SharedPreferencesUtils.readObject(this, "AccountInfo");
+        loginObj = GsonUtil.jsonToBean(SharedPreferencesUtils.getString(this, "AccountInfo",""),LoginObj.class);
         if (null!=loginObj&&loginObj.getUsername() != null) {
             mUserName.setText(loginObj.getUsername());
         }
@@ -108,7 +109,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 }
                 params.put("sex", mSex);
                 params.put("area", mUserArea.getText().toString());
-                params.setContentEncoding("UTF-8");
+                params.setContentEncoding("utf-8");
                 AsyncHttpClientUtils.getInstance().get(ServiceAddress.UPDGRAD_USER_INFO, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -116,7 +117,7 @@ public class PersonalInfoActivity extends BaseActivity {
                         loginObj.setArea(mUserArea.getText().toString());
                         loginObj.setSex(mSex);
                         loginObj.setUsername(mUserName.getText().toString());
-                        SharedPreferencesUtils.saveObject(PersonalInfoActivity.this,"AccountInfo",loginObj);
+                        SharedPreferencesUtils.putString(PersonalInfoActivity.this,"AccountInfo", GsonUtil.oBjToJson(loginObj));
                         Toast.makeText(PersonalInfoActivity.this, "完善个人信息成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }

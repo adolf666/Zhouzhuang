@@ -6,37 +6,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#B9FFFFFF">
+        android:background="#55ffffff">
     <TextView
         android:id="@+id/tv_open_baidu"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:gravity="center"
         android:text="打开百度地图"
-        android:textColor="#0000ff"
+        android:textColor="#333333"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/personal_off_login" />
     <TextView
         android:id="@+id/tv_open_gaode"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:gravity="center"
         android:text="打开高德地图"
-        android:textColor="#0000ff"
+        android:textColor="#333333"
         android:textSize="18sp"
-        android:layout_marginTop="5dp"
-        android:textStyle="bold" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/personal_off_login"/>
 
     <TextView
         android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="取消"
-        android:textColor="#0000ff"
+        android:textColor="#333333"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/personal_off_login"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
     </LinearLayout>
 </LinearLayout>

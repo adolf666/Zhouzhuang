@@ -63,6 +63,7 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -315,6 +316,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.tv_navigation_map:
                 showNaviDialog();
+                dialog.dismiss();
                 break;
             case R.id.bt_favorite:
                 if (!Utils.isAutoLogin(getActivity())){
@@ -497,8 +499,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             mLayerBitmap = getLayerBitmap(R.mipmap.layer);
         }
         BitmapDescriptor bdGround = BitmapDescriptorFactory.fromBitmap(mLayerBitmap);
-        LatLng southwest = new LatLng(31.106000, 120.84260);
-        LatLng northeast = new LatLng(31.138000, 120.87570);
+        LatLng northeast = new LatLng(31.134000, 120.87520);
+        LatLng southwest = new LatLng(31.102000, 120.84510);
         LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
                 .include(southwest).build();
         OverlayOptions ooGround = new GroundOverlayOptions()
@@ -538,6 +540,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         TextView openBaidu = (TextView) view.findViewById(R.id.tv_open_baidu);
         TextView openGaode = (TextView) view.findViewById(R.id.tv_open_gaode);
         TextView cancel = (TextView) view.findViewById(R.id.btn_cancel);
+        openBaidu.setTypeface(Utils.getType(getActivity(),0));
+        openGaode.setTypeface(Utils.getType(getActivity(),0));
+        cancel.setTypeface(Utils.getType(getActivity(),0));
         openBaidu.setOnClickListener(this);
         openGaode.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -545,6 +550,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         //将布局设置给Dialog
         bottomDialog.setContentView(view);
         bottomDialog.setDialogGravity(UniversalDialog.DialogGravity.CENTERBOTTOM);
+//        bottomDialog.setBottomIn();
         bottomDialog.setWH(getActivity(),getActivity().getWindowManager());
     }
 

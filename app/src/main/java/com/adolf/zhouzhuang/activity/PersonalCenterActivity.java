@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
@@ -29,8 +30,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     private void initView(){
         initActionBar("返回",R.drawable.back_selected,"个人中心","",0);
         mUserName = (TextView)findViewById(R.id.tv_user_name);
-        Object object = SharedPreferencesUtils.readObject(this,"AccountInfo");
-        LoginObj obj = (LoginObj)object;
+        LoginObj obj= GsonUtil.jsonToBean(SharedPreferencesUtils.getString(this, "AccountInfo",""),LoginObj.class);
         if(null!=obj&&null!=obj.getUsername()){
             mUserName.setText(obj.getUsername());
         }

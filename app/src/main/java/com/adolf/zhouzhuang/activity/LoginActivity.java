@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity{
                 String message  = GsonUtil.getExtendJson(response,"message");
                if(null!=loginObj){
                    SharedPreferencesUtils.putBoolean(LoginActivity.this,"AutoLogin",true);
-                   SharedPreferencesUtils.saveObject(LoginActivity.this,"AccountInfo",loginObj);
+                   SharedPreferencesUtils.putString(LoginActivity.this,"AccountInfo", GsonUtil.oBjToJson(loginObj));
                    SharedPreferencesUtils.putInt(LoginActivity.this,"pid",loginObj.getPid());
                 }
                 getAllFavorite();

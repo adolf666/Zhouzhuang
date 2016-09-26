@@ -15,6 +15,7 @@ import com.adolf.zhouzhuang.activity.PersonCollectActivity;
 import com.adolf.zhouzhuang.activity.PersonSettingActivity;
 import com.adolf.zhouzhuang.activity.PersonSuggestionActivity;
 import com.adolf.zhouzhuang.activity.PersonalInfoActivity;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
@@ -86,8 +87,7 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
     }
     private void initView(View view){
         mUserName = (TextView)view.findViewById(R.id.tv_user_name);
-        Object object = SharedPreferencesUtils.readObject(getActivity(),"AccountInfo");
-        LoginObj obj = (LoginObj)object;
+        LoginObj obj= GsonUtil.jsonToBean(SharedPreferencesUtils.getString(getActivity(), "AccountInfo",""),LoginObj.class);
         if(obj != null && obj.getUsername()!=null){
             mUserName.setText(obj.getUsername());
         }

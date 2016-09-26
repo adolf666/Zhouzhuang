@@ -42,6 +42,10 @@ public class UniversalDialog extends AlertDialog {
         setCanceledOnTouchOutside(true);
     }
 
+    public void setBottomIn(){
+        dialogWindow.setWindowAnimations(R.style.ActionSheetDialogAnimation);  //添加动画
+    }
+
     public void setLayoutView(View layoutView) {
         dialogWindow.setContentView(layoutView);
     }

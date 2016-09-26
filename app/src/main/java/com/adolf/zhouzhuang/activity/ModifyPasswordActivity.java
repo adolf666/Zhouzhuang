@@ -68,8 +68,7 @@ public class ModifyPasswordActivity extends BaseActivity {
                 }else if(!mNewPassword.getText().toString().isEmpty()&&!mConfirmPassword.getText().toString().isEmpty()
                         &&mNewPassword.getText().toString().equals(mConfirmPassword.getText().toString())){
                     RequestParams params = new RequestParams();
-                    Object object = SharedPreferencesUtils.readObject(this, "AccountInfo");
-                    LoginObj obj = (LoginObj) object;
+                    LoginObj obj= GsonUtil.jsonToBean(SharedPreferencesUtils.getString(this, "AccountInfo",""),LoginObj.class);
                     if (obj.getUsername() != null) {
                         params.put("pid",obj.getPid());
                     }

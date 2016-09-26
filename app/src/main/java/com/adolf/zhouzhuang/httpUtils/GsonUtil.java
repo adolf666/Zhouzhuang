@@ -63,6 +63,14 @@ public class GsonUtil {
         return t;
     }
 
+    public static <T> T jsonToBean(String jsonObject,Class<T> cls){
+        T t = null;
+        if (gson != null) {
+            t = gson.fromJson(jsonObject, cls);
+        }
+        return t;
+    }
+
     public static String getExtendJson(JSONObject jsonObject ,String para){
         try {
             return jsonObject.getString(para);

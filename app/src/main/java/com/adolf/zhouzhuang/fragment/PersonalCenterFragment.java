@@ -89,8 +89,7 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
     }
 
     private void setPersonalInfo(){
-        Object object = SharedPreferencesUtils.readObject(getActivity(),"AccountInfo");
-        LoginObj obj = (LoginObj)object;
+        LoginObj obj= GsonUtil.jsonToBean(SharedPreferencesUtils.getString(getActivity(), "AccountInfo",""),LoginObj.class);
         mUserName.setText(obj.getUsername());
         mPersonInfo.setVisibility(View.VISIBLE);
     }
