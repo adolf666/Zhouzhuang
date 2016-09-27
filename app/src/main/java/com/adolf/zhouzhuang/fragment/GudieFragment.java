@@ -224,14 +224,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setTabResourceState();
                 mSpotsListLinearLayout.setVisibility(View.GONE);
-                if (position == 0){
-                    locationToCenter(31.11500, 120.85522,true);
-                }else if(position == 1){
-                    locationToCenter(31.11500, 120.85742,true);
-                }else{
-//                    locationToZhouzhuang(Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLat()),Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLng()));
-                    locationToCenter(31.121492,120.85681,true);
-                }
+                mSpots =spotsList.get(position);
+//              ocationToZhouzhuang(Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLat()),Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLng()));
+                locationToCenter(Double.parseDouble(mSpots.getLat4show()),Double.parseDouble(mSpots.getLng4show()),false);
                 isRightSpotsListViewVisible = false;
                 mSpotsListLV.setVisibility(View.GONE);
 //                showSpotsDialog(spotsList.get(position));
@@ -546,7 +541,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
 //                showSpotsDialog(mSpots);
                 showBaiduInfoWindow(mSpots);
-                locationToCenter(Double.parseDouble(mSpots.getLat()),Double.parseDouble(mSpots.getLng()),false);
+                locationToCenter(Double.parseDouble(mSpots.getLat4show()),Double.parseDouble(mSpots.getLng4show()),false);
                 return true;
             }
         });
@@ -580,9 +575,14 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
     private void showBaiduInfoWindow(Spots spots){
-        LatLng latLng = new LatLng(Double.parseDouble(mSpots.getLat4show()),Double.parseDouble(mSpots.getLng4show()));
-        InfoWindow infoWindow = new InfoWindow(initDialogView(spots),latLng,0 - Utils.dip2px(getActivity(),45));
-        mBaiduMap.showInfoWindow(infoWindow);
+        if (mSpots.getLat4show() != null && mSpots.getLng4show() != null){
+            LatLng latLng = new LatLng(Double.parseDouble(mSpots.getLat4show()),Double.parseDouble(mSpots.getLng4show()));
+            InfoWindow infoWindow = new InfoWindow(initDialogView(spots),latLng,0 - Utils.dip2px(getActivity(),45));
+            mBaiduMap.showInfoWindow(infoWindow);
+        }else{
+            Toast.makeText(getActivity(),"获取经纬度失败",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private View initDialogView(Spots spots){
