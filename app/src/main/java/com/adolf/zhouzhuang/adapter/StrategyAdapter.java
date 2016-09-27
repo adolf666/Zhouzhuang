@@ -31,12 +31,19 @@ public class StrategyAdapter extends BaseAdapter {
 
     private Context context;
     private List<StrategyObject> strategyObjectList;
-
+    private DisplayImageOptions options;
     public StrategyAdapter(Context context, List<StrategyObject> strategyObjectList) {
         this.context = context;
         this.strategyObjectList = strategyObjectList;
         ImageLoaderConfiguration config = ImageLoaderConfiguration.createDefault(context);
         ImageLoader.getInstance().init(config);
+        options = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.box01_image) //设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.mipmap.box01_image) // 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.mipmap.box01_image) // 设置图片加载或解码过程中发生错误显示的图片
+                .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+                .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
+                .displayer(new RoundedBitmapDisplayer(90)) // 设置成圆角、圆形图片,我这里将new RoundedBitmapDisplayer的参数设置为90,就是圆形图片，其他角度可以根据需求自行修改
+                .build(); // 创建配置过得DisplayImageOption对象
     }
     @Override
     public int getCount() {
@@ -71,15 +78,7 @@ public class StrategyAdapter extends BaseAdapter {
        final StrategyObject item = strategyObjectList.get(position);
         ImageLoader.getInstance().displayImage(item.getPicthumburl(), viewHolder.mPic);
         if(item.getCreatorimgurl()!=null&&!item.getCreatorimgurl().isEmpty()){
-            DisplayImageOptions options = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.box01_image) //设置图片下载期间显示的图片
-                    .showImageForEmptyUri(R.mipmap.box01_image) // 设置图片Uri为空或是错误的时候显示的图片
-                    .showImageOnFail(R.mipmap.box01_image) // 设置图片加载或解码过程中发生错误显示的图片
-                    .cacheInMemory(false) // 设置下载的图片是否缓存在内存中
-                    .cacheOnDisk(false) // 设置下载的图片是否缓存在SD卡中
-                    .displayer(new RoundedBitmapDisplayer(90)) // 设置成圆角、圆形图片,我这里将new RoundedBitmapDisplayer的参数设置为90,就是圆形图片，其他角度可以根据需求自行修改
-                    .build(); // 创建配置过得DisplayImageOption对象
-                ImageLoader.getInstance().displayImage(item.getCreatorimgurl(), viewHolder.mPhoto,options);
-
+            ImageLoader.getInstance().displayImage(item.getCreatorimgurl(), viewHolder.mPhoto,options);
         }
 
 

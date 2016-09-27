@@ -1,11 +1,13 @@
 package com.adolf.zhouzhuang.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -156,5 +158,20 @@ public class Utils {
             Log.d("test", "not null drawable");
         }
         return drawable ;
+    }
+
+    public static int getDiaplayWidth(Activity activity){
+        WindowManager wm = activity.getWindowManager();
+        return wm.getDefaultDisplay().getWidth();
+    }
+
+    public static int dip2px(Context context, float dipValue){
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(dipValue * scale + 0.5f);
+    }
+
+    public static int px2dip(Context context, float pxValue){
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(pxValue / scale + 0.5f);
     }
 }

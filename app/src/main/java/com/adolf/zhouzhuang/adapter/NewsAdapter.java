@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.object.Exhibit;
 import com.adolf.zhouzhuang.util.Utils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
 
@@ -23,12 +25,18 @@ import java.util.List;
 public class NewsAdapter extends BaseAdapter {
     private Context context;
     private List<Exhibit> exhibitList;
-
+    private DisplayImageOptions options;
     public NewsAdapter(Context context, List<Exhibit> exhibitList) {
         this.context = context;
         this.exhibitList = exhibitList;
         ImageLoaderConfiguration config = ImageLoaderConfiguration.createDefault(context);
         ImageLoader.getInstance().init(config);
+        options = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.box01_image) //设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.mipmap.box01_image) // 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.mipmap.box01_image) // 设置图片加载或解码过程中发生错误显示的图片
+                .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+                .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
+                .build(); // 创建配置过得DisplayImageOption对象
     }
 
     @Override
@@ -67,7 +75,7 @@ public class NewsAdapter extends BaseAdapter {
         viewHolder.title.setTypeface(Utils.getType(context,0));
 
         viewHolder.description.setTypeface(Utils.getType(context,3));
-        ImageLoader.getInstance().displayImage(exhibitList.get(position).getTitleImgLocation(), viewHolder.image);
+        ImageLoader.getInstance().displayImage(exhibitList.get(position).getTitleImgLocation(), viewHolder.image,options);
 
         return convertView;
 

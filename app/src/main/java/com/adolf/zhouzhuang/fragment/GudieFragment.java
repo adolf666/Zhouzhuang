@@ -50,6 +50,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.GroundOverlayOptions;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -235,7 +236,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 }
                 isRightSpotsListViewVisible = false;
                 mSpotsListLV.setVisibility(View.GONE);
-                showSpotsDialog(spotsList.get(position));
+//                showSpotsDialog(spotsList.get(position));
+                showBaiduInfoWindow(spotsList.get(position));
             }
         });
     }
@@ -352,7 +354,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 SoundBroadUtils.getInstance().stopSound();
                 break;
             case R.id.tv_close:
-                dialog.dismiss();
+                mBaiduMap.hideInfoWindow();
                 break;
             case R.id.tv_bg:
                 isRightSpotsListViewVisible = false;
@@ -525,7 +527,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             public boolean onMarkerClick(final Marker marker) {
                 mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
-                showSpotsDialog(mSpots);
+//                showSpotsDialog(mSpots);
+                showBaiduInfoWindow(mSpots);
                 return true;
             }
         });
@@ -554,8 +557,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         //将布局设置给Dialog
         bottomDialog.setContentView(view);
         bottomDialog.setDialogGravity(UniversalDialog.DialogGravity.CENTERBOTTOM);
-        bottomDialog.setBottomIn();
+
         bottomDialog.setWH(getActivity(),getActivity().getWindowManager());
+//        bottomDialog.setBottomIn();
     }
 
     private void showSpotsDialog(Spots spots){
@@ -567,6 +571,12 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         dialog.setContentView(initDialogView(mSpots));
         dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
         dialog.setTitle(mSpots.getTitle());
+    }
+
+    private void showBaiduInfoWindow(Spots spots){
+        LatLng latLng = new LatLng(Double.parseDouble(mSpots.getLat4show()),Double.parseDouble(mSpots.getLng4show()));
+        InfoWindow infoWindow = new InfoWindow(initDialogView(spots),latLng,-30);
+        mBaiduMap.showInfoWindow(infoWindow);
     }
 
     private View initDialogView(Spots spots){
