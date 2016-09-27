@@ -1,6 +1,5 @@
 package com.adolf.zhouzhuang.fragment;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -116,7 +115,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.mipmap.btn_voice_default);
-   private UniversalDialog dialog;
     private RelativeLayout mSpotsListLinearLayout;
     private TextView mBackgroundTV;
     private List<Spots> spotsList;
@@ -227,12 +225,12 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 setTabResourceState();
                 mSpotsListLinearLayout.setVisibility(View.GONE);
                 if (position == 0){
-                    locationToZhouzhuang(31.11500, 120.85522);
+                    locationToCenter(31.11500, 120.85522,true);
                 }else if(position == 1){
-                    locationToZhouzhuang(31.11500, 120.85742);
+                    locationToCenter(31.11500, 120.85742,true);
                 }else{
 //                    locationToZhouzhuang(Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLat()),Double.parseDouble(((Spots)mGuideListAdapter.getItem(position)).getLng()));
-                    locationToZhouzhuang(31.121492,120.85681);
+                    locationToCenter(31.121492,120.85681,true);
                 }
                 isRightSpotsListViewVisible = false;
                 mSpotsListLV.setVisibility(View.GONE);
@@ -295,7 +293,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
 //                mLocationClient.setLocOption(option);
 //                mLocationClient.start();
 
-                locationToZhouzhuang(31.121492,120.85681);
+                locationToCenter(31.121492,120.85681,true);
                 break;
             case R.id.bt_audio_play:
             if (!isAudioExit(String.valueOf(mSpots.getCreateTime()))){
@@ -303,7 +301,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 }else{
                     playAudio(mSpots.getVideoLocation());
                 }
-                dialog.dismiss();
+                mBaiduMap.hideInfoWindow();
                 break;
             case R.id.bt_detail:
                 Intent intent  = new Intent();
@@ -311,14 +309,14 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 intent.putExtra("URL",mSpots.getDetailUrl());
                 intent.putExtra("SpotsId",mSpots.getPid());
                 startActivity(intent);
-                dialog.dismiss();
+                mBaiduMap.hideInfoWindow();
                 break;
             case R.id.tv_walk_navigetion:
                 isShowLeftSpotList();
                 break;
             case R.id.tv_navigation_map:
                 showNaviDialog();
-                dialog.dismiss();
+                mBaiduMap.hideInfoWindow();
                 break;
             case R.id.bt_favorite:
                 if (!Utils.isAutoLogin(getActivity())){
@@ -330,7 +328,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                         cancelCollection();
                     }
                 }
-                dialog.dismiss();
+                mBaiduMap.hideInfoWindow();
                 break;
             case R.id.tv_spots_list:
                 isShowRightSpotList();
@@ -479,12 +477,13 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     }
 
     private void initBaiduMap(){
-        locationToZhouzhuang(31.121492,120.85681);
+        locationToCenter(31.121492,120.85681,true);
         addLayerToMap();
 
     }
 
-    public void locationToZhouzhuang(double lat,double lng){
+    //定位屏幕中心点
+    public void locationToCenter(double lat,double lng,boolean isZoom){
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 
@@ -492,8 +491,26 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mBaiduMap.setMyLocationData(locData);
         mBaiduMap.setMyLocationEnabled(true);
         LatLng ll = new LatLng(lat,lng);
-        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll, 15.8f);//设置缩放比例
-        mBaiduMap.animateMapStatus(u);
+        MapStatusUpdate u;
+        if (isZoom){
+            u = MapStatusUpdateFactory.newLatLngZoom(ll, 15.8f);//设置缩放比例
+            mBaiduMap.animateMapStatus(u);
+        }else{
+            u = MapStatusUpdateFactory.newLatLng(ll);//不设置缩放比例
+            final MapStatusUpdate u2 = MapStatusUpdateFactory.scrollBy(0,0 - Utils.dip2px(getActivity(),120));
+            mBaiduMap.animateMapStatus(u);
+            final Handler handler=new Handler();
+            Runnable runnable=new Runnable(){
+                @Override
+                public void run() {
+              mBaiduMap.animateMapStatus(u2);
+                }
+            };
+            handler.postDelayed(runnable, 400);
+
+        }
+
+
     }
 
     public void addLayerToMap(){
@@ -529,12 +546,13 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
 //                showSpotsDialog(mSpots);
                 showBaiduInfoWindow(mSpots);
+                locationToCenter(Double.parseDouble(mSpots.getLat()),Double.parseDouble(mSpots.getLng()),false);
                 return true;
             }
         });
 
         if(0!=spotsId){
-        showSpotsDialog( mSpotsDataBaseHelper.getSpotsById(spotsId));
+        showBaiduInfoWindow( mSpotsDataBaseHelper.getSpotsById(spotsId));
         }
     }
 
@@ -559,23 +577,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         bottomDialog.setDialogGravity(UniversalDialog.DialogGravity.CENTERBOTTOM);
 
         bottomDialog.setWH(getActivity(),getActivity().getWindowManager());
-//        bottomDialog.setBottomIn();
-    }
-
-    private void showSpotsDialog(Spots spots){
-        mSpots = spots;
-        if (dialog == null){
-            dialog = new UniversalDialog(getActivity());
-        }
-        dialog.show();
-        dialog.setContentView(initDialogView(mSpots));
-        dialog.setDialogGravity(UniversalDialog.DialogGravity.CENTER);
-        dialog.setTitle(mSpots.getTitle());
     }
 
     private void showBaiduInfoWindow(Spots spots){
         LatLng latLng = new LatLng(Double.parseDouble(mSpots.getLat4show()),Double.parseDouble(mSpots.getLng4show()));
-        InfoWindow infoWindow = new InfoWindow(initDialogView(spots),latLng,-30);
+        InfoWindow infoWindow = new InfoWindow(initDialogView(spots),latLng,0 - Utils.dip2px(getActivity(),45));
         mBaiduMap.showInfoWindow(infoWindow);
     }
 
