@@ -14,6 +14,7 @@ import com.adolf.zhouzhuang.adapter.PersonalCollectAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
+import com.adolf.zhouzhuang.interfaces.MainInterface;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -58,10 +59,18 @@ public class PersonCollectActivity extends BaseActivity {
             mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    Intent intent = new Intent();
+                  /*  Intent intent = new Intent();
                     intent.setClass(PersonCollectActivity.this,MainActivity.class);
                     intent.putExtra(MainActivity.SPOTS_ID,spotsList.get(position).getPid());
-                    startActivity(intent);
+                    startActivity(intent);*/
+                    MainActivity mainActivity = new MainActivity();
+                    mainActivity.setSpotId();
+                    MainInterface mainInterface = new MainInterface() {
+                        @Override
+                        public void setSpotId() {
+
+                        }
+                    };
                     finish();
                 }
             });

@@ -1,8 +1,10 @@
 package com.adolf.zhouzhuang.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.adolf.zhouzhuang.R;
@@ -57,7 +59,7 @@ public class NewsActivity extends BaseActivity {
         });
     }
 
-    public void setNewsData(List<Exhibit> exhibitList){
+    public void setNewsData(final List<Exhibit> exhibitList){
 
         if (adapter == null){
             adapter = new NewsAdapter(NewsActivity.this,exhibitList);
@@ -65,6 +67,16 @@ public class NewsActivity extends BaseActivity {
             adapter.notifyDataSetChanged();
         }
         mNewsLv.setAdapter(adapter);
+        mNewsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent =new Intent();
+                intent.setClass(NewsActivity.this,WebViewActivity.class);
+                intent.putExtra("URL",exhibitList.get(position).getDetailUrl());
+                intent.putExtra(WebViewActivity.NAME,"新闻中心");
+                startActivity(intent);
+            }
+        });
         progressDialog.dismiss();
     }
 

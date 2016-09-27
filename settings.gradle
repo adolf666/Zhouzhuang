@@ -1,1 +1,1 @@
-include ':app', ':daogeneratorlib'
+include ':app', ':daogeneratorlib', ':LoadMoreLib'

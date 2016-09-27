@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -56,6 +57,8 @@ public class QRCodeActivity extends BaseActivity implements QRCodeView.Delegate{
         vibrate();
         Intent intent = new Intent();
         intent.setClass(QRCodeActivity.this,MainActivity.class);
+
+        Log.i("fffffffff",result);
         intent.putExtra(MainActivity.SPOTS_ID,Integer.valueOf(result));
         startActivity(intent);
         finish();

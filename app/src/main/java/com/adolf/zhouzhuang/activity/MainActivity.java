@@ -18,6 +18,7 @@ import com.adolf.zhouzhuang.fragment.GudieFragment;
 import com.adolf.zhouzhuang.fragment.PersonalCenterFragment;
 import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
+import com.adolf.zhouzhuang.interfaces.MainInterface;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.Utils;
@@ -26,7 +27,7 @@ import com.adolf.zhouzhuang.widget.CustomViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,MainInterface {
 
     private TextView mMuseumTextView;
     private TextView mCollectionTextView;
@@ -42,11 +43,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         spotId = getIntent().getIntExtra(SPOTS_ID,0);
         setContentView(R.layout.activity_main);
         initViews();
-        if(spotId!=0){
+  /*      if(spotId!=0){
         mCustomerViewPager.setCurrentItem(2);
         setBottomBarBackground(2);
         initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
-        }
+        }*/
     }
     private void initViews(){
         mMuseumTextView = (TextView) findViewById(R.id.tv_museum);
@@ -194,5 +195,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     public void onBackPressed() {
         super.onBackPressed();
         SoundBroadUtils.getInstance().stopSound();
+    }
+
+    @Override
+    public void setSpotId() {
+        mCustomerViewPager.setCurrentItem(2);
+        setBottomBarBackground(2);
+        initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
     }
 }
