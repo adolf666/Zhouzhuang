@@ -1,8 +1,10 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -49,10 +51,20 @@ public class PersonCollectActivity extends BaseActivity {
         getAllFavorite();
     }
 
-    private void setListViewData(List<Spots> spotsList){
+    private void setListViewData(final List<Spots> spotsList){
         if (spotsList != null && spotsList.size()>0) {
             mAdapter = new PersonalCollectAdapter(this, spotsList);
             mListview.setAdapter(mAdapter);
+            mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    Intent intent = new Intent();
+                    intent.setClass(PersonCollectActivity.this,MainActivity.class);
+                    intent.putExtra(MainActivity.SPOTS_ID,spotsList.get(position).getPid());
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
     }
 

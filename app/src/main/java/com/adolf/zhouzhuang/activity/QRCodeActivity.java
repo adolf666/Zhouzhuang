@@ -55,8 +55,8 @@ public class QRCodeActivity extends BaseActivity implements QRCodeView.Delegate{
     public void onScanQRCodeSuccess(String result) {
         vibrate();
         Intent intent = new Intent();
-        intent.setClass(QRCodeActivity.this,WebViewActivity.class);
-        intent.putExtra("URL",result);
+        intent.setClass(QRCodeActivity.this,MainActivity.class);
+        intent.putExtra(MainActivity.SPOTS_ID,Integer.valueOf(result));
         startActivity(intent);
         finish();
     }

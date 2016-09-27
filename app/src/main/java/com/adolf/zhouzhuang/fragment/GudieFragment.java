@@ -79,8 +79,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class GudieFragment extends BaseFragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String SPOT_ID = "spot_id";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -124,6 +124,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     private Bitmap mLayerBitmap;
     private List<Integer> mFavoriteForUser = new ArrayList<>();
     private UniversalDialog bottomDialog;
+
+    private int spotsId = 0;
     public GudieFragment() {
         // Required empty public constructor
     }
@@ -132,16 +134,14 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+
      * @return A new instance of fragment GudieFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GudieFragment newInstance(String param1, String param2) {
+    public static GudieFragment newInstance(int spotsId) {
         GudieFragment fragment = new GudieFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(SPOT_ID, spotsId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -150,9 +150,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            spotsId = getArguments().getInt(SPOT_ID);
         }
+        Log.i("ssssssss+spotsid",spotsId+"");
         mLocationClient = new LocationClient(getActivity().getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener( myListener );    //注册监听函数
         getSpotsList();
@@ -529,6 +529,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 return true;
             }
         });
+
+        if(0!=spotsId){
+        showSpotsDialog( mSpotsDataBaseHelper.getSpotsById(spotsId));
+        }
     }
 
     private void showNaviDialog(){

@@ -34,19 +34,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     private TextView mStrategyTextView;
 
     private CustomViewPager mCustomerViewPager;
-
+    public static final String SPOTS_ID = "spot_id";
+    private int spotId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        spotId = getIntent().getIntExtra(SPOTS_ID,0);
         setContentView(R.layout.activity_main);
         initViews();
+        if(spotId!=0){
+        mCustomerViewPager.setCurrentItem(2);
+        setBottomBarBackground(2);
+        initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
+        }
     }
     private void initViews(){
         mMuseumTextView = (TextView) findViewById(R.id.tv_museum);
         mCollectionTextView = (TextView) findViewById(R.id.tv_collection);
         mNavigationTextView = (TextView) findViewById(R.id.tv_navigation);
         mStrategyTextView = (TextView) findViewById(R.id.tv_strategy);
-        //Typeface type = Typeface.createFromAsset (getAssets() , "fonts/FZSQKB.TTF" );
         mMuseumTextView.setTypeface(Utils.getType(this,0));
         mCollectionTextView.setTypeface(Utils.getType(this,0));
         mNavigationTextView.setTypeface(Utils.getType(this,0));
@@ -66,7 +72,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         List<Fragment> fragmentArrayList = new ArrayList<>();
         MuseumFragment museumFragment = new MuseumFragment();
         CollectionFragment collectionFragment = new CollectionFragment();
-        GudieFragment gudieFragment = new GudieFragment();
+        GudieFragment gudieFragment =  GudieFragment.newInstance(spotId);
         PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
