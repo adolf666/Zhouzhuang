@@ -135,15 +135,17 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
                 Intent intentCollect = new Intent();
                 if (Utils.isAutoLogin(getActivity())){
                     intentCollect.setClass(getActivity(),PersonCollectActivity.class);
+                    startActivityForResult(intentCollect, 10086);
                 }else{
                     intentCollect.setClass(getActivity(), LoginActivity.class);
+                    startActivity(intentCollect);
                 }
-                startActivity(intentCollect);
+
                 break;
             case R.id.tv_strategy:
                 Intent intentStrategy = new Intent();
                 intentStrategy.setClass(getActivity(),StrategyActivity.class);
-                startActivity(intentStrategy);
+               startActivity(intentStrategy);
                 break;
             case R.id.iv_portrait:
             case R.id.tv_name:
@@ -163,6 +165,19 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
             mPortrait.setOnClickListener(this);
             mPersonInfo.setVisibility(View.GONE);
             mUserName.setText("登录/注册");
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 10086:
+                if(null!=data){
+                    int spotId = data.getIntExtra(MainActivity.SPOTS_ID,0);
+                    ((MainActivity) getActivity()).setSpotId(spotId);
+                }
+
+                break;
         }
     }
 }

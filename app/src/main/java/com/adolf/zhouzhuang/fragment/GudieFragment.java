@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.adolf.zhouzhuang.Favorites;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.adapter.SpotsListAdapter;
@@ -137,18 +138,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
      * @return A new instance of fragment GudieFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GudieFragment newInstance(int spotsId) {
-        GudieFragment fragment = new GudieFragment();
-        Bundle args = new Bundle();
-        args.putInt(SPOT_ID, spotsId);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+       if (getArguments() != null) {
             spotsId = getArguments().getInt(SPOT_ID);
         }
         Log.i("ssssssss+spotsid",spotsId+"");
@@ -574,9 +568,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         bottomDialog.setWH(getActivity(),getActivity().getWindowManager());
     }
 
-    private void showBaiduInfoWindow(Spots spots){
-        if (mSpots.getLat4show() != null && mSpots.getLng4show() != null){
-            LatLng latLng = new LatLng(Double.parseDouble(mSpots.getLat4show()),Double.parseDouble(mSpots.getLng4show()));
+    public void showBaiduInfoWindow(Spots spots){
+        if (spots.getLat4show() != null && spots.getLng4show() != null){
+            LatLng latLng = new LatLng(Double.parseDouble(spots.getLat4show()),Double.parseDouble(spots.getLng4show()));
             InfoWindow infoWindow = new InfoWindow(initDialogView(spots),latLng,0 - Utils.dip2px(getActivity(),45));
             mBaiduMap.showInfoWindow(infoWindow);
         }else{
@@ -593,7 +587,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         Button favorite = (Button) mDialogView.findViewById(R.id.bt_favorite);
         TextView tv_spot_title = (TextView) mDialogView.findViewById(R.id.tv_spot_title);
         ImageView tv_close = (ImageView) mDialogView.findViewById(R.id.tv_close);
-        boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(),"pid"),mSpots.getPid());
+        boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(),"pid"),spots.getPid());
         favorite.setBackgroundResource(isNoFavor?R.drawable.dialog_selector_favor:R.drawable.dialog_selector_add_favor);
         tv_spot_title.setText(spots.getTitle());
         detail.setOnClickListener(this);

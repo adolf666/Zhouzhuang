@@ -1,5 +1,6 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,15 +64,11 @@ public class PersonCollectActivity extends BaseActivity {
                     intent.setClass(PersonCollectActivity.this,MainActivity.class);
                     intent.putExtra(MainActivity.SPOTS_ID,spotsList.get(position).getPid());
                     startActivity(intent);*/
-                    MainActivity mainActivity = new MainActivity();
-                    mainActivity.setSpotId();
-                    MainInterface mainInterface = new MainInterface() {
-                        @Override
-                        public void setSpotId() {
-
-                        }
-                    };
+                    Intent intent = new Intent();
+                    intent.putExtra(MainActivity.SPOTS_ID, spotsList.get(position).getPid());
+                    setResult(Activity.RESULT_OK, intent);
                     finish();
+
                 }
             });
         }

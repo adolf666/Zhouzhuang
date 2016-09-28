@@ -57,9 +57,11 @@ public class QRCodeActivity extends BaseActivity implements QRCodeView.Delegate{
         vibrate();
         Intent intent = new Intent();
         intent.setClass(QRCodeActivity.this,MainActivity.class);
-
-        Log.i("fffffffff",result);
-        intent.putExtra(MainActivity.SPOTS_ID,Integer.valueOf(result));
+        String s1 = result.substring(0, result.lastIndexOf("?")+1);
+        String s2 = result.replaceAll(s1,"");
+        String s3 =s2.substring(0,s2.lastIndexOf("=")+1);
+        String s4 =s2.replace(s3,"");
+        intent.putExtra(MainActivity.SPOTS_ID,Integer.valueOf(s4));
         startActivity(intent);
         finish();
     }

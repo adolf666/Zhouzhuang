@@ -7,11 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.adapter.ViewPagerAdapter;
+import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.fragment.BaseFragment;
 import com.adolf.zhouzhuang.fragment.CollectionFragment;
 import com.adolf.zhouzhuang.fragment.GudieFragment;
@@ -27,7 +29,7 @@ import com.adolf.zhouzhuang.widget.CustomViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,MainInterface {
+public class MainActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
     private TextView mMuseumTextView;
     private TextView mCollectionTextView;
@@ -37,17 +39,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     private CustomViewPager mCustomerViewPager;
     public static final String SPOTS_ID = "spot_id";
     private int spotId = 0;
+    GudieFragment gudieFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        spotId = getIntent().getIntExtra(SPOTS_ID,0);
         setContentView(R.layout.activity_main);
         initViews();
-  /*      if(spotId!=0){
-        mCustomerViewPager.setCurrentItem(2);
-        setBottomBarBackground(2);
-        initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
-        }*/
+        spiltTest();
     }
     private void initViews(){
         mMuseumTextView = (TextView) findViewById(R.id.tv_museum);
@@ -73,7 +71,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         List<Fragment> fragmentArrayList = new ArrayList<>();
         MuseumFragment museumFragment = new MuseumFragment();
         CollectionFragment collectionFragment = new CollectionFragment();
-        GudieFragment gudieFragment =  GudieFragment.newInstance(spotId);
+         gudieFragment = new GudieFragment();
         PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
@@ -197,10 +195,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         SoundBroadUtils.getInstance().stopSound();
     }
 
-    @Override
-    public void setSpotId() {
+
+    public void setSpotId(int spotId) {
         mCustomerViewPager.setCurrentItem(2);
         setBottomBarBackground(2);
         initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
+        SpotsDataBaseHelper mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+        if(0!=spotId){
+            gudieFragment.showBaiduInfoWindow( mSpotsDataBaseHelper.getSpotsById(spotId));
+        }
     }
+
+    private void  spiltTest(){
+        String so ="https://www.baidu.com/s?id=2";
+        String s1 = so.substring(0, so.lastIndexOf("?")+1);
+        String s2 = so.replaceAll(s1,"");
+        String s3 =s2.substring(0,s2.lastIndexOf("=")+1);
+        String s4 =s2.replace(s3,"");
+
+        Log.i("wwwwwwwwwwww",s1);
+        Log.i("wwwwwwwwwwww",s2);
+        Log.i("wwwwwwwwwwww",s3);
+        Log.i("wwwwwwwwwwww",s4);
+    }
+
 }
