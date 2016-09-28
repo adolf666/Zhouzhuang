@@ -10,17 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +60,6 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -475,7 +470,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
     public void locationToCenter(double lat,double lng,boolean isZoom){
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-
+        mBaiduMap.getUiSettings().setCompassEnabled(false);
+        mBaiduMap.getUiSettings().setRotateGesturesEnabled(false);
+        mBaiduMap.getUiSettings().setRotateGesturesEnabled(false);
         MyLocationData locData = new MyLocationData.Builder().accuracy(100) .direction(90.0f).latitude(Constants.lat).longitude(Constants.lng).build();
         mBaiduMap.setMyLocationData(locData);
         mBaiduMap.setMyLocationEnabled(true);
@@ -496,10 +493,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
                 }
             };
             handler.postDelayed(runnable, 400);
-
         }
-
-
     }
 
     public void addLayerToMap(){

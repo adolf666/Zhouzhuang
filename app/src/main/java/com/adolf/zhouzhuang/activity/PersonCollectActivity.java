@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.adapter.PersonalCollectAdapter;
+import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
@@ -36,6 +37,7 @@ public class PersonCollectActivity extends BaseActivity {
     private ListView mListview;
     private PersonalCollectAdapter mAdapter;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
+    private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +52,13 @@ public class PersonCollectActivity extends BaseActivity {
     }
     private void initData(){
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+        mFavoriteDataBaseHelper = new FavoriteDataBaseHelper(getFavoriteDao());
         getAllFavorite();
     }
 
     private void setListViewData(final List<Spots> spotsList){
         if (spotsList != null && spotsList.size()>0) {
-            mAdapter = new PersonalCollectAdapter(this, spotsList);
+            mAdapter = new PersonalCollectAdapter(this, spotsList,mFavoriteDataBaseHelper);
             mListview.setAdapter(mAdapter);
             mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

@@ -54,6 +54,15 @@ public class FavoriteDataBaseHelper {
         return findFirst(favoritesList);
     }
 
+    public void deleteFavoriteByUserIdAndSpotsId(int userId,int soptsId){
+        WhereCondition whereCondition = FavoritesDao.Properties.UserId.eq(userId);
+        WhereCondition whereCondition2 = FavoritesDao.Properties.SpotsId.eq(soptsId);
+        List<Favorites> favoritesList = mFavoriteListDao.queryBuilder().where(whereCondition).where(whereCondition2).list();
+        if (favoritesList != null && favoritesList.size() > 0){
+            mFavoriteListDao.delete(findFirst(favoritesList));
+        }
+    }
+
 
     //内部方法，不需要在外面调用
     private List<Favorites> queryFavorite(WhereCondition whereCondition){

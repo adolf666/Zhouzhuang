@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.adapter.ViewPagerAdapter;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.fragment.BaseFragment;
@@ -202,7 +203,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
         SpotsDataBaseHelper mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         if(0!=spotId){
-            gudieFragment.showBaiduInfoWindow( mSpotsDataBaseHelper.getSpotsById(spotId));
+            Spots spots = mSpotsDataBaseHelper.getSpotsById(spotId);
+            if (spots != null){
+                gudieFragment.showBaiduInfoWindow(spots);
+                gudieFragment.locationToCenter(Double.parseDouble(spots.getLat4show()),Double.parseDouble(spots.getLng4show()),false);
+            }
+
         }
     }
 

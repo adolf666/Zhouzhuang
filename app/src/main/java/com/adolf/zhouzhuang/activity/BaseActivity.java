@@ -33,7 +33,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initImageLoader();
 
     }
 
@@ -80,12 +79,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     public void showToast(String content){
         Toast.makeText(BaseActivity.this,content,Toast.LENGTH_SHORT).show();
-    }
-
-    private void initImageLoader(){
-        config = ImageLoaderConfiguration.createDefault(this);
-        ImageLoader.getInstance().init(config);
-
     }
 
     @Override

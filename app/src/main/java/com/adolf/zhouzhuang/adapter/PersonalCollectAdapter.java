@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
@@ -30,10 +31,13 @@ import cz.msebera.android.httpclient.Header;
 public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<Spots> collectList;
+    private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
 
-    public PersonalCollectAdapter(Context context, List<Spots> mList) {
+    public PersonalCollectAdapter(Context context, List<Spots> mList,FavoriteDataBaseHelper mFavoriteDataBaseHelper) {
         this.context = context;
         this.collectList = mList;
+        this.mFavoriteDataBaseHelper = mFavoriteDataBaseHelper;
+
     }
 
     @Override
@@ -90,7 +94,7 @@ public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickL
     public void onClick(View view) {
         if(view.getId() == R.id.img_delete_collect){
             int position =(Integer) view.getTag();
-            cancelCollection(String.valueOf(collectList.get(position).getPid()));
+            cancelCollection(collectList.get(position).getPid());
             collectList.remove(position);
             notifyDataSetChanged();
         }
@@ -101,15 +105,17 @@ public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickL
         TextView mName;
     }
 
-    public void cancelCollection(String spotsId){
+    public void cancelCollection(final int spotsId){
         RequestParams params = new RequestParams();
-        params.put("spotId",spotsId);
+        params.put("spotId",String.valueOf(spotsId));
         params.put("userId", SharedPreferencesUtils.getInt(context,"pid"));
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                mFavoriteDataBaseHelper.deleteFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(context,"pid"),spotsId);
                 Toast.makeText(context,"取消收藏成功",Toast.LENGTH_SHORT).show();
+
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {

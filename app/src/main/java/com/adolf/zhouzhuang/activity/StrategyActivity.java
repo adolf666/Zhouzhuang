@@ -3,6 +3,7 @@ package com.adolf.zhouzhuang.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -15,6 +16,8 @@ import com.adolf.zhouzhuang.object.StrategyObject;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import org.json.JSONObject;
 
@@ -44,6 +47,27 @@ public class StrategyActivity extends BaseActivity {
     private void initView(){
         initActionBar("返回", R.drawable.back_selected, "游玩攻略", "", 0);
         mListView = (ListView)findViewById(R.id.lv_list_view);
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        ImageLoader.getInstance().resume();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        ImageLoader.getInstance().pause();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        ImageLoader.getInstance().pause();
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
 
     }
   private  void initData(){
@@ -65,7 +89,6 @@ public class StrategyActivity extends BaseActivity {
   }
 
     private  void setStrategyData( List<StrategyObject> strategyObjectList){
-
         mAdapter = new StrategyAdapter(this,strategyObjectList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
