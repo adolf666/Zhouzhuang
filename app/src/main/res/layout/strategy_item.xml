@@ -4,16 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+<TextView
 
+    android:layout_width="match_parent"
+    android:layout_height="15dp"
+    android:background="#e6e6e6"
+    />
     <ImageView
         android:id="@+id/img_pic"
         android:paddingTop="15dp"
-        android:layout_height="180dp"
-        android:layout_width="180dp"
+        android:layout_height="170dp"
+        android:layout_width="match_parent"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:contentDescription="Image"
-        android:src="@mipmap/banner_default"
+        android:src="@mipmap/bg_strategy"
         />
 
     <LinearLayout
@@ -26,6 +31,8 @@
           android:layout_marginTop="10dp"
           android:layout_height="wrap_content"
           android:layout_width="match_parent"
+          android:textColor="#000000"
+          android:textSize="15sp"
           />
     <RelativeLayout
         android:layout_height="wrap_content"
@@ -36,8 +43,8 @@
         >
         <ImageView
             android:id="@+id/img_photo"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
            />
         <TextView
@@ -46,6 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/img_photo"
             android:paddingLeft="5dp"
+            android:textColor="#999999"
+            android:textSize="13sp"
             android:layout_centerVertical="true"
             />
         <TextView

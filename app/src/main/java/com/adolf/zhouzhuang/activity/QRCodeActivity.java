@@ -3,11 +3,10 @@ package com.adolf.zhouzhuang.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
-import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 
@@ -62,7 +61,8 @@ public class QRCodeActivity extends BaseActivity implements QRCodeView.Delegate{
         String s3 =s2.substring(0,s2.lastIndexOf("=")+1);
         String s4 =s2.replace(s3,"");
         intent.putExtra(MainActivity.SPOTS_ID,Integer.valueOf(s4));
-        startActivity(intent);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
         finish();
     }
 

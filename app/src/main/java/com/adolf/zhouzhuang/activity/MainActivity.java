@@ -32,6 +32,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
+    public static final int QrcodeRequest = 1000;
     private TextView mMuseumTextView;
     private TextView mCollectionTextView;
     private TextView mNavigationTextView;
@@ -46,7 +47,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        spiltTest();
     }
     private void initViews(){
         mMuseumTextView = (TextView) findViewById(R.id.tv_museum);
@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
             case R.id.tv_rigth_actionbar:
                 Intent intent2 = new Intent();
                 intent2.setClass(MainActivity.this,QRCodeActivity.class);
-                startActivity(intent2);
+                startActivityForResult(intent2,QrcodeRequest);
                 break;
         }
     }
@@ -211,18 +211,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
 
         }
     }
-
-    private void  spiltTest(){
-        String so ="https://www.baidu.com/s?id=2";
-        String s1 = so.substring(0, so.lastIndexOf("?")+1);
-        String s2 = so.replaceAll(s1,"");
-        String s3 =s2.substring(0,s2.lastIndexOf("=")+1);
-        String s4 =s2.replace(s3,"");
-
-        Log.i("wwwwwwwwwwww",s1);
-        Log.i("wwwwwwwwwwww",s2);
-        Log.i("wwwwwwwwwwww",s3);
-        Log.i("wwwwwwwwwwww",s4);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case QrcodeRequest:
+                if(null!=data){
+                    int spotId = data.getIntExtra(SPOTS_ID,0);
+                   setSpotId(spotId);
+                }
+                break;
+        }
     }
-
 }

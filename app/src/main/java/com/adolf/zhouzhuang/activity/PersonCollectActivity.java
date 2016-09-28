@@ -63,10 +63,6 @@ public class PersonCollectActivity extends BaseActivity {
             mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                  /*  Intent intent = new Intent();
-                    intent.setClass(PersonCollectActivity.this,MainActivity.class);
-                    intent.putExtra(MainActivity.SPOTS_ID,spotsList.get(position).getPid());
-                    startActivity(intent);*/
                     Intent intent = new Intent();
                     intent.putExtra(MainActivity.SPOTS_ID, spotsList.get(position).getPid());
                     setResult(Activity.RESULT_OK, intent);

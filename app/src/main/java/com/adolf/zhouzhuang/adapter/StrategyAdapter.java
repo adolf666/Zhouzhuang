@@ -37,9 +37,9 @@ public class StrategyAdapter extends BaseAdapter {
         this.strategyObjectList = strategyObjectList;
         ImageLoaderConfiguration config = ImageLoaderConfiguration.createDefault(context);
         ImageLoader.getInstance().init(config);
-        options = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.box01_image) //设置图片下载期间显示的图片
-                .showImageForEmptyUri(R.mipmap.box01_image) // 设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.mipmap.box01_image) // 设置图片加载或解码过程中发生错误显示的图片
+        options = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.icon_photo_eg) //设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.mipmap.icon_photo_eg) // 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.mipmap.icon_photo_eg) // 设置图片加载或解码过程中发生错误显示的图片
                 .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
                 .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
                 .displayer(new RoundedBitmapDisplayer(90)) // 设置成圆角、圆形图片,我这里将new RoundedBitmapDisplayer的参数设置为90,就是圆形图片，其他角度可以根据需求自行修改
