@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LoadMoreLib/LoadMoreLib.iml" filepath="$PROJECT_DIR$/LoadMoreLib/LoadMoreLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/Zhouzhuang.iml" filepath="$PROJECT_DIR$/Zhouzhuang.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/daogeneratorlib/daogeneratorlib.iml" filepath="$PROJECT_DIR$/daogeneratorlib/daogeneratorlib.iml" />

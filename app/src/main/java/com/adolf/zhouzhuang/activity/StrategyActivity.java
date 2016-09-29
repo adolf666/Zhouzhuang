@@ -2,6 +2,8 @@ package com.adolf.zhouzhuang.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -11,17 +13,16 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.adapter.StrategyAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
-import com.adolf.zhouzhuang.object.Exhibit;
+import com.adolf.zhouzhuang.interfaces.OnRefreshListener;
 import com.adolf.zhouzhuang.object.StrategyObject;
 import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.adolf.zhouzhuang.widget.PullToRefreshLayout;
+
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
-
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -29,14 +30,14 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by Administrator on 2016/9/25.
  */
-public class StrategyActivity extends BaseActivity {
+public class StrategyActivity extends BaseActivity implements OnRefreshListener {
 
 
 
     private ListView mListView;
     private StrategyAdapter mAdapter;
     private List<StrategyObject> strategyObjectArrayList;
-
+    PullToRefreshLayout refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,8 @@ public class StrategyActivity extends BaseActivity {
     }
     private void initView(){
         initActionBar("返回", R.drawable.back_selected, "游玩攻略", "", 0);
+        refreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_view);
+        refreshLayout.setOnRefreshListener(this);
         mListView = (ListView)findViewById(R.id.lv_list_view);
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -111,4 +114,9 @@ public class StrategyActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onRefresh() {
+        initData();
+        refreshLayout.refreshFinish(PullToRefreshLayout.REFRESH_SUCCEED);
+    }
 }
