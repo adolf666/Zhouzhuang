@@ -63,7 +63,7 @@ public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickL
             convertView = LayoutInflater.from(context).inflate(R.layout.item_personal_collect, null);
             viewHolder.mName = (TextView) convertView.findViewById(R.id.tv_collect_name);
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.img_delete_collect);
-
+            viewHolder.mName.setTypeface(Utils.getType(context, 3));
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -76,7 +76,6 @@ public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickL
             convertView.setBackgroundResource(R.mipmap.bg_threeinput02);
         }
         viewHolder.mName.setText(collectList.get(position).getTitle());
-        viewHolder.mName.setTypeface(Utils.getType(context, 3));
         viewHolder.imageView.setTag(position);
         viewHolder.imageView.setOnClickListener(this);
         /*viewHolder.imageView.setOnClickListener(new View.OnClickListener() {

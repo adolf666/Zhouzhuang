@@ -62,19 +62,16 @@ public class NewsAdapter extends BaseAdapter {
             viewHolder.title = (TextView) convertView.findViewById(R.id.tv_title);
             viewHolder.description = (TextView) convertView.findViewById(R.id.tv_desc);
             viewHolder.mDivide = (TextView)convertView.findViewById(R.id.view_divide);
+            viewHolder.title.setTypeface(Utils.getType(context,0));
+            viewHolder.description.setTypeface(Utils.getType(context,3));
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
         viewHolder.title.setText(exhibitList.get(position).getTitle());
         viewHolder.description.setText(exhibitList.get(position).getBrief());
-        viewHolder.title.setTypeface(Utils.getType(context,0));
-
-        viewHolder.description.setTypeface(Utils.getType(context,3));
         ImageLoader.getInstance().displayImage(exhibitList.get(position).getTitleImgLocation(), viewHolder.image,options);
-
         return convertView;
 
     }
