@@ -146,6 +146,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         ListView lv = new ListView(getActivity());
         NewsAdapter adapter = new NewsAdapter(getActivity(),exhibits);
         lv.setAdapter(adapter);
+        lv.setSelector(R.mipmap.banner_default);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -205,8 +206,8 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
 
     private  void tabSwitch(int position){
         tempExhibit.setBackground(position==0?getResources().getDrawable(R.mipmap.tab01_focus):getResources().getDrawable(R.mipmap.tab01_default));
-        displayExhibit.setBackground(position==1?getResources().getDrawable(R.mipmap.tab02_focus):getResources().getDrawable(R.mipmap.tab02_default));
-        spotsExhibit.setBackground(position==2?getResources().getDrawable(R.mipmap.tab03_focus):getResources().getDrawable(R.mipmap.tab03_default));
+        displayExhibit.setBackground(position==1?getResources().getDrawable(R.mipmap.tab03_focus):getResources().getDrawable(R.mipmap.tab03_default));
+        spotsExhibit.setBackground(position==2?getResources().getDrawable(R.mipmap.tab02_focus):getResources().getDrawable(R.mipmap.tab02_default));
     }
     @Override
     public void onClick(View view) {

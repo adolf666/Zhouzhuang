@@ -387,7 +387,6 @@ public class PullToRefreshLayout extends RelativeLayout implements View.OnTouchL
         refreshingView = headView.findViewById(R.id.refreshing_icon);
         stateImageView = headView.findViewById(R.id.state_iv);
     }
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b)
     {

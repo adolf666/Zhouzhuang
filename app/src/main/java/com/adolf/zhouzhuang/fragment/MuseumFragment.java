@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
+import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.activity.NewsActivity;
 import com.adolf.zhouzhuang.activity.PanoramaActivity;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
@@ -163,6 +164,8 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.tv_exhibition:
                 mListener.onFragmentInteraction(Uri.parse("exhibit"));
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.setBottomBarBackground(1);
                 break;
             case  R.id.tv_pic1:
                 startActivity(new Intent(getActivity(), PanoramaActivity.class));
