@@ -21,6 +21,7 @@ import com.adolf.zhouzhuang.widget.PullToRefreshLayout;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import org.json.JSONObject;
 
@@ -52,27 +53,7 @@ public class StrategyActivity extends BaseActivity  {
       //  refreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_view);
       //  refreshLayout.setOnRefreshListener(this);
         mListView = (ListView) findViewById(R.id.lv_list_view);
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                switch (scrollState) {
-                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                        ImageLoader.getInstance().resume();
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        ImageLoader.getInstance().pause();
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        ImageLoader.getInstance().pause();
-                        break;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
+        mListView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), true, true));//两个分别表示拖动下拉条和滑动过程中暂停加载
 
     }
 

@@ -472,7 +472,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         mBaiduMap.getUiSettings().setCompassEnabled(false);
         mBaiduMap.getUiSettings().setRotateGesturesEnabled(false);
-        mBaiduMap.getUiSettings().setRotateGesturesEnabled(false);
+        mBaiduMap.getUiSettings().setOverlookingGesturesEnabled(false);
+        mBaiduMap.showMapPoi(false);
         MyLocationData locData = new MyLocationData.Builder().accuracy(100) .direction(90.0f).latitude(Constants.lat).longitude(Constants.lng).build();
         mBaiduMap.setMyLocationData(locData);
         mBaiduMap.setMyLocationEnabled(true);
@@ -668,7 +669,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(getActivity().getResources(),resourceId, opts);
-        opts.inSampleSize = computeSampleSize(opts, -1, 2650*2650);
+        opts.inSampleSize = computeSampleSize(opts, -1, 2450*2450);
         opts.inJustDecodeBounds = false;
         try {
             return BitmapFactory.decodeResource(getActivity().getResources(),resourceId, opts);

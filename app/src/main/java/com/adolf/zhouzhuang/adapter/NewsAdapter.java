@@ -16,6 +16,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class NewsAdapter extends BaseAdapter {
 
         viewHolder.title.setText(exhibitList.get(position).getTitle());
         viewHolder.description.setText(exhibitList.get(position).getBrief());
-        ImageLoader.getInstance().displayImage(exhibitList.get(position).getTitleImgLocation(), viewHolder.image,options);
+        ImageLoader.getInstance().displayImage(exhibitList.get(position).getTitleImgLocation(), new ImageViewAware(viewHolder.image,false),options);
         return convertView;
 
     }
