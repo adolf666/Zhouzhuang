@@ -81,7 +81,6 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        getBannerInfo();
     }
 
     @Override
@@ -98,6 +97,8 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
         tv_pic1.setOnClickListener(this);
         tv_pic2.setOnClickListener(this);
         tv_pic3.setOnClickListener(this);
+        initBannerDefault();
+        getBannerInfo();
         return view;
     }
 
@@ -154,6 +155,18 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
         mBanner.setBannerTitle(mTitles);
         mBanner.setBackgroundResource(R.mipmap.bg_bannername);
         mBanner.setDelayTime(2500);
+    }
+
+    private void initBannerDefault(){
+        Integer[] imagets = new Integer[]{R.mipmap.banner_default,R.mipmap.banner_default,R.mipmap.banner_default};
+        String[] titles = new String[]{"","",""};
+        //显示圆形指示器和标题
+        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
+        mBanner.setImages(imagets);
+        mBanner.setBannerTitle(titles);
+        mBanner.setBackgroundResource(R.mipmap.bg_bannername);
+        mBanner.setDelayTime(2500);
+
     }
 
     @Override

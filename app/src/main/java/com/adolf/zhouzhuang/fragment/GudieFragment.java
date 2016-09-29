@@ -669,7 +669,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener{
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(getActivity().getResources(),resourceId, opts);
-        opts.inSampleSize = computeSampleSize(opts, -1, 2450*2450);
+        opts.inSampleSize = computeSampleSize(opts, -1, 2500*2500);
         opts.inJustDecodeBounds = false;
         try {
             return BitmapFactory.decodeResource(getActivity().getResources(),resourceId, opts);
