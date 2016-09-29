@@ -42,7 +42,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     }
     public void setWebViewInfo(){
         initWebViewSetting();
-        mWebView.loadUrl("http://"+ mUrl);
+        mWebView.loadUrl(mUrl);
         mWebView.setWebViewClient(new WebViewClient(){
 
             @Override
@@ -52,7 +52,6 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
-
     public void initWebViewSetting(){
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setBuiltInZoomControls(true);

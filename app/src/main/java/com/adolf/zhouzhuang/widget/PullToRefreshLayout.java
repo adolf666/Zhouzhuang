@@ -148,17 +148,21 @@ public class PullToRefreshLayout extends RelativeLayout implements View.OnTouchL
     {
         timer = new Timer();
         mTask = new MyTimerTask(updateHandler);
-        rotateAnimation = new RotateAnimation(360, 0, Animation.RESTART, 0.5f,
+        rotateAnimation = new RotateAnimation(0,180, Animation.RESTART, 0.5f,
+                Animation.RESTART, 0.5f);
+        rotateAnimation.setDuration(2000);
+        rotateAnimation.setRepeatCount(Animation.RELATIVE_TO_SELF);// 设置重复次数
+        rotateAnimation.setRepeatMode(Animation.RESTART);// 设置重复模式
+        rotateAnimation.setStartTime(Animation.START_ON_FIRST_FRAME);
+        refreshingAnimation = new RotateAnimation(0,180, Animation.RESTART, 0.5f,
                 Animation.RESTART, 0.5f);
         rotateAnimation.setDuration(2000);
         rotateAnimation.setRepeatCount(Animation.INFINITE);// 设置重复次数，这里是无限
         rotateAnimation.setRepeatMode(Animation.RESTART);// 设置重复模式
         rotateAnimation.setStartTime(Animation.START_ON_FIRST_FRAME);
-      //  refreshingAnimation = (RotateAnimation) AnimationUtils.loadAnimation(context, R.anim.rotating);
-        // 添加匀速转动动画
         LinearInterpolator lir = new LinearInterpolator();
           rotateAnimation.setInterpolator(lir);
-       // refreshingAnimation.setInterpolator(lir);
+         refreshingAnimation.setInterpolator(lir);
     }
 
     private void hideHead()
@@ -216,7 +220,7 @@ public class PullToRefreshLayout extends RelativeLayout implements View.OnTouchL
             case PULL_TO_REFRESH:
                 // 下拉刷新
                 stateImageView.setVisibility(View.GONE);
-               // stateTextView.setText(R.string.pull_to_refresh);
+                stateTextView.setText("下拉刷新");
                 pullView.clearAnimation();
                 pullView.setVisibility(View.VISIBLE);
                 break;
@@ -230,8 +234,8 @@ public class PullToRefreshLayout extends RelativeLayout implements View.OnTouchL
                 pullView.clearAnimation();
                 refreshingView.setVisibility(View.VISIBLE);
                 pullView.setVisibility(View.INVISIBLE);
-               // refreshingView.startAnimation(refreshingAnimation);
-               // stateTextView.setText(R.string.refreshing);
+                refreshingView.startAnimation(rotateAnimation);
+                stateTextView.setText("正在刷新");
                 break;
             default:
                 break;

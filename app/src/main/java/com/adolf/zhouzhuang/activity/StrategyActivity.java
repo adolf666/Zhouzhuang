@@ -21,6 +21,7 @@ import com.adolf.zhouzhuang.widget.PullToRefreshLayout;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
 
 import java.util.List;
@@ -30,14 +31,14 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by Administrator on 2016/9/25.
  */
-public class StrategyActivity extends BaseActivity implements OnRefreshListener {
-
+public class StrategyActivity extends BaseActivity  {
 
 
     private ListView mListView;
     private StrategyAdapter mAdapter;
     private List<StrategyObject> strategyObjectArrayList;
-    PullToRefreshLayout refreshLayout;
+   // PullToRefreshLayout refreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +46,12 @@ public class StrategyActivity extends BaseActivity implements OnRefreshListener 
         initView();
         initData();
     }
-    private void initView(){
+
+    private void initView() {
         initActionBar("返回", R.drawable.back_selected, "游玩攻略", "", 0);
-        refreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_view);
-        refreshLayout.setOnRefreshListener(this);
-        mListView = (ListView)findViewById(R.id.lv_list_view);
+      //  refreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_view);
+      //  refreshLayout.setOnRefreshListener(this);
+        mListView = (ListView) findViewById(R.id.lv_list_view);
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -73,34 +75,34 @@ public class StrategyActivity extends BaseActivity implements OnRefreshListener 
         });
 
     }
-  private  void initData(){
-      RequestParams params = new RequestParams();
 
-      AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_STRATEGY,params,new JsonHttpResponseHandler(){
-          @Override
-          public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-              super.onSuccess(statusCode, headers, response);
-              strategyObjectArrayList = GsonUtil.jsonToList(response,"data",StrategyObject.class);
-              setStrategyData(strategyObjectArrayList);
-          }
+    private void initData() {
+        RequestParams params = new RequestParams();
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_STRATEGY, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                strategyObjectArrayList = GsonUtil.jsonToList(response, "data", StrategyObject.class);
+                setStrategyData(strategyObjectArrayList);
+            }
 
-          @Override
-          public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-              super.onFailure(statusCode, headers, throwable, errorResponse);
-          }
-      });
-  }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
 
-    private  void setStrategyData( List<StrategyObject> strategyObjectList){
-        mAdapter = new StrategyAdapter(this,strategyObjectList);
+    private void setStrategyData(List<StrategyObject> strategyObjectList) {
+        mAdapter = new StrategyAdapter(this, strategyObjectList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent  = new Intent();
+                Intent intent = new Intent();
                 intent.setClass(StrategyActivity.this, WebViewActivity.class);
-                intent.putExtra("URL",strategyObjectArrayList.get(position).getUrl());
-                intent.putExtra(WebViewActivity.NAME,"游玩攻略");
+                intent.putExtra("URL", strategyObjectArrayList.get(position).getUrl());
+                intent.putExtra(WebViewActivity.NAME, "游玩攻略");
                 startActivity(intent);
             }
         });
@@ -114,9 +116,24 @@ public class StrategyActivity extends BaseActivity implements OnRefreshListener 
         }
     }
 
-    @Override
+   /* @Override
     public void onRefresh() {
-        initData();
-        refreshLayout.refreshFinish(PullToRefreshLayout.REFRESH_SUCCEED);
-    }
+
+        RequestParams params = new RequestParams();
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_STRATEGY, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                strategyObjectArrayList = GsonUtil.jsonToList(response, "data", StrategyObject.class);
+                setStrategyData(strategyObjectArrayList);
+                refreshLayout.refreshFinish(PullToRefreshLayout.REFRESH_SUCCEED);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+
+    }*/
 }
