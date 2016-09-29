@@ -1,8 +1,7 @@
 package com.adolf.zhouzhuang.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by Administrator on 2016/9/25.
@@ -71,22 +69,24 @@ public class StrategyAdapter extends BaseAdapter {
             viewHolder.mPhoto = (ImageView)convertView.findViewById(R.id.img_photo);
             viewHolder.mDesc = (TextView)convertView.findViewById(R.id.tv_desc);
             viewHolder.mDate = (TextView)convertView.findViewById(R.id.tv_date);
+            viewHolder.mName.setTypeface(Utils.getType(context,3));
+            viewHolder.mDesc.setTypeface(Utils.getType(context,3));
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
        final StrategyObject item = strategyObjectList.get(position);
-        ImageLoader.getInstance().displayImage(item.getPicthumburl(), viewHolder.mPic);
-        if(item.getCreatorimgurl()!=null&&!item.getCreatorimgurl().isEmpty()){
+
+        if (item != null && TextUtils.isEmpty(item.getPicthumburl())){
+            ImageLoader.getInstance().displayImage(item.getPicthumburl(), viewHolder.mPic);
+        }
+
+        if(item.getCreatorimgurl()!=null && TextUtils.isEmpty(item.getCreatorimgurl())){
             ImageLoader.getInstance().displayImage(item.getCreatorimgurl(), viewHolder.mPhoto,options);
         }
 
-
-
         viewHolder.mName.setText(item.getTitle());
         viewHolder.mDesc.setText(item.getCreatorname());
-        viewHolder.mName.setTypeface(Utils.getType(context,3));
-        viewHolder.mDesc.setTypeface(Utils.getType(context,3));
         return convertView;
     }
 
