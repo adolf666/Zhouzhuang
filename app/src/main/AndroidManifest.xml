@@ -32,6 +32,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <uses-sdk android:minSdkVersion="11" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="fjZAfdSfmzuCeqtMYjv7BZ7R6Y67TED3" />

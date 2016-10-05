@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#55ffffff">
+        android:background="#99ffffff">
     <TextView
         android:id="@+id/tv_open_baidu"
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
         android:text="打开百度地图"
         android:textColor="#333333"
         android:textSize="18sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/personal_off_login" />
     <TextView
@@ -27,8 +27,8 @@
         android:text="打开高德地图"
         android:textColor="#333333"
         android:textSize="18sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/personal_off_login"/>
 
@@ -43,7 +43,7 @@
         android:textSize="18sp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/personal_off_login"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
     </LinearLayout>
 </LinearLayout>

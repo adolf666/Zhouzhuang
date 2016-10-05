@@ -2,51 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-   >
-<TextView
-    android:id="@+id/view_divide"
-    android:layout_width="match_parent"
-    android:layout_height="10dp"
-    android:background="#e6e6e6"
-    />
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/view_divide"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6" />
+
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/box01_image"/>
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@mipmap/box02_info">
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="吴地遗珍"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="15sp"
-        android:textColor="#000000"/>
+        android:background="@mipmap/box02_info"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="一万年前，苏州，一万年前，苏州，一万年前，苏州一万年前，苏州一万年前，苏州一万年前，苏州一万年前，苏州"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:textSize="13sp"
-        android:lineSpacingExtra="10dp"
-        android:textColor="#333333"/>
+        <com.adolf.zhouzhuang.util.MyTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="吴地遗珍"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <com.adolf.zhouzhuang.util.MyTextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lineSpacingExtra="10dp"
+            android:maxLines="2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#333333"
+            android:textSize="13sp" />
 
 
-        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

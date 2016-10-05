@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

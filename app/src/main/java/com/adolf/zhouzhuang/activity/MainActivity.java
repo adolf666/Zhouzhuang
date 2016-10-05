@@ -193,7 +193,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        SoundBroadUtils.getInstance().stopSound();
+        gudieFragment.stopPlayAudo();
+        gudieFragment.mBaiduMap = null;
+        gudieFragment.mMapView = null;
     }
 
 
