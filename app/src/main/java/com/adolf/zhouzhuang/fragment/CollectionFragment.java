@@ -188,7 +188,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                initViewPagerViews(GsonUtil.jsonToList(response,"data",Exhibit.class), TextUtils.equals(types,"1")?0:1);
+                initViewPagerViews(GsonUtil.jsonToList(response,"data",Exhibit.class), TextUtils.equals(types,"1")?1:0);
             }
 
             @Override

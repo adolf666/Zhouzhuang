@@ -3,6 +3,9 @@ package com.adolf.zhouzhuang.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 /**
@@ -173,5 +177,9 @@ public class Utils {
     public static int px2dip(Context context, float pxValue){
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int)(pxValue / scale + 0.5f);
+    }
+
+    public static String getAudioFullPath(String audioName){
+        return SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO + "/" + audioName + ".mp3";
     }
 }

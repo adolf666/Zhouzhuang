@@ -109,7 +109,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     private List<Spots> spotsList;
     private ProgressDialog mProgressDialog;
     private AnimationDrawable animationDrawable;
-    private Bitmap mLayerBitmap;
     private LinearLayout mBottomBarLinearLayout;
     private View mBottomView;
     private RelativeLayout mBottomBarRelativeLayout;
@@ -231,13 +230,13 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_loaction:
-                locationToCenter(31.121492, 120.85681, true);
+                locationToCenter(31.123292, 120.85481, true);
                 break;
             case R.id.bt_audio_play:
-                if (!isAudioExit(String.valueOf(mSpots.getCreateTime()))) {
+                if (!isAudioExit(String.valueOf(mSpots.getId()))) {
                     downloadAudio();
                 } else {
-                    playAudio(mSpots.getVideoLocation());
+                    playAudio(Utils.getAudioFullPath(String.valueOf(mSpots.getId())));
                 }
                 break;
             case R.id.bt_detail:
@@ -322,11 +321,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     public boolean isAudioExit(String audioName) {
-        return Utils.fileIsExists(SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO + "/" + audioName + ".mp3");
+        return Utils.fileIsExists(Utils.getAudioFullPath(audioName));
     }
 
     public void downloadAudio() {
-        final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO + "/" + mSpots.getCreateTime() + ".mp3";
+        final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO + "/" + mSpots.getId() + ".mp3";
         File saveFile = new File(filePath);
         String[] allowedContentTypes = new String[]{".*"};
         AsyncHttpClientUtils.getInstance().downLoadFile(mSpots.getVideoLocation(), new BinaryHttpResponseHandler(allowedContentTypes) {
@@ -413,8 +412,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void initBaiduMap() {
-        locationToCenter(31.121492, 120.85681, true);
+        locationToCenter(31.123292, 120.85481, true);
         addLayerToMap();
+//        initAndAddLayer();
 
     }
 
@@ -432,7 +432,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         LatLng ll = new LatLng(lat, lng);
         MapStatusUpdate u;
         if (isZoom) {
-            u = MapStatusUpdateFactory.newLatLngZoom(ll, 15.8f);//设置缩放比例
+            u = MapStatusUpdateFactory.newLatLngZoom(ll, 16.7f);//设置缩放比例
             mBaiduMap.animateMapStatus(u);
         } else {
             u = MapStatusUpdateFactory.newLatLng(ll);//不设置缩放比例
@@ -450,12 +450,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     public void addLayerToMap() {
-        if (mLayerBitmap == null) {
-            mLayerBitmap = getLayerBitmap(R.mipmap.layer);
-        }
-        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromBitmap(mLayerBitmap);
-        LatLng northeast = new LatLng(31.134000, 120.87520);
-        LatLng southwest = new LatLng(31.102000, 120.84510);
+        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromAsset("layer.png");
+        LatLng northeast = new LatLng(31.131000, 120.86460);
+        LatLng southwest = new LatLng(31.113000, 120.84760);
         LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
                 .include(southwest).build();
         if (ooGround == null){
@@ -490,6 +487,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
 
         if (0 != spotsId) {
             showBaiduInfoWindow(mSpotsDataBaseHelper.getSpotsById(spotsId));
+
         }
     }
 
@@ -703,9 +701,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                     .longitude(bdLocation.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
 
-            LatLng ll = new LatLng(31.121492, 120.85681);
+            LatLng ll = new LatLng(31.123292, 120.85481);
             MapStatus.Builder builder = new MapStatus.Builder();
-            builder.target(ll).zoom(15.8f);
+            builder.target(ll).zoom(15.7f);
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
     }
@@ -749,8 +747,13 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         if (mMapView !=null){
             mMapView.onDestroy();
         }
+    }
 
-        mLayerBitmap.recycle();
+    public void setSelectedSpotsOutSide(Spots spotsId){
+            this.mSpots = spotsId;
+            if (mSpots == null){
+                Toast.makeText(getActivity(),"未获取该该景点信息",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void addFavorite() {
@@ -775,19 +778,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 Toast.makeText(getActivity(), "收藏失败", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private Bitmap getLayerBitmap(int resourceId) {
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getActivity().getResources(), resourceId, opts);
-        opts.inSampleSize = computeSampleSize(opts, -1, 2500 * 2500);
-        opts.inJustDecodeBounds = false;
-        try {
-            return BitmapFactory.decodeResource(getActivity().getResources(), resourceId, opts);
-        } catch (OutOfMemoryError err) {
-        }
-        return null;
     }
 
     public void cancelCollection() {
@@ -816,71 +806,4 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     public void onDestroyView() {
         super.onDestroyView();
     }
-
-    public static int computeSampleSize(BitmapFactory.Options
-                                                options,
-                                        int minSideLength, int maxNumOfPixels) {
-        int initialSize
-                = computeInitialSampleSize(options, minSideLength,
-                maxNumOfPixels);
-
-        int roundedSize;
-        if (initialSize
-                <= 8) {
-            roundedSize
-                    = 1;
-            while (roundedSize
-                    < initialSize) {
-                roundedSize
-                        <<= 1;
-            }
-        } else {
-            roundedSize
-                    = (initialSize + 7)
-                    / 8 * 8;
-        }
-
-        return roundedSize;
-    }
-
-    private static int computeInitialSampleSize(BitmapFactory.Options
-                                                        options,
-                                                int minSideLength, int maxNumOfPixels) {
-        double w
-                = options.outWidth;
-        double h
-                = options.outHeight;
-
-        int lowerBound
-                = (maxNumOfPixels == -1)
-                ? 1 :
-                (int)
-                        Math.ceil(Math.sqrt(w * h / maxNumOfPixels));
-        int upperBound
-                = (minSideLength == -1)
-                ? 128 :
-                (int)
-                        Math.min(Math.floor(w / minSideLength),
-                                Math.floor(h
-                                        / minSideLength));
-
-        if (upperBound
-                < lowerBound) {
-            return lowerBound;
-        }
-
-        if ((maxNumOfPixels
-                == -1)
-                &&
-                (minSideLength
-                        == -1)) {
-            return 1;
-        } else if (minSideLength
-                == -1) {
-            return lowerBound;
-        } else {
-            return upperBound;
-        }
-    }
-
 }

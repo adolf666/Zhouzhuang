@@ -14,6 +14,7 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.activity.NewsActivity;
 import com.adolf.zhouzhuang.activity.PanoramaActivity;
+import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.BannerObj;
@@ -49,6 +50,9 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
     private Banner mBanner;
     private String[] mImages,mTitles;
     private TextView mNewsTv;
+    private static final String excihbitURL01 = "http://www.gcmai.com/360/001.html";
+    private static final String excihbitURL02 = "http://www.gcmai.com/360/006.html";
+    private static final String excihbitURL03 = "http://www.gcmai.com/360/009.html";
 
     private OnFragmentInteractionListener mListener;
 
@@ -158,8 +162,8 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initBannerDefault(){
-        Integer[] imagets = new Integer[]{R.mipmap.banner_default,R.mipmap.banner_default,R.mipmap.banner_default};
-        String[] titles = new String[]{"","",""};
+        Integer[] imagets = new Integer[]{R.mipmap.banner_default};
+        String[] titles = new String[]{""};
         //显示圆形指示器和标题
         mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         mBanner.setImages(imagets);
@@ -181,13 +185,25 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
                 mainActivity.setBottomBarBackground(1);
                 break;
             case  R.id.tv_pic1:
-                startActivity(new Intent(getActivity(), PanoramaActivity.class));
+                Intent intent =new Intent();
+                intent.setClass(getActivity(),WebViewActivity.class);
+                intent.putExtra("URL","file:///android_asset/360/001.html");
+                intent.putExtra(WebViewActivity.NAME,"360展示");
+                startActivity(intent);
                 break;
             case R.id.tv_pic2:
-                startActivity(new Intent(getActivity(), PanoramaActivity.class));
+                Intent intent2 =new Intent();
+                intent2.setClass(getActivity(),WebViewActivity.class);
+                intent2.putExtra("URL","file:///android_asset/360/006.html");
+                intent2.putExtra(WebViewActivity.NAME,"360展示");
+                startActivity(intent2);
                 break;
             case R.id.tv_pic3:
-                startActivity(new Intent(getActivity(), PanoramaActivity.class));
+                Intent intent3 =new Intent();
+                intent3.setClass(getActivity(),WebViewActivity.class);
+                intent3.putExtra("URL",excihbitURL03);
+                intent3.putExtra(WebViewActivity.NAME,"360展示");
+                startActivity(intent3);
                 break;
         }
     }

@@ -194,8 +194,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     public void onBackPressed() {
         super.onBackPressed();
         gudieFragment.stopPlayAudo();
-        gudieFragment.mBaiduMap = null;
-        gudieFragment.mMapView = null;
     }
 
 
@@ -207,6 +205,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
         if(0!=spotId){
             Spots spots = mSpotsDataBaseHelper.getSpotsById(spotId);
             if (spots != null){
+                gudieFragment.setSelectedSpotsOutSide(spots);
                 gudieFragment.showBaiduInfoWindow(spots);
                 gudieFragment.locationToCenter(Double.parseDouble(spots.getLat4show()),Double.parseDouble(spots.getLng4show()),false);
             }
@@ -224,5 +223,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gudieFragment.stopPlayAudo();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        System.exit(0);
     }
 }

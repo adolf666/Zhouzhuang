@@ -17,7 +17,7 @@
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:drawableRight="@mipmap/arrow_default"
-        android:background="#ebFFFFFF"
+        android:background="#a5FFFFFF"
         android:paddingRight="15dp"/>
 
     <View

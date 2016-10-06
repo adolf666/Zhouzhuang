@@ -52,6 +52,10 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+    public void loadAssetsFiles(String url){
+        mWebView.loadUrl(url);
+    }
+
     public void initWebViewSetting(){
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setBuiltInZoomControls(true);

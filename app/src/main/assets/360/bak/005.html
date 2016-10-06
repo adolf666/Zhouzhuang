@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html><head>
+		<meta charset="utf-8">		
+		<!--For QQ Sharing. But it is odd that all meta(Title, thumbnail) will mess up if I delete this line.-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<meta name="description" itemprop="description" content="周庄博物馆">
+		
+		<script src="H5Player/jquery-1.11.1.min.js" type="text/javascript"></script>
+		<script src="H5Player/Core.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="css/Mobile.css">
+		<title>良渚文化陶壶</title>
+	</head>
+	<body onunload="SeeU()">
+		<p id="Log"></p>
+		<img id="Thumbnail" style="width:0px; height:0px; overflow:hidden;" src="img/005/g05a0000.jpg">
+		<canvas id="CanvasBG" width="1340" height="417">非常抱歉！您的浏览器不支持Html5体验，请使用其它浏览器尝试。</canvas>
+		<canvas id="CanvasUI" ontouchstart="TouchDown(event)" ontouchmove="TouchMove(event)" ontouchend="TouchUp(event)" onmousedown="MouseDown(event)" onmousemove="MouseMove(event)" onmouseup="MouseUp(event)" onmousewheel="MouseWheel(event)" width="1340" height="417"></canvas>
+		<div id="ViewAndLike">
+			<a id="ViewedCount"></a>
+			<a id="LikedCount"></a>
+		</div>
+		<div id="Info" style="display:none;">
+			<img id="Info_Btn" src="img/InfoBtn.png">
+			<div id="bg"></div>
+			<div class="box" style="display:none">
+			    <div class="close_box"><img src="img/CloseBtn.png" class="pic_c"></div>
+			       <div class="list">
+				       <ul>
+				            <li>
+				            	<span>作品名称：</span>
+				            	<span id="InfoProductName">手工老虎</span>
+				            </li>
+				            <li>
+				            	<span>图像矩阵：</span>
+				            	<span id="InfoProductMat">1 x 72</span>
+				            </li>
+				            <li>
+				            	<span>分辨率：</span>
+				            	<span id="InfoProductRes">3072 x 2048</span>
+				            </li>
+				            <li>
+				            	<span>拍摄日期：</span>
+				            	<span id="InfoProductShootDT">2016-07-08 14:36:14</span>
+				            </li>
+							<li></li>
+				        </ul>
+				    </div>
+			</div>
+		</div>
+		<div class="good-info">
+          <h2>口径6.3,腹径15.7,高14.4厘米</h2>
+          <div class="intro">陶盉pottery container为良渚炊具</div>
+		</div>
+		
+		<script type="text/javascript">			
+			var initDT = new Date();
+			var privateId = "";
+			var redirLink = "";
+			var h5Ver = 3.0;
+			var bgR = 14;
+			var bgG = 10;
+			var bgB = 28;
+			var lODFlag = 0;
+			var lv0 = 0;
+			var lvSD = -1;
+			var lvMax = -1;
+			var loopable = true;
+			var initActions = null;
+			var initSpinDist = 0;
+			var initRotatePhotoAmount = 0;
+			var infoPanel = document.getElementById("Info_Panel");
+				var infoProductName = document.getElementById("InfoProductName");
+				var infoProductMat = document.getElementById("InfoProductMat");
+				var infoProductRes = document.getElementById("InfoProductRes");
+				var infoProductShootDT = document.getElementById("InfoProductShootDT");
+			var footer = document.getElementById("Footer");
+			var noAppAd = false;
+			var isNoFooter = true;
+			var customizedBar = document.getElementById("CustomizedBar");
+			var customizedInfo = document.getElementById("CustomizedInfo");
+			var customizedBtn = document.getElementById("CustomizedBtn");
+			var customizedBtnName = document.getElementById("CustomizedBtnName");
+			var customizedLogo = null;
+			var enableCustomizedBar = null;
+			var cvsHeightDec = 0;	//How many height of the canvas will be cut off.
+			var viewedCount = document.getElementById("ViewedCount");
+			var likedCount = document.getElementById("LikedCount");
+			window.onload = function(e) 
+			{
+				function getQueryString(name) 
+				{
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+					var r = window.location.search.substr(1).match(reg);
+					if (r != null) return unescape(r[2]); return null;
+				}	
+				var id = getQueryString("id");
+				
+				//Give them a default value in case of ajax getting failure.
+				var productName = "3D互动体验";
+				var thumbnailUrl = "";
+				var rowCount = 1, colCount = 50, imageWidth = 720, imageHeight = 1280;
+				var shootDT = "";
+				var data={colCount: "26",
+				customizedBtn: false,
+				customizedLogo: false,
+				h5Ver: "3.0",
+				imageHeight: "1280",
+				imageWidth: "720",
+				likedCount: "0",
+				noAppAd: false,
+				productName: "",
+				remark: "",
+				rowCount: "1",
+				shootDateTime: "2016-07-08 14:36:14",
+				thumbnail: "360/img/005/g05a0000.jpg",
+				viewedCount: "92"};
+						var res=data;
+						redirLink = res.redirLink;
+						if (redirLink && '' != redirLink)
+						{
+							window.location.href = redirLink;
+						}
+						
+						privateId = res.privateId;
+						if (null != privateId && '' != privateId) id = privateId;
+						h5Ver = res.h5Ver || 2.0;
+						productName = res.productName;
+						thumbnailUrl = res.thumbnail;
+						rowCount = parseInt(res.rowCount);
+						colCount = parseInt(res.colCount);
+						imageWidth = parseInt(res.imageWidth);
+						imageHeight = parseInt(res.imageHeight);					
+						noAppAd = res.noAppAd;			
+						customizedLogo = res.customizedLogo;	
+						shootDT = res.shootDateTime;
+						document.title = productName;
+						infoProductName.innerHTML = productName;
+						infoProductMat.innerHTML = rowCount + " x " + colCount;
+						infoProductRes.innerHTML = imageWidth + " x " + imageHeight;
+						infoProductShootDT.innerHTML = shootDT;
+						var thumbnail = document.getElementById("Thumbnail");
+						thumbnail.src = "../" + thumbnailUrl;
+						if (null == res.remark || "" == res.remark) res.remark = "“美”不止一面，“转”精彩无限！360°全方位展示，马上围观吧~~";
+						
+						var appId = "";
+						var timestamp = "";
+						var nonceStr = "";
+						var signature = "";
+						var requestURL = window.location.href;
+						if (!IsPC() && !IsOthkinApp() && !noAppAd)
+						{
+							ShowFooter();
+						}
+						
+						if (res.customizedBtn)
+						{
+							customizedInfo.innerHTML = res.customizedBtn.description;
+							customizedBtnName.innerHTML = res.customizedBtn.name;
+							customizedBtn.onclick = function()
+							{
+								window.location.href = res.customizedBtn.link;
+							}
+							enableCustomizedBar = res.customizedBtn.enabled;
+							if ("1" == enableCustomizedBar) ShowCustomizedBar();
+						}
+						
+						/*
+						viewedCount.innerHTML = "预览：" + res.viewedCount;
+						likedCount.innerHTML = "点赞：" + res.likedCount
+						*/
+						
+						if (3.0 <= h5Ver)
+						{	
+						var metaData = {lODFlag: 176,startSplitLv: 8,initActions: [ "Rotate#360" ],autoRotateSpeed: 6};												
+								lODFlag = metaData.lODFlag;
+								lv0 = 0;
+								for (var i = 6; i >= 0; i--)
+								{
+									var j = (lODFlag >> i) & 1;
+									if (j)
+									{
+										if (-1 == lvSD) lvSD = 7 - i;
+										else 
+										{
+											lvMax = 7 - i;
+											break;
+										}
+									}
+								}			
+								if ("undefined" != typeof(metaData.loopable)) loopable = metaData.loopable;
+								initActions = metaData.initActions;
+								Initialize();
+								DrawCustomizedLogoBtn("img/01-06.png");
+								LoadPhotos("img/005/g05a", rowCount, colCount, imageWidth, imageHeight);
+						}
+						else
+						{
+							Initialize();
+							LoadPhotos("img/005/g05a", rowCount, colCount, imageWidth, imageHeight);
+						} 
+			}			
+			
+			function IsPC()
+			{    
+				var userAgentInfo = navigator.userAgent;  
+				var Agents = new Array("Android", "iPhone", "iPad");   
+				var flag = true;    
+				for (var v = 0; v < Agents.length; v++) 
+				{    
+					if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+				}    
+				return flag;    
+			}  
+			
+			function IsOthkinApp()
+			{
+				var userAgentInfo = navigator.userAgent;
+				if (-1 == userAgentInfo.indexOf("Othkin3D")) return false;
+				else return true;
+			}
+			
+			function OpenInfo()
+			{
+				if (!infoPanel) return;
+				infoPanel.setAttribute("style", "display:block");
+			}
+			
+			function CloseInfo()
+			{
+				if (!infoPanel) return;
+				infoPanel.setAttribute("style", "display:none");
+			}
+			
+			function DownloadApp()
+			{
+				// window.location.href = "";
+			}
+			
+			function ShowFooter()
+			{
+				if (!footer) return;
+				footer.setAttribute("style", "display:block");
+				isNoFooter = false;
+				setTimeout("CloseFooter()", 10000);
+			}
+			
+			function CloseFooter()
+			{
+				if (!footer) return;
+				footer.setAttribute("style", "display:none");
+				isNoFooter = true;
+			}
+			
+			function ShowCustomizedBar()
+			{
+				if (!customizedBar) return;
+				customizedBar.setAttribute("style", "display:block");
+				if (!IsPC()) cvsHeightDec = 130;
+			}
+			
+			function SeeU()
+			{
+				var a = "See U!";
+			}
+		</script>
+		<script type="text/javascript"> 
+			$(function () {
+			    $("#Info_Btn").click(function () {
+			        $("#bg").css({
+			            display: "block", height: $(document).height()
+			        });
+			        var $box = $('.box');
+			        $box.css({
+			            //设置弹出层距离左边的位置
+			            left: ($("body").width() - $box.width()) / 2  + "px",
+
+			            //设置弹出层距离上面的位置
+			            top: ($(window).height() - $box.height()) / 2 -18 + $(window).scrollTop() + "px",
+			            display: "block"
+			        });
+			    });
+			    //点击关闭按钮的时候，遮罩层关闭
+			    $(".close_box").click(function () {
+			        $("#bg,.box").css("display", "none");
+			    });
+			}); 
+		</script>
+	
+</body></html>
