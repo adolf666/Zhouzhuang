@@ -206,8 +206,8 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
 
     private  void tabSwitch(int position){
         tempExhibit.setBackground(position==0?getResources().getDrawable(R.mipmap.tab01_focus):getResources().getDrawable(R.mipmap.tab01_default));
-        displayExhibit.setBackground(position==1?getResources().getDrawable(R.mipmap.tab03_focus):getResources().getDrawable(R.mipmap.tab03_default));
-        spotsExhibit.setBackground(position==2?getResources().getDrawable(R.mipmap.tab02_focus):getResources().getDrawable(R.mipmap.tab02_default));
+        displayExhibit.setBackground(position==1?getResources().getDrawable(R.mipmap.tab02_focus):getResources().getDrawable(R.mipmap.tab02_default));
+        spotsExhibit.setBackground(position==2?getResources().getDrawable(R.mipmap.tab03_focus):getResources().getDrawable(R.mipmap.tab03_default));
     }
     @Override
     public void onClick(View view) {
