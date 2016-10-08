@@ -17,6 +17,7 @@ import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.interfaces.MainInterface;
+import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -65,10 +66,8 @@ public class PersonCollectActivity extends BaseActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     Intent intent = new Intent();
                     intent.setClass(PersonCollectActivity.this,MainActivity.class);
-                    intent.putExtra(MainActivity.SPOTS_ID, spotsList.get(position).getPid());
-                    //setResult(Activity.RESULT_OK, intent);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    Constants.SPOTS_ID = spotsList.get(position).getPid();
+                    setResult(Activity.RESULT_OK, intent);
                     finish();
 
                 }

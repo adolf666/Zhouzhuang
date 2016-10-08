@@ -104,8 +104,8 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 Intent intentCollect = new Intent();
                 if (Utils.isAutoLogin(PersonalCenterActivity.this)){
                     intentCollect.setClass(PersonalCenterActivity.this,PersonCollectActivity.class);
-                    //startActivityForResult(intentCollect, 10086);
-                    startActivity(intentCollect);
+                    startActivityForResult(intentCollect, 10086);
+                    //startActivity(intentCollect);
                 }else{
                     intentCollect.setClass(PersonalCenterActivity.this, LoginActivity.class);
                     startActivity(intentCollect);
@@ -122,6 +122,20 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 Intent intent = new Intent();
                 intent.setClass(PersonalCenterActivity.this, LoginActivity.class);
                 startActivity(intent);
+                break;
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 10086:
+                if(null!=data){
+                    int spotId = data.getIntExtra(MainActivity.SPOTS_ID,0);
+                    // MainActivity.setSpotId(spotId);
+                    finish();
+                }
+
                 break;
         }
     }

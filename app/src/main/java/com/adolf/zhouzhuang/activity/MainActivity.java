@@ -1,5 +1,7 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -10,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
@@ -21,14 +24,25 @@ import com.adolf.zhouzhuang.fragment.GudieFragment;
 import com.adolf.zhouzhuang.fragment.PersonalCenterFragment;
 import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
+import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.interfaces.MainInterface;
+import com.adolf.zhouzhuang.object.AppVersionObject;
+import com.adolf.zhouzhuang.util.Constants;
+import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.CustomViewPager;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
@@ -52,7 +66,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        checkUpdate();
     }
+private void checkUpdate(){
+    RequestParams params = new RequestParams();
+    AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_APP_VERSION,params,new JsonHttpResponseHandler(){
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            super.onSuccess(statusCode, headers, response);
+            AppVersionObject appVersionObject = GsonUtil.jsonToBean(response,"data",AppVersionObject.class);
+            dialog(appVersionObject.upgradecontent);
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            super.onFailure(statusCode, headers, throwable, errorResponse);
+
+            Toast.makeText(MainActivity.this,"更新失败",Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+
 
     private void initViews() {
         mMuseumTextView = (TextView) findViewById(R.id.tv_museum);
@@ -178,7 +213,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onBackPressed();
         gudieFragment.stopPlayAudo();
     }
+   @Override
+   public void onResume() {
+       super.onResume();
+       if(Constants.SPOTS_ID !=0){
+           setSpotId(Constants.SPOTS_ID);
+           Constants.SPOTS_ID=0;
+       }
 
+
+    }
 
     public void setSpotId(int spotId) {
         mCustomerViewPager.setCurrentItem(2);
@@ -217,5 +261,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
         System.exit(0);
+    }
+
+    protected void dialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        builder.setMessage(message);
+        builder.setTitle("版本更新");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

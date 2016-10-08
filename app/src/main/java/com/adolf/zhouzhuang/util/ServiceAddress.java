@@ -17,5 +17,6 @@ public class ServiceAddress {
     public static String UPDGRAD_USER_INFO= head + "updgradeUserInfo";
     public static String UPDATE_PASSWORD = head + "updatePassword";
     public static String GET_STRATEGY = head + "getScenictravelList";
+    public static String GET_APP_VERSION = head +"getAppVersion";
 
 }
