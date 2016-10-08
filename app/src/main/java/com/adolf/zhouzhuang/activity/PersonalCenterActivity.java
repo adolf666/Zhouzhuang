@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
@@ -21,6 +22,8 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     private TextView  mSetting;
     private TextView  mCollect;
     private TextView  mUserName;
+    private TextView  mStrategy;
+    private ImageView mPortrait;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,27 +32,43 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     }
     private void initView(){
         initActionBar("返回",R.drawable.back_selected,"个人中心","",0);
-        mUserName = (TextView)findViewById(R.id.tv_user_name);
-        LoginObj obj= GsonUtil.jsonToBean(SharedPreferencesUtils.getString(this, "AccountInfo",""),LoginObj.class);
-        if(null!=obj&&null!=obj.getUsername()){
-            mUserName.setText(obj.getUsername());
-        }
+        mPortrait = (ImageView)findViewById(R.id.iv_portrait);
+        mUserName = (TextView)findViewById(R.id.tv_name);
         mPersonInfo = (TextView ) findViewById(R.id.tv_person_info);
         mCollect = (TextView)findViewById(R.id.tv_collect);
         mSetting = (TextView ) findViewById(R.id.tv_setting);
         mSuggestion = (TextView) findViewById(R.id.tv_suggestion);
+      //  mStrategy = (TextView)findViewById(R.id.tv_strategy);
         mUserName.setTypeface(Utils.getType(this,3));
         mPersonInfo.setTypeface(Utils.getType(this,3));
         mCollect.setTypeface(Utils.getType(this,3));
         mSetting.setTypeface(Utils.getType(this,3));
         mSuggestion.setTypeface(Utils.getType(this,3));
-
+      //  mStrategy.setTypeface(Utils.getType(this,3));
+     //   mStrategy.setOnClickListener(this);
         mPersonInfo.setOnClickListener(this);
         mSetting.setOnClickListener(this);
         mSuggestion.setOnClickListener(this);
         mCollect.setOnClickListener(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Utils.isAutoLogin(this)){
+            setPersonalInfo();
+        }else {
+            mUserName.setOnClickListener(this);
+            mPortrait.setOnClickListener(this);
+            mPersonInfo.setVisibility(View.GONE);
+            mUserName.setText("登录/注册");
+        }
+    }
+    private void setPersonalInfo(){
+        LoginObj obj= GsonUtil.jsonToBean(SharedPreferencesUtils.getString(this, "AccountInfo",""),LoginObj.class);
+        mUserName.setText(obj.getUsername());
+        mPersonInfo.setVisibility(View.VISIBLE);
+    }
 
 
     @Override
@@ -59,28 +78,50 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.tv_person_info:
-                Intent intent1 = new Intent();
-                intent1.setClass(PersonalCenterActivity.this, PersonalInfoActivity.class);
-                startActivity(intent1);
+                Intent intentPerson = new Intent();
+                if (Utils.isAutoLogin(PersonalCenterActivity.this)){
+                    intentPerson.setClass(PersonalCenterActivity.this,PersonalInfoActivity.class);
+                }else{
+                    intentPerson.setClass(PersonalCenterActivity.this, LoginActivity.class);
+                }
+                startActivity(intentPerson);
                 break;
             case R.id.tv_setting:
-                Intent intent2 = new Intent();
-                intent2.setClass(PersonalCenterActivity.this, PersonSettingActivity.class);
-                startActivity(intent2);
-
+                Intent intentSetting = new Intent();
+                if (Utils.isAutoLogin(PersonalCenterActivity.this)){
+                    intentSetting.setClass(PersonalCenterActivity.this,PersonSettingActivity.class);
+                }else{
+                    intentSetting.setClass(PersonalCenterActivity.this, LoginActivity.class);
+                }
+                startActivity(intentSetting);
                 break;
             case R.id.tv_suggestion:
-                Intent intent3 = new Intent();
-                intent3.setClass(PersonalCenterActivity.this, PersonSuggestionActivity.class);
-                startActivity(intent3);
+                Intent intentSuggestion = new Intent();
+                intentSuggestion.setClass(PersonalCenterActivity.this, PersonSuggestionActivity.class);
+                startActivity(intentSuggestion);
                 break;
-
             case R.id.tv_collect:
-                Intent intent4 = new Intent();
-                intent4.setClass(PersonalCenterActivity.this, PersonCollectActivity.class);
-                startActivity(intent4);
-                break;
+                Intent intentCollect = new Intent();
+                if (Utils.isAutoLogin(PersonalCenterActivity.this)){
+                    intentCollect.setClass(PersonalCenterActivity.this,PersonCollectActivity.class);
+                    startActivityForResult(intentCollect, 10086);
+                }else{
+                    intentCollect.setClass(PersonalCenterActivity.this, LoginActivity.class);
+                    startActivity(intentCollect);
+                }
 
+                break;
+            case R.id.tv_strategy:
+                Intent intentStrategy = new Intent();
+                intentStrategy.setClass(PersonalCenterActivity.this,StrategyActivity.class);
+                startActivity(intentStrategy);
+                break;
+            case R.id.iv_portrait:
+            case R.id.tv_name:
+                Intent intent = new Intent();
+                intent.setClass(PersonalCenterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

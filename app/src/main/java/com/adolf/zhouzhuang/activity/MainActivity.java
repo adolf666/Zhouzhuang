@@ -30,7 +30,7 @@ import com.adolf.zhouzhuang.widget.CustomViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
     public static final int QrcodeRequest = 1000;
     private TextView mMuseumTextView;
@@ -42,152 +42,135 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     public static final String SPOTS_ID = "spot_id";
     private int spotId = 0;
     GudieFragment gudieFragment;
+    String textColorDefault = "#8e8e99";
+    String textColorFocus = "#333240";
+    Drawable museumDefault, museumFocus, collectionDefault,
+            collectionFocus, guideDefault, guideFocus, strategyDefault, strategyFocus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
     }
-    private void initViews(){
+
+    private void initViews() {
         mMuseumTextView = (TextView) findViewById(R.id.tv_museum);
         mCollectionTextView = (TextView) findViewById(R.id.tv_collection);
         mNavigationTextView = (TextView) findViewById(R.id.tv_navigation);
         mStrategyTextView = (TextView) findViewById(R.id.tv_strategy);
-        mMuseumTextView.setTypeface(Utils.getType(this,0));
-        mCollectionTextView.setTypeface(Utils.getType(this,0));
-        mNavigationTextView.setTypeface(Utils.getType(this,0));
-        mStrategyTextView.setTypeface(Utils.getType(this,0));
+        mMuseumTextView.setTypeface(Utils.getType(this, 0));
+        mCollectionTextView.setTypeface(Utils.getType(this, 0));
+        mNavigationTextView.setTypeface(Utils.getType(this, 0));
+        mStrategyTextView.setTypeface(Utils.getType(this, 0));
         mCustomerViewPager = (CustomViewPager) findViewById(R.id.viewpager);
 
         mMuseumTextView.setOnClickListener(this);
         mCollectionTextView.setOnClickListener(this);
         mNavigationTextView.setOnClickListener(this);
         mStrategyTextView.setOnClickListener(this);
-
-        initActionBar("",0,"周庄博物馆","",R.drawable.scan_selector);
+        museumDefault = getResources().getDrawable(R.mipmap.btn_menu01_default);
+        museumFocus = getResources().getDrawable(R.mipmap.btn_menu01_focused);
+        collectionDefault = getResources().getDrawable(R.mipmap.btn_menu02_default);
+        collectionFocus = getResources().getDrawable(R.mipmap.btn_menu02_focused);
+        guideDefault = getResources().getDrawable(R.mipmap.btn_menu03_default);
+        guideFocus = getResources().getDrawable(R.mipmap.btn_menu03_focused);
+        strategyDefault = getResources().getDrawable(R.mipmap.btn_menu04_default);
+        strategyFocus = getResources().getDrawable(R.mipmap.btn_menu04_focused);
+        initActionBar("", R.drawable.personal_center_selector, "周庄博物馆", "", R.drawable.scan_selector);
         initViewPager();
     }
 
-    private void initViewPager(){
+    private void initViewPager() {
         List<Fragment> fragmentArrayList = new ArrayList<>();
         MuseumFragment museumFragment = new MuseumFragment();
         CollectionFragment collectionFragment = new CollectionFragment();
-         gudieFragment = new GudieFragment();
-        PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
+        gudieFragment = new GudieFragment();
+        // PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
+        StrategyFragment strategyFragment = new StrategyFragment();
+
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
         fragmentArrayList.add(gudieFragment);
-        fragmentArrayList.add(personalCenterFragment);
+        fragmentArrayList.add(strategyFragment);
         mCustomerViewPager.setScrollble(false);
         mCustomerViewPager.setOffscreenPageLimit(3);
         mCustomerViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragmentArrayList));
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_museum:
                 setBottomBarBackground(0);
-                initActionBar("",0,"周庄博物馆","",R.drawable.scan_selector);
                 break;
             case R.id.tv_collection:
                 setBottomBarBackground(1);
-                initActionBar("",0,"馆藏珍品","",R.drawable.scan_selector);
                 break;
             case R.id.tv_navigation:
                 setBottomBarBackground(2);
-                initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
                 break;
             case R.id.tv_strategy:
                 setBottomBarBackground(3);
-                mLeftActionBar.setCompoundDrawables(null,null, null, null);
                 break;
             case R.id.tv_left_actionbar:
-              //  autoLoginLogic();
+                startActivity(new Intent(MainActivity.this, PersonalCenterActivity.class));
                 break;
             case R.id.tv_rigth_actionbar:
                 Intent intent2 = new Intent();
-                intent2.setClass(MainActivity.this,QRCodeActivity.class);
-                startActivityForResult(intent2,QrcodeRequest);
+                intent2.setClass(MainActivity.this, QRCodeActivity.class);
+                startActivityForResult(intent2, QrcodeRequest);
                 break;
         }
     }
 
-    public void autoLoginLogic(){
-        boolean isAutoLogin = SharedPreferencesUtils.getBoolean(MainActivity.this,"AutoLogin",false);
-        if (!isAutoLogin){
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-        }else{
-            startActivity(new Intent(MainActivity.this,PersonalCenterActivity.class));
+    public void autoLoginLogic() {
+        boolean isAutoLogin = SharedPreferencesUtils.getBoolean(MainActivity.this, "AutoLogin", false);
+        if (!isAutoLogin) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        } else {
+            startActivity(new Intent(MainActivity.this, PersonalCenterActivity.class));
         }
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        if (TextUtils.equals(uri.toString(),"exhibit")){
+        if (TextUtils.equals(uri.toString(), "exhibit")) {
             mCustomerViewPager.setCurrentItem(1);
         }
     }
 
-    public void setBottomBarBackground(int selectedIndex){
+    public void setBottomBarBackground(int selectedIndex) {
         mCustomerViewPager.setCurrentItem(selectedIndex);
-        Drawable museumDefault = getResources().getDrawable(R.mipmap.btn_menu01_default);
-        Drawable museumFocus = getResources().getDrawable(R.mipmap.btn_menu01_focused);
-        Drawable collectionDefault = getResources().getDrawable(R.mipmap.btn_menu02_default);
-        Drawable collectionFocus = getResources().getDrawable(R.mipmap.btn_menu02_focused);
-        Drawable guideDefault = getResources().getDrawable(R.mipmap.btn_menu03_default);
-        Drawable guideFocus = getResources().getDrawable(R.mipmap.btn_menu03_focused);
-        Drawable strategyDefault = getResources().getDrawable(R.mipmap.btn_menu04_default);
-        Drawable strategyFocus = getResources().getDrawable(R.mipmap.btn_menu04_focused);
-        String textColorDefault = "#8e8e99";
-        String textColorFocus = "#333240";
+        mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, selectedIndex == 0 ? museumFocus : museumDefault,
+                null, null);
+        mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, selectedIndex == 1 ? collectionFocus : collectionDefault,
+                null, null);
+        mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, selectedIndex == 2 ? guideFocus : guideDefault,
+                null, null);
+        mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, selectedIndex == 3 ? strategyFocus : strategyDefault,
+                null, null);
+        mMuseumTextView.setTextColor(selectedIndex == 0 ? Color.parseColor(textColorFocus) : Color.parseColor(textColorDefault));
+        mCollectionTextView.setTextColor(selectedIndex == 1 ? Color.parseColor(textColorFocus) : Color.parseColor(textColorDefault));
+        mNavigationTextView.setTextColor(selectedIndex == 2 ? Color.parseColor(textColorFocus) : Color.parseColor(textColorDefault));
+        mStrategyTextView.setTextColor(selectedIndex == 3 ? Color.parseColor(textColorFocus) : Color.parseColor(textColorDefault));
 
-        switch (selectedIndex){
+        String title = "周庄博物馆";
+        switch (selectedIndex) {
             case 0:
-                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumFocus,null, null);
-                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionDefault,null, null);
-                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideDefault,null, null);
-                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyDefault,null, null);
-                mMuseumTextView.setTextColor(Color.parseColor(textColorFocus));
-                mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
-                mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
-                mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
-                initActionBar("",0,"周庄博物馆","",R.drawable.scan_selector);
+                title = "周庄博物馆";
                 break;
             case 1:
-                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
-                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionFocus,null, null);
-                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideDefault,null, null);
-                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyDefault,null, null);
-                mMuseumTextView.setTextColor(Color.parseColor(textColorDefault));
-                mCollectionTextView.setTextColor(Color.parseColor(textColorFocus));
-                mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
-                mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
-                initActionBar("",0,"馆藏珍品","",R.drawable.scan_selector);
+                title = "馆藏珍品";
                 break;
             case 2:
-                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
-                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionDefault,null, null);
-                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideFocus,null, null);
-                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyDefault,null, null);
-                mMuseumTextView.setTextColor(Color.parseColor(textColorDefault));
-                mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
-                mNavigationTextView.setTextColor(Color.parseColor(textColorFocus));
-                mStrategyTextView.setTextColor(Color.parseColor(textColorDefault));
-                initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
+                title = "周庄导览";
                 break;
             case 3:
-                mMuseumTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,museumDefault,null, null);
-                mCollectionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,collectionDefault,null, null);
-                mNavigationTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,guideDefault,null, null);
-                mStrategyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,strategyFocus,null, null);
-                mMuseumTextView.setTextColor(Color.parseColor(textColorDefault));
-                mCollectionTextView.setTextColor(Color.parseColor(textColorDefault));
-                mNavigationTextView.setTextColor(Color.parseColor(textColorDefault));
-                mStrategyTextView.setTextColor(Color.parseColor(textColorFocus));
-                initActionBar("",0,"个人中心","",R.drawable.scan_selector);
+                title = "游玩攻略";
                 break;
         }
-
+        initActionBar("", R.drawable.personal_center_selector, title, "", R.drawable.scan_selector);
     }
 
     @Override
@@ -200,26 +183,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,B
     public void setSpotId(int spotId) {
         mCustomerViewPager.setCurrentItem(2);
         setBottomBarBackground(2);
-        initActionBar("",0,"周庄导览","",R.drawable.scan_selector);
         SpotsDataBaseHelper mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
-        if(0!=spotId){
+        if (0 != spotId) {
             Spots spots = mSpotsDataBaseHelper.getSpotsById(spotId);
-            if (spots != null){
+            if (spots != null) {
                 gudieFragment.setSelectedSpotsOutSide(spots);
                 gudieFragment.showBaiduInfoWindow(spots);
-                gudieFragment.locationToCenter(Double.parseDouble(spots.getLat4show()),Double.parseDouble(spots.getLng4show()),false);
+                gudieFragment.locationToCenter(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()), false);
             }
 
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case QrcodeRequest:
-                if(null!=data){
-                    int spotId = data.getIntExtra(SPOTS_ID,0);
-                   setSpotId(spotId);
+                if (null != data) {
+                    int spotId = data.getIntExtra(SPOTS_ID, 0);
+                    setSpotId(spotId);
                 }
                 break;
         }

@@ -3,10 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e6e6e6">
-
-    <include layout="@layout/item_actionbar"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"/>
     <ListView
         android:id="@+id/lv_list_view"
         android:layout_height="match_parent"
