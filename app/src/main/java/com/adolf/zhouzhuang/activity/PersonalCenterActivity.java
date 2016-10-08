@@ -104,7 +104,8 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 Intent intentCollect = new Intent();
                 if (Utils.isAutoLogin(PersonalCenterActivity.this)){
                     intentCollect.setClass(PersonalCenterActivity.this,PersonCollectActivity.class);
-                    startActivityForResult(intentCollect, 10086);
+                    //startActivityForResult(intentCollect, 10086);
+                    startActivity(intentCollect);
                 }else{
                     intentCollect.setClass(PersonalCenterActivity.this, LoginActivity.class);
                     startActivity(intentCollect);

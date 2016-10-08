@@ -64,8 +64,11 @@ public class PersonCollectActivity extends BaseActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     Intent intent = new Intent();
+                    intent.setClass(PersonCollectActivity.this,MainActivity.class);
                     intent.putExtra(MainActivity.SPOTS_ID, spotsList.get(position).getPid());
-                    setResult(Activity.RESULT_OK, intent);
+                    //setResult(Activity.RESULT_OK, intent);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     finish();
 
                 }

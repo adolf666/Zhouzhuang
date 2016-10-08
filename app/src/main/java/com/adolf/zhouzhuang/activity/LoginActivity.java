@@ -44,6 +44,14 @@ public class LoginActivity extends BaseActivity{
         initView();
         initBundle();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mUsernameET.setText("");
+        mPasswordET.setText("");
+    }
+
     private void initView(){
         mUsernameET = (EditText) findViewById(R.id.et_username);
         mPasswordET = (EditText) findViewById(R.id.et_password);
