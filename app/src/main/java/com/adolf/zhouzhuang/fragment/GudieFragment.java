@@ -103,8 +103,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     private Spots mSpots;
     private boolean isPause = false;
     // 初始化全局 bitmap 信息，不用时及时 recycle
-    BitmapDescriptor bdA = BitmapDescriptorFactory
-            .fromResource(R.mipmap.btn_voice_default);
+    public BitmapDescriptor bdA = BitmapDescriptorFactory
+            .fromAssetWithDpi("btn_voice_default.png");
     private TextView mSpotsListBg, mGuideListBg;
     private List<Spots> spotsList;
     private ProgressDialog mProgressDialog;
@@ -412,14 +412,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void initBaiduMap() {
-        locationToCenter(31.123292, 120.85481, true);
-        addLayerToMap();
-//        initAndAddLayer();
-
-    }
-
-    //定位屏幕中心点
-    public void locationToCenter(double lat, double lng, boolean isZoom) {
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         mBaiduMap.getUiSettings().setCompassEnabled(false);
@@ -429,6 +421,25 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         MyLocationData locData = new MyLocationData.Builder().accuracy(100).direction(90.0f).latitude(Constants.lat).longitude(Constants.lng).build();
         mBaiduMap.setMyLocationData(locData);
         mBaiduMap.setMyLocationEnabled(true);
+
+        locationToCenter(31.123292, 120.85481, true);
+        addLayerToMap();
+//        initAndAddLayer();
+        mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                LatLng northeast = new LatLng(31.131460, 120.86299);
+                LatLng southwest = new LatLng(31.115130, 120.84670);
+                LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
+                        .include(southwest).build();
+                mBaiduMap.setMapStatusLimits(bounds);
+            }
+        });
+
+    }
+
+    //定位屏幕中心点
+    public void locationToCenter(double lat, double lng, boolean isZoom) {
         LatLng ll = new LatLng(lat, lng);
         MapStatusUpdate u;
         if (isZoom) {
@@ -450,9 +461,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     public void addLayerToMap() {
-        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromAsset("layer.png");
-        LatLng northeast = new LatLng(31.131000, 120.86460);
-        LatLng southwest = new LatLng(31.113000, 120.84760);
+        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromAsset("layer.jpg");
+        LatLng northeast = new LatLng(31.131460, 120.86292);
+        LatLng southwest = new LatLng(31.115123, 120.84670);
         LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
                 .include(southwest).build();
         if (ooGround == null){
@@ -464,14 +475,16 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void initAndAddLayer() {
+        MarkerOptions ooA = new MarkerOptions().icon(bdA).zIndex(9).draggable(false);
         for (int i = 0; i < mSpotsList.size(); i++) {
             LatLng latlng;
             if (mSpotsList.get(i).getLat4show() != null && mSpotsList.get(i).getLng4show() != null) {
                 latlng = new LatLng(Double.parseDouble(mSpotsList.get(i).getLat4show()), Double.parseDouble(mSpotsList.get(i).getLng4show()));
-                MarkerOptions ooA = new MarkerOptions().position(latlng).icon(bdA).zIndex(9).draggable(false);
-                ooA.animateType(MarkerOptions.MarkerAnimateType.grow);
+                ooA.position(latlng);
+                ooA.perspective(true);
                 Marker marker = (Marker) (mBaiduMap.addOverlay(ooA));
                 marker.setTitle(mSpotsList.get(i).getTitle());
+                marker.setPerspective(true);
             } else {
                 Log.i("tttt", mSpotsList.get(i).getTitle());
             }
@@ -747,6 +760,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         if (mMapView !=null){
             mMapView.onDestroy();
         }
+        bdA.recycle();
     }
 
     public void setSelectedSpotsOutSide(Spots spotsId){

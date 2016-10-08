@@ -255,6 +255,7 @@ private void checkUpdate(){
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        gudieFragment.bdA.recycle();
         gudieFragment.stopPlayAudo();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);

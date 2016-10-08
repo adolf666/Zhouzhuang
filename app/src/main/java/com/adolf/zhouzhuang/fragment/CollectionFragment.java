@@ -62,6 +62,10 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     private TextView tempExhibit;
     private TextView displayExhibit;
     private TextView spotsExhibit;
+    private List<String> mWenWuTitle = new ArrayList<>();
+    private List<String> mWenWuDesc = new ArrayList<>();
+    private List<String> mWenWuPic = new ArrayList<>();
+    private List<String> mWenWuDetailUrl = new ArrayList<>();
 
 
     public CollectionFragment() {
@@ -110,6 +114,20 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    private List<Exhibit> initWenWuQuanJing(){
+        List<Exhibit> exhibitList = new ArrayList<>();
+        for (int i = 0; i < mWenWuTitle.size(); i++) {
+            Exhibit exhibit = new Exhibit();
+            exhibit.setTitle(mWenWuTitle.get(i));
+            exhibit.setBrief(mWenWuDesc.get(i));
+            exhibit.setTitleImgLocation(mWenWuPic.get(i));
+            exhibit.setDetailUrl(mWenWuDetailUrl.get(i));
+            exhibitList.add(exhibit);
+        }
+        return exhibitList;
+
     }
 
     public void initViews(View view){
