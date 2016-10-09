@@ -48,25 +48,30 @@ public class PanoramaAdapter extends BaseAdapter {
         ViewHolder viewHolder = null;
         if (null == convertView) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_news, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_panorama, null);
             viewHolder.image = (ImageView) convertView.findViewById(R.id.iv_image);
+            viewHolder.name = (MyTextView)convertView.findViewById(R.id.tv_name);
             viewHolder.title = (MyTextView) convertView.findViewById(R.id.tv_title);
             viewHolder.description = (MyTextView) convertView.findViewById(R.id.tv_desc);
             viewHolder.mDivide = (TextView)convertView.findViewById(R.id.view_divide);
-            viewHolder.title.setTypeFace(0);
+            viewHolder.name.setTypeFace(0);
+            viewHolder.title.setTypeFace(3);
             viewHolder.description.setTypeFace(3);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        // viewHolder.image.setImageResource(panoramaList.get(position).getImage());
         viewHolder.image.setImageDrawable(panoramaList.get(position).getImage());
-        viewHolder.title.setText(panoramaList.get(position).getName());
-        viewHolder.description.setText(panoramaList.get(position).getDesc());
+        viewHolder.name.setText(panoramaList.get(position).getName());
+        viewHolder.title.setText(panoramaList.get(position).getTitle());
+        if(panoramaList.get(position).getDesc()!=null){
+            viewHolder.description.setText(panoramaList.get(position).getDesc());
+        }
         return convertView;
     }
     private static class ViewHolder {
         ImageView image;
+        MyTextView name;
         MyTextView title;
         MyTextView description;
         TextView mDivide;

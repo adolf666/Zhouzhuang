@@ -112,11 +112,11 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 }
 
                 break;
-            case R.id.tv_strategy:
+            /*case R.id.tv_strategy:
                 Intent intentStrategy = new Intent();
                 intentStrategy.setClass(PersonalCenterActivity.this,StrategyActivity.class);
                 startActivity(intentStrategy);
-                break;
+                break;*/
             case R.id.iv_portrait:
             case R.id.tv_name:
                 Intent intent = new Intent();

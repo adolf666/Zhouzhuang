@@ -39,6 +39,13 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -272,7 +279,11 @@ private void checkUpdate(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                finish();
+                /*Intent intent =new Intent();
+                intent.setClass(MainActivity.this,WebViewActivity.class);
+                intent.putExtra("URL","http://139.196.217.52/zhouzhuang/apk/20161009.apk");
+                intent.putExtra(WebViewActivity.NAME,"下载更新");
+                startActivity(intent);*/
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -283,4 +294,7 @@ private void checkUpdate(){
         });
         builder.create().show();
     }
+
+
+
 }

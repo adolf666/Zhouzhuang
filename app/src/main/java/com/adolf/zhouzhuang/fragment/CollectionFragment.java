@@ -70,7 +70,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     private List<String> mWenWuDesc = new ArrayList<>();
     private List<String> mWenWuPic = new ArrayList<>();
     private List<String> mWenWuDetailUrl = new ArrayList<>();
-
+    List<PanoramaObject> panoramaObjectList;
 
     public CollectionFragment() {
         // Required empty public constructor
@@ -110,8 +110,10 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         initViews(view);
         getExhibits("1");
         getExhibits("2");
+        getPanoramaData();
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -185,22 +187,6 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         });
         mViewPagerViews.set(index,lv);
 
-        ListView listview = new ListView(getActivity());
-        List<PanoramaObject> panoramaObjectList = new ArrayList<PanoramaObject>() ;
-        PanoramaObject panoramaObject1 = new PanoramaObject();
-        panoramaObject1.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian01));
-        panoramaObject1.setName("飞禽纹黑皮");
-        panoramaObject1.setDesc("良渚文化");
-        PanoramaObject panoramaObject2 = new PanoramaObject();
-        panoramaObject2.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian02));
-        panoramaObject2.setName("飞禽纹黑皮");
-        panoramaObject2.setDesc("良渚文化");
-        panoramaObjectList.add(panoramaObject1);
-        panoramaObjectList.add(panoramaObject2);
-        PanoramaAdapter panoramaAdapter = new PanoramaAdapter(getActivity(),panoramaObjectList);
-        listview .setAdapter(panoramaAdapter);
-        listview .setSelector(R.mipmap.banner_default);
-        mViewPagerViews.set(1,listview);
 
         if (mExhibitAdapter == null){
             mExhibitAdapter = new ExhibitAdapter(mViewPagerViews,getActivity());
@@ -264,5 +250,89 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
                 viewPager.setCurrentItem(2);
                 tabSwitch(2);
         }
+    }
+    private void getPanoramaData(){
+
+
+        panoramaObjectList = new ArrayList<PanoramaObject>() ;
+        PanoramaObject panoramaObject1 = new PanoramaObject();
+        PanoramaObject panoramaObject2 = new PanoramaObject();
+        PanoramaObject panoramaObject3 = new PanoramaObject();
+        PanoramaObject panoramaObject4 = new PanoramaObject();
+        PanoramaObject panoramaObject5 = new PanoramaObject();
+        PanoramaObject panoramaObject6 = new PanoramaObject();
+        PanoramaObject panoramaObject7 = new PanoramaObject();
+        PanoramaObject panoramaObject8 = new PanoramaObject();
+        PanoramaObject panoramaObject9 = new PanoramaObject();
+
+        panoramaObject1.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian01));
+        panoramaObject2.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian02));
+        panoramaObject3.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian03));
+        panoramaObject4.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian04));
+        panoramaObject5.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian05));
+        panoramaObject6.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian06));
+        panoramaObject7.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian07));
+        panoramaObject8.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian08));
+        panoramaObject9.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian09));
+
+
+
+        panoramaObject1.setName("飞禽纹黑皮陶双耳壶");
+        panoramaObject1.setTitle("良渚文化.陶器");
+        panoramaObject1.setDesc("此罐又称贯耳壶，通体乌黑，从罐腹至腔，手工绘制水禽飞鸟五十只。其单线造型简练明快，似水鸟隔水而飞，生动活泼。1995年被定为国家一级文物。");
+
+        panoramaObject2.setName("良渚文化贯耳陶壶");
+        panoramaObject2.setTitle("良渚文化.陶器,口径6.8,底径5,腹径9,高10.5厘米");
+        panoramaObject2.setDesc("黑衣贯耳壶pottery pot 为良渚显贵先民之用具");
+
+        panoramaObject3.setName("良渚文化陶鼎");
+        panoramaObject3.setTitle("良渚文化.陶器,口径14.6,腹径18,高19.1厘米");
+        panoramaObject3.setDesc("陶鼎 pottery pot 此鼎浅足，形小，腹部微鼓，是良渚较早的炊器，腹部有后期人工开凿的一个孔，不知何因，待考证。");
+
+        panoramaObject4.setName("春秋陶罐");
+        panoramaObject4.setTitle("良渚文化.陶器,口径15.8,腹径22.8,底径15,高14厘米");
+        panoramaObject4.setDesc("硬陶罐hard pottery pot 此陶罐是西周春秋时代贮器，地平有细边，小口沿体形扁圆，罐体上部斜折纹，下部是回纹图案，酱紫色十分古朴美观。");
+
+        panoramaObject5.setName("良渚文化陶壶");
+        panoramaObject5.setTitle("良渚文化.陶器,口径6.3,腹径15.7,高14.4厘米");
+        panoramaObject5.setDesc("陶盉pottery container为良渚炊具");
+
+        panoramaObject6.setName("良渚文化石犁");
+        panoramaObject6.setTitle("良渚文化.石器,长41.3,宽28,厚1.3厘米");
+        panoramaObject6.setDesc("黑色页岩制成，为良渚时期重要的耕田工具");
+
+        panoramaObject7.setName("良渚文化石斧");
+        panoramaObject7.setTitle("良渚文化.石器,长15.7,宽9.8,厚1.5厘米");
+        panoramaObject7.setDesc("石斧stone axe 用于砍劈、剁、砍肉类和野菜等。");
+
+        panoramaObject8.setName("良渚文化石镞");
+        panoramaObject8.setTitle("良渚文化.石器,长9.6,宽0.9,厚2.6厘米");
+        panoramaObject8.setDesc("石凿 stone chiscl为先民造船建房重要工具。");
+
+        panoramaObject9.setName("甲骨文吴字陶罐");
+        panoramaObject9.setTitle("良渚文化.陶器");
+        panoramaObject9.setDesc("");
+
+        panoramaObjectList.add(panoramaObject1);
+        panoramaObjectList.add(panoramaObject2);
+        panoramaObjectList.add(panoramaObject3);
+        panoramaObjectList.add(panoramaObject4);
+        panoramaObjectList.add(panoramaObject5);
+        panoramaObjectList.add(panoramaObject6);
+        panoramaObjectList.add(panoramaObject7);
+        panoramaObjectList.add(panoramaObject8);
+        panoramaObjectList.add(panoramaObject9);
+
+        ListView listview = new ListView(getActivity());
+        PanoramaAdapter panoramaAdapter = new PanoramaAdapter(getActivity(),panoramaObjectList);
+        listview .setAdapter(panoramaAdapter);
+        listview .setSelector(R.mipmap.banner_default);
+        mViewPagerViews.set(1,listview);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
     }
 }
