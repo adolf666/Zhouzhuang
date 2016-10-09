@@ -461,7 +461,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     public void addLayerToMap() {
-        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromAsset("layer.jpg");
+        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromAsset("layer.png");
         LatLng northeast = new LatLng(31.131460, 120.86292);
         LatLng southwest = new LatLng(31.115123, 120.84670);
         LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
