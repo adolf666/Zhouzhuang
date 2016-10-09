@@ -21,9 +21,11 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
+import com.adolf.zhouzhuang.adapter.PanoramaAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.Exhibit;
+import com.adolf.zhouzhuang.object.PanoramaObject;
 import com.adolf.zhouzhuang.resBody.ExhibitResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.Utils;
@@ -36,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+
+import static android.R.id.list;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -171,7 +175,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
                 Intent intent  = new Intent();
                 intent.setClass(getActivity(), WebViewActivity.class);
                 intent.putExtra("URL",exhibits.get(position).getDetailUrl());
-                if(1==index){
+                if(2==index){
                     intent.putExtra(WebViewActivity.NAME,exhibits.get(position).getTitle());
                 }else if(0==index){
                     intent.putExtra(WebViewActivity.NAME,"陈列展览");
@@ -180,6 +184,18 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
             }
         });
         mViewPagerViews.set(index,lv);
+
+        ListView listview = new ListView(getActivity());
+        List<PanoramaObject> panoramaObjectList = new ArrayList<PanoramaObject>() ;
+        PanoramaObject panoramaObject = new PanoramaObject();
+        panoramaObject.setName("飞禽纹黑皮");
+        panoramaObject.setDesc("良渚文化");
+        panoramaObjectList.add(panoramaObject);
+        PanoramaAdapter panoramaAdapter = new PanoramaAdapter(getActivity(),panoramaObjectList);
+        listview .setAdapter(panoramaAdapter);
+        listview .setSelector(R.mipmap.banner_default);
+        mViewPagerViews.set(1,listview);
+
         if (mExhibitAdapter == null){
             mExhibitAdapter = new ExhibitAdapter(mViewPagerViews,getActivity());
             viewPager.setAdapter(mExhibitAdapter);
@@ -206,7 +222,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                initViewPagerViews(GsonUtil.jsonToList(response,"data",Exhibit.class), TextUtils.equals(types,"1")?1:0);
+                initViewPagerViews(GsonUtil.jsonToList(response,"data",Exhibit.class), TextUtils.equals(types,"1")?2:0);
             }
 
             @Override
