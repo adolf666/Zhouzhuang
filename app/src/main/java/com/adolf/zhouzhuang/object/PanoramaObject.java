@@ -27,5 +27,11 @@ public class PanoramaObject {
         this.desc = desc;
     }
 
+    public void setImage(Drawable image){
+        this.image = image;
+    }
 
+    public Drawable getImage(){
+        return image;
+    }
 }

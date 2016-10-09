@@ -59,7 +59,8 @@ public class PanoramaAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        // viewHolder.image.setImageResource(panoramaList.get(position).getImage());
+        viewHolder.image.setImageDrawable(panoramaList.get(position).getImage());
         viewHolder.title.setText(panoramaList.get(position).getName());
         viewHolder.description.setText(panoramaList.get(position).getDesc());
         return convertView;

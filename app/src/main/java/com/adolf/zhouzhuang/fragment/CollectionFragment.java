@@ -187,10 +187,16 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
 
         ListView listview = new ListView(getActivity());
         List<PanoramaObject> panoramaObjectList = new ArrayList<PanoramaObject>() ;
-        PanoramaObject panoramaObject = new PanoramaObject();
-        panoramaObject.setName("飞禽纹黑皮");
-        panoramaObject.setDesc("良渚文化");
-        panoramaObjectList.add(panoramaObject);
+        PanoramaObject panoramaObject1 = new PanoramaObject();
+        panoramaObject1.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian01));
+        panoramaObject1.setName("飞禽纹黑皮");
+        panoramaObject1.setDesc("良渚文化");
+        PanoramaObject panoramaObject2 = new PanoramaObject();
+        panoramaObject2.setImage(getActivity().getResources().getDrawable(R.mipmap.fengmian02));
+        panoramaObject2.setName("飞禽纹黑皮");
+        panoramaObject2.setDesc("良渚文化");
+        panoramaObjectList.add(panoramaObject1);
+        panoramaObjectList.add(panoramaObject2);
         PanoramaAdapter panoramaAdapter = new PanoramaAdapter(getActivity(),panoramaObjectList);
         listview .setAdapter(panoramaAdapter);
         listview .setSelector(R.mipmap.banner_default);
