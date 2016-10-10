@@ -21,7 +21,8 @@ public class SdCardUtil {
     public static final String FILECACHE = "/cache";
     // 用户信息目录
     public static final String FILEUSER = "user";
-
+    //下载最新的apk存放目录
+    public static final String FILEAPK = "/apk";
     /*
      * 检查sd卡是否可用
      * getExternalStorageState 获取状态

@@ -10,7 +10,8 @@
     tools:context=".activity.LaunchActivity">
 
     <ImageView
+        android:id="@+id/loading_anim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/launch"/>
+        android:src="@drawable/guideing" />
 </RelativeLayout>

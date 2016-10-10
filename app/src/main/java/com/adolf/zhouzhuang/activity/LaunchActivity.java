@@ -1,8 +1,10 @@
 package com.adolf.zhouzhuang.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ImageView;
 
 import com.adolf.zhouzhuang.Favorites;
 import com.adolf.zhouzhuang.R;
@@ -28,10 +30,14 @@ import cz.msebera.android.httpclient.Header;
 public class LaunchActivity extends BaseActivity {
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
+    private ImageView mLoadingImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laynch);
+        mLoadingImage = (ImageView) findViewById(R.id.loading_anim);
+        AnimationDrawable animationDrawable = (AnimationDrawable) mLoadingImage.getDrawable();
+        animationDrawable.start();
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         mFavoriteDataBaseHelper = new FavoriteDataBaseHelper(getFavoriteDao());
         initFileDir();
@@ -110,6 +116,7 @@ public class LaunchActivity extends BaseActivity {
         if(SdCardUtil.checkSdCard()==true){
             SdCardUtil.createFileDir(SdCardUtil.FILEDIR);
             SdCardUtil.createFileDir(SdCardUtil.FILEDIR+"/"+SdCardUtil.FILEAUDIO);
+            SdCardUtil.createFileDir(SdCardUtil.FILEDIR+"/"+SdCardUtil.FILEAPK);
         }else{
             System.out.println("创建文件夹失败SD卡不可用");
         }

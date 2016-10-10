@@ -1,6 +1,7 @@
 package com.adolf.zhouzhuang.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -29,16 +30,19 @@ import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.interfaces.MainInterface;
 import com.adolf.zhouzhuang.object.AppVersionObject;
 import com.adolf.zhouzhuang.util.Constants;
+import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.CustomViewPager;
+import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,7 +62,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView mCollectionTextView;
     private TextView mNavigationTextView;
     private TextView mStrategyTextView;
-
+    private ProgressDialog mProgressDialog;
     private CustomViewPager mCustomerViewPager;
     public static final String SPOTS_ID = "spot_id";
     private int spotId = 0;
@@ -83,7 +87,7 @@ private void checkUpdate(){
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             super.onSuccess(statusCode, headers, response);
             AppVersionObject appVersionObject = GsonUtil.jsonToBean(response,"data",AppVersionObject.class);
-            dialog(appVersionObject.upgradecontent);
+            promptDialog(appVersionObject.upgradecontent);
         }
 
         @Override
@@ -271,7 +275,7 @@ private void checkUpdate(){
         System.exit(0);
     }
 
-    protected void dialog(String message) {
+    protected void promptDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setMessage(message);
         builder.setTitle("版本更新");
@@ -279,11 +283,8 @@ private void checkUpdate(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                /*Intent intent =new Intent();
-                intent.setClass(MainActivity.this,WebViewActivity.class);
-                intent.putExtra("URL","http://139.196.217.52/zhouzhuang/apk/20161009.apk");
-                intent.putExtra(WebViewActivity.NAME,"下载更新");
-                startActivity(intent);*/
+                downLoadApk();
+
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -295,6 +296,81 @@ private void checkUpdate(){
         builder.create().show();
     }
 
+    public void downLoadApk() {
+        final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAPK+ "/"+"zhouzhuang" + ".apk";
+        String[] allowedContentTypes = new String[]{".*"};
+        AsyncHttpClientUtils.getInstance().downLoadFile("http://139.196.217.52/zhouzhuang/apk/20161009.apk", new BinaryHttpResponseHandler(allowedContentTypes) {
 
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+            }
 
+            @Override
+            public void onStart() {
+                super.onStart();
+                mProgressDialog = ProgressDialog.show(MainActivity.this, "", "正在下载软件, 请稍候...", true, true);
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                mProgressDialog.dismiss();
+                if (Utils.fileIsExists(filePath)) {
+                    updateDialog(filePath);
+                } else {
+                    Toast.makeText(MainActivity.this, "未能正确下载更新下文件", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] binaryData) {
+                InputStream inputstream = new ByteArrayInputStream(binaryData);
+                if (inputstream != null) {
+                    SdCardUtil.write2SDFromInput(filePath, inputstream);
+                    try {
+                        inputstream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] binaryData, Throwable error) {
+                Toast.makeText(MainActivity.this, "下载失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    protected void updateDialog(final String filePath) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        builder.setMessage("是否立刻安装");
+        builder.setTitle("下载成功");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                openFile(new File(filePath));
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void openFile(File file) {
+
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file),
+                "application/vnd.android.package-archive");
+        startActivity(intent);
+    }
 }
