@@ -734,7 +734,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         if (mMapView != null){
             mMapView.onResume();
         }
-
     }
 
     @Override

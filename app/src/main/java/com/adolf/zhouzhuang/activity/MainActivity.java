@@ -134,7 +134,6 @@ private void checkUpdate(){
         gudieFragment = new GudieFragment();
         // PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
         StrategyFragment strategyFragment = new StrategyFragment();
-
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
         fragmentArrayList.add(gudieFragment);
@@ -310,6 +309,8 @@ private void checkUpdate(){
             public void onStart() {
                 super.onStart();
                 mProgressDialog = ProgressDialog.show(MainActivity.this, "", "正在下载软件, 请稍候...", true, true);
+               // mProgressDialog.setCanceledOnTouchOutside（false）;
+                mProgressDialog.setCanceledOnTouchOutside(false);
                 mProgressDialog.show();
             }
 
