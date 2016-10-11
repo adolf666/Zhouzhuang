@@ -211,7 +211,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
                 setTabResourceState();
                 mSpots = spotsList.get(position);
-                locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false);
+                locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false,false);
                 showBaiduInfoWindow(spotsList.get(position));
             }
         });
@@ -230,7 +230,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_loaction:
-                locationToCenter(31.123292, 120.85481, true);
+                locationToCenter(31.123292, 120.85481, true,true);
                 break;
             case R.id.bt_audio_play:
                 if (!isAudioExit(String.valueOf(mSpots.getId()))) {
@@ -422,7 +422,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         mBaiduMap.setMyLocationData(locData);
         mBaiduMap.setMyLocationEnabled(true);
 
-        locationToCenter(31.123292, 120.85481, true);
+        locationToCenter(31.123292, 120.85481, true,true);
         addLayerToMap();
 //        initAndAddLayer();
         mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
@@ -435,11 +435,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 mBaiduMap.setMapStatusLimits(bounds);
             }
         });
-
     }
 
     //定位屏幕中心点
-    public void locationToCenter(double lat, double lng, boolean isZoom) {
+    public void locationToCenter(double lat, double lng, boolean isZoom,boolean isNeedToLimit) {
         LatLng ll = new LatLng(lat, lng);
         MapStatusUpdate u;
         if (isZoom) {
@@ -457,6 +456,13 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 }
             };
             handler.postDelayed(runnable, 400);
+        }
+        if (isNeedToLimit){
+            LatLng northeast = new LatLng(31.131460, 120.86299);
+            LatLng southwest = new LatLng(31.115130, 120.84670);
+            LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
+                    .include(southwest).build();
+            mBaiduMap.setMapStatusLimits(bounds);
         }
     }
 
@@ -491,9 +497,17 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         }
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             public boolean onMarkerClick(final Marker marker) {
+
                 mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
                 showBaiduInfoWindow(mSpots);
-                locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false);
+                            LatLng northeast = new LatLng(31.137760, 120.86592);
+                            LatLng southwest = new LatLng(31.115130, 120.84370);
+                            LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
+                                    .include(southwest).build();
+                            mBaiduMap.setMapStatusLimits(bounds);
+
+                locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false,false);
+
                 return true;
             }
         });
@@ -673,7 +687,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     public void showBaiduInfoWindow(Spots spots) {
         if (spots.getLat4show() != null && spots.getLng4show() != null) {
             LatLng latLng = new LatLng(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()));
-            InfoWindow infoWindow = new InfoWindow(initDialogView(spots), latLng, 0 - Utils.dip2px(getActivity(), 45));
+            InfoWindow infoWindow = new InfoWindow(initDialogView(spots), latLng, 0 - Utils.dip2px(getActivity(), 5));
             mBaiduMap.showInfoWindow(infoWindow);
         } else {
             Toast.makeText(getActivity(), "获取经纬度失败", Toast.LENGTH_SHORT).show();

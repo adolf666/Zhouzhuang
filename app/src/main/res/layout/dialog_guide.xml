@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center">
+<LinearLayout
     android:background="@mipmap/img_shuangqiao"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="315dp"
-        android:layout_height="202dp"
+    android:layout_width="280dp"
+    android:layout_height="178dp">
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="178dp"
         android:background="@mipmap/mask_jingdain"
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,20 +51,21 @@
                 android:src="@drawable/dialog_selector_close" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="85dp"
-            android:layout_marginTop="13dp"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="85dp"-->
+            <!--android:layout_marginTop="13dp"-->
+            <!--android:orientation="horizontal">-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
 
             <Button
                 android:id="@+id/tv_navigation_map"
@@ -87,5 +91,6 @@
                 android:background="@drawable/dialog_selector_details" />
 
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
+</RelativeLayout>
