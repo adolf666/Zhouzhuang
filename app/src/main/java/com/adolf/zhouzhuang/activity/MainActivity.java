@@ -87,7 +87,10 @@ private void checkUpdate(){
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             super.onSuccess(statusCode, headers, response);
             AppVersionObject appVersionObject = GsonUtil.jsonToBean(response,"data",AppVersionObject.class);
-            promptDialog(appVersionObject.upgradecontent);
+           /* if(!appVersionObject.upgradecontent.isEmpty()){
+                promptDialog(appVersionObject.upgradecontent);
+            }*/
+
         }
 
         @Override

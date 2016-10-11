@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 public class PanoramaObject {
     public Drawable image;
     public String name;
-    public String title;
     public String desc;
 
     public String getName() {
@@ -20,13 +19,6 @@ public class PanoramaObject {
         this.name = name;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getDesc() {
         return desc;

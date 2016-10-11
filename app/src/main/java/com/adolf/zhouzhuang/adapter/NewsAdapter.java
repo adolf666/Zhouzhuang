@@ -59,13 +59,16 @@ public class NewsAdapter extends BaseAdapter {
             viewHolder.title = (MyTextView) convertView.findViewById(R.id.tv_title);
             viewHolder.description = (MyTextView) convertView.findViewById(R.id.tv_desc);
             viewHolder.mDivide = (TextView)convertView.findViewById(R.id.view_divide);
+            viewHolder.mDivideEnd =(TextView)convertView.findViewById(R.id.view_divide1);
             viewHolder.title.setTypeFace(0);
             viewHolder.description.setTypeFace(3);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        if(exhibitList.size()>2&&position == exhibitList.size()-1 ){
+            viewHolder.mDivideEnd.setVisibility(View.VISIBLE);
+        }
         viewHolder.title.setText(exhibitList.get(position).getTitle());
         viewHolder.description.setText(exhibitList.get(position).getBrief());
         Glide.with(context).load(exhibitList.get(position).getTitleImgLocation()).centerCrop().placeholder(R.mipmap.box01_image).crossFade().into(viewHolder.image);
@@ -78,6 +81,7 @@ public class NewsAdapter extends BaseAdapter {
         MyTextView title;
         MyTextView description;
         TextView mDivide;
+        TextView mDivideEnd;
     }
 
 }

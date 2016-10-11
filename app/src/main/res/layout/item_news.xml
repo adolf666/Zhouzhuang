@@ -47,6 +47,11 @@
             android:textColor="#333333"
             android:textSize="13sp" />
 
-
     </LinearLayout>
+    <TextView
+        android:id="@+id/view_divide1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6"
+        android:visibility="gone"/>
 </LinearLayout>

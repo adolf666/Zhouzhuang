@@ -64,26 +64,29 @@
             android:paddingRight="12dp"
             android:paddingTop="6dp"
             android:paddingBottom="12dp">
-            <TextView
-                android:id="@+id/tv_pic1"
+            <ImageView
+                android:id="@+id/image_pic1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:drawableTop="@mipmap/zhenpin01" />
-            <TextView
-                android:id="@+id/tv_pic2"
+                android:src="@mipmap/zhenpin01"
+                android:background="@drawable/main_panorama_selector"/>
+            <ImageView
+                android:id="@+id/image_pic2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:drawableTop="@mipmap/zhenpin02"
-                android:layout_marginLeft="12dp"/>
-            <TextView
-                android:id="@+id/tv_pic3"
+                android:src="@mipmap/zhenpin02"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/main_panorama_selector"/>
+            <ImageView
+                android:id="@+id/image_pic3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:drawableTop="@mipmap/zhenpin03"
-                android:layout_marginLeft="12dp"/>
+                android:src="@mipmap/zhenpin03"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/main_panorama_selector"/>
         </LinearLayout>
     </LinearLayout>
 

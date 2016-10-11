@@ -36,18 +36,6 @@
             android:textSize="15sp" />
 
         <com.adolf.zhouzhuang.util.MyTextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lineSpacingExtra="10dp"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="#333333"
-            android:layout_marginBottom="10dp"
-            android:textSize="13sp" />
-        <com.adolf.zhouzhuang.util.MyTextView
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +46,13 @@
             android:paddingRight="10dp"
             android:textColor="#333333"
             android:textSize="13sp"
-            android:layout_marginBottom="10dp"/>
+            />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/view_divide1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6"
+        android:visibility="gone"/>
 </LinearLayout>

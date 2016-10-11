@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.adolf.zhouzhuang.R;
@@ -43,7 +44,6 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     }
     public void setWebViewInfo(){
         initWebViewSetting();
-        mWebView.loadUrl(mUrl);
         mWebView.setWebViewClient(new WebViewClient(){
 
             @Override
@@ -52,6 +52,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
                 return true;
             }
         });
+        mWebView.loadUrl(mUrl);
     }
     public void loadAssetsFiles(String url){
         mWebView.loadUrl(url);
@@ -67,6 +68,11 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         // 全屏显示
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
+
+       mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);//默认使用缓存
+        mWebView.getSettings().setAppCacheMaxSize(8*1024*1024);//缓存最多可以有8M
+        mWebView.getSettings().setAllowFileAccess(true);//可以读取文件缓存(manifest生效)
+        mWebView.getSettings().setAppCacheEnabled(true);//应用可以有缓存
     }
     @Override
     public void onClick(View v) {

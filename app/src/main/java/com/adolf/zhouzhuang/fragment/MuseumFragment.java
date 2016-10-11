@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
@@ -93,14 +94,14 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
         mBanner = (Banner) view.findViewById(R.id.banner);
         mNewsTv = (TextView) view.findViewById(R.id.tv_news);
         TextView tv_exhibition = (TextView) view.findViewById(R.id.tv_exhibition);
-        TextView tv_pic1 = (TextView) view.findViewById(R.id.tv_pic1);
-        TextView tv_pic2 = (TextView) view.findViewById(R.id.tv_pic2);
-        TextView tv_pic3 = (TextView) view.findViewById(R.id.tv_pic3);
+        ImageView image_pic1 = (ImageView) view.findViewById(R.id.image_pic1);
+        ImageView image_pic2 = (ImageView) view.findViewById(R.id.image_pic2);
+        ImageView image_pic3 = (ImageView) view.findViewById(R.id.image_pic3);
         tv_exhibition.setOnClickListener(this);
         mNewsTv.setOnClickListener(this);
-        tv_pic1.setOnClickListener(this);
-        tv_pic2.setOnClickListener(this);
-        tv_pic3.setOnClickListener(this);
+        image_pic1.setOnClickListener(this);
+        image_pic2.setOnClickListener(this);
+        image_pic3.setOnClickListener(this);
         initBannerDefault();
         getBannerInfo();
         return view;
@@ -184,21 +185,21 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
                 MainActivity mainActivity = (MainActivity)getActivity();
                 mainActivity.setBottomBarBackground(1);
                 break;
-            case  R.id.tv_pic1:
+            case  R.id.image_pic1:
                 Intent intent =new Intent();
                 intent.setClass(getActivity(),WebViewActivity.class);
                 intent.putExtra("URL","file:///android_asset/360/001.html");
                 intent.putExtra(WebViewActivity.NAME,"360展示");
                 startActivity(intent);
                 break;
-            case R.id.tv_pic2:
+            case R.id.image_pic2:
                 Intent intent2 =new Intent();
                 intent2.setClass(getActivity(),WebViewActivity.class);
                 intent2.putExtra("URL","file:///android_asset/360/006.html");
                 intent2.putExtra(WebViewActivity.NAME,"360展示");
                 startActivity(intent2);
                 break;
-            case R.id.tv_pic3:
+            case R.id.image_pic3:
                 Intent intent3 =new Intent();
                 intent3.setClass(getActivity(),WebViewActivity.class);
                 intent3.putExtra("URL",excihbitURL03);
