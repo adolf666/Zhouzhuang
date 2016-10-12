@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -81,12 +83,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 private void checkUpdate(){
     RequestParams params = new RequestParams();
+    params.add("os","android");
     AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_APP_VERSION,params,new JsonHttpResponseHandler(){
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             super.onSuccess(statusCode, headers, response);
             AppVersionObject appVersionObject = GsonUtil.jsonToBean(response,"data",AppVersionObject.class);
+             int  version = getVersionCode();
+            Log.i("ssssssversion  == ",version+"");
            /* if(!appVersionObject.upgradecontent.isEmpty()){
                 promptDialog(appVersionObject.upgradecontent);
             }*/
@@ -377,4 +382,21 @@ private void checkUpdate(){
                 "application/vnd.android.package-archive");
         startActivity(intent);
     }
+    /**
+     2  * 获取版本号
+     3  * @return 当前应用的版本号
+     4  */
+    public int getVersionCode() {
+            try {
+                    PackageManager manager = this.getPackageManager();
+                    PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+                    int versionCode= info.versionCode;
+                   return versionCode;
+               } catch (Exception e) {
+                    e.printStackTrace();
+                return 0;
+               }
+
+        }
+
 }

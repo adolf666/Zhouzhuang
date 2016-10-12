@@ -1,10 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f3f5f7">
+
     <include
         android:id="@+id/include_actionbar"
         layout="@layout/item_actionbar"
         android:layout_width="match_parent"
         android:layout_height="49dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/image_title" />
+
+            <com.adolf.zhouzhuang.util.MyTextView
+                android:id="@+id/museum_desc1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:lineSpacingExtra="10dp"
+                android:textColor="#333333"
+                />
+
+            <com.adolf.zhouzhuang.util.MyTextView
+                android:id="@+id/museum_desc2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:lineSpacingExtra="10dp"
+                android:textColor="#333333"
+               />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/image_content_eg"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"/>
+
+            <com.adolf.zhouzhuang.util.MyTextView
+                android:id="@+id/museum_desc3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#333333"
+                android:lineSpacingExtra="10dp"
+                 />
+
+            <com.adolf.zhouzhuang.util.MyTextView
+                android:id="@+id/museum_desc4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#333333"
+                android:lineSpacingExtra="10dp"
+              />
+
+            <com.adolf.zhouzhuang.util.MyTextView
+                android:id="@+id/museum_desc5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#333333"
+                android:lineSpacingExtra="10dp"
+                 />
+
+            <com.adolf.zhouzhuang.util.MyTextView
+                android:id="@+id/museum_desc6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#333333"
+                android:lineSpacingExtra="10dp"
+               />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

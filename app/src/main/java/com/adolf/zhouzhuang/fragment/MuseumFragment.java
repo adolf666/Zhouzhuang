@@ -16,6 +16,7 @@ import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.activity.NewsActivity;
 import com.adolf.zhouzhuang.activity.PanoramaActivity;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
+import com.adolf.zhouzhuang.activity.ZhouzhuangLibActivity;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.BannerObj;
@@ -92,12 +93,14 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_museum, container, false);
         mBanner = (Banner) view.findViewById(R.id.banner);
+        TextView tv_info = (TextView)view.findViewById(R.id.tv_info);
         mNewsTv = (TextView) view.findViewById(R.id.tv_news);
         TextView tv_exhibition = (TextView) view.findViewById(R.id.tv_exhibition);
         ImageView image_pic1 = (ImageView) view.findViewById(R.id.image_pic1);
         ImageView image_pic2 = (ImageView) view.findViewById(R.id.image_pic2);
         ImageView image_pic3 = (ImageView) view.findViewById(R.id.image_pic3);
         tv_exhibition.setOnClickListener(this);
+        tv_info.setOnClickListener(this);
         mNewsTv.setOnClickListener(this);
         image_pic1.setOnClickListener(this);
         image_pic2.setOnClickListener(this);
@@ -177,6 +180,9 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.tv_info:
+                startActivity(new Intent(getActivity(), ZhouzhuangLibActivity.class));
+                break;
             case R.id.tv_news:
                 startActivity(new Intent(getActivity(), NewsActivity.class));
                 break;
