@@ -1,5 +1,6 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -26,20 +27,18 @@ public class ZhouzhuangLibActivity extends BaseActivity {
         MyTextView museum_desc3 = (MyTextView)findViewById(R.id.museum_desc3);
         MyTextView museum_desc4 = (MyTextView)findViewById(R.id.museum_desc4);
         MyTextView museum_desc5 = (MyTextView)findViewById(R.id.museum_desc5);
-        MyTextView museum_desc6 = (MyTextView)findViewById(R.id.museum_desc6);
+
 
         museum_desc1.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc1));
         museum_desc2.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc2));
         museum_desc3.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc3));
         museum_desc4.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc4));
         museum_desc5.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc5));
-        museum_desc6.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc6));
         museum_desc1.setTypeFace(3);
         museum_desc2.setTypeFace(3);
         museum_desc3.setTypeFace(3);
         museum_desc4.setTypeFace(3);
         museum_desc5.setTypeFace(3);
-        museum_desc6.setTypeFace(3);
     }
     @Override
     public void onClick(View v) {

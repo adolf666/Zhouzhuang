@@ -35,6 +35,7 @@
                 android:textSize="13sp"
                 android:lineSpacingExtra="10dp"
                 android:textColor="#333333"
+                android:textStyle="bold"
                 />
 
             <com.adolf.zhouzhuang.util.MyTextView
@@ -44,6 +45,7 @@
                 android:textSize="13sp"
                 android:lineSpacingExtra="10dp"
                 android:textColor="#333333"
+                android:textStyle="bold"
                />
 
             <ImageView
@@ -81,14 +83,6 @@
                 android:lineSpacingExtra="10dp"
                  />
 
-            <com.adolf.zhouzhuang.util.MyTextView
-                android:id="@+id/museum_desc6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="#333333"
-                android:lineSpacingExtra="10dp"
-               />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

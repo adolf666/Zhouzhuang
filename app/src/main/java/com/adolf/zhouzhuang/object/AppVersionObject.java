@@ -10,5 +10,6 @@ public class AppVersionObject {
     public String appversion;
     public int appid;
     public String upgradecontent;
+    public String downloadurl;
 
 }

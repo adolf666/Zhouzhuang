@@ -91,10 +91,9 @@ private void checkUpdate(){
             super.onSuccess(statusCode, headers, response);
             AppVersionObject appVersionObject = GsonUtil.jsonToBean(response,"data",AppVersionObject.class);
              int  version = getVersionCode();
-            Log.i("ssssssversion  == ",version+"");
-           /* if(!appVersionObject.upgradecontent.isEmpty()){
-                promptDialog(appVersionObject.upgradecontent);
-            }*/
+               if(appVersionObject!=null&&appVersionObject.appid>version&&!TextUtils.isEmpty(appVersionObject.upgradecontent)){
+                   promptDialog(appVersionObject.upgradecontent,appVersionObject.downloadurl);
+               }
 
         }
 
@@ -282,7 +281,7 @@ private void checkUpdate(){
         System.exit(0);
     }
 
-    protected void promptDialog(String message) {
+    protected void promptDialog(String message , final String url) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setMessage(message);
         builder.setTitle("版本更新");
@@ -290,7 +289,10 @@ private void checkUpdate(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                downLoadApk();
+                if(!TextUtils.isEmpty(url)){
+                    downLoadApk(url);
+                }
+
 
             }
         });
@@ -303,10 +305,10 @@ private void checkUpdate(){
         builder.create().show();
     }
 
-    public void downLoadApk() {
+    public void downLoadApk(String url) {
         final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAPK+ "/"+"zhouzhuang" + ".apk";
         String[] allowedContentTypes = new String[]{".*"};
-        AsyncHttpClientUtils.getInstance().downLoadFile("http://139.196.217.52/zhouzhuang/apk/20161009.apk", new BinaryHttpResponseHandler(allowedContentTypes) {
+        AsyncHttpClientUtils.getInstance().downLoadFile(url, new BinaryHttpResponseHandler(allowedContentTypes) {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {

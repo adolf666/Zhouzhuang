@@ -128,7 +128,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         if (getArguments() != null) {
             spotsId = getArguments().getInt(SPOT_ID);
         }
-        Log.i("ssssssss+spotsid", spotsId + "");
         mLocationClient = new LocationClient(getActivity().getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         getSpotsList();

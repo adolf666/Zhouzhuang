@@ -58,7 +58,7 @@ public class LaunchActivity extends BaseActivity {
 
     private void pageChange() {
         Handler handler = new Handler();
-        handler.postDelayed(new SplashHandler(),11000);
+        handler.postDelayed(new SplashHandler(),5500);
 
     }
 
