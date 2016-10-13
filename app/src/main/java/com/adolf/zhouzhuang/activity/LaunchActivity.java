@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.adolf.zhouzhuang.Favorites;
@@ -18,11 +19,17 @@ import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.felipecsl.gifimageview.library.GifImageView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -30,14 +37,17 @@ import cz.msebera.android.httpclient.Header;
 public class LaunchActivity extends BaseActivity {
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
-    private ImageView mLoadingImage;
+    private GifImageView mLoadingImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laynch);
-        mLoadingImage = (ImageView) findViewById(R.id.loading_anim);
-        AnimationDrawable animationDrawable = (AnimationDrawable) mLoadingImage.getDrawable();
-        animationDrawable.start();
+        mLoadingImage = (GifImageView) findViewById(R.id.loading_anim);
+        /*AnimationDrawable animationDrawable = (AnimationDrawable) mLoadingImage.getDrawable();
+        animationDrawable.start();*/
+        mLoadingImage.setBytes(getBytes());
+        mLoadingImage.startAnimation();
+
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         mFavoriteDataBaseHelper = new FavoriteDataBaseHelper(getFavoriteDao());
         initFileDir();
@@ -48,7 +58,7 @@ public class LaunchActivity extends BaseActivity {
 
     private void pageChange() {
         Handler handler = new Handler();
-        handler.postDelayed(new SplashHandler(),3000);
+        handler.postDelayed(new SplashHandler(),11000);
 
     }
 
@@ -120,6 +130,28 @@ public class LaunchActivity extends BaseActivity {
         }else{
             System.out.println("创建文件夹失败SD卡不可用");
         }
+    }
 
+    public  byte[] getBytes() {
+        InputStream in  = getResources().openRawResource(R.mipmap.gif);
+        try {
+            return IOUtils.toByteArray(in);
+        } catch (final MalformedURLException e) {
+
+        } catch (final OutOfMemoryError e) {
+
+        } catch (final UnsupportedEncodingException e) {
+
+        } catch (final IOException e) {
+
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (final IOException ignored) {
+                }
+            }
+        }
+        return null;
     }
 }

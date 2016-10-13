@@ -49,6 +49,9 @@ dependencies {
     compile 'de.greenrobot:greendao:2.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile project(':library')
+    compile files('libs/commons-io/2.4/commons-io-2.4.jar')
+    compile files('libs/commons-io/2.4/commons-io-2.4-sources.jar')
 }
 allprojects {
     repositories {
