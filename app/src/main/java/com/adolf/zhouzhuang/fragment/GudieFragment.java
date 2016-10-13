@@ -211,6 +211,14 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
                 setTabResourceState();
                 mSpots = spotsList.get(position);
+
+                LatLng northeast = new LatLng(31.137760, 120.86592);
+                LatLng southwest = new LatLng(31.115130, 120.84370);
+                LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
+                        .include(southwest).build();
+                mBaiduMap.setMapStatusLimits(bounds);
+
+
                 locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false,false);
                 showBaiduInfoWindow(spotsList.get(position));
             }
@@ -231,6 +239,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.tv_loaction:
                 locationToCenter(31.123292, 120.85481, true,true);
+                mBaiduMap.hideInfoWindow();
                 break;
             case R.id.bt_audio_play:
                 if (!isAudioExit(String.valueOf(mSpots.getId()))) {
@@ -287,6 +296,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.tv_close:
                 mBaiduMap.hideInfoWindow();
+                locationToCenter(31.123292, 120.85481, true,true);
                 break;
             case R.id.tv_bg_spots:
                 hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
@@ -446,7 +456,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             mBaiduMap.animateMapStatus(u);
         } else {
             u = MapStatusUpdateFactory.newLatLng(ll);//不设置缩放比例
-            final MapStatusUpdate u2 = MapStatusUpdateFactory.scrollBy(0, 0 - Utils.dip2px(getActivity(), 120));
+            final MapStatusUpdate u2 = MapStatusUpdateFactory.scrollBy(0, 0 - Utils.dip2px(getActivity(), 10));
             mBaiduMap.animateMapStatus(u);
             final Handler handler = new Handler();
             Runnable runnable = new Runnable() {
