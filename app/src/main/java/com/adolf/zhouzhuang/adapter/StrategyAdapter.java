@@ -68,13 +68,13 @@ public class StrategyAdapter extends BaseAdapter {
        final ViewHolder viewHolder;
         final StrategyObject item = strategyObjectList.get(position);
         if(null == convertView){
-            convertView = LayoutInflater.from(context).inflate(R.layout.strategy_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.strategy_item, parent,false);
             viewHolder = new ViewHolder();
             viewHolder.mPic = (ImageView) convertView.findViewById(R.id.img_pic);
             viewHolder.mName = (MyTextView)convertView.findViewById(R.id.tv_scenic_name);
             viewHolder.mPhoto = (ImageView)convertView.findViewById(R.id.img_photo);
             viewHolder.mDesc = (MyTextView)convertView.findViewById(R.id.tv_desc);
-            viewHolder.mDate = (TextView)convertView.findViewById(R.id.tv_date);
+
             viewHolder.mName.setTypeFace(3);
             viewHolder.mDesc.setTypeFace(3);
             convertView.setTag(viewHolder);
@@ -109,7 +109,6 @@ public class StrategyAdapter extends BaseAdapter {
         MyTextView mName;
         ImageView mPhoto;
         MyTextView  mDesc;
-        TextView  mDate;
     }
 
 }

@@ -76,11 +76,9 @@ public class StrategyRecylerViewAdapter extends RecyclerView.Adapter<StrategyRec
             mName = (MyTextView)itemView.findViewById(R.id.tv_scenic_name);
             mPhoto = (ImageView)itemView.findViewById(R.id.img_photo);
             mDesc = (MyTextView)itemView.findViewById(R.id.tv_desc);
-            mDate = (TextView)itemView.findViewById(R.id.tv_date);
+
             mName.setTypeFace(3);
             mDesc.setTypeFace(3);
-//            mName.setTypeface(Utils.getType(mContext,3));
-//            mDesc.setTypeface(Utils.getType(mContext,3));
         }
     }
 }
