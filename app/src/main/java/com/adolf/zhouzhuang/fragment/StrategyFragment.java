@@ -23,6 +23,7 @@ import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
 import com.adolf.zhouzhuang.adapter.StrategyAdapter;
+import com.adolf.zhouzhuang.adapter.StrategyPagerAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
@@ -45,7 +46,7 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
     private StrategyAdapter mAdapter;
     private List<View> mViewPagerView;
     private ViewPager viewPager;
-    private ExhibitAdapter mExhibitAdapter;
+    private StrategyPagerAdapter mExhibitAdapter;
     private List<StrategyObject> strategyObjectArrayList;
     private TextView mStrategy,mGuestRoom,mRestaurant,mAdmissionTicket;
 
@@ -109,6 +110,8 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
 
     private void initData(final int index) {
         RequestParams params = new RequestParams();
+        params.add("type", index+"");
+
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_STRATEGY, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -143,7 +146,7 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
         mViewPagerView.set(index,mListView);
 
         if (mExhibitAdapter == null){
-            mExhibitAdapter = new ExhibitAdapter(mViewPagerView,getActivity());
+            mExhibitAdapter = new StrategyPagerAdapter(mViewPagerView,getActivity());
             viewPager.setAdapter(mExhibitAdapter);
         }else{
             mExhibitAdapter.notifyDataSetChanged();

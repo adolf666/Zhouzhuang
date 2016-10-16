@@ -18,5 +18,4 @@ public class ServiceAddress {
     public static String UPDATE_PASSWORD = head + "updatePassword";
     public static String GET_STRATEGY = head + "getScenictravelList";
     public static String GET_APP_VERSION = head +"getAppVersion";
-
 }
