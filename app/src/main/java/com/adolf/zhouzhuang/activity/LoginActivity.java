@@ -20,6 +20,7 @@ import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -33,7 +34,6 @@ public class LoginActivity extends BaseActivity{
     private EditText mUsernameET;
     private EditText mPasswordET;
     private Button mLoginBT;
-    public ProgressDialog progressDialog;
     private int mGoToActivity = -1;
     private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
 
@@ -87,7 +87,8 @@ public class LoginActivity extends BaseActivity{
     }
 
     public void loginNew(){
-        progressDialog = ProgressDialog.show(LoginActivity.this, "", "正在登录...", true, true);
+        progressDialog = new LoadingProgressDialog(this,"正在登录...");
+        progressDialog.show();
         RequestParams params = new RequestParams();
         String userName = mUsernameET.getText().toString();
         String passWord = mPasswordET.getText().toString();
