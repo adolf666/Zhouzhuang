@@ -14,6 +14,7 @@ import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.Exhibit;
 import com.adolf.zhouzhuang.resBody.ExhibitResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
+import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -24,7 +25,6 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class NewsActivity extends BaseActivity {
-    public ProgressDialog progressDialog;
     private ListView mNewsLv;
     private List<Exhibit> exhibitList;
     private NewsAdapter adapter;
@@ -38,20 +38,21 @@ public class NewsActivity extends BaseActivity {
         getNews();
     }
     public void initViews(){
-        progressDialog = ProgressDialog.show(this, "正在获取新闻列表", "请稍候...", true, true);
         mNewsLv = (ListView)findViewById(R.id.lv_news);
     }
 
     public void getNews(){
         RequestParams params = new RequestParams();
         params.add("type","0");
+        progressDialog = new LoadingProgressDialog(this,"正在获取新闻列表, 请稍候...");
+        progressDialog.show();
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 setNewsData(GsonUtil.jsonToList(response,"data",Exhibit.class));
+                progressDialog.dismiss();
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
@@ -77,7 +78,6 @@ public class NewsActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        progressDialog.dismiss();
     }
 
     @Override

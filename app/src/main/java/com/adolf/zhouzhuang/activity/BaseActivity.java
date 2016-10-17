@@ -18,6 +18,7 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.SpotsDao;
 import com.adolf.zhouzhuang.ZhouzhuangApplication;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 
 /**
  * Created by adolf on 2016/8/18.
@@ -26,7 +27,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     public TextView mLeftActionBar;
     public TextView mMiddleActionBar;
     public TextView mRightActionBar;
-
+    LoadingProgressDialog progressDialog ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
