@@ -11,7 +11,7 @@ public class Spots {
     private Integer order;
     private Long createTime;
     private String title;
-    private String brief;
+    private String briefimg;
     private String detailUrl;
     private String lat;
     private String lng;
@@ -28,13 +28,13 @@ public class Spots {
         this.id = id;
     }
 
-    public Spots(Long id, int pid, Integer order, Long createTime, String title, String brief, String detailUrl, String lat, String lng, String videoLocation, Integer videoVersion, Integer basicInfoVersion, String lat4show, String lng4show) {
+    public Spots(Long id, int pid, Integer order, Long createTime, String title, String briefimg, String detailUrl, String lat, String lng, String videoLocation, Integer videoVersion, Integer basicInfoVersion, String lat4show, String lng4show) {
         this.id = id;
         this.pid = pid;
         this.order = order;
         this.createTime = createTime;
         this.title = title;
-        this.brief = brief;
+        this.briefimg = briefimg;
         this.detailUrl = detailUrl;
         this.lat = lat;
         this.lng = lng;
@@ -85,12 +85,12 @@ public class Spots {
         this.title = title;
     }
 
-    public String getBrief() {
-        return brief;
+    public String getBriefimg() {
+        return briefimg;
     }
 
-    public void setBrief(String brief) {
-        this.brief = brief;
+    public void setBriefimg(String briefimg) {
+        this.briefimg = briefimg;
     }
 
     public String getDetailUrl() {

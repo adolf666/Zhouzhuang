@@ -36,7 +36,7 @@ public class DaoGeneratorFactory {
         entity.addIntProperty("order");
         entity.addLongProperty("createTime");
         entity.addStringProperty("title");
-        entity.addStringProperty("brief");
+        entity.addStringProperty("briefimg");
         entity.addStringProperty("detailUrl");
         entity.addStringProperty("lat");
         entity.addStringProperty("lng");

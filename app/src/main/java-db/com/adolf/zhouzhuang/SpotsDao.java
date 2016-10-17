@@ -28,7 +28,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
         public final static Property Order = new Property(2, Integer.class, "order", false, "ORDER");
         public final static Property CreateTime = new Property(3, Long.class, "createTime", false, "CREATE_TIME");
         public final static Property Title = new Property(4, String.class, "title", false, "TITLE");
-        public final static Property Brief = new Property(5, String.class, "brief", false, "BRIEF");
+        public final static Property Briefimg = new Property(5, String.class, "briefimg", false, "BRIEFIMG");
         public final static Property DetailUrl = new Property(6, String.class, "detailUrl", false, "DETAIL_URL");
         public final static Property Lat = new Property(7, String.class, "lat", false, "LAT");
         public final static Property Lng = new Property(8, String.class, "lng", false, "LNG");
@@ -57,7 +57,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
                 "\"ORDER\" INTEGER," + // 2: order
                 "\"CREATE_TIME\" INTEGER," + // 3: createTime
                 "\"TITLE\" TEXT," + // 4: title
-                "\"BRIEF\" TEXT," + // 5: brief
+                "\"BRIEFIMG\" TEXT," + // 5: briefimg
                 "\"DETAIL_URL\" TEXT," + // 6: detailUrl
                 "\"LAT\" TEXT," + // 7: lat
                 "\"LNG\" TEXT," + // 8: lng
@@ -100,9 +100,9 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
             stmt.bindString(5, title);
         }
  
-        String brief = entity.getBrief();
-        if (brief != null) {
-            stmt.bindString(6, brief);
+        String briefimg = entity.getBriefimg();
+        if (briefimg != null) {
+            stmt.bindString(6, briefimg);
         }
  
         String detailUrl = entity.getDetailUrl();
@@ -161,7 +161,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // order
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // createTime
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // title
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // brief
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // briefimg
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // detailUrl
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // lat
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // lng
@@ -182,7 +182,7 @@ public class SpotsDao extends AbstractDao<Spots, Long> {
         entity.setOrder(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
         entity.setCreateTime(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
         entity.setTitle(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setBrief(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setBriefimg(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setDetailUrl(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setLat(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setLng(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
