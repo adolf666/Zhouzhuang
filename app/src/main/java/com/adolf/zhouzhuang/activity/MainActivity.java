@@ -233,9 +233,9 @@ private void checkUpdate(){
    @Override
    public void onResume() {
        super.onResume();
-       if(Constants.SPOTS_ID !=0){
+       if(Constants.SPOTS_ID != -1){
            setSpotId(Constants.SPOTS_ID);
-           Constants.SPOTS_ID=0;
+           Constants.SPOTS_ID = -1;
        }
 
 

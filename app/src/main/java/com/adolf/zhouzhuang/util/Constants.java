@@ -18,5 +18,5 @@ public class Constants {
     public static final int PERSONAL_INFO_PAGE = 0;
     public static final int SETTING_PAGE = 1;
     public static final int COLLECTION_LIST_PAGE = 2;
-    public static int SPOTS_ID = 0;
+    public static int SPOTS_ID = -1;
 }

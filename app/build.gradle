@@ -6,9 +6,16 @@ repositories {
     }
 }
 android {
+    signingConfigs {
+        config {
+            keyAlias 'zhouzhuang'
+            keyPassword 'zhouzhuang'
+            storeFile file('D:/zhouzhuang_as/Zhouzhuang/app/src/main/res/keys/keystore.jks')
+            storePassword 'zhouzhuang'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "24.0.1"
-
     defaultConfig {
         applicationId "com.adolf.zhouzhuang"
         minSdkVersion 17
@@ -22,7 +29,6 @@ android {
             java.srcDirs = ['src/main/java', 'src/main/java-db']
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
