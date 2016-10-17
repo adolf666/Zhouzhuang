@@ -50,9 +50,6 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
     private List<StrategyObject> strategyObjectArrayList;
     private TextView mStrategy,mGuestRoom,mRestaurant,mAdmissionTicket;
 
-      /*      tv_strategy
-    tv_guest_room" tv_restaurant"
-    tv_admission_ticket"*/
     public StrategyFragment() {
     }
 
