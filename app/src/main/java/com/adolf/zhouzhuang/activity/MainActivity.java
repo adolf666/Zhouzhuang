@@ -250,9 +250,10 @@ private void checkUpdate(){
             if (spots != null) {
                 gudieFragment.setSelectedSpotsOutSide(spots);
                 gudieFragment.showBaiduInfoWindow(spots);
-                gudieFragment.locationToCenter(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()), false,true);
+                gudieFragment.setMapStatusLimits();
+                gudieFragment.locationToCenter(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()), false,false);
+                gudieFragment.checkAndDownLoadAudio(spots);
             }
-
         }
     }
 

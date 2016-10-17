@@ -218,11 +218,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 setTabResourceState();
                 mSpots = spotsList.get(position);
 
-                LatLng northeast = new LatLng(31.137760, 120.86592);
-                LatLng southwest = new LatLng(31.115130, 120.84370);
-                LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
-                        .include(southwest).build();
-                mBaiduMap.setMapStatusLimits(bounds);
+                setMapStatusLimits();
 
 
                 locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false,false);
@@ -240,6 +236,14 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
 
     }
 
+    public void checkAndDownLoadAudio(Spots spots){
+        if (!isAudioExit(String.valueOf(spots.getPid()))) {
+            downloadAudio();
+        } else {
+            playAudio(Utils.getAudioFullPath(String.valueOf(spots.getPid())));
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -248,11 +252,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 mBaiduMap.hideInfoWindow();
                 break;
             case R.id.bt_audio_play:
-                if (!isAudioExit(String.valueOf(mSpots.getPid()))) {
-                    downloadAudio();
-                } else {
-                    playAudio(Utils.getAudioFullPath(String.valueOf(mSpots.getPid())));
-                }
+                checkAndDownLoadAudio(mSpots);
                 break;
             case R.id.bt_detail:
                 Intent intent = new Intent();
@@ -457,7 +457,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         LatLng ll = new LatLng(lat, lng);
         MapStatusUpdate u;
         if (isZoom) {
-            u = MapStatusUpdateFactory.newLatLngZoom(ll, 16.7f);//设置缩放比例
+            u = MapStatusUpdateFactory.newLatLngZoom(ll, 16.6f);//设置缩放比例
             mBaiduMap.animateMapStatus(u);
         } else {
             u = MapStatusUpdateFactory.newLatLng(ll);//不设置缩放比例
@@ -515,12 +515,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
 
                 mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
                 showBaiduInfoWindow(mSpots);
-                            LatLng northeast = new LatLng(31.137760, 120.86592);
-                            LatLng southwest = new LatLng(31.115130, 120.84370);
-                            LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
-                                    .include(southwest).build();
-                            mBaiduMap.setMapStatusLimits(bounds);
-
+                setMapStatusLimits();
                 locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false,false);
 
                 return true;
@@ -531,6 +526,13 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             showBaiduInfoWindow(mSpotsDataBaseHelper.getSpotsById(spotsId));
 
         }
+    }
+
+    public void setMapStatusLimits(){
+        LatLng northeast = new LatLng(31.137760, 120.86592);
+        LatLng southwest = new LatLng(31.115130, 120.84370);
+        LatLngBounds bounds = new LatLngBounds.Builder().include(northeast).include(southwest).build();
+        mBaiduMap.setMapStatusLimits(bounds);
     }
 
     private View initBottomNaviView() {
@@ -708,7 +710,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         } else {
             Toast.makeText(getActivity(), "获取经纬度失败", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private View initDialogView() {

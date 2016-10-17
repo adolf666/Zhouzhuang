@@ -33,9 +33,9 @@ public class LoadingView  extends ImageView{
         super(context, attrs);
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mRLayout = (RelativeLayout) mLayoutInflater.inflate(
-                R.layout.progress_dialog,
-                LoadingView.this, true);
+//        mRLayout = (RelativeLayout) mLayoutInflater.inflate(
+//                R.layout.progress_dialog,
+//                LoadingView.this, true);
         ImageView mLoadingImage = (ImageView)mRLayout.findViewById(R.id.loading_anim);
         AnimationDrawable animationDrawable = (AnimationDrawable) mLoadingImage.getDrawable();
         animationDrawable.start();

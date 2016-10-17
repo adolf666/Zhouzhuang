@@ -58,7 +58,7 @@ public class LaunchActivity extends BaseActivity {
 
     private void pageChange() {
         Handler handler = new Handler();
-        handler.postDelayed(new SplashHandler(),5500);
+        handler.postDelayed(new SplashHandler(),4000);
 
     }
 
@@ -133,7 +133,7 @@ public class LaunchActivity extends BaseActivity {
     }
 
     public  byte[] getBytes() {
-        InputStream in  = getResources().openRawResource(R.mipmap.gif);
+        InputStream in  = getResources().openRawResource(R.raw.gif);
         try {
             return IOUtils.toByteArray(in);
         } catch (final MalformedURLException e) {

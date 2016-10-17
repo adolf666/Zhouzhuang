@@ -17,6 +17,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     private int mSpotId;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private String mTitle="";
+    private WebViewClient mWebviewClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,14 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     public void initViews(){
         mWebView = (WebView)findViewById(R.id.webview);
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
+        mWebviewClient = new WebViewClient(){
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+            }
+        };
     }
     public void initBundle(){
         mSpotId = getIntent().getIntExtra("SpotsId",0);
@@ -73,6 +81,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         mWebView.getSettings().setAppCacheMaxSize(8*1024*1024);//缓存最多可以有8M
         mWebView.getSettings().setAllowFileAccess(true);//可以读取文件缓存(manifest生效)
         mWebView.getSettings().setAppCacheEnabled(true);//应用可以有缓存
+        mWebView.setWebViewClient(mWebviewClient);
     }
     @Override
     public void onClick(View v) {
@@ -91,6 +100,8 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
 
     @Override
     protected void onPause ()
