@@ -8,9 +8,17 @@
     <include layout="@layout/item_actionbar"
         android:layout_width="match_parent"
         android:layout_height="49dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <include
+        layout="@layout/progress_layout"
+        />
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="-3dp"/>
+        android:layout_marginRight="-3dp"
+        android:visibility="invisible"/>
+    </RelativeLayout>
 </LinearLayout>

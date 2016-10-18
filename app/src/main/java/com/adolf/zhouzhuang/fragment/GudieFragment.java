@@ -60,6 +60,10 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
+import com.baidu.platform.comapi.map.B;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -70,11 +74,11 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.adolf.zhouzhuang.R.id.tv_close;
 import static com.adolf.zhouzhuang.R.id.tv_spot_title;
 
 
@@ -119,6 +123,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     private OverlayOptions ooGround;
     private View mGuideDialogView;
     private Button mFavoriteButton;
+    private LinearLayout mGuideBgRelativeLayout;
     private TextView mSpotTitle;
 
     private int spotsId = -1;
@@ -722,6 +727,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         Button navigation = (Button) mGuideDialogView.findViewById(R.id.tv_navigation_map);
         mFavoriteButton = (Button) mGuideDialogView.findViewById(R.id.bt_favorite);
         mSpotTitle = (TextView) mGuideDialogView.findViewById(tv_spot_title);
+        mGuideBgRelativeLayout = (LinearLayout) mGuideDialogView.findViewById(R.id.ll_guide_bg);
         ImageView tv_close = (ImageView) mGuideDialogView.findViewById(R.id.tv_close);
         detail.setOnClickListener(this);
         audioPlay.setOnClickListener(this);
@@ -736,6 +742,16 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), spots.getPid());
             mFavoriteButton.setBackgroundResource(isNoFavor ? R.drawable.dialog_selector_favor : R.drawable.dialog_selector_add_favor);
             mSpotTitle.setText(spots.getTitle());
+            Glide.with(getActivity()).load(mSpots.getBriefimg())
+                    .asBitmap()
+                    .fitCenter()
+                    .into(new SimpleTarget(280, 178) {
+
+                        @Override
+                        public void onResourceReady(Object resource, GlideAnimation glideAnimation) {
+
+                        }
+                    });
         }
     }
 

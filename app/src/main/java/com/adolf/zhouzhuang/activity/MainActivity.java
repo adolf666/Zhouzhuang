@@ -74,6 +74,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     Drawable museumDefault, museumFocus, collectionDefault,
             collectionFocus, guideDefault, guideFocus, strategyDefault, strategyFocus;
 
+    //两次返回用
+    private static final int TIME_INTERVAL = 2000;
+    private long mBackPressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,8 +231,14 @@ private void checkUpdate(){
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        gudieFragment.stopPlayAudo();
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            super.onBackPressed();
+            gudieFragment.stopPlayAudo();
+            return;
+        } else {
+            Toast.makeText(getBaseContext(), "再按一次退出应用", Toast.LENGTH_SHORT).show();
+        }
+        mBackPressed = System.currentTimeMillis();
     }
    @Override
    public void onResume() {

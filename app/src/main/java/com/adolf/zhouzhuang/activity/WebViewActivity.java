@@ -1,12 +1,15 @@
 package com.adolf.zhouzhuang.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
+
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 
@@ -18,6 +21,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private String mTitle="";
     private WebViewClient mWebviewClient;
+    private RelativeLayout mProgressLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +32,8 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     }
     public void initViews(){
         mWebView = (WebView)findViewById(R.id.webview);
+        mProgressLayout = (RelativeLayout) findViewById(R.id.ll_progress_bar);
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
-        mWebviewClient = new WebViewClient(){
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-
-            }
-        };
     }
     public void initBundle(){
         mSpotId = getIntent().getIntExtra("SpotsId",0);
@@ -58,6 +55,22 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
+            }
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mWebView.setVisibility(View.VISIBLE);
+                mProgressLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                super.onLoadResource(view, url);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
             }
         });
         mWebView.loadUrl(mUrl);
@@ -81,7 +94,6 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         mWebView.getSettings().setAppCacheMaxSize(8*1024*1024);//缓存最多可以有8M
         mWebView.getSettings().setAllowFileAccess(true);//可以读取文件缓存(manifest生效)
         mWebView.getSettings().setAppCacheEnabled(true);//应用可以有缓存
-        mWebView.setWebViewClient(mWebviewClient);
     }
     @Override
     public void onClick(View v) {
