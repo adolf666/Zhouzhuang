@@ -148,7 +148,6 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
         }else{
             mExhibitAdapter.notifyDataSetChanged();
         }
-
     }
     private  void tabSwitch(int position){
         mStrategy.setBackground(position==0?getResources().getDrawable(R.mipmap.btn_strategymenu01_focus):getResources().getDrawable(R.mipmap.btn_strategymenu01_default));

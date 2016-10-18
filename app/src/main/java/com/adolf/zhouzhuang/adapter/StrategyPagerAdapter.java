@@ -34,7 +34,7 @@ public class StrategyPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mListViews.get(position), position);
+        container.addView(mListViews.get(position));
         return mListViews.get(position);
     }
 
@@ -50,7 +50,7 @@ public class StrategyPagerAdapter extends PagerAdapter {
 
     @Override
     public int getItemPosition(Object object)   {
- /*      if ( mChildCount > 0) {
+  /*    if ( mChildCount > 0) {
             mChildCount --;
             return POSITION_NONE;
         }*/

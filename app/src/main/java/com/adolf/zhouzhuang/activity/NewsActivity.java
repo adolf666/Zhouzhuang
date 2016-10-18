@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
@@ -28,6 +29,8 @@ public class NewsActivity extends BaseActivity {
     private ListView mNewsLv;
     private List<Exhibit> exhibitList;
     private NewsAdapter adapter;
+    RelativeLayout progressLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +41,22 @@ public class NewsActivity extends BaseActivity {
         getNews();
     }
     public void initViews(){
+
         mNewsLv = (ListView)findViewById(R.id.lv_news);
+        progressLayout = (RelativeLayout) findViewById(R.id.ll_progress_bar);
+        progressLayout.setVisibility(View.VISIBLE);
     }
 
     public void getNews(){
         RequestParams params = new RequestParams();
         params.add("type","0");
-        progressDialog = new LoadingProgressDialog(this,"正在获取新闻列表, 请稍候...");
-        progressDialog.show();
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 setNewsData(GsonUtil.jsonToList(response,"data",Exhibit.class));
-                progressDialog.dismiss();
+                progressLayout.setVisibility(View.GONE);
+                mNewsLv.setVisibility(View.VISIBLE);
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
