@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
@@ -33,6 +34,7 @@ public class TravelsFragment extends BaseFragment {
     public static final String EXTRA_TYPE = "EXTRA_TYPE";
     private  int index;
     private ListView mListView;
+   private RelativeLayout progressLayout;
     public static TravelsFragment newInstance( int Type) {
         Bundle args = new Bundle();
         args.putInt(EXTRA_TYPE, Type);
@@ -56,11 +58,14 @@ public class TravelsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_travels, container, false);
         mListView = (ListView)view.findViewById(R.id.lv_travels);
+        progressLayout = (RelativeLayout) view.findViewById(R.id.ll_progress_bar);
+        progressLayout.setVisibility(View.VISIBLE);
         getData(index);
         return view;
     }
 
     private void getData(final int index) {
+
         RequestParams params = new RequestParams();
         params.add("type", index+"");
         AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_STRATEGY, params, new JsonHttpResponseHandler() {
@@ -69,7 +74,8 @@ public class TravelsFragment extends BaseFragment {
                 super.onSuccess(statusCode, headers, response);
                 List<StrategyObject> strategyObjectArrayList = GsonUtil.jsonToList(response, "data", StrategyObject.class);
                  initData(strategyObjectArrayList);
-
+                progressLayout.setVisibility(View.GONE);
+                mListView.setVisibility(View.VISIBLE);
 
             }
             @Override
