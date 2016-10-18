@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -34,7 +35,8 @@ public class TravelsFragment extends BaseFragment {
     public static final String EXTRA_TYPE = "EXTRA_TYPE";
     private  int index;
     private ListView mListView;
-   private RelativeLayout progressLayout;
+   private RelativeLayout mProgressLayout;
+    private LinearLayout mErrLayout;
     public static TravelsFragment newInstance( int Type) {
         Bundle args = new Bundle();
         args.putInt(EXTRA_TYPE, Type);
@@ -58,8 +60,10 @@ public class TravelsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_travels, container, false);
         mListView = (ListView)view.findViewById(R.id.lv_travels);
-        progressLayout = (RelativeLayout) view.findViewById(R.id.ll_progress_bar);
-        progressLayout.setVisibility(View.VISIBLE);
+        mProgressLayout = (RelativeLayout) view.findViewById(R.id.ll_progress_bar);
+        mProgressLayout.setVisibility(View.VISIBLE);
+        mErrLayout = (LinearLayout)view.findViewById(R.id.lv_err_layout);
+        mErrLayout.setVisibility(View.GONE);
         getData(index);
         return view;
     }
@@ -74,13 +78,16 @@ public class TravelsFragment extends BaseFragment {
                 super.onSuccess(statusCode, headers, response);
                 List<StrategyObject> strategyObjectArrayList = GsonUtil.jsonToList(response, "data", StrategyObject.class);
                  initData(strategyObjectArrayList);
-                progressLayout.setVisibility(View.GONE);
+                mProgressLayout.setVisibility(View.GONE);
                 mListView.setVisibility(View.VISIBLE);
 
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+                mErrLayout.setVisibility(View.VISIBLE);
+                mProgressLayout.setVisibility(View.GONE);
+                mListView.setVisibility(View.GONE);
             }
         });
     }

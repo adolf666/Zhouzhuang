@@ -25,5 +25,14 @@
     <include
         layout="@layout/progress_layout"
       />
+    <LinearLayout
+        android:id="@+id/lv_err_layout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/nocontent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        />
+
     </LinearLayout>
 </LinearLayout>

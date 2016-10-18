@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -29,8 +30,8 @@ public class NewsActivity extends BaseActivity {
     private ListView mNewsLv;
     private List<Exhibit> exhibitList;
     private NewsAdapter adapter;
-    RelativeLayout progressLayout;
-
+    private RelativeLayout mProgressLayout;
+    private LinearLayout mErrorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,10 @@ public class NewsActivity extends BaseActivity {
     public void initViews(){
 
         mNewsLv = (ListView)findViewById(R.id.lv_news);
-        progressLayout = (RelativeLayout) findViewById(R.id.ll_progress_bar);
-        progressLayout.setVisibility(View.VISIBLE);
+        mProgressLayout= (RelativeLayout) findViewById(R.id.ll_progress_bar);
+        mErrorLayout = (LinearLayout)findViewById(R.id.lv_err_layout);
+        mProgressLayout.setVisibility(View.VISIBLE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     public void getNews(){
@@ -55,12 +58,16 @@ public class NewsActivity extends BaseActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 setNewsData(GsonUtil.jsonToList(response,"data",Exhibit.class));
-                progressLayout.setVisibility(View.GONE);
+                mProgressLayout.setVisibility(View.GONE);
                 mNewsLv.setVisibility(View.VISIBLE);
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+                mProgressLayout.setVisibility(View.GONE);
+                mNewsLv.setVisibility(View.GONE);
+                mErrorLayout.setVisibility(View.VISIBLE);
+
             }
         });
     }

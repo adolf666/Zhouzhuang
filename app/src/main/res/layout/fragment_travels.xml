@@ -3,7 +3,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
     <ListView
         android:id="@+id/lv_travels"
         android:layout_width="match_parent"
@@ -13,6 +17,15 @@
         />
     <include
         layout="@layout/progress_layout"
-        />
 
+        />
+<LinearLayout
+    android:id="@+id/lv_err_layout"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:background="@mipmap/nocontent"
+    android:orientation="horizontal"
+    android:visibility="gone"
+    />
+    </LinearLayout>
 </LinearLayout>

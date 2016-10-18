@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class PersonCollectActivity extends BaseActivity {
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
     private RelativeLayout progressLayout;
+    private LinearLayout mErrorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,8 @@ public class PersonCollectActivity extends BaseActivity {
         mListview = (ListView)findViewById(R.id.lv_list_view);
         progressLayout = (RelativeLayout)findViewById(R.id.ll_progress_bar);
         progressLayout.setVisibility(View.VISIBLE);
-
+        mErrorLayout = (LinearLayout)findViewById(R.id.lv_err_layout);
+        mErrorLayout.setVisibility(View.GONE);
     }
     private void initData(){
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
@@ -98,14 +101,24 @@ public class PersonCollectActivity extends BaseActivity {
                 super.onSuccess(statusCode, headers, response);
                 List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
                 List<Spots> favoriteSpotsList = getSpotsListFromIdList(favoriteList);
-                setListViewData(favoriteSpotsList);
-                mListview.setVisibility(View.VISIBLE);
-                progressLayout.setVisibility(View.GONE);
+                if(null!=favoriteSpotsList&&favoriteSpotsList.size()>0){
+                    setListViewData(favoriteSpotsList);
+                    mListview.setVisibility(View.VISIBLE);
+                    progressLayout.setVisibility(View.GONE);
+                }else {
+                    mListview.setVisibility(View.GONE);
+                    progressLayout.setVisibility(View.GONE);
+                    mErrorLayout.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+                mListview.setVisibility(View.GONE);
+                progressLayout.setVisibility(View.GONE);
+                mErrorLayout.setVisibility(View.VISIBLE);
                 Toast.makeText(PersonCollectActivity.this,"获取收藏列表失败",Toast.LENGTH_SHORT).show();
             }
         });
