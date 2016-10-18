@@ -34,7 +34,7 @@ public class StrategyPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mListViews.get(position));
+        container.addView(mListViews.get(position),position);
         return mListViews.get(position);
     }
 

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
 import com.adolf.zhouzhuang.adapter.StrategyAdapter;
 import com.adolf.zhouzhuang.adapter.StrategyPagerAdapter;
+import com.adolf.zhouzhuang.adapter.ViewPagerAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.LoginObj;
@@ -31,6 +33,7 @@ import com.adolf.zhouzhuang.object.StrategyObject;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.CustomViewPager;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -44,12 +47,11 @@ import cz.msebera.android.httpclient.Header;
 public class StrategyFragment extends BaseFragment implements View.OnClickListener{
     private ListView mListView;
     private StrategyAdapter mAdapter;
-    private List<View> mViewPagerView;
-    private ViewPager viewPager;
+    private ArrayList<View> mViewPagerView;
+    private CustomViewPager viewPager;
     private StrategyPagerAdapter mExhibitAdapter;
     private List<StrategyObject> strategyObjectArrayList;
     private TextView mStrategy,mGuestRoom,mRestaurant,mAdmissionTicket;
-
     public StrategyFragment() {
     }
 
@@ -64,18 +66,11 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.activity_strategy, container, false);
         initViews(view);
-        initData(0);
-        initData(1);
-        initData(2);
-        initData(3);
+        initViewPager();
         return view;
     }
     private void initViews(View view){
-        mViewPagerView = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            mViewPagerView.add(new View(getActivity()));
-        }
-        viewPager = (ViewPager) view.findViewById(R.id.vPager);
+        viewPager = (CustomViewPager) view.findViewById(R.id.vPager);
         mStrategy = (TextView) view.findViewById(R.id.tv_strategy);
         mGuestRoom = (TextView) view.findViewById(R.id.tv_guest_room);
         mRestaurant = (TextView) view.findViewById(R.id.tv_restaurant);
@@ -101,59 +96,28 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
-
-
-
-
-    private void initData(final int index) {
-        RequestParams params = new RequestParams();
-        params.add("type", index+"");
-
-        AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_STRATEGY, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                strategyObjectArrayList = GsonUtil.jsonToList(response, "data", StrategyObject.class);
-                setStrategyData(strategyObjectArrayList,index);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-    }
-
-    private void setStrategyData(List<StrategyObject> strategyObjectList,int index) {
-
-        ListView mListView = new ListView(getActivity());
-        mAdapter = new StrategyAdapter(getActivity(), strategyObjectList);
-        mListView.setAdapter(mAdapter);
-        mListView.setSelector(R.color.bg_white);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), WebViewActivity.class);
-                intent.putExtra("URL", strategyObjectArrayList.get(position).getUrl());
-                intent.putExtra(WebViewActivity.NAME, "游玩攻略");
-                startActivity(intent);
-            }
-        });
-        mViewPagerView.set(index,mListView);
-
-        if (mExhibitAdapter == null){
-            mExhibitAdapter = new StrategyPagerAdapter(mViewPagerView,getActivity());
-            viewPager.setAdapter(mExhibitAdapter);
-        }else{
-            mExhibitAdapter.notifyDataSetChanged();
-        }
-    }
     private  void tabSwitch(int position){
         mStrategy.setBackground(position==0?getResources().getDrawable(R.mipmap.btn_strategymenu01_focus):getResources().getDrawable(R.mipmap.btn_strategymenu01_default));
         mGuestRoom.setBackground(position==1?getResources().getDrawable(R.mipmap.btn_strategymenu02_focus):getResources().getDrawable(R.mipmap.btn_strategymenu02_default));
         mRestaurant.setBackground(position==2?getResources().getDrawable(R.mipmap.btn_strategymenu03_focus):getResources().getDrawable(R.mipmap.btn_strategymenu03_default));
-        mAdmissionTicket.setBackground(position==3?getResources().getDrawable(R.mipmap.btn_strategymenu04_focus):getResources().getDrawable(R.mipmap.btn_strategymenu04_default));  }
+        mAdmissionTicket.setBackground(position==3?getResources().getDrawable(R.mipmap.btn_strategymenu04_focus):getResources().getDrawable(R.mipmap.btn_strategymenu04_default));
+    }
+
+    private void initViewPager() {
+        List<Fragment> fragmentArrayList = new ArrayList<>();
+        TravelsFragment travelsFragment= TravelsFragment.newInstance(0) ;
+        TravelsFragment guestRoomFragment = TravelsFragment.newInstance(1) ;
+        TravelsFragment restaurantFragment= TravelsFragment.newInstance(2) ;
+        TravelsFragment admissionTicketFragment= TravelsFragment.newInstance(3) ;
+        fragmentArrayList.add(travelsFragment);
+        fragmentArrayList.add(guestRoomFragment);
+        fragmentArrayList.add(restaurantFragment);
+        fragmentArrayList.add(admissionTicketFragment);
+        viewPager.setScrollble(true);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), fragmentArrayList));
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
