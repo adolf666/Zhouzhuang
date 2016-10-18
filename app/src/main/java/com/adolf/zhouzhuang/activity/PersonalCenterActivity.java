@@ -119,9 +119,11 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 break;*/
             case R.id.iv_portrait:
             case R.id.tv_name:
-                Intent intent = new Intent();
-                intent.setClass(PersonalCenterActivity.this, LoginActivity.class);
-                startActivity(intent);
+                if(!Utils.isAutoLogin(PersonalCenterActivity.this)){
+                    Intent intent = new Intent();
+                    intent.setClass(PersonalCenterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

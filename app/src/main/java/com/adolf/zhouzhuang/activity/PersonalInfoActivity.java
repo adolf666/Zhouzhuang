@@ -20,6 +20,7 @@ import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -110,6 +111,8 @@ public class PersonalInfoActivity extends BaseActivity {
                 params.put("sex", mSex);
                 params.put("area", mUserArea.getText().toString());
                 params.setContentEncoding("utf-8");
+                progressDialog = new LoadingProgressDialog(this,"正在保存。。。");
+                progressDialog.show();
                 AsyncHttpClientUtils.getInstance().get(ServiceAddress.UPDGRAD_USER_INFO, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -118,6 +121,7 @@ public class PersonalInfoActivity extends BaseActivity {
                         loginObj.setSex(mSex);
                         loginObj.setUsername(mUserName.getText().toString());
                         SharedPreferencesUtils.putString(PersonalInfoActivity.this,"AccountInfo", GsonUtil.oBjToJson(loginObj));
+                        progressDialog.dismiss();
                         Toast.makeText(PersonalInfoActivity.this, "完善个人信息成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -125,14 +129,10 @@ public class PersonalInfoActivity extends BaseActivity {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         super.onFailure(statusCode, headers, responseString, throwable);
+                        progressDialog.dismiss();
                         Toast.makeText(PersonalInfoActivity.this, "完善个人信息失败", Toast.LENGTH_SHORT).show();
                     }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
-                        Toast.makeText(PersonalInfoActivity.this, "完善个人信息失败", Toast.LENGTH_SHORT).show();
-                    }
                 });
                 break;
         }

@@ -24,6 +24,7 @@ import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -37,7 +38,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private EditText mConfirmET;
     private Button mRegisterBT;
     private TextView mProtoalTV;
-    public ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void register(){
-        progressDialog = ProgressDialog.show(this, "", "请稍候...", true, true);
+        progressDialog = new LoadingProgressDialog(this,"正在注册。。。");
+        progressDialog.show();
         String userName = mUSernameET.getText().toString();
         String passWord = mPasswordET.getText().toString();
         String confirmPassWord = mConfirmET.getText().toString();
@@ -124,23 +126,5 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-//        HttpRequest.post(ServiceAddress.REGISTER,params,new JsonHttpRequestCallback() {
-//            @Override
-//            protected void onSuccess(JSONObject jsonObject) {
-//                super.onSuccess(jsonObject);
-//                Toast.makeText(RegisterActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
-//                progressDialog.dismiss();
-//                if (TextUtils.equals(jsonObject.getString("success"),"0")){
-//                    finish();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String msg) {
-//                super.onFailure(errorCode, msg);
-//                progressDialog.dismiss();
-//                showToast("注册失败");
-//            }
-//        });
     }
 }

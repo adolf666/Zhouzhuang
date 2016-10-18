@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
@@ -39,6 +40,7 @@ public class PersonCollectActivity extends BaseActivity {
     private PersonalCollectAdapter mAdapter;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
+    private RelativeLayout progressLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,8 @@ public class PersonCollectActivity extends BaseActivity {
     private void initView(){
         initActionBar("返回", R.drawable.back_selected, "我的收藏", "", 0);
         mListview = (ListView)findViewById(R.id.lv_list_view);
+        progressLayout = (RelativeLayout)findViewById(R.id.ll_progress_bar);
+        progressLayout.setVisibility(View.VISIBLE);
 
     }
     private void initData(){
@@ -92,9 +96,11 @@ public class PersonCollectActivity extends BaseActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-               List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
+                List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
                 List<Spots> favoriteSpotsList = getSpotsListFromIdList(favoriteList);
                 setListViewData(favoriteSpotsList);
+                mListview.setVisibility(View.VISIBLE);
+                progressLayout.setVisibility(View.GONE);
             }
 
             @Override

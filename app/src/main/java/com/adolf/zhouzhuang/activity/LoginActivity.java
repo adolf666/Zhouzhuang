@@ -100,7 +100,6 @@ public class LoginActivity extends BaseActivity{
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 progressDialog.dismiss();
-
                 LoginObj loginObj = GsonUtil.jsonToBean(response,"data",LoginObj.class);
                 String message  = GsonUtil.getExtendJson(response,"message");
                if(null!=loginObj){

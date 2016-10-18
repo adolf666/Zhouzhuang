@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 
@@ -14,12 +15,12 @@ import com.adolf.zhouzhuang.R;
 
 public class LoadingProgressDialog extends ProgressDialog {
 
-    private String mLoadingTip = "玩命加载中, 请稍等...";
+    private String mLoadingTips = "玩命加载中, 请稍等...";
     private ImageView mLoadingImage;
 
     public LoadingProgressDialog(Context context, String mLoadingTip) {
         super(context);
-        this.mLoadingTip = mLoadingTip;
+        this.mLoadingTips = mLoadingTip;
     }
 
 
@@ -45,17 +46,19 @@ public class LoadingProgressDialog extends ProgressDialog {
     }
 
     public void setContent(String loadingTip) {
-        mLoadingTip = loadingTip;
+        mLoadingTips = loadingTip;
     }
 
     public void setContent(int resId) {
-        mLoadingTip = getContext().getString(resId);
+        mLoadingTips = getContext().getString(resId);
     }
 
     private void initView() {
         setContentView(R.layout.progress_dialog);
         mLoadingImage = (ImageView) findViewById(R.id.loading_anim);
         AnimationDrawable animationDrawable = (AnimationDrawable) mLoadingImage.getDrawable();
+        TextView mLoadingTip = (TextView)findViewById(R.id.loading_tip);
+        mLoadingTip.setText(mLoadingTips);
         animationDrawable.start();
     }
 

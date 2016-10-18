@@ -25,13 +25,8 @@ public class SoundBroadUtils {
     private MediaPlayer mp;
 
     private int bocast_time = 1;
-    private final int MAX_BROAD_TIME = 3;
+    private final int MAX_BROAD_TIME = 1000;
 
-
-  /*  public synchronized void playSound(final Context context, final String filePath) {
-
-        playBroadSound(context,filePath);
-    }*/
 
     public synchronized void playSound(final Context context, int resId) {
 

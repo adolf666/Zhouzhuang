@@ -14,6 +14,7 @@ import com.adolf.zhouzhuang.object.LoginObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -74,20 +75,24 @@ public class ModifyPasswordActivity extends BaseActivity {
                     }
                     params.put("oldPassword", mOldPassword.getText().toString());
                     params.put("newPassword", mNewPassword.getText().toString());
+                    progressDialog = new LoadingProgressDialog(this,"正在保存");
+                    progressDialog.show();
                     AsyncHttpClientUtils.getInstance().get(ServiceAddress.UPDATE_PASSWORD,params,new JsonHttpResponseHandler(){
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             super.onSuccess(statusCode, headers, response);
-
+                            progressDialog.dismiss();
                             Toast.makeText(ModifyPasswordActivity.this,"密码修改成功",Toast.LENGTH_SHORT).show();
-                            finish();
+                           finish();
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             super.onFailure(statusCode, headers, throwable, errorResponse);
                             Toast.makeText(ModifyPasswordActivity.this,"密码修改失败",Toast.LENGTH_SHORT).show();
+                           progressDialog.dismiss();
                         }
+
                     });
 
 
