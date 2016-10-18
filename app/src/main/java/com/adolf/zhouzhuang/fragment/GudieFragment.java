@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +36,7 @@ import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.interpolator.ExponentialOutInterpolator;
 import com.adolf.zhouzhuang.util.Constants;
+import com.adolf.zhouzhuang.util.GlideRoundTransform;
 import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
@@ -522,7 +524,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 showBaiduInfoWindow(mSpots);
                 setMapStatusLimits();
                 locationToCenter(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()), false,false);
-
                 return true;
             }
         });
@@ -708,10 +709,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
 
     public void showBaiduInfoWindow(Spots spots) {
         if (spots.getLat4show() != null && spots.getLng4show() != null) {
-            LatLng latLng = new LatLng(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()));
-            InfoWindow infoWindow = new InfoWindow(mGuideDialogView, latLng, 0 - Utils.dip2px(getActivity(), 5));
+
             refreshGuideDialogState(spots);
-            mBaiduMap.showInfoWindow(infoWindow);
+
         } else {
             Toast.makeText(getActivity(), "获取经纬度失败", Toast.LENGTH_SHORT).show();
         }
@@ -737,19 +737,22 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         return mGuideDialogView;
     }
 
-    public void refreshGuideDialogState(Spots spots){
+    public void refreshGuideDialogState(final Spots spots){
         if (mGuideDialogView != null && spots != null){
             boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), spots.getPid());
-            mFavoriteButton.setBackgroundResource(isNoFavor ? R.drawable.dialog_selector_favor : R.drawable.dialog_selector_add_favor);
+            mFavoriteButton.setBackgroundResource(isNoFavor ? R.mipmap.btn_favor2 : R.mipmap.btn_favor1);
             mSpotTitle.setText(spots.getTitle());
             Glide.with(getActivity()).load(mSpots.getBriefimg())
                     .asBitmap()
-                    .fitCenter()
-                    .into(new SimpleTarget(280, 178) {
-
+                    .transform(new GlideRoundTransform(getActivity()))
+                    .into(new SimpleTarget<Bitmap>(280, 178) {
                         @Override
-                        public void onResourceReady(Object resource, GlideAnimation glideAnimation) {
-
+                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                            mSpotTitle.setText(mSpots.getTitle());
+                            mGuideBgRelativeLayout.setBackground(new BitmapDrawable(getActivity().getResources(), resource));
+                            LatLng latLng = new LatLng(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()));
+                            InfoWindow infoWindow = new InfoWindow(mGuideDialogView, latLng, 0);
+                            mBaiduMap.showInfoWindow(infoWindow);
                         }
                     });
         }

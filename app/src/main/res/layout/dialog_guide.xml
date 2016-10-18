@@ -5,7 +5,6 @@
     android:gravity="center">
 <LinearLayout
     android:id="@+id/ll_guide_bg"
-    android:background="@mipmap/img_shuangqiao"
     android:layout_width="280dp"
     android:layout_height="178dp">
     <RelativeLayout

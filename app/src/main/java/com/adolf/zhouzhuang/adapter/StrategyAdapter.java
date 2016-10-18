@@ -1,21 +1,17 @@
 package com.adolf.zhouzhuang.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.object.StrategyObject;
 import com.adolf.zhouzhuang.util.GlideRoundTransform;
 import com.adolf.zhouzhuang.util.MyTextView;
-import com.adolf.zhouzhuang.util.Utils;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
