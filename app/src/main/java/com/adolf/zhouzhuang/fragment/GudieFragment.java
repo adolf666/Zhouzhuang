@@ -707,11 +707,23 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         }
     }
 
-    public void showBaiduInfoWindow(Spots spots) {
+    public void showBaiduInfoWindow(final Spots spots) {
         if (spots.getLat4show() != null && spots.getLng4show() != null) {
-
             refreshGuideDialogState(spots);
-
+            mSpotTitle.setText(spots.getTitle());
+            Glide.with(getActivity()).load(mSpots.getBriefimg())
+                    .asBitmap()
+                    .transform(new GlideRoundTransform(getActivity()))
+                    .into(new SimpleTarget<Bitmap>(280, 178) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                            mSpotTitle.setText(mSpots.getTitle());
+                            mGuideBgRelativeLayout.setBackground(new BitmapDrawable(getActivity().getResources(), resource));
+                            LatLng latLng = new LatLng(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()));
+                            InfoWindow infoWindow = new InfoWindow(mGuideDialogView, latLng, 0);
+                            mBaiduMap.showInfoWindow(infoWindow);
+                        }
+                    });
         } else {
             Toast.makeText(getActivity(), "获取经纬度失败", Toast.LENGTH_SHORT).show();
         }
@@ -741,20 +753,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         if (mGuideDialogView != null && spots != null){
             boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), spots.getPid());
             mFavoriteButton.setBackgroundResource(isNoFavor ? R.mipmap.btn_favor2 : R.mipmap.btn_favor1);
-            mSpotTitle.setText(spots.getTitle());
-            Glide.with(getActivity()).load(mSpots.getBriefimg())
-                    .asBitmap()
-                    .transform(new GlideRoundTransform(getActivity()))
-                    .into(new SimpleTarget<Bitmap>(280, 178) {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                            mSpotTitle.setText(mSpots.getTitle());
-                            mGuideBgRelativeLayout.setBackground(new BitmapDrawable(getActivity().getResources(), resource));
-                            LatLng latLng = new LatLng(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()));
-                            InfoWindow infoWindow = new InfoWindow(mGuideDialogView, latLng, 0);
-                            mBaiduMap.showInfoWindow(infoWindow);
-                        }
-                    });
         }
     }
 
