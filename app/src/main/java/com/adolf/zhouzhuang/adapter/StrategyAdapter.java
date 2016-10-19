@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.object.StrategyObject;
@@ -26,23 +27,6 @@ public class StrategyAdapter extends BaseAdapter {
     public StrategyAdapter(Context context, List<StrategyObject> strategyObjectList) {
         this.context = context;
         this.strategyObjectList = strategyObjectList;
-//        options = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.icon_photo_eg) //设置图片下载期间显示的图片
-//                .showImageForEmptyUri(R.mipmap.icon_photo_eg) // 设置图片Uri为空或是错误的时候显示的图片
-//                .showImageOnFail(R.mipmap.icon_photo_eg) // 设置图片加载或解码过程中发生错误显示的图片
-//                .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
-//                .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
-//                .displayer(new RoundedBitmapDisplayer(90)) // 设置成圆角、圆形图片,我这里将new RoundedBitmapDisplayer的参数设置为90,就是圆形图片，其他角度可以根据需求自行修改
-//                .bitmapConfig(Bitmap.Config.RGB_565)//设置为RGB565比起默认的ARGB_8888要节省大量的内存
-//                .build(); // 创建配置过得DisplayImageOption对象
-//
-//        optionsBig = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.bg_strategy) //设置图片下载期间显示的图片
-//                .showImageForEmptyUri(R.mipmap.bg_strategy) // 设置图片Uri为空或是错误的时候显示的图片
-//                .showImageOnFail(R.mipmap.bg_strategy) // 设置图片加载或解码过程中发生错误显示的图片
-//                .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
-//                .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
-//                .displayer(new RoundedBitmapDisplayer(15)) // 设置成圆角、圆形图片,我这里将new RoundedBitmapDisplayer的参数设置为90,就是圆形图片，其他角度可以根据需求自行修改
-//                .bitmapConfig(Bitmap.Config.RGB_565)//设置为RGB565比起默认的ARGB_8888要节省大量的内存
-//                .build(); // 创建配置过得DisplayImageOption对象
     }
     @Override
     public int getCount() {
@@ -70,7 +54,7 @@ public class StrategyAdapter extends BaseAdapter {
             viewHolder.mName = (MyTextView)convertView.findViewById(R.id.tv_scenic_name);
             viewHolder.mPhoto = (ImageView)convertView.findViewById(R.id.img_photo);
             viewHolder.mDesc = (MyTextView)convertView.findViewById(R.id.tv_desc);
-
+            viewHolder.mDivideEnd =(TextView)convertView.findViewById(R.id.view_divide1);
             viewHolder.mName.setTypeFace(3);
             viewHolder.mDesc.setTypeFace(3);
             convertView.setTag(viewHolder);
@@ -84,7 +68,9 @@ public class StrategyAdapter extends BaseAdapter {
         if(item.getCreatorimgurl()!=null && !TextUtils.isEmpty(item.getCreatorimgurl())){
             Glide.with(context).load(item.getCreatorimgurl()).centerCrop().placeholder(R.mipmap.icon_photo_eg).crossFade().transform(new GlideRoundTransform(context,30)).into(viewHolder.mPhoto);
         }
-
+        if(strategyObjectList.size()>2&&position == strategyObjectList.size()-1 ){
+            viewHolder.mDivideEnd.setVisibility(View.VISIBLE);
+        }
         viewHolder.mName.setText(item.getTitle());
         viewHolder.mDesc.setText(item.getCreatorname());
         return convertView;
@@ -105,6 +91,7 @@ public class StrategyAdapter extends BaseAdapter {
         MyTextView mName;
         ImageView mPhoto;
         MyTextView  mDesc;
+        TextView mDivideEnd;
     }
 
 }

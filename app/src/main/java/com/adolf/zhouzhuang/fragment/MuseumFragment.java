@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.activity.NewsActivity;
-import com.adolf.zhouzhuang.activity.PanoramaActivity;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.activity.ZhouzhuangLibActivity;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;

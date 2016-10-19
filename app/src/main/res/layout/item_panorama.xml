@@ -42,6 +42,7 @@
             android:ellipsize="end"
             android:lineSpacingExtra="10dp"
             android:maxLines="2"
+            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="#333333"

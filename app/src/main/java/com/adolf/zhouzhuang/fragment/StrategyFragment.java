@@ -45,12 +45,8 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class StrategyFragment extends BaseFragment implements View.OnClickListener{
-    private ListView mListView;
-    private StrategyAdapter mAdapter;
-    private ArrayList<View> mViewPagerView;
+
     private CustomViewPager viewPager;
-    private StrategyPagerAdapter mExhibitAdapter;
-    private List<StrategyObject> strategyObjectArrayList;
     private TextView mStrategy,mGuestRoom,mRestaurant,mAdmissionTicket;
     public StrategyFragment() {
     }

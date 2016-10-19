@@ -489,7 +489,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     public void addLayerToMap() {
-        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromAsset("layer.jpg");
+        BitmapDescriptor bdGround = BitmapDescriptorFactory.fromBitmap(compressBitmap(R.mipmap.layer));
         LatLng northeast = new LatLng(31.131460, 120.86312);
         LatLng southwest = new LatLng(31.115123, 120.84660);
         LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
@@ -500,6 +500,18 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             mBaiduMap.addOverlay(ooGround);
         }
         initAndAddLayer();
+    }
+
+    private Bitmap compressBitmap(int resId){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inInputShareable = true;
+        options.inPurgeable = true;
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inSampleSize = 2; // width，hight设为原来的1/3
+//获取资源图片流
+        InputStream is = getActivity().getResources().openRawResource(resId);
+        return BitmapFactory.decodeStream(is,null,options);
     }
 
     private void initAndAddLayer() {

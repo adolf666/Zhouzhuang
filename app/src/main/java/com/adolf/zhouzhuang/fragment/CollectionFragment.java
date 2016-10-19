@@ -142,7 +142,6 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         fragmentArrayList.add(exhibitsFragment2);
         fragmentArrayList.add(exhibitsFragment3);
         viewPager.setScrollble(true);
-        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), fragmentArrayList));
     }
 

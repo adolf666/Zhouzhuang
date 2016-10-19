@@ -5,16 +5,25 @@
     android:background="@color/bg_white"
     android:orientation="vertical">
 
-
+    <TextView
+        android:id="@+id/view_divide"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6" />
     <ImageView
         android:id="@+id/img_pic"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="150dp"
         android:scaleType="fitXY"
         android:src="@mipmap/bg_strategy"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
-        android:paddingRight="15dp"/>
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/box02_info"
+        android:orientation="vertical">
+
     <com.adolf.zhouzhuang.util.MyTextView
         android:id="@+id/tv_scenic_name"
         android:layout_width="match_parent"
@@ -23,21 +32,20 @@
         android:text="我的旅行攻略"
         android:textColor="#000000"
         android:textSize="15sp"
-        android:paddingLeft="15dp"/>
+        android:paddingLeft="10dp"/>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:paddingBottom="15dp">
+       >
 
         <ImageView
             android:id="@+id/img_photo"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:src="@mipmap/icon_photo_eg"
-
             />
 
         <com.adolf.zhouzhuang.util.MyTextView
@@ -46,11 +54,20 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:text="糖果"
+            android:maxLength="2"
+            android:ellipsize="end"
             android:textColor="#999999"
             android:textSize="13sp"
             android:layout_gravity="center_vertical"
             android:typeface="normal" />
+        </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:id="@+id/view_divide1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6"
+        android:visibility="gone"/>
 </LinearLayout>
 <!--
 <RelativeLayout

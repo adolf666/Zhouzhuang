@@ -64,7 +64,6 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.NewsActivity" />
-        <activity android:name=".activity.PanoramaActivity"></activity>
         <activity android:name=".activity.PersonalInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activity.PersonSettingActivity"
