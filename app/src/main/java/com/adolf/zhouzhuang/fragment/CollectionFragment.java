@@ -22,6 +22,7 @@ import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
 import com.adolf.zhouzhuang.adapter.PanoramaAdapter;
+import com.adolf.zhouzhuang.adapter.ViewPagerAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.Exhibit;
@@ -29,6 +30,7 @@ import com.adolf.zhouzhuang.object.PanoramaObject;
 import com.adolf.zhouzhuang.resBody.ExhibitResponse;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.CustomViewPager;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -62,7 +64,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     private OnFragmentInteractionListener mListener;
     private List<View> mViewPagerViews;
     private ExhibitAdapter mExhibitAdapter;
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
     private TextView tempExhibit;
     private TextView displayExhibit;
     private TextView spotsExhibit;
@@ -74,24 +76,6 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
 
     public CollectionFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CollectionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CollectionFragment newInstance(String param1, String param2) {
-        CollectionFragment fragment = new CollectionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -108,9 +92,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_collection,container,false);
         initViews(view);
-        getExhibits("1");
-        getExhibits("2");
-        getPanoramaData();
+        initViewPager();
         return view;
     }
 
@@ -122,26 +104,12 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    private List<Exhibit> initWenWuQuanJing(){
-        List<Exhibit> exhibitList = new ArrayList<>();
-        for (int i = 0; i < mWenWuTitle.size(); i++) {
-            Exhibit exhibit = new Exhibit();
-            exhibit.setTitle(mWenWuTitle.get(i));
-            exhibit.setBrief(mWenWuDesc.get(i));
-            exhibit.setTitleImgLocation(mWenWuPic.get(i));
-            exhibit.setDetailUrl(mWenWuDetailUrl.get(i));
-            exhibitList.add(exhibit);
-        }
-        return exhibitList;
-
-    }
-
     public void initViews(View view){
         mViewPagerViews = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             mViewPagerViews.add(new View(getActivity()));
         }
-        viewPager = (ViewPager) view.findViewById(R.id.vPager);
+        viewPager = (CustomViewPager) view.findViewById(R.id.vPager);
         tempExhibit = (TextView) view.findViewById(R.id.text1);
         displayExhibit = (TextView) view.findViewById(R.id.text2);
         spotsExhibit = (TextView) view.findViewById(R.id.text3);
@@ -164,6 +132,21 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
             }
         });
     }
+    private void initViewPager() {
+        List<Fragment> fragmentArrayList = new ArrayList<>();
+        ExhibitsFragment exhibitsFragment1= ExhibitsFragment.newInstance(2) ;
+        ExhibitsFragment exhibitsFragment2 = ExhibitsFragment.newInstance(3) ;
+        ExhibitsFragment exhibitsFragment3= ExhibitsFragment.newInstance(1) ;
+
+        fragmentArrayList.add(exhibitsFragment1);
+        fragmentArrayList.add(exhibitsFragment2);
+        fragmentArrayList.add(exhibitsFragment3);
+        viewPager.setScrollble(true);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), fragmentArrayList));
+    }
+
+
 
     public void initViewPagerViews(final List<Exhibit> exhibits ,final int index){
 
@@ -205,23 +188,6 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
-    //获取陈列信息，type的值为0:新闻列表 ，1:临时展馆，2:陈列展馆
-    public void getExhibits(final String types){
-        RequestParams params = new RequestParams();
-        params.add("type",types);
-        AsyncHttpClientUtils.getInstance().get(ServiceAddress.NEWS_EXHIBITION_TEMPORARY,params,new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                initViewPagerViews(GsonUtil.jsonToList(response,"data",Exhibit.class), TextUtils.equals(types,"1")?2:0);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
     }
 
     @Override
