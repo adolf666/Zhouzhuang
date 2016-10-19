@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.adolf.zhouzhuang.Favorites;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.adapter.PersonalCollectAdapter;
@@ -18,6 +19,7 @@ import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
+import com.adolf.zhouzhuang.interfaces.AdapterOnClickListener;
 import com.adolf.zhouzhuang.interfaces.MainInterface;
 import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.ServiceAddress;
@@ -66,7 +68,7 @@ public class PersonCollectActivity extends BaseActivity {
 
     private void setListViewData(final List<Spots> spotsList){
         if (spotsList != null && spotsList.size()>0) {
-            mAdapter = new PersonalCollectAdapter(this, spotsList,mFavoriteDataBaseHelper);
+            mAdapter = new PersonalCollectAdapter(this, spotsList);
             mListview.setAdapter(mAdapter);
             mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -79,6 +81,14 @@ public class PersonCollectActivity extends BaseActivity {
 
                 }
             });
+            mAdapter.setDeleteButtonClickListener(new AdapterOnClickListener<Spots>() {
+                @Override
+                public void onClick(View view, int position, Spots itemData) {
+                    cancelCollection(itemData.getPid());
+
+                }
+            });
+
         }
     }
 
@@ -132,5 +142,29 @@ public class PersonCollectActivity extends BaseActivity {
         }
         return spotsList;
     }
+    public void cancelCollection(final int spotsId){
+        RequestParams params = new RequestParams();
+        params.put("spotId",String.valueOf(spotsId));
+        params.put("userId", SharedPreferencesUtils.getInt(PersonCollectActivity.this,"pid"));
+        AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                mFavoriteDataBaseHelper.deleteFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(PersonCollectActivity.this,"pid"),spotsId);
+                List<Favorites> spotsList= mFavoriteDataBaseHelper.getFavoriteByPUserId(SharedPreferencesUtils.getInt(PersonCollectActivity.this,"pid"));
+               if(null==spotsList||spotsList.size()==0){
+                   mListview.setVisibility(View.GONE);
+                   progressLayout.setVisibility(View.GONE);
+                   mErrorLayout.setVisibility(View.VISIBLE);
+               }
+                Toast.makeText(PersonCollectActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
 
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Toast.makeText(PersonCollectActivity.this,"取消收藏失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

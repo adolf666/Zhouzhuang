@@ -13,6 +13,7 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
 import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.interfaces.AdapterOnClickListener;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.Utils;
@@ -31,12 +32,10 @@ import cz.msebera.android.httpclient.Header;
 public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<Spots> collectList;
-    private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
 
-    public PersonalCollectAdapter(Context context, List<Spots> mList,FavoriteDataBaseHelper mFavoriteDataBaseHelper) {
+    public PersonalCollectAdapter(Context context, List<Spots> mList) {
         this.context = context;
         this.collectList = mList;
-        this.mFavoriteDataBaseHelper = mFavoriteDataBaseHelper;
 
     }
 
@@ -78,14 +77,6 @@ public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickL
         viewHolder.mName.setText(collectList.get(position).getTitle());
         viewHolder.imageView.setTag(position);
         viewHolder.imageView.setOnClickListener(this);
-        /*viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancelCollection(String.valueOf(collectList.get(position).getPid()));
-                collectList.remove(position);
-                notifyDataSetChanged();
-            }
-        });*/
         return convertView;
     }
 
@@ -93,36 +84,21 @@ public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickL
     public void onClick(View view) {
         if(view.getId() == R.id.img_delete_collect){
             int position =(Integer) view.getTag();
-            cancelCollection(collectList.get(position).getPid());
-            collectList.remove(position);
+            if (mDeleteButtonClickListener != null) {
+                mDeleteButtonClickListener.onClick(view, position, collectList.get(position));
+            }
+           collectList.remove(position);
             notifyDataSetChanged();
         }
     }
+    AdapterOnClickListener<Spots> mDeleteButtonClickListener;
 
+    public void setDeleteButtonClickListener(AdapterOnClickListener<Spots> listener) {
+        this.mDeleteButtonClickListener = listener;
+    }
     private static class ViewHolder {
         ImageView imageView;
         TextView mName;
-    }
-
-    public void cancelCollection(final int spotsId){
-        RequestParams params = new RequestParams();
-        params.put("spotId",String.valueOf(spotsId));
-        params.put("userId", SharedPreferencesUtils.getInt(context,"pid"));
-        AsyncHttpClientUtils.getInstance().get(ServiceAddress.COLLECTION_CANCEL,params,new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                mFavoriteDataBaseHelper.deleteFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(context,"pid"),spotsId);
-                Toast.makeText(context,"取消收藏成功",Toast.LENGTH_SHORT).show();
-
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                Toast.makeText(context,"取消收藏失败",Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
 }
