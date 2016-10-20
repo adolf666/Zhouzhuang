@@ -124,8 +124,7 @@
         <ListView
             android:id="@+id/lv_spots_list"
             android:layout_width="match_parent"
-            android:layout_height="312dp"
-            android:layout_marginBottom="90dp"
+            android:layout_height="358dp"
             android:background="#a5ffffff"
             android:divider="#00000000"
             android:dividerHeight="0dip"/>
@@ -146,8 +145,7 @@
         <ListView
             android:id="@+id/lv_guide_list"
             android:layout_width="match_parent"
-            android:layout_height="312dp"
-            android:layout_marginBottom="90dp"
+            android:layout_height="358dp"
             android:background="#a5ffffff"
             android:divider="#00000000"
             android:dividerHeight="0dip"/>

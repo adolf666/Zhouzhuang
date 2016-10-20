@@ -8,4 +8,6 @@
     <color name="bg_white">#FFFFFF</color>
     <color name="bg_label">#cccc66</color>
     <color name="bg_line">#ffe4e4e4</color>
+    <color name="bg_navi_button">#99ccffff</color>
+    <color name="bg_navi">#99ffffff</color>
 </resources>

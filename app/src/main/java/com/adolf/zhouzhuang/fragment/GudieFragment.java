@@ -236,10 +236,11 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     public void stopPlayAudo(){
-        if (!isPause && mNotice != null && mNotice.getVisibility() == View.VISIBLE){
+        if (mNotice != null && mNotice.getVisibility() == View.VISIBLE){
             mNotice.setVisibility(View.GONE);
             animationDrawable.stop();
             SoundBroadUtils.getInstance().stopSound();
+            isPause = false;
         }
 
     }
