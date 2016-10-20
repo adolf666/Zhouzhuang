@@ -2,7 +2,7 @@
 <LinearLayout
     android:id="@+id/loading_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
@@ -10,7 +10,7 @@
    <!-- android:background="@drawable/loading_dialog_bg"-->
     <ImageView
         android:id="@+id/loading_anim"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:src="@drawable/request_loading" />
@@ -18,7 +18,7 @@
     android:id="@+id/loading_tip"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:text="aaaaaa"
     android:gravity="center_horizontal"
+    android:textColor="#888888"
     />
 </LinearLayout>

@@ -43,6 +43,7 @@ import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.UniversalDialog;
 import com.adolf.zhouzhuang.util.Utils;
+import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -115,7 +116,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             .fromAssetWithDpi("btn_voice_default.png");
     private TextView mSpotsListBg, mGuideListBg;
     private List<Spots> spotsList;
-    private ProgressDialog mProgressDialog;
+    private LoadingProgressDialog  mProgressDialog ;
     private AnimationDrawable animationDrawable;
     private LinearLayout mBottomBarLinearLayout;
     private View mBottomView;
@@ -360,7 +361,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onStart() {
                 super.onStart();
-                mProgressDialog = ProgressDialog.show(getActivity(), "", "正在下载语音, 请稍候...", true, true);
+
+                mProgressDialog = new LoadingProgressDialog(getActivity(), "正在下载语音, 请稍候...");
                 mProgressDialog.show();
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();

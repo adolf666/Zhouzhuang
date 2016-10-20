@@ -110,7 +110,6 @@ public class StrategyFragment extends BaseFragment implements View.OnClickListen
         fragmentArrayList.add(restaurantFragment);
         fragmentArrayList.add(admissionTicketFragment);
         viewPager.setScrollble(true);
-        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), fragmentArrayList));
     }
 
