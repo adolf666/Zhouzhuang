@@ -179,6 +179,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         mNotice.setVisibility(View.GONE);
         mClose.setOnClickListener(this);
         mPause.setOnClickListener(this);
+        mVocie_Prompt.setOnClickListener(this);
         mWalkNavigationTV.setOnClickListener(this);
         mSpotsListTV.setOnClickListener(this);
         mLoactionTV.setOnClickListener(this);
@@ -292,6 +293,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             case R.id.tv_spots_list:
                 hideAndShowListView(mSpotsListLV, mGuideListLV, mSpotsListRelativeLayout, mGuideListRelativeLayout);
                 break;
+            case R.id.tv_voice_prompt:
             case R.id.img_pause:
                 SoundBroadUtils.getInstance().pauseSound(isPause);
                 if (isPause) {

@@ -74,17 +74,18 @@ public class SoundBroadUtils {
         mp = MediaPlayer.create(context,resId);
         try {
             mp.start();
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+           mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    bocast_time++;
+                  /*  bocast_time++;
                     if (bocast_time < MAX_BROAD_TIME + 1){
                         playBroadSound(context,resId);
                     }else{
                         bocast_time = 1;
                         is_Playing = false;
                         mp.release();
-                    }
+                    }*/
+                    playBroadSound(context,resId);
                 }
             });
         } catch (Exception e) {
@@ -102,17 +103,18 @@ public class SoundBroadUtils {
         mp = MediaPlayer.create(context, Uri.parse(filePath));
         try {
             mp.start();
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+           mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    bocast_time++;
+               /*     bocast_time++;
                     if (bocast_time < MAX_BROAD_TIME + 1){
                         playBroadSound(context,filePath);
                     }else{
                         bocast_time = 1;
                         is_Playing = false;
                         mp.release();
-                    }
+                    }*/
+                    playBroadSound(context,filePath);
                 }
             });
         } catch (Exception e) {
@@ -123,9 +125,6 @@ public class SoundBroadUtils {
         }
     }
 
-    public static String getLogTag() {
-        return SoundBroadUtils.class.getSimpleName();
-    }
 
 
 }
