@@ -24,13 +24,13 @@ public class MyTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    public void setTypeface(Typeface tf) {
-        super.setTypeface(tf);
+//    @Override
+//    public void setTypeface(Typeface tf) {
+//        super.setTypeface(tf);
+//
+//    }
 
-    }
-
-    public void setTypeFace(int i){
-        setTypeface(ZhouzhuangApplication.getInstace().getTypeface(i));
-    }
+//    public void setTypeFace(int i){
+//        setTypeface(ZhouzhuangApplication.getInstace().getTypeface(i));
+//    }
 }

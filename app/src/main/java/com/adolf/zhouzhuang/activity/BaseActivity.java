@@ -41,7 +41,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         if (mLeftActionBar != null){
             if (!TextUtils.isEmpty(leftActionBarText)){
                 mLeftActionBar.setText(leftActionBarText);
-                mLeftActionBar.setTypeface(Utils.getType(this,0));
+//                mLeftActionBar.setTypeface(Utils.getType(this,0));
             }
             if (leftActionBarDrawable>0){
                 Drawable drawable = ContextCompat.getDrawable(this,leftActionBarDrawable);
@@ -52,13 +52,13 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         }
         if (mMiddleActionBar != null && !TextUtils.isEmpty(middleActionBarText)){
             mMiddleActionBar.setText(middleActionBarText);
-            mMiddleActionBar.setTypeface(Utils.getType(this,0));
+//            mMiddleActionBar.setTypeface(Utils.getType(this,0));
         }
 
         if (mRightActionBar != null){
             if (!TextUtils.isEmpty(rightActionBarText)){
                 mRightActionBar.setText(rightActionBarText);
-                mRightActionBar.setTypeface(Utils.getType(this,0));
+//                mRightActionBar.setTypeface(Utils.getType(this,0));
             }
             if (rightActionBarDarwable>0){
                 mRightActionBar.setBackgroundResource(rightActionBarDarwable);

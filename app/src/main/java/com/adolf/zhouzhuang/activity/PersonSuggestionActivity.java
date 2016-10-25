@@ -24,7 +24,7 @@ public class PersonSuggestionActivity extends BaseActivity{
         initActionBar("返回",R.drawable.back_selected,"意见反馈","",0);
         mSubmit = (TextView)findViewById(R.id.tv_submit);
         mSubmit.setOnClickListener(this);
-        mSubmit.setTypeface(Utils.getType(this, 0));
+//        mSubmit.setTypeface(Utils.getType(this, 0));
     }
     @Override
     public void onClick(View v) {

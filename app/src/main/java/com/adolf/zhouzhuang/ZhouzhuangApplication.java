@@ -17,9 +17,9 @@ public class ZhouzhuangApplication extends Application {
     public SQLiteDatabase db;
     public DaoMaster.DevOpenHelper helper;
     public DaoMaster daoMaster;
-    private Typeface typeface1;
-    private Typeface typeface2;
-    private Typeface typeface3;
+//    private Typeface typeface1;
+//    private Typeface typeface2;
+//    private Typeface typeface3;
     private static ZhouzhuangApplication _instance;
     @Override
     public void onCreate() {
@@ -28,9 +28,9 @@ public class ZhouzhuangApplication extends Application {
         SDKInitializer.initialize(this);
         setupDatabase();
         _instance = (ZhouzhuangApplication) getApplicationContext();
-        typeface1 = getType(_instance, 0);
-        typeface2 = getType(_instance, 1);
-        typeface3 = getType(_instance, 3);
+//        typeface1 = getType(_instance, 0);
+//        typeface2 = getType(_instance, 1);
+//        typeface3 = getType(_instance, 3);
     }
 
     public static  ZhouzhuangApplication getInstace() {
@@ -51,31 +51,31 @@ public class ZhouzhuangApplication extends Application {
         return db;
     }
 
-    public static  Typeface getType(Context context,int i){
-        Typeface type = null;
-        switch (i){
-            case 0:
-                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZSQKB.TTF" );
-                break;
-            case 1:
-                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZS1JW.TTF" );
-                break;
-            case  3:
-                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZS3JW.TTF" );
-                break;
-        }
-        return type;
-    }
+//    public static  Typeface getType(Context context,int i){
+//        Typeface type = null;
+//        switch (i){
+//            case 0:
+//                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZSQKB.TTF" );
+//                break;
+//            case 1:
+//                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZS1JW.TTF" );
+//                break;
+//            case  3:
+//                type = Typeface.createFromAsset (context.getAssets() , "fonts/FZS3JW.TTF" );
+//                break;
+//        }
+//        return type;
+//    }
 
-    public Typeface getTypeface(int i) {
-        switch (i){
-            case 0:
-                return typeface1;
-            case 1:
-                return typeface2;
-            case 3:
-                return typeface3;
-        }
-        return typeface1;
-    }
+//    public Typeface getTypeface(int i) {
+//        switch (i){
+//            case 0:
+//                return typeface1;
+//            case 1:
+//                return typeface2;
+//            case 3:
+//                return typeface3;
+//        }
+//        return typeface1;
+//    }
 }

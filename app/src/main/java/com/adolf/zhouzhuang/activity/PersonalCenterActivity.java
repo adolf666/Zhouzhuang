@@ -24,6 +24,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     private TextView  mUserName;
     private TextView  mStrategy;
     private ImageView mPortrait;
+    private TextView mAboutTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,18 +39,20 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         mCollect = (TextView)findViewById(R.id.tv_collect);
         mSetting = (TextView ) findViewById(R.id.tv_setting);
         mSuggestion = (TextView) findViewById(R.id.tv_suggestion);
+        mAboutTv = (TextView) findViewById(R.id.tv_about);
       //  mStrategy = (TextView)findViewById(R.id.tv_strategy);
-        mUserName.setTypeface(Utils.getType(this,3));
-        mPersonInfo.setTypeface(Utils.getType(this,3));
-        mCollect.setTypeface(Utils.getType(this,3));
-        mSetting.setTypeface(Utils.getType(this,3));
-        mSuggestion.setTypeface(Utils.getType(this,3));
+//        mUserName.setTypeface(Utils.getType(this,3));
+//        mPersonInfo.setTypeface(Utils.getType(this,3));
+//        mCollect.setTypeface(Utils.getType(this,3));
+//        mSetting.setTypeface(Utils.getType(this,3));
+//        mSuggestion.setTypeface(Utils.getType(this,3));
       //  mStrategy.setTypeface(Utils.getType(this,3));
      //   mStrategy.setOnClickListener(this);
         mPersonInfo.setOnClickListener(this);
         mSetting.setOnClickListener(this);
         mSuggestion.setOnClickListener(this);
         mCollect.setOnClickListener(this);
+        mAboutTv.setOnClickListener(this);
     }
 
     @Override
@@ -124,6 +127,9 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                     intent.setClass(PersonalCenterActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
+                break;
+            case R.id.tv_about:
+                startActivity(new Intent(PersonalCenterActivity.this,AboutActivity.class));
                 break;
         }
     }

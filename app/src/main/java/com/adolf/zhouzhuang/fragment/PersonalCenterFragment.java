@@ -75,12 +75,12 @@ public class PersonalCenterFragment extends BaseFragment implements View.OnClick
         mSetting = (TextView ) view.findViewById(R.id.tv_setting);
         mSuggestion = (TextView) view.findViewById(R.id.tv_suggestion);
         mStrategy = (TextView)view.findViewById(R.id.tv_strategy);
-        mUserName.setTypeface(Utils.getType(getActivity(),3));
-        mPersonInfo.setTypeface(Utils.getType(getActivity(),3));
-        mCollect.setTypeface(Utils.getType(getActivity(),3));
-        mSetting.setTypeface(Utils.getType(getActivity(),3));
-        mSuggestion.setTypeface(Utils.getType(getActivity(),3));
-        mStrategy.setTypeface(Utils.getType(getActivity(),3));
+//        mUserName.setTypeface(Utils.getType(getActivity(),3));
+//        mPersonInfo.setTypeface(Utils.getType(getActivity(),3));
+//        mCollect.setTypeface(Utils.getType(getActivity(),3));
+//        mSetting.setTypeface(Utils.getType(getActivity(),3));
+//        mSuggestion.setTypeface(Utils.getType(getActivity(),3));
+//        mStrategy.setTypeface(Utils.getType(getActivity(),3));
         mStrategy.setOnClickListener(this);
         mPersonInfo.setOnClickListener(this);
         mSetting.setOnClickListener(this);

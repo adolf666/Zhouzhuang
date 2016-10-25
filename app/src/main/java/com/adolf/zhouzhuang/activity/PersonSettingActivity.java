@@ -52,10 +52,10 @@ public class PersonSettingActivity extends BaseActivity{
         mCleanStore = (TextView)findViewById(R.id.clean_store);
         mLoginOff = (TextView)findViewById(R.id.login_off);
 
-        mCleanStore.setTypeface(Utils.getType(this,3));
-        mLoginOff.setTypeface(Utils.getType(this,3));
+//        mCleanStore.setTypeface(Utils.getType(this,3));
+//        mLoginOff.setTypeface(Utils.getType(this,3));
         TextView modifyPassword = (TextView)findViewById(R.id.tv_modify_password);
-        modifyPassword.setTypeface(Utils.getType(this,3));
+//        modifyPassword.setTypeface(Utils.getType(this,3));
         mModifyPassword.setOnClickListener(this);
         mCleanStore.setOnClickListener(this);
         mLoginOff.setOnClickListener(this);

@@ -71,14 +71,14 @@ public class PersonalInfoActivity extends BaseActivity {
         RadioButton radioMale = (RadioButton) findViewById(R.id.radioMale);
         RadioButton radioFemale = (RadioButton) findViewById(R.id.radioFemale);
 
-        mUserArea.setTypeface(Utils.getType(this, 3));
-        mUserName.setTypeface(Utils.getType(this, 3));
-        radioMale.setTypeface(Utils.getType(this, 3));
-        radioFemale.setTypeface(Utils.getType(this, 3));
-        mSaveBtn.setTypeface(Utils.getType(this, 0));
-        user_name.setTypeface(Utils.getType(this, 3));
-        sex.setTypeface(Utils.getType(this, 3));
-        are.setTypeface(Utils.getType(this, 3));
+//        mUserArea.setTypeface(Utils.getType(this, 3));
+//        mUserName.setTypeface(Utils.getType(this, 3));
+//        radioMale.setTypeface(Utils.getType(this, 3));
+//        radioFemale.setTypeface(Utils.getType(this, 3));
+//        mSaveBtn.setTypeface(Utils.getType(this, 0));
+//        user_name.setTypeface(Utils.getType(this, 3));
+//        sex.setTypeface(Utils.getType(this, 3));
+//        are.setTypeface(Utils.getType(this, 3));
         mSaveBtn.setOnClickListener(this);
         RadioGroup group = (RadioGroup) this.findViewById(R.id.radioGroup);
         if (null!=loginObj&&loginObj.getSex() != null) {

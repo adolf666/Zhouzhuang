@@ -450,7 +450,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         mBaiduMap.setMyLocationEnabled(true);
 
         locationToCenter(31.123292, 120.85481, true,true);
-        addLayerToMap();
+//        addLayerToMap();
 //        initAndAddLayer();
         mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
             @Override
@@ -564,9 +564,9 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         TextView openBaidu = (TextView) mBottomView.findViewById(R.id.tv_open_baidu);
         TextView openGaode = (TextView) mBottomView.findViewById(R.id.tv_open_gaode);
         TextView cancel = (TextView) mBottomView.findViewById(R.id.btn_cancel);
-        openBaidu.setTypeface(Utils.getType(getActivity(), 0));
-        openGaode.setTypeface(Utils.getType(getActivity(), 0));
-        cancel.setTypeface(Utils.getType(getActivity(), 0));
+//        openBaidu.setTypeface(Utils.getType(getActivity(), 0));
+//        openGaode.setTypeface(Utils.getType(getActivity(), 0));
+//        cancel.setTypeface(Utils.getType(getActivity(), 0));
         openBaidu.setOnClickListener(this);
         openGaode.setOnClickListener(this);
         cancel.setOnClickListener(this);

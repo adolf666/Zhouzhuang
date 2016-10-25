@@ -55,8 +55,8 @@ public class StrategyAdapter extends BaseAdapter {
             viewHolder.mPhoto = (ImageView)convertView.findViewById(R.id.img_photo);
             viewHolder.mDesc = (MyTextView)convertView.findViewById(R.id.tv_desc);
             viewHolder.mDivideEnd =(TextView)convertView.findViewById(R.id.view_divide1);
-            viewHolder.mName.setTypeFace(3);
-            viewHolder.mDesc.setTypeFace(3);
+//            viewHolder.mName.setTypeFace(3);
+//            viewHolder.mDesc.setTypeFace(3);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();

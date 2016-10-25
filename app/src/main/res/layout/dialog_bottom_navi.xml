@@ -43,7 +43,6 @@
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="取消"
             android:textColor="#333333"

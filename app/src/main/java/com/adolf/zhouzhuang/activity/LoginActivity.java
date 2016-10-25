@@ -58,9 +58,9 @@ public class LoginActivity extends BaseActivity{
         mLoginBT = (Button) findViewById(R.id.bt_login);
         TextView user_name = (TextView)findViewById(R.id.tv_user_name);
         TextView password = (TextView)findViewById(R.id.tv_password);
-        mLoginBT.setTypeface(Utils.getType(this,0));
-        user_name.setTypeface(Utils.getType(this,3));
-        password.setTypeface(Utils.getType(this,3));
+//        mLoginBT.setTypeface(Utils.getType(this,0));
+//        user_name.setTypeface(Utils.getType(this,3));
+//        password.setTypeface(Utils.getType(this,3));
         mLoginBT.setOnClickListener(this);
         initActionBar("返回",R.drawable.back_selected,"登录","注册",0);
         ((ZhouzhuangApplication)getApplication()).getDaoSession();

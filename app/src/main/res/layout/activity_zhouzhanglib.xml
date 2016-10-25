@@ -35,7 +35,6 @@
                 android:textSize="13sp"
                 android:lineSpacingExtra="10dp"
                 android:textColor="#333333"
-                android:textStyle="bold"
                 />
 
             <com.adolf.zhouzhuang.util.MyTextView

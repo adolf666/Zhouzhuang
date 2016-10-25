@@ -51,10 +51,10 @@ public class ModifyPasswordActivity extends BaseActivity {
         TextView mNewPassword = (TextView)findViewById(R.id.tv_new_password);
         TextView mConfirmPassword = (TextView)findViewById(R.id.tv_confirm_password);
 
-        mOlaPassword.setTypeface(Utils.getType(this,3));
-        mNewPassword .setTypeface(Utils.getType(this,3));
-        mConfirmPassword.setTypeface(Utils.getType(this,3));
-        mBtnSave.setTypeface(Utils.getType(this,0));
+//        mOlaPassword.setTypeface(Utils.getType(this,3));
+//        mNewPassword .setTypeface(Utils.getType(this,3));
+//        mConfirmPassword.setTypeface(Utils.getType(this,3));
+//        mBtnSave.setTypeface(Utils.getType(this,0));
         mBtnSave.setOnClickListener(this);
      }
     @Override

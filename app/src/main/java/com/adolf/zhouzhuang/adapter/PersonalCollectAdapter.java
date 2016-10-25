@@ -62,7 +62,7 @@ public class PersonalCollectAdapter extends BaseAdapter implements View.OnClickL
             convertView = LayoutInflater.from(context).inflate(R.layout.item_personal_collect, null);
             viewHolder.mName = (TextView) convertView.findViewById(R.id.tv_collect_name);
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.img_delete_collect);
-            viewHolder.mName.setTypeface(Utils.getType(context, 3));
+//            viewHolder.mName.setTypeface(Utils.getType(context, 3));
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

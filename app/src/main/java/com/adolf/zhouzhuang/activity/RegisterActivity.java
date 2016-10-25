@@ -58,10 +58,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         TextView userName = (TextView)findViewById(R.id.tv_user_name);
         TextView password  = (TextView)findViewById(R.id.tv_password);
         TextView confirmPassword = (TextView)findViewById(R.id.tv_confirm);
-        mRegisterBT.setTypeface(Utils.getType(this,0));
-        userName.setTypeface(Utils.getType(this,3));
-        password.setTypeface(Utils.getType(this,3));
-        confirmPassword.setTypeface(Utils.getType(this,3));
+//        mRegisterBT.setTypeface(Utils.getType(this,0));
+//        userName.setTypeface(Utils.getType(this,3));
+//        password.setTypeface(Utils.getType(this,3));
+//        confirmPassword.setTypeface(Utils.getType(this,3));
 
         createLink(mProtoalTV);
     }

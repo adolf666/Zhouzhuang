@@ -116,10 +116,10 @@ private void checkUpdate(){
         mCollectionTextView = (TextView) findViewById(R.id.tv_collection);
         mNavigationTextView = (TextView) findViewById(R.id.tv_navigation);
         mStrategyTextView = (TextView) findViewById(R.id.tv_strategy);
-        mMuseumTextView.setTypeface(Utils.getType(this, 0));
-        mCollectionTextView.setTypeface(Utils.getType(this, 0));
-        mNavigationTextView.setTypeface(Utils.getType(this, 0));
-        mStrategyTextView.setTypeface(Utils.getType(this, 0));
+//        mMuseumTextView.setTypeface(Utils.getType(this, 0));
+//        mCollectionTextView.setTypeface(Utils.getType(this, 0));
+//        mNavigationTextView.setTypeface(Utils.getType(this, 0));
+//        mStrategyTextView.setTypeface(Utils.getType(this, 0));
         mCustomerViewPager = (CustomViewPager) findViewById(R.id.viewpager);
 
         mMuseumTextView.setOnClickListener(this);

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/actionbar"
+        layout="@layout/item_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"/>
+    <ImageView
+        android:id="@+id/iv_ogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/about_android"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/actionbar"/>
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_ogo"
+        android:layout_centerHorizontal="true"
+        android:text="版本号"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_copy_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Copyright©2016Zhuibaiqiu.All Rights Reserved"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:textSize="14sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_copy_right"
+        android:layout_centerHorizontal="true"
+        android:text="苏州缀白裘  版权所有"
+        android:layout_marginBottom="15dp"
+        android:textSize="15sp"/>
+</RelativeLayout>

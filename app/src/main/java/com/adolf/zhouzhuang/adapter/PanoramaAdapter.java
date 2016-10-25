@@ -54,8 +54,8 @@ public class PanoramaAdapter extends BaseAdapter {
             viewHolder.description = (MyTextView) convertView.findViewById(R.id.tv_desc);
             viewHolder.mDivide = (TextView)convertView.findViewById(R.id.view_divide);
             viewHolder.mDivideEnd =(TextView)convertView.findViewById(R.id.view_divide1);
-            viewHolder.name.setTypeFace(0);
-            viewHolder.description.setTypeFace(3);
+//            viewHolder.name.setTypeFace(0);
+//            viewHolder.description.setTypeFace(3);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
