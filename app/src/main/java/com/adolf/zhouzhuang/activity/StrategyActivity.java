@@ -72,7 +72,7 @@ public class StrategyActivity extends BaseActivity  {
     }
 
     private void setStrategyData(List<StrategyObject> strategyObjectList) {
-        mAdapter = new StrategyAdapter(this, strategyObjectList);
+        mAdapter = new StrategyAdapter(this, 0,strategyObjectList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

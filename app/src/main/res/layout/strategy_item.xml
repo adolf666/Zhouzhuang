@@ -38,13 +38,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="10dp"
+        android:layout_marginLeft="10dp"
        >
 
         <ImageView
             android:id="@+id/img_photo"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
+            android:paddingRight="5dp"
             android:src="@mipmap/icon_photo_eg"
             />
 
@@ -52,14 +53,15 @@
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:maxLines="2"
             android:text="糖果"
-            android:maxLength="2"
+            android:lineSpacingExtra="5dp"
             android:ellipsize="end"
             android:textColor="#999999"
             android:textSize="13sp"
             android:layout_gravity="center_vertical"
-            android:typeface="normal" />
+            android:typeface="normal"
+            android:paddingBottom="5dp"/>
         </LinearLayout>
     </LinearLayout>
     <TextView

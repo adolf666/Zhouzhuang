@@ -96,7 +96,7 @@ public class TravelsFragment extends BaseFragment {
     }
 
     private void initData(final List<StrategyObject> strategyObjectArrayList) {
-        StrategyAdapter mAdapter = new StrategyAdapter(getActivity(), strategyObjectArrayList);
+        StrategyAdapter mAdapter = new StrategyAdapter(getActivity(),index, strategyObjectArrayList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

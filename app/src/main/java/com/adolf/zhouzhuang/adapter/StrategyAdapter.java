@@ -24,10 +24,14 @@ public class StrategyAdapter extends BaseAdapter {
 
     private Context context;
     private List<StrategyObject> strategyObjectList;
-    public StrategyAdapter(Context context, List<StrategyObject> strategyObjectList) {
+    private int index;
+
+    public StrategyAdapter(Context context, int index, List<StrategyObject> strategyObjectList) {
         this.context = context;
+        this.index = index;
         this.strategyObjectList = strategyObjectList;
     }
+
     @Override
     public int getCount() {
         return strategyObjectList.size();
@@ -45,30 +49,35 @@ public class StrategyAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-       final ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         final StrategyObject item = strategyObjectList.get(position);
-        if(null == convertView){
-            convertView = LayoutInflater.from(context).inflate(R.layout.strategy_item, parent,false);
+        if (null == convertView) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.strategy_item, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.mPic = (ImageView) convertView.findViewById(R.id.img_pic);
-            viewHolder.mName = (MyTextView)convertView.findViewById(R.id.tv_scenic_name);
-            viewHolder.mPhoto = (ImageView)convertView.findViewById(R.id.img_photo);
-            viewHolder.mDesc = (MyTextView)convertView.findViewById(R.id.tv_desc);
-            viewHolder.mDivideEnd =(TextView)convertView.findViewById(R.id.view_divide1);
+            viewHolder.mName = (MyTextView) convertView.findViewById(R.id.tv_scenic_name);
+            viewHolder.mPhoto = (ImageView) convertView.findViewById(R.id.img_photo);
+            viewHolder.mDesc = (MyTextView) convertView.findViewById(R.id.tv_desc);
+            viewHolder.mDivideEnd = (TextView) convertView.findViewById(R.id.view_divide1);
 //            viewHolder.mName.setTypeFace(3);
 //            viewHolder.mDesc.setTypeFace(3);
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (item != null && !TextUtils.isEmpty(item.getPicthumburl())){
+        if (item != null && !TextUtils.isEmpty(item.getPicthumburl())) {
             Glide.with(context).load(item.getPicthumburl()).centerCrop().placeholder(R.mipmap.bg_strategy).crossFade().into(viewHolder.mPic);
         }
-
-        if(item.getCreatorimgurl()!=null && !TextUtils.isEmpty(item.getCreatorimgurl())){
-            Glide.with(context).load(item.getCreatorimgurl()).centerCrop().placeholder(R.mipmap.icon_photo_eg).crossFade().transform(new GlideRoundTransform(context,30)).into(viewHolder.mPhoto);
+        if (index == 0) {
+            viewHolder.mPhoto.setVisibility(View.VISIBLE);
+            if (item.getCreatorimgurl() != null && !TextUtils.isEmpty(item.getCreatorimgurl())) {
+                Glide.with(context).load(item.getCreatorimgurl()).centerCrop().placeholder(R.mipmap.icon_photo_eg).crossFade().transform(new GlideRoundTransform(context, 30)).into(viewHolder.mPhoto);
+            }
+        }else {
+            viewHolder.mPhoto.setVisibility(View.GONE);
         }
-        if(strategyObjectList.size()>2&&position == strategyObjectList.size()-1 ){
+
+        if (strategyObjectList.size() > 2 && position == strategyObjectList.size() - 1) {
             viewHolder.mDivideEnd.setVisibility(View.VISIBLE);
         }
         viewHolder.mName.setText(item.getTitle());
@@ -76,12 +85,12 @@ public class StrategyAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private boolean isNeedToLoadImage(String url,ImageView imageView){
-        if (imageView.getTag() == null){
+    private boolean isNeedToLoadImage(String url, ImageView imageView) {
+        if (imageView.getTag() == null) {
             return true;
-        }else if (TextUtils.equals(imageView.getTag().toString(),url)){
+        } else if (TextUtils.equals(imageView.getTag().toString(), url)) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
@@ -90,7 +99,7 @@ public class StrategyAdapter extends BaseAdapter {
         ImageView mPic;
         MyTextView mName;
         ImageView mPhoto;
-        MyTextView  mDesc;
+        MyTextView mDesc;
         TextView mDivideEnd;
     }
 

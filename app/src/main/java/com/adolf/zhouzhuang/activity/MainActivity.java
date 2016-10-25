@@ -295,8 +295,8 @@ private void checkUpdate(){
     protected void promptDialog(String message , final String url) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setMessage(message);
-        builder.setTitle("版本更新");
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+        builder.setTitle("更新说明");
+        builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -307,7 +307,7 @@ private void checkUpdate(){
 
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("忽略", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
