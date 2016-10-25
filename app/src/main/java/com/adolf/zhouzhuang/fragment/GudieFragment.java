@@ -2,6 +2,7 @@ package com.adolf.zhouzhuang.fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.adolf.zhouzhuang.Favorites;
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.Spots;
+import com.adolf.zhouzhuang.activity.LoginActivity;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.adapter.GuideListAdapter;
 import com.adolf.zhouzhuang.adapter.SpotsListAdapter;
@@ -41,13 +43,11 @@ import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
-import com.adolf.zhouzhuang.util.UniversalDialog;
 import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -87,6 +87,7 @@ import static com.adolf.zhouzhuang.R.id.tv_spot_title;
 
 public class GudieFragment extends BaseFragment implements View.OnClickListener {
 
+    public static final int LoginRequest = 1008;
     private static final String SPOT_ID = "spot_id";
     public MapView mMapView = null;
     public BaiduMap mBaiduMap;
@@ -281,7 +282,10 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.bt_favorite:
                 if (!Utils.isAutoLogin(getActivity())) {
-                    Toast.makeText(getActivity(), "您还没登录，请先登录...", Toast.LENGTH_SHORT).show();
+                Intent intentLogin = new Intent().setClass(getActivity(), LoginActivity.class);
+              //  startActivity(intentLogin);
+                 intentLogin.putExtra("FROM_GUIDE",1);
+                 startActivityForResult(intentLogin,LoginRequest);
                 } else {
                     if (!mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), mSpots.getPid())) {
                         addFavorite();
@@ -581,7 +585,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    Log.i("uuuu", (Float) animation.getAnimatedValue() + "" + ((Float) animation.getAnimatedValue() == 600f));
                     if ((Float) animation.getAnimatedValue() >= 600f) {
                         mBottomBarRelativeLayout.setVisibility(View.GONE);
                     }
@@ -808,6 +811,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             mMapView.onResume();
         }
         refreshGuideDialogState(mSpots);
+
     }
 
     @Override
@@ -895,4 +899,16 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case LoginRequest:
+            addFavorite();
+                break;
+        }
+    }
+
 }

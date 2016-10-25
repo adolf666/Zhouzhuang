@@ -1,5 +1,6 @@
 package com.adolf.zhouzhuang.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class LoginActivity extends BaseActivity{
     private EditText mPasswordET;
     private Button mLoginBT;
     private int mGoToActivity = -1;
+    private int isFromGuideFragment = 0;
     private FavoriteDataBaseHelper mFavoriteDataBaseHelper;
 
     @Override
@@ -69,6 +71,7 @@ public class LoginActivity extends BaseActivity{
 
     private void initBundle(){
         mGoToActivity = getIntent().getIntExtra("GOTO_ACTIVITY",-1);
+        isFromGuideFragment = getIntent().getIntExtra("FROM_GUIDE",0);
     }
 
     @Override
@@ -156,6 +159,9 @@ public class LoginActivity extends BaseActivity{
                 super.onSuccess(statusCode, headers, response);
                 List<Integer> favoriteList = GsonUtil.jsonToList(response,"data",Integer.class);
                 setFavoriteSpots(favoriteList, SharedPreferencesUtils.getInt(LoginActivity.this,"pid"));
+               if(isFromGuideFragment==1){
+                   setResult(Activity.RESULT_OK);
+               }
                 finish();
             }
 
