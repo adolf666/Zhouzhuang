@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+
+
 import android.widget.RelativeLayout;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 public class WebViewActivity extends BaseActivity implements View.OnClickListener{
     public static final String  NAME = "name";
@@ -20,7 +22,6 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     private int mSpotId;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private String mTitle="";
-    private WebViewClient mWebviewClient;
     private RelativeLayout mProgressLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
