@@ -7,6 +7,9 @@ import android.graphics.Typeface;
 
 import com.adolf.zhouzhuang.util.Constants;
 import com.baidu.mapapi.SDKInitializer;
+import com.github.moduth.blockcanary.BlockCanary;
+import com.squareup.leakcanary.LeakCanary;
+import com.tencent.smtt.sdk.QbSdk;
 
 
 /**
@@ -31,6 +34,22 @@ public class ZhouzhuangApplication extends Application {
 //        typeface1 = getType(_instance, 0);
 //        typeface2 = getType(_instance, 1);
 //        typeface3 = getType(_instance, 3);
+
+        //初始化过度绘制检测
+       // BlockCanary.install(this, new AppBlockCanaryContext()).start();
+        //初始化内存泄漏检测
+        LeakCanary.install(this);
+
+        //初始化tbs x5 webview
+        QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+            }
+        });
     }
 
     public static  ZhouzhuangApplication getInstace() {
@@ -47,9 +66,13 @@ public class ZhouzhuangApplication extends Application {
         return daoSession;
     }
 
+
     public SQLiteDatabase getDb() {
         return db;
     }
+
+
+
 
 //    public static  Typeface getType(Context context,int i){
 //        Typeface type = null;
