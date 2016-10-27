@@ -80,6 +80,8 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activity.AboutActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity android:name=".activity.MediaPlayerActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
     </application>
 
 </manifest>

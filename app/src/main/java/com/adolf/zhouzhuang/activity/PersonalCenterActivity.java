@@ -129,7 +129,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 }
                 break;
             case R.id.tv_about:
-                startActivity(new Intent(PersonalCenterActivity.this,AboutActivity.class));
+                startActivity(new Intent(PersonalCenterActivity.this,MediaPlayerActivity.class));
                 break;
         }
     }

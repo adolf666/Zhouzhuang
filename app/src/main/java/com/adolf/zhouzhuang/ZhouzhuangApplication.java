@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 
 import com.adolf.zhouzhuang.util.Constants;
+import com.adolf.zhouzhuang.widget.AppBlockCanaryContext;
 import com.baidu.mapapi.SDKInitializer;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
@@ -36,7 +37,7 @@ public class ZhouzhuangApplication extends Application {
 //        typeface3 = getType(_instance, 3);
 
         //初始化过度绘制检测
-       // BlockCanary.install(this, new AppBlockCanaryContext()).start();
+        BlockCanary.install(this, new AppBlockCanaryContext()).start();
         //初始化内存泄漏检测
         LeakCanary.install(this);
 
