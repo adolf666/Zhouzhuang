@@ -19,10 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import com.adolf.zhouzhuang.util.SdCardUtil;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.SoundBroadUtils;
+import com.adolf.zhouzhuang.util.StreamingMediaPlayer;
 import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.LoadingProgressDialog;
 import com.baidu.location.BDLocation;
@@ -103,7 +106,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     private ListView mSpotsListLV;
     private ListView mGuideListLV;
     private ImageView mFrameIV;
-    private ImageView mPause;
+    private ImageButton mPause;
     private ImageView mClose;
     private RelativeLayout mNotice;
     private TextView mVocie_Prompt;
@@ -129,9 +132,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     private Button mFavoriteButton;
     private LinearLayout mGuideBgRelativeLayout;
     private TextView mSpotTitle;
-
     private int spotsId = -1;
-
+    private StreamingMediaPlayer audioStreamer;
     public GudieFragment() {
         // Required empty public constructor
     }
@@ -169,7 +171,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         mBottomBarRelativeLayout = (RelativeLayout) view.findViewById(R.id.rl_bottom_bar);
         mBottomBarLinearLayout = (LinearLayout) view.findViewById(R.id.ll_bottom_bar);
         mFrameIV = (ImageView) view.findViewById(R.id.iv_frame);
-        mPause = (ImageView) view.findViewById(R.id.img_pause);
+        mPause = (ImageButton) view.findViewById(R.id.img_pause);
         mClose = (ImageView) view.findViewById(R.id.img_close);
         mNotice = (RelativeLayout) view.findViewById(R.id.rl_notice);
         mVocie_Prompt = (TextView) view.findViewById(R.id.tv_voice_prompt);
@@ -196,6 +198,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         hideBottomTabs();
         hideListView(mGuideListLV, mGuideListRelativeLayout, false);
         hideListView(mSpotsListLV, mSpotsListRelativeLayout, false);
+        audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
     }
 
     public void getSpotsList() {
@@ -249,7 +252,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
 
     public void checkAndDownLoadAudio(Spots spots){
         if (!isAudioExit(String.valueOf(spots.getPid()))) {
-            downloadAudio();
+           // downloadAudio();
+            playStreamAudio();
         } else {
             playAudio(Utils.getAudioFullPath(String.valueOf(spots.getPid())));
         }
@@ -300,7 +304,20 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
             case R.id.tv_voice_prompt:
             case R.id.img_pause:
                 SoundBroadUtils.getInstance().pauseSound(isPause);
-                if (isPause) {
+
+                if (audioStreamer.getMediaPlayer().isPlaying()) {
+                    audioStreamer.getMediaPlayer().pause();
+                    animationDrawable.stop();
+                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
+                    mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
+                } else {
+                    audioStreamer.getMediaPlayer().start();
+                    animationDrawable.start();
+                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                    mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+                }
+
+         /*       if (isPause) {
                     mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
                     animationDrawable.start();
                     mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
@@ -308,7 +325,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                     mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
                     animationDrawable.stop();
                     mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
-                }
+                }*/
                 isPause = !isPause;
                 break;
             case R.id.img_close:
@@ -353,6 +370,24 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     public boolean isAudioExit(String audioName) {
         return Utils.fileIsExists(Utils.getAudioFullPath(audioName));
     }
+
+    private  void playStreamAudio(){
+
+        try {
+            audioStreamer.startStreaming(mSpots.getVideoLocation(),5208, 216);
+            mNotice.setVisibility(View.VISIBLE);
+            animationDrawable.start();
+            mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+            mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+
+        } catch (IOException e) {
+            Log.e(getClass().getName(), "Error starting to stream audio.", e);
+        }
+
+
+    }
+
+
 
     public void downloadAudio() {
         final String filePath = SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO + "/" + mSpots.getPid() + ".mp3";

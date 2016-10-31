@@ -101,7 +101,7 @@ public class StreamingMediaPlayer {
             incrementalBytesRead += numread;
             totalKbRead = totalBytesRead/1000;  //totalKbRead表示已经下载的文件大小
             testMediaBuffer();
-            fireDataLoadUpdate();
+           // fireDataLoadUpdate();
         } while (validateNotInterrupted());
         stream.close();
         if (validateNotInterrupted()) {
@@ -149,7 +149,7 @@ public class StreamingMediaPlayer {
 
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.start();
-            startPlayProgressUpdater();
+           // startPlayProgressUpdater();
 
             playButton.setEnabled(true);
         } catch (IOException e) {
