@@ -35,8 +35,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="fjZAfdSfmzuCeqtMYjv7BZ7R6Y67TED3" />
+            android:name="com.amap.api.v2.apikey"
+            android:value="3c9d6d881dc553062bcffad0f90b5490" />
 
         <activity
             android:name=".activity.LaunchActivity"
@@ -64,21 +64,29 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.NewsActivity" />
-        <activity android:name=".activity.PersonalInfoActivity"
+        <activity
+            android:name=".activity.PersonalInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.PersonSettingActivity"
+        <activity
+            android:name=".activity.PersonSettingActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.PersonSuggestionActivity"
+        <activity
+            android:name=".activity.PersonSuggestionActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.ZhouzhuangLibActivity"
+        <activity
+            android:name=".activity.ZhouzhuangLibActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.ModifyPasswordActivity"
+        <activity
+            android:name=".activity.ModifyPasswordActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.PersonCollectActivity"
+        <activity
+            android:name=".activity.PersonCollectActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.StrategyActivity"
+        <activity
+            android:name=".activity.StrategyActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.AboutActivity"
+        <activity
+            android:name=".activity.AboutActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activity.MediaPlayerActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />

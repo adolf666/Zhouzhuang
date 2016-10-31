@@ -489,7 +489,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         mBaiduMap.setMyLocationEnabled(true);
 
         locationToCenter(31.123292, 120.85481, true,true);
-//        addLayerToMap();
+        addLayerToMap();
 //        initAndAddLayer();
         mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
             @Override

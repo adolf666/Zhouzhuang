@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.adolf.zhouzhuang.fragment.GudieFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_playaudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_notice"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@mipmap/bg_soundinfo"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/anim_paly_audio" />
+
+            <ImageView
+                android:id="@+id/img_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingLeft="12dp"
+                android:paddingRight="10dp"
+                android:layout_toRightOf="@+id/iv_frame"
+                android:src="@mipmap/button_pause" />
+
+            <TextView
+                android:id="@+id/tv_voice_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/img_pause"
+                android:text="正在为您播放沈厅语音导览..."
+                android:textColor="#CCCC99" />
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="25dp"
+                android:paddingRight="35dp"
+                android:src="@mipmap/btn_close_default" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_guide_list"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/rl_playaudio"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_walk_navigetion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/navigation_selector"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_spots_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/spot_list_selector"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/tv_devide"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignBottom="@+id/ll_guide_list"
+        android:background="@color/bg_line" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_guide_list"
+        class="com.amap.api.maps2d.SupportMapFragment" />
+
+    <TextView
+        android:id="@+id/tv_loaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/location_selector"
+        android:padding="5dp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_spots_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_guide_list"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_bg_spots"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ListView
+            android:id="@+id/lv_spots_list"
+            android:layout_width="match_parent"
+            android:layout_height="358dp"
+            android:background="#a5ffffff"
+            android:divider="#00000000"
+            android:dividerHeight="0dip"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_guide_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_guide_list"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_bg_guide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ListView
+            android:id="@+id/lv_guide_list"
+            android:layout_width="match_parent"
+            android:layout_height="358dp"
+            android:background="#a5ffffff"
+            android:divider="#00000000"
+            android:dividerHeight="0dip"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <LinearLayout
+            android:id="@+id/ll_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" />
+    </RelativeLayout>
+</RelativeLayout>
