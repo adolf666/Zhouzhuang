@@ -89,12 +89,11 @@
         android:layout_alignBottom="@+id/ll_guide_list"
         android:background="@color/bg_line" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.amap.api.maps2d.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ll_guide_list"
-        class="com.amap.api.maps2d.SupportMapFragment" />
+        android:layout_below="@+id/ll_guide_list"/>
 
     <TextView
         android:id="@+id/tv_loaction"
