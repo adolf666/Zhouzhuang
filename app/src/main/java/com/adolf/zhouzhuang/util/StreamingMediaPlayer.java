@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -28,7 +29,7 @@ import java.net.URLConnection;
 public class StreamingMediaPlayer {
 
     private static final int INTIAL_KB_BUFFER =  96*10/8;//assume 96kbps*10secs/8bits per byte
-    private ImageButton playButton;
+    private View playButton;
     private SeekBar progressBar;
     private TextView playTime;
     private long mediaLengthInKb, mediaLengthInSeconds;
@@ -44,17 +45,17 @@ public class StreamingMediaPlayer {
     };
     private MediaPlayer mediaPlayer;
     private File downloadingMediaFile;
+    private File downloadingMusicFile;
     private boolean isInterrupted;
     private Context context;
     private int counter = 0;
-    public StreamingMediaPlayer(Context  context, ImageButton	playButton, Button streamButton, SeekBar	progressBar, TextView playTime)
+    public StreamingMediaPlayer(Context  context, View playButton, Button streamButton, SeekBar	progressBar, TextView playTime)
     {
         this.context = context;
         this.playButton = playButton;
         this.playTime=playTime; //播放的进度时刻
         this.progressBar = progressBar;
     }
-
     /**
      * 开启一个线程，下载数据
      */
@@ -91,14 +92,13 @@ public class StreamingMediaPlayer {
         }
         FileOutputStream out = new FileOutputStream(downloadingMediaFile);
         byte buf[] = new byte[16384];
-        int totalBytesRead = 0, incrementalBytesRead = 0;
+        int totalBytesRead = 0;
         do {
             int numread = stream.read(buf);
             if (numread <= 0)
                 break;
             out.write(buf, 0, numread);
             totalBytesRead += numread;
-            incrementalBytesRead += numread;
             totalKbRead = totalBytesRead/1000;  //totalKbRead表示已经下载的文件大小
             testMediaBuffer();
            // fireDataLoadUpdate();
@@ -138,18 +138,17 @@ public class StreamingMediaPlayer {
         handler.post(updater);
     }
 
-    private void startMediaPlayer() {
+    private void  startMediaPlayer() {
         try {
             File bufferedFile = new File(context.getCacheDir(),"playingMedia" + (counter++) + ".dat");
             moveFile(downloadingMediaFile,bufferedFile);
             Log.e(getClass().getName(),"Buffered File path: " + bufferedFile.getAbsolutePath());
             Log.e(getClass().getName(),"Buffered File length: " + bufferedFile.length()+"");
             mediaPlayer = createMediaPlayer(bufferedFile);
-
-
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.start();
-           // startPlayProgressUpdater();
+
+            // startPlayProgressUpdater();
 
             playButton.setEnabled(true);
         } catch (IOException e) {
@@ -171,7 +170,7 @@ public class StreamingMediaPlayer {
 
         mPlayer.setDataSource(fis.getFD());//此方法返回与流相关联的文件说明符。
         mPlayer.prepare();
-
+        mPlayer.setLooping(true);
         return mPlayer;
     }
 
@@ -249,10 +248,6 @@ public class StreamingMediaPlayer {
             handler.postDelayed(notification,1000);
         }
     }
-
-
-
-
     public void interrupt() {
         playButton.setEnabled(false);
         isInterrupted = true;

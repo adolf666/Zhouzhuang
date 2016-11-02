@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -267,7 +268,8 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 mBaiduMap.hideInfoWindow();
                 break;
             case R.id.bt_audio_play:
-                checkAndDownLoadAudio(mSpots);
+               // checkAndDownLoadAudio(mSpots);
+                playStreamAudio();
                 break;
             case R.id.bt_detail:
                 Intent intent = new Intent();
@@ -372,9 +374,16 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private  void playStreamAudio(){
-
         try {
+        if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
+                audioStreamer.getMediaPlayer().reset();
+                Log.i("ssssssssssss","getMediaPlayer().pause()");
+            }
             audioStreamer.startStreaming(mSpots.getVideoLocation(),5208, 216);
+            if(audioStreamer.getMediaPlayer()!=null){
+                audioStreamer.getMediaPlayer().start();
+                Log.i("ssssssssssss","getMediaPlayer().start()");
+            }
             mNotice.setVisibility(View.VISIBLE);
             animationDrawable.start();
             mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
@@ -383,7 +392,6 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
         } catch (IOException e) {
             Log.e(getClass().getName(), "Error starting to stream audio.", e);
         }
-
 
     }
 
