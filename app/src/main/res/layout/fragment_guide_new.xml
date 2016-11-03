@@ -25,7 +25,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/anim_paly_audio" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/img_pause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
