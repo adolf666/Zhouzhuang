@@ -154,6 +154,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void setMapUISetting(){
         mUiSettings = aMap.getUiSettings();
         mUiSettings.setRotateGesturesEnabled(false);
+        mUiSettings.setZoomControlsEnabled(false);
     }
 
     @Override
@@ -222,7 +223,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
      */
     private void addOverlayToMap() {
         aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.121956,
-                120.851572), 18f));
+                120.851572), 15.4f));
         LatLngBounds bounds = new LatLngBounds.Builder()
                 .include(new LatLng(31.1249200000,120.8397900000))
                 .include(new LatLng(31.1066900000,120.8595400000)).build();
@@ -234,7 +235,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                         .fromResource(R.mipmap.layer))
                 .positionFromBounds(bounds));
 
-        aMap.setMapStatusLimits(bounds);
+//        aMap.setMapStatusLimits(bounds);
     }
 
     private void addMarksToMap(){
