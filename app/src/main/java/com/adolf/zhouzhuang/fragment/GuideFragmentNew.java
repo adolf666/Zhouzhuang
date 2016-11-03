@@ -65,7 +65,8 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.adolf.zhouzhuang.R.id.tv_spot_title;
 
-public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener , AMap.InfoWindowAdapter ,View.OnClickListener{
+public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener , AMap.InfoWindowAdapter ,View.OnClickListener,
+        AMap.OnMapClickListener{
 
     public static final int LoginRequest = 1008;
     private OnFragmentInteractionListener mListener;
@@ -143,6 +144,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         addMarksToMap();
 
         initGuideListViewAndSpotsListViewData();
+        aMap.setOnMapClickListener(this);
     }
     public static GuideFragmentNew newInstance() {
         GuideFragmentNew fragment = new GuideFragmentNew();
@@ -220,7 +222,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
      */
     private void addOverlayToMap() {
         aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.121956,
-                120.851572), 18f));// 设置当前地图显示为北京市恭王府
+                120.851572), 18f));
         LatLngBounds bounds = new LatLngBounds.Builder()
                 .include(new LatLng(31.1249200000,120.8397900000))
                 .include(new LatLng(31.1066900000,120.8595400000)).build();
@@ -327,6 +329,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
                     }
                 });
+
         return mGuideDialogView;
     }
 
@@ -661,5 +664,16 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void setTabResourceState() {
         mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
         mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        if(mGuideListLV.getVisibility() ==View.VISIBLE){
+            hideListView(mGuideListLV, mGuideListRelativeLayout, true);
+        }
+        if(mSpotsListLV.getVisibility() ==View.VISIBLE){
+            hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
+        }
+
     }
 }

@@ -2,11 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@android:color/transparent"
+    >
 <LinearLayout
     android:id="@+id/ll_guide_bg"
     android:layout_width="280dp"
-    android:layout_height="178dp">
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="280dp"
         android:layout_height="178dp"
