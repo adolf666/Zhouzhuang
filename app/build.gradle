@@ -63,6 +63,7 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     debugCompile 'com.github.moduth:blockcanary-android:1.2.1'
     releaseCompile 'com.github.moduth:blockcanary-no-op:1.2.1'
+    compile files('libs/AMap3DMap_4.1.1_AMapNavi_1.9.3_AMapLocation_3.1.0_20161027.jar')
 }
 allprojects {
     repositories {

@@ -37,21 +37,18 @@ import com.adolf.zhouzhuang.interpolator.ExponentialOutInterpolator;
 import com.adolf.zhouzhuang.util.GlideRoundTransform;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
-import com.adolf.zhouzhuang.util.SoundBroadUtils;
 import com.adolf.zhouzhuang.util.StreamingMediaPlayer;
 import com.adolf.zhouzhuang.util.Utils;
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.model.BitmapDescriptorFactory;
-import com.amap.api.maps2d.model.GroundOverlay;
-import com.amap.api.maps2d.model.GroundOverlayOptions;
-import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.LatLngBounds;
-import com.amap.api.maps2d.model.Marker;
-import com.amap.api.maps2d.model.MarkerOptions;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.InfoWindow;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.GroundOverlay;
+import com.amap.api.maps.model.GroundOverlayOptions;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -76,7 +73,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private GroundOverlay groundoverlay;
     private SpotsDataBaseHelper mSpotsDataBaseHelper;
     private List<Spots> mSpotsList;
-    private  Marker mMarker;
+    private Marker mMarker;
     private AnimationDrawable animationDrawable;
     private Spots mSpots;
     private View mGuideDialogView;
@@ -209,7 +206,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
      */
     private void addOverlayToMap() {
         aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.121956,
-                120.851572), 18));// 设置当前地图显示为北京市恭王府
+                120.851572), 16.3f));// 设置当前地图显示为北京市恭王府
         LatLngBounds bounds = new LatLngBounds.Builder()
                 .include(new LatLng(31.1249200000,120.8397900000))
                 .include(new LatLng(31.1066900000,120.8595400000)).build();
