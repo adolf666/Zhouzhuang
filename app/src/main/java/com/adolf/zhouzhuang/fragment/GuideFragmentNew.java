@@ -42,6 +42,7 @@ import com.adolf.zhouzhuang.util.Utils;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.GroundOverlay;
 import com.amap.api.maps.model.GroundOverlayOptions;
@@ -98,6 +99,8 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private List<Spots> spotsList;
     private GuideListAdapter mGuideListAdapter;
     private SpotsListAdapter mSpotsListAdapter;
+    private UiSettings mUiSettings;
+
     public GuideFragmentNew() {
     }
 
@@ -135,13 +138,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         if (aMap == null) {
             aMap = mapView.getMap();
         }
-        addMarksToMap();
         audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
+        initMap();
+        addMarksToMap();
+
         initGuideListViewAndSpotsListViewData();
     }
     public static GuideFragmentNew newInstance() {
         GuideFragmentNew fragment = new GuideFragmentNew();
         return fragment;
+    }
+
+    public void setMapUISetting(){
+        mUiSettings = aMap.getUiSettings();
+        mUiSettings.setRotateGesturesEnabled(false);
     }
 
     @Override
@@ -161,6 +171,10 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         addOverlayToMap();
         return view;
+    }
+
+    public void initMap(){
+        setMapUISetting();
     }
 
     public void onButtonPressed(Uri uri) {
@@ -205,8 +219,8 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
      * 往地图上添加一个groundoverlay覆盖物
      */
     private void addOverlayToMap() {
-        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.121956,
-                120.851572), 16.3f));// 设置当前地图显示为北京市恭王府
+        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.121956,
+                120.851572), 18f));// 设置当前地图显示为北京市恭王府
         LatLngBounds bounds = new LatLngBounds.Builder()
                 .include(new LatLng(31.1249200000,120.8397900000))
                 .include(new LatLng(31.1066900000,120.8595400000)).build();
@@ -218,7 +232,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                         .fromResource(R.mipmap.layer))
                 .positionFromBounds(bounds));
 
-
+        aMap.setMapStatusLimits(bounds);
     }
 
     private void addMarksToMap(){
