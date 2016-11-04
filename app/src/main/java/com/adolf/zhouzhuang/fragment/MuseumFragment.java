@@ -16,13 +16,13 @@ import com.adolf.zhouzhuang.activity.MainActivity;
 import com.adolf.zhouzhuang.activity.NewsActivity;
 import com.adolf.zhouzhuang.activity.WebViewActivity;
 import com.adolf.zhouzhuang.activity.ZhouzhuangLibActivity;
+import com.adolf.zhouzhuang.banner.Banner;
+import com.adolf.zhouzhuang.banner.BannerConfig;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.BannerObj;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
 
 import org.json.JSONObject;
 
