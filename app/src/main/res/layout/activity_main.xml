@@ -19,6 +19,6 @@
     android:id="@+id/include_bottombar"
     layout="@layout/item_bottom_bar"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="65dp"
     android:layout_alignParentBottom="true"/>
 </RelativeLayout>

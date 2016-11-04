@@ -32,21 +32,21 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="吴地遗珍"
-            android:textColor="#000000"
-            android:textSize="15sp" />
+            android:textColor="#393847"
+            android:textSize="13sp" />
 
         <com.adolf.zhouzhuang.util.MyTextView
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lineSpacingExtra="10dp"
+            android:lineSpacingExtra="5dp"
             android:maxLines="2"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColor="#999999"
-            android:textSize="13sp" />
+            android:textColor="#6f7479"
+            android:textSize="11sp" />
 
     </LinearLayout>
     <TextView

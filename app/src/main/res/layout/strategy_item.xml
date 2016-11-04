@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="我的旅行攻略"
-        android:textColor="#000000"
-        android:textSize="15sp"
+        android:textColor="#393847"
+        android:textSize="13sp"
         android:paddingLeft="10dp"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:id="@+id/img_photo"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:paddingRight="5dp"
+            android:paddingRight="10dp"
             android:src="@mipmap/icon_photo_eg"
             />
 
@@ -58,7 +58,7 @@
             android:lineSpacingExtra="5dp"
             android:ellipsize="end"
             android:textColor="#999999"
-            android:textSize="13sp"
+            android:textSize="11sp"
             android:layout_gravity="center_vertical"
             android:typeface="normal"
             android:paddingBottom="5dp"/>
@@ -71,60 +71,3 @@
         android:background="#e6e6e6"
         android:visibility="gone"/>
 </LinearLayout>
-<!--
-<RelativeLayout
-android:layout_width="match_parent"
-android:layout_height="125dp">
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_toLeftOf="@+id/img_pic">
-
-
-    <com.adolf.zhouzhuang.util.MyTextView
-        android:id="@+id/tv_scenic_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="我的旅行攻略"
-        android:textColor="#000000"
-        android:textSize="15sp" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        >
-
-        <ImageView
-            android:id="@+id/img_photo"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"/>
-
-        <com.adolf.zhouzhuang.util.MyTextView
-            android:id="@+id/tv_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/img_photo"
-            android:paddingLeft="5dp"
-            android:text="糖果"
-            android:textColor="#999999"
-            android:textSize="13sp"
-            android:typeface="normal" />
-    </RelativeLayout>
-</RelativeLayout>
-
-<ImageView
-    android:id="@+id/img_pic"
-    android:layout_width="150dp"
-    android:layout_height="90dp"
-    android:layout_alignParentRight="true"
-    android:layout_centerVertical="true"
-    android:src="@mipmap/bg_strategy"
-    android:paddingLeft="15dp"/>
-
-</RelativeLayout>-->

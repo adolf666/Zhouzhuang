@@ -150,7 +150,7 @@ private void checkUpdate(){
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
         fragmentArrayList.add(guideFragmentNew);
-        fragmentArrayList.add(gudieFragment);
+        fragmentArrayList.add(strategyFragment);
         mCustomerViewPager.setScrollble(false);
         mCustomerViewPager.setOffscreenPageLimit(3);
         mCustomerViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragmentArrayList));

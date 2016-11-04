@@ -1,6 +1,7 @@
 package com.adolf.zhouzhuang.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,10 +71,12 @@ public class StrategyAdapter extends BaseAdapter {
         }
         if (index == 0) {
             viewHolder.mPhoto.setVisibility(View.VISIBLE);
+            viewHolder.mDesc.setTextColor(Color.parseColor("#999999"));
             if (item.getCreatorimgurl() != null && !TextUtils.isEmpty(item.getCreatorimgurl())) {
                 Glide.with(context).load(item.getCreatorimgurl()).centerCrop().placeholder(R.mipmap.icon_photo_eg).crossFade().transform(new GlideRoundTransform(context, 30)).into(viewHolder.mPhoto);
             }
         }else {
+            viewHolder.mDesc.setTextColor(Color.parseColor("#6f7479"));
             viewHolder.mPhoto.setVisibility(View.GONE);
         }
 
