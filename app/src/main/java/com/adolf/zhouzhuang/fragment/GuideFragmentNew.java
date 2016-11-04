@@ -5,12 +5,15 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -50,6 +53,8 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.Polygon;
+import com.amap.api.maps.model.PolygonOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -64,9 +69,10 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 import static com.adolf.zhouzhuang.R.id.tv_spot_title;
+import static com.adolf.zhouzhuang.util.Constants.lat;
 
 public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener , AMap.InfoWindowAdapter ,View.OnClickListener,
-        AMap.OnMapClickListener{
+        AMap.OnMapClickListener, AMap.OnMapTouchListener {
 
     public static final int LoginRequest = 1008;
     private OnFragmentInteractionListener mListener;
@@ -101,7 +107,11 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private GuideListAdapter mGuideListAdapter;
     private SpotsListAdapter mSpotsListAdapter;
     private UiSettings mUiSettings;
-
+    private Polygon mPolygon;
+    private int mHalfInfoWindowWidth = 0;//infowindow宽度一半，以px为单位
+    private int mInfoWindowHeight = 0;//infoWinow高度，以px为单位
+    private LatLng mMarkerLatLng;//点击的marker的坐标
+    private Point mPoint;//点击的marker在屏幕中的坐标
     public GuideFragmentNew() {
     }
 
@@ -136,15 +146,18 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         hideBottomTabs();
         hideListView(mGuideListLV, mGuideListRelativeLayout, false);
         hideListView(mSpotsListLV, mSpotsListRelativeLayout, false);
+        mHalfInfoWindowWidth = Utils.dip2px(getActivity(),135);
+        mInfoWindowHeight = Utils.dip2px(getActivity(),170);
         if (aMap == null) {
             aMap = mapView.getMap();
         }
         audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
         initMap();
         addMarksToMap();
-
+        initPolygon();
         initGuideListViewAndSpotsListViewData();
         aMap.setOnMapClickListener(this);
+        aMap.setOnMapTouchListener(this);
     }
     public static GuideFragmentNew newInstance() {
         GuideFragmentNew fragment = new GuideFragmentNew();
@@ -222,8 +235,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
      * 往地图上添加一个groundoverlay覆盖物
      */
     private void addOverlayToMap() {
-        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.121956,
-                120.851572), 15.4f));
+        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115244,120.850083), 15.5f));
         LatLngBounds bounds = new LatLngBounds.Builder()
                 .include(new LatLng(31.1249200000,120.8397900000))
                 .include(new LatLng(31.1066900000,120.8595400000)).build();
@@ -235,12 +247,13 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                         .fromResource(R.mipmap.layer))
                 .positionFromBounds(bounds));
 
-//        aMap.setMapStatusLimits(bounds);
+        aMap.setMapStatusLimits(bounds);
     }
 
     private void addMarksToMap(){
         aMap.setOnMarkerClickListener(this);
         aMap.setInfoWindowAdapter(this);
+        aMap.showMapText(false);
         for (int i = 0; i < mSpotsList.size(); i++) {
             if (mSpotsList.get(i).getLat4show() != null && mSpotsList.get(i).getLng4show() != null){
                 LatLng latlng = new LatLng(Double.parseDouble(mSpotsList.get(i).getLat4show()), Double.parseDouble(mSpotsList.get(i).getLng4show()));
@@ -291,16 +304,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        if (aMap != null) {
-            mMarker = marker;
-            mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
-            marker.showInfoWindow();
-        }
-        return true;
     }
 
     @Override
@@ -667,14 +670,88 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
     }
 
+    public void initPolygon(){
+        // 绘制一个长方形
+        PolygonOptions pOption = new PolygonOptions();
+        pOption.add(new LatLng(31.124896,120.839916));
+        pOption.add(new LatLng(31.124911,120.859629));
+        pOption.add(new LatLng(31.10669,120.859568));
+        pOption.add(new LatLng(31.106684,120.839868));
+        mPolygon = aMap.addPolygon(pOption.strokeWidth(5).
+                strokeColor(Color.argb(50, 1, 1, 1))
+                        .fillColor(Color.argb(50, 1, 1, 1)));
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (aMap != null) {
+            mMarker = marker;
+            mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
+            getMarkLatLng(marker);
+            getMarkScreenPoint();
+            MarkerOptions markerOptions = marker.getOptions();
+            markerOptions.setInfoWindowOffset(setInfoWindowXOffset(),setInfoWindowYOffset());
+            mMarker.setMarkerOptions(markerOptions);
+            mMarker.showInfoWindow();
+
+        }
+        return true;
+    }
+
     @Override
     public void onMapClick(LatLng latLng) {
+        Log.i("clickPoint",latLng+"");
         if(mGuideListLV.getVisibility() ==View.VISIBLE){
             hideListView(mGuideListLV, mGuideListRelativeLayout, true);
         }
         if(mSpotsListLV.getVisibility() ==View.VISIBLE){
             hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
         }
+    }
+
+    //将点击的marker的经纬度转像素坐标
+    private void getMarkScreenPoint() {
+        mPoint = aMap.getProjection().toScreenLocation(mMarkerLatLng);
+    }
+
+    //获取点击的marker的经纬度
+    private void getMarkLatLng(Marker marker){
+        mMarkerLatLng = marker.getPosition();
+    }
+
+    //marker点击后默认的infowindow是否超出有边缘
+    private boolean isInfoWindowOutOfRightlayer(){
+        Point point = new Point(mPoint.x+ mHalfInfoWindowWidth,mPoint.y);
+        //将point转化为经纬度
+        LatLng pointLatlng = aMap.getProjection().fromScreenLocation(point);
+        return mPolygon.contains(pointLatlng);
+    }
+
+    private boolean isInfoWindowOutOfUpLayer(){
+        Point point = new Point(mPoint.x,mPoint.y - mInfoWindowHeight);
+        //将point转化为经纬度
+        LatLng pointLatlng = aMap.getProjection().fromScreenLocation(point);
+        return mPolygon.contains(pointLatlng);
+    }
+
+    @Override
+    public void onTouch(MotionEvent motionEvent) {
 
     }
+
+    //InfoWindow在水平方向上的偏移
+    public int setInfoWindowXOffset(){
+        if (isInfoWindowOutOfRightlayer()){
+            return 0;
+        }
+        return 0 - mHalfInfoWindowWidth;
+    }
+
+    //InfoWindow在竖直方向上的偏移
+    public int setInfoWindowYOffset(){
+        if (isInfoWindowOutOfUpLayer()) {
+            return 0;
+            }
+        return mInfoWindowHeight;
+        }
 }

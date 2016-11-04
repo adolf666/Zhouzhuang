@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -181,5 +183,17 @@ public class Utils {
 
     public static String getAudioFullPath(String audioName){
         return SdCardUtil.getSdPath() + SdCardUtil.FILEDIR + SdCardUtil.FILEAUDIO + "/" + audioName + ".mp3";
+    }
+
+    public static int getScreenWidth(Activity activity){
+        Resources resources = activity.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        return  dm.widthPixels;
+    }
+
+    public static int getScreenHeight(Activity activity){
+        Resources resources = activity.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        return dm.heightPixels;
     }
 }
