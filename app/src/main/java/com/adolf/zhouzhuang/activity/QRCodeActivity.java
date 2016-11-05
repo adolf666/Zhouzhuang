@@ -63,7 +63,6 @@ public class QRCodeActivity extends BaseActivity implements QRCodeView.Delegate{
         intent.putExtra(MainActivity.SPOTS_ID,Integer.valueOf(s4));
         setResult(Activity.RESULT_OK, intent);
         finish();
-        finish();
     }
 
     @Override

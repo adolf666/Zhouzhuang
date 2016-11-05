@@ -70,6 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public static final String SPOTS_ID = "spot_id";
     private int spotId = 0;
     GudieFragment gudieFragment;
+    GuideFragmentNew guideFragmentNew;
     String textColorDefault = "#8e8e99";
     String textColorFocus = "#333240";
     Drawable museumDefault, museumFocus, collectionDefault,
@@ -145,7 +146,7 @@ private void checkUpdate(){
         CollectionFragment collectionFragment = new CollectionFragment();
         gudieFragment = new GudieFragment();
         // PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
-        GuideFragmentNew guideFragmentNew = GuideFragmentNew.newInstance();
+        guideFragmentNew = GuideFragmentNew.newInstance();
         StrategyFragment strategyFragment = new StrategyFragment();
         fragmentArrayList.add(museumFragment);
         fragmentArrayList.add(collectionFragment);
@@ -260,11 +261,12 @@ private void checkUpdate(){
         if (0 != spotId) {
             Spots spots = mSpotsDataBaseHelper.getSpotsById(spotId);
             if (spots != null) {
-                gudieFragment.setSelectedSpotsOutSide(spots);
+                guideFragmentNew.showInfoWindow(spots);
+                /*gudieFragment.setSelectedSpotsOutSide(spots);
                 gudieFragment.showBaiduInfoWindow(spots);
                 gudieFragment.setMapStatusLimits();
                 gudieFragment.locationToCenter(Double.parseDouble(spots.getLat4show()), Double.parseDouble(spots.getLng4show()), false,false);
-                gudieFragment.checkAndDownLoadAudio(spots);
+                gudieFragment.checkAndDownLoadAudio(spots);*/
             }
         }
     }

@@ -223,14 +223,28 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
                 setTabResourceState();
                 mSpots = spotsList.get(position);
-                LatLng latlng = new LatLng(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()));
-                mMarker =aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
-                        .position(latlng).title(mSpots.getTitle()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.btn_voice_default))
-                        .draggable(true).period(10));
-                mMarker.showInfoWindow();
+                showInfoWindow(mSpots);
             }
         });
     }
+    public void showInfoWindow(Spots Spot){
+        mSpots =Spot;
+        LatLng latlng = new LatLng(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()));
+
+        MarkerOptions markerOptions =new MarkerOptions().anchor(0.5f, 0.5f)
+                .position(latlng).title(mSpots.getTitle()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.btn_voice_default))
+                .draggable(true).period(10);
+
+        mMarker =aMap.addMarker(markerOptions);
+        getMarkLatLng(mMarker);
+        getMarkScreenPoint();
+        markerOptions.setInfoWindowOffset(setInfoWindowXOffset(),setInfoWindowYOffset());
+        mMarker.setMarkerOptions(markerOptions);
+        mMarker.showInfoWindow();
+    }
+
+
+
     /**
      * 往地图上添加一个groundoverlay覆盖物
      */
