@@ -370,7 +370,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             case R.id.tv_bg_guide:
                 hideListView(mGuideListLV, mGuideListRelativeLayout, true);
                 break;
-
             case R.id.tv_close:
                 mMarker.hideInfoWindow();
                 break;
@@ -440,7 +439,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         }
     }
 
-    private  void playStreamAudio(){
+    public void playStreamAudio(){
         try {
             if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
                 audioStreamer.getMediaPlayer().reset();
@@ -460,7 +459,11 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         }
 
     }
-
+    public void stopStreamAudio(){
+        if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
+            audioStreamer.getMediaPlayer().reset();
+        }
+    }
     public void refreshGuideDialogState(final Spots spots){
         if (mGuideDialogView != null && spots != null){
             boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), spots.getPid());

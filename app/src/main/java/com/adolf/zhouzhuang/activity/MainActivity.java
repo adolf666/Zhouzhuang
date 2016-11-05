@@ -236,7 +236,6 @@ private void checkUpdate(){
     public void onBackPressed() {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
             super.onBackPressed();
-            gudieFragment.stopPlayAudo();
             return;
         } else {
             Toast.makeText(getBaseContext(), "再按一次退出应用", Toast.LENGTH_SHORT).show();
@@ -262,6 +261,7 @@ private void checkUpdate(){
             Spots spots = mSpotsDataBaseHelper.getSpotsById(spotId);
             if (spots != null) {
                 guideFragmentNew.showInfoWindow(spots);
+                guideFragmentNew.playStreamAudio();
                 /*gudieFragment.setSelectedSpotsOutSide(spots);
                 gudieFragment.showBaiduInfoWindow(spots);
                 gudieFragment.setMapStatusLimits();
