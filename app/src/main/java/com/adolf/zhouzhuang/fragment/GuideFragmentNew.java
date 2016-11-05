@@ -347,7 +347,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
                     }
                 });
-
+        initInfoWindowAnimator(mGuideDialogView);
         return mGuideDialogView;
     }
 
@@ -771,4 +771,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             }
         return mInfoWindowHeight;
         }
+
+    private void initInfoWindowAnimator(final View view){
+        ObjectAnimator mAnimatorForInfoWindow = ObjectAnimator.ofFloat(view, "zhl", 0.0F,  1.0F).setDuration(300);
+        mAnimatorForInfoWindow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+        {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation)
+            {
+                float cVal = (Float) animation.getAnimatedValue();
+                view.setAlpha(cVal);
+                view.setScaleX(cVal);
+                view.setScaleY(cVal);
+            }
+        });
+        mAnimatorForInfoWindow.start();
+    }
 }
