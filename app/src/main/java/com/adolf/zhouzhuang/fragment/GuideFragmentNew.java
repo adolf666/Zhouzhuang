@@ -58,6 +58,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
+import com.amap.api.maps.model.Text;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -71,6 +72,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.util.TextUtils;
 
 import static com.adolf.zhouzhuang.R.id.bt_register;
 import static com.adolf.zhouzhuang.R.id.tv_spot_title;
@@ -249,6 +251,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void showInfoWindow(Spots Spot){
         mSpots =Spot;
         LatLng latlng = new LatLng(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()));
+        if(mSpotsMarkerList!=null&&mSpotsMarkerList.size()>0){
         mMarkerWhenSelected = mSpotsMarkerList.get(mSpots);
         Point markerPoint = getMarkScreenPointFromLatLng(latlng);
         InfoWindowOffsetForXY infoWindowOffsetForXY = getInfoWindowXOffset(markerPoint);
@@ -258,6 +261,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         locationCenterForMarker(getCenterPointInScreen(latlng,infoWindowOffsetForXY));
         mMarkerWhenSelected.setMarkerOptions(markerOptions);
         mMarkerWhenSelected.showInfoWindow();
+        }
     }
 
 
@@ -268,7 +272,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private void addOverlayToMap() {
         LatLngBounds limitBounds = new LatLngBounds(mSouthwestLatLng,mNortheastLatLng);
         groundoverlay = aMap.addGroundOverlay(new GroundOverlayOptions().anchor(0, 0).transparency(0f).image(BitmapDescriptorFactory.fromResource(R.mipmap.layer)).positionFromBounds(limitBounds));
-
 
     }
 
@@ -411,7 +414,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             case R.id.img_close:
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();
-                audioStreamer.getMediaPlayer().reset();
+                audioStreamer.getMediaPlayer().pause();
                 break;
             case R.id.tv_navigation_map:
                 showBottomTabs();
@@ -452,18 +455,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     public void playStreamAudio(){
         try {
-            if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
-                audioStreamer.getMediaPlayer().reset();
-            }
-            audioStreamer.startStreaming(mSpots.getVideoLocation(),5208, 216);
-            if(audioStreamer.getMediaPlayer()!=null){
-                audioStreamer.getMediaPlayer().start();
+            if(!TextUtils.isEmpty(mSpots.getVideoLocation())){
+                if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
+                    audioStreamer.getMediaPlayer().reset();
+                }
+                audioStreamer.startStreaming(mSpots.getVideoLocation(),5208, 216);
 
+                mNotice.setVisibility(View.VISIBLE);
+                animationDrawable.start();
+                mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+                if(audioStreamer.getMediaPlayer()!=null){
+                    audioStreamer.getMediaPlayer().start();
+                   }
             }
-            mNotice.setVisibility(View.VISIBLE);
-            animationDrawable.start();
-            mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-            mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
 
         } catch (IOException e) {
             Log.e(getClass().getName(), "Error starting to stream audio.", e);

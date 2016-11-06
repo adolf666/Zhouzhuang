@@ -40,7 +40,6 @@
                 android:layout_toRightOf="@+id/bt_favorite"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                android:text="省厅"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
 

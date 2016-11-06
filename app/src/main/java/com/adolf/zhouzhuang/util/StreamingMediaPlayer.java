@@ -87,7 +87,7 @@ public class StreamingMediaPlayer {
 
         downloadingMediaFile = new File(context.getCacheDir(),"downloadingMedia.dat");
 
-        if (downloadingMediaFile.exists()) {
+      if (downloadingMediaFile.exists()) {
             downloadingMediaFile.delete();          //如果下载完成则删除
         }
         FileOutputStream out = new FileOutputStream(downloadingMediaFile);
