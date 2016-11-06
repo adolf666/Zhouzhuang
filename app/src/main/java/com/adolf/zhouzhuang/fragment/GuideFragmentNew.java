@@ -411,7 +411,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             case R.id.img_close:
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();
-                audioStreamer.getMediaPlayer().pause();
+                audioStreamer.getMediaPlayer().reset();
                 break;
             case R.id.tv_navigation_map:
                 showBottomTabs();
@@ -423,7 +423,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 } else {
                     Toast.makeText(getActivity(), "未能获取经纬度", Toast.LENGTH_SHORT).show();
                 }
-
                 hideBottomTabs();
                 break;
             case R.id.tv_open_gaode:

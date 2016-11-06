@@ -8,7 +8,7 @@
         android:id="@+id/include_actionbar"
         layout="@layout/item_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="49dp"/>
+        android:layout_height="47dp"/>
     <com.adolf.zhouzhuang.widget.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
