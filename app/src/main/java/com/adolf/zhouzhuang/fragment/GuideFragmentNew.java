@@ -170,6 +170,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
         initMap();
         initGuideListViewAndSpotsListViewData();
+        Button button1 = (Button) view.findViewById(R.id.button);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
+            }
+        });
+        Button button2 = (Button) view.findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aMap.setMapStatusLimits(null);
+            }
+        });
     }
     public static GuideFragmentNew newInstance() {
         GuideFragmentNew fragment = new GuideFragmentNew();
@@ -181,6 +195,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mUiSettings.setRotateGesturesEnabled(false);
         mUiSettings.setZoomControlsEnabled(false);
         mUiSettings.setTiltGesturesEnabled(false);
+
     }
 
     @Override
@@ -203,15 +218,14 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     }
 
     public void initMap(){
-        if (aMap == null) {
-            aMap = mapView.getMap();
-        }
+        aMap = mapView.getMap();
+        setMapUISetting();
+
         aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665), mCurrentZoomLevel));
         aMap.setOnMapClickListener(this);
         aMap.setOnMapTouchListener(this);
         aMap.setOnMapLoadedListener(this);
         aMap.setOnCameraChangeListener(this);
-        setMapUISetting();
     }
 
     public void onButtonPressed(Uri uri) {
@@ -318,6 +332,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onPause() {
         super.onPause();
         mapView.onPause();
+//        aMap.setMapStatusLimits(null);
     }
 
     @Override
@@ -857,9 +872,9 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     @Override
     public void onMapLoaded() {
+//        aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
         addOverlayToMap();
         addMarksToMap();
         initPolygon();
-        aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
     }
 }
