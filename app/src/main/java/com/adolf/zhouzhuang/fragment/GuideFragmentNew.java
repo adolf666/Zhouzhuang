@@ -259,6 +259,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 setTabResourceState();
                 mSpots = spotsList.get(position);
                 showInfoWindow(mSpots);
+                playStreamAudio();
             }
         });
     }
@@ -321,6 +322,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        Log.i("sssssss","onDetach");
     }
     @Override
     public void onResume() {
@@ -333,6 +335,10 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         super.onPause();
         mapView.onPause();
 //        aMap.setMapStatusLimits(null);
+        Log.i("sssssss","onpasue");
+        if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
+            audioStreamer.getMediaPlayer().stop();
+        }
     }
 
     @Override
@@ -389,9 +395,15 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         switch (v.getId()) {
             case R.id.tv_walk_navigetion:
                 hideAndShowListView(mGuideListLV, mSpotsListLV, mGuideListRelativeLayout, mSpotsListRelativeLayout);
+                if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
+                    mMarkerWhenSelected.hideInfoWindow();
+                }
                 break;
             case R.id.tv_spots_list:
                 hideAndShowListView(mSpotsListLV, mGuideListLV, mSpotsListRelativeLayout, mGuideListRelativeLayout);
+                if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
+                    mMarkerWhenSelected.hideInfoWindow();
+                }
             case R.id.tv_bg_spots:
                 hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
                 break;
@@ -474,6 +486,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
                     audioStreamer.getMediaPlayer().reset();
                 }
+                audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
                 audioStreamer.startStreaming(mSpots.getVideoLocation(),5208, 216);
 
                 mNotice.setVisibility(View.VISIBLE);
@@ -490,11 +503,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         }
 
     }
-    public void stopStreamAudio(){
-        if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
-            audioStreamer.getMediaPlayer().reset();
-        }
-    }
+
     public void refreshGuideDialogState(final Spots spots){
         if (mGuideDialogView != null && spots != null){
             boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), spots.getPid());
@@ -868,6 +877,19 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
         mCurrentZoomLevel = cameraPosition.zoom;
 
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+      super.setUserVisibleHint(isVisibleToUser);
+        if(!isVisibleToUser){
+            if(audioStreamer!=null&&audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
+                audioStreamer.getMediaPlayer().reset();
+                mNotice.setVisibility(View.GONE);
+                animationDrawable.stop();
+                mMarkerWhenSelected.hideInfoWindow();
+            }
+
+        }
     }
 
     @Override
