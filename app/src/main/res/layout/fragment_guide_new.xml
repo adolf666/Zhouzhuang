@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/img_pause"
                 android:text="正在为您播放沈厅语音导览..."
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textColor="#CCCC99" />
 
             <ImageView

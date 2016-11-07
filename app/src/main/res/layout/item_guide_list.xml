@@ -12,7 +12,7 @@
         android:paddingLeft="28dp"
         android:drawableLeft="@mipmap/icon_walkto"
         android:text="沈厅"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:textColor="#333333"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
