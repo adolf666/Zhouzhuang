@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
@@ -68,6 +69,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -220,12 +222,17 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void initMap(){
         aMap = mapView.getMap();
         setMapUISetting();
-
+        aMap.setMaxZoomLevel(19f);
+        aMap.setMinZoomLevel(15f);
         aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665), mCurrentZoomLevel));
         aMap.setOnMapClickListener(this);
         aMap.setOnMapTouchListener(this);
         aMap.setOnMapLoadedListener(this);
         aMap.setOnCameraChangeListener(this);
+
+        addOverlayToMap();
+        addMarksToMap();
+        initPolygon();
     }
 
     public void onButtonPressed(Uri uri) {
@@ -286,8 +293,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
      */
     private void addOverlayToMap() {
         LatLngBounds limitBounds = new LatLngBounds(mSouthwestLatLng,mNortheastLatLng);
-        groundoverlay = aMap.addGroundOverlay(new GroundOverlayOptions().anchor(0, 0).transparency(0f).image(BitmapDescriptorFactory.fromResource(R.mipmap.layer)).positionFromBounds(limitBounds));
+        groundoverlay = aMap.addGroundOverlay(new GroundOverlayOptions().anchor(0, 0).transparency(0f).image(BitmapDescriptorFactory.fromBitmap(compressBitmap(R.mipmap.layer))).positionFromBounds(limitBounds));
 
+    }
+
+    private Bitmap compressBitmap(int resId){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inInputShareable = true;
+        options.inPurgeable = true;
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inSampleSize = 2; // width，hight设为原来的1/3
+//获取资源图片流
+        InputStream is = getActivity().getResources().openRawResource(resId);
+        return BitmapFactory.decodeStream(is,null,options);
     }
 
     private void addMarksToMap(){
@@ -322,19 +341,19 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        Log.i("sssssss","onDetach");
     }
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        aMap.reloadMap();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mapView.onPause();
-//        aMap.setMapStatusLimits(null);
+        aMap.setMapStatusLimits(null);
         Log.i("sssssss","onpasue");
         if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
             audioStreamer.getMediaPlayer().stop();
@@ -476,7 +495,8 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 }
                 break;
             case R.id.tv_loaction:
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665), 15.4f));
+                float realZoom = getRealZoom();
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665),realZoom));
         }
     }
 
@@ -730,10 +750,10 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void initPolygon(){
         // 绘制一个长方形
         PolygonOptions pOption = new PolygonOptions();
-        pOption.add(new LatLng(31.124896,120.839916));
-        pOption.add(new LatLng(31.124911,120.859629));
-        pOption.add(new LatLng(31.10669,120.859568));
-        pOption.add(new LatLng(31.106684,120.839868));
+        pOption.add(new LatLng(31.1249200000,120.8397900000));
+        pOption.add(new LatLng(31.1249200000,120.8595400000));
+        pOption.add(new LatLng(31.1066900000,120.8595400000));
+        pOption.add(new LatLng(31.1066900000,120.8397900000));
         mPolygon = aMap.addPolygon(pOption.strokeWidth(1).
                 strokeColor(Color.parseColor("#00FFFFFF"))
                         .fillColor(Color.parseColor("#00FFFFFF")));
@@ -870,13 +890,12 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-
+        Log.i("onCamereC",cameraPosition.zoom+"");
     }
 
     @Override
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
         mCurrentZoomLevel = cameraPosition.zoom;
-
     }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -894,9 +913,19 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     @Override
     public void onMapLoaded() {
-//        aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
-        addOverlayToMap();
-        addMarksToMap();
-        initPolygon();
+        float realZoom = getRealZoom();
+        aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
+        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665),realZoom));
+    }
+
+    private float getRealZoom(){
+        int width = Utils.getDiaplayWidth(getActivity());
+        int height = Utils.getScreenHeight(getActivity());
+        float percent = (float) width/height;
+        if(percent > 0.5625){
+            return 15.395f;
+        }else {
+            return 15.57386f;
+        }
     }
 }
