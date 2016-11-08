@@ -260,7 +260,8 @@ private void checkUpdate(){
         if (0 != spotId) {
             Spots spots = mSpotsDataBaseHelper.getSpotsById(spotId);
             if (spots != null) {
-                guideFragmentNew.showInfoWindow(spots);
+                guideFragmentNew.mFavoriteSpots = spots;
+                guideFragmentNew.mSpots = spots;
                 guideFragmentNew.playStreamAudio();
                 /*gudieFragment.setSelectedSpotsOutSide(spots);
                 gudieFragment.showBaiduInfoWindow(spots);

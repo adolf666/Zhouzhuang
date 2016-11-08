@@ -94,7 +94,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private List<Spots> mSpotsList;
     private Marker mMarkerWhenSelected;
     private AnimationDrawable animationDrawable;
-    private Spots mSpots;
+    public Spots mSpots;
     private View mGuideDialogView;
     private Button mFavoriteButton;
     private LinearLayout mGuideBgRelativeLayout;
@@ -129,7 +129,9 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private int mInfoWindowHeight = 0;//infoWinow高度，以px为单位
     private float mCurrentZoomLevel = 15.4f;//当前缩放级别
     private HashMap<Spots,Marker> mSpotsMarkerList = new HashMap<>();
+    private boolean isNeedToRefreshInfoWindow = false;//只有点击了marker之后才需要刷新iinfoWindow，否则infoWindow会不停的闪烁
     private int markerIconHeight = 0;
+    public Spots mFavoriteSpots = null;//是否要显示infoWindow，收藏和二维码用
     public GuideFragmentNew() {
     }
 
@@ -400,7 +402,10 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
                     }
                 });
-        initInfoWindowAnimator(mGuideDialogView);
+        if (isNeedToRefreshInfoWindow){
+            initInfoWindowAnimator(mGuideDialogView);
+        }
+
         return mGuideDialogView;
     }
 
@@ -497,6 +502,10 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             case R.id.tv_loaction:
                 float realZoom = getRealZoom();
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665),realZoom));
+                break;
+            case R.id.rl_bottom_bar:
+                hideBottomTabs();
+                break;
         }
     }
 
@@ -762,6 +771,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (aMap != null) {
+            isNeedToRefreshInfoWindow = true;
             mMarkerWhenSelected = marker;
             mSpots = mSpotsDataBaseHelper.getSpotsByName(marker.getTitle());
             Point markerPoint = getMarkScreenPointFromLatLng(marker.getPosition());
@@ -780,12 +790,14 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     @Override
     public void onMapClick(LatLng latLng) {
         Log.i("clickPoint",latLng+"");
+        mMarkerWhenSelected.hideInfoWindow();
         if(mGuideListLV.getVisibility() ==View.VISIBLE){
             hideListView(mGuideListLV, mGuideListRelativeLayout, true);
         }
         if(mSpotsListLV.getVisibility() ==View.VISIBLE){
             hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
         }
+
     }
 
     //将点击的marker的经纬度转像素坐标
@@ -883,6 +895,9 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 view.setAlpha(cVal);
                 view.setScaleX(cVal);
                 view.setScaleY(cVal);
+                if (cVal == 1.0f){
+                    isNeedToRefreshInfoWindow = false;
+                }
             }
         });
         mAnimatorForInfoWindow.start();
@@ -891,6 +906,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
         Log.i("onCamereC",cameraPosition.zoom+"");
+
     }
 
     @Override
@@ -916,6 +932,15 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         float realZoom = getRealZoom();
         aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
         aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665),realZoom));
+        showFavoriteInfoWindow();
+    }
+
+    //展示二维码和收藏进来时候的infoWindow
+    public void showFavoriteInfoWindow(){
+        if(mFavoriteSpots != null){
+            showInfoWindow(mFavoriteSpots);
+            mFavoriteSpots = null;
+        }
     }
 
     private float getRealZoom(){
