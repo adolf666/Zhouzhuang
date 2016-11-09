@@ -356,9 +356,11 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         super.onPause();
         mapView.onPause();
         aMap.setMapStatusLimits(null);
-        Log.i("sssssss","onpasue");
         if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
-            audioStreamer.getMediaPlayer().stop();
+            audioStreamer.getMediaPlayer().reset();
+            mNotice.setVisibility(View.GONE);
+            animationDrawable.stop();
+            mMarkerWhenSelected.hideInfoWindow();
         }
     }
 
@@ -450,16 +452,18 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 break;
             case R.id.tv_voice_prompt:
             case R.id.img_pause:
-                if (audioStreamer.getMediaPlayer().isPlaying()) {
-                    audioStreamer.getMediaPlayer().pause();
-                    animationDrawable.stop();
-                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
-                    mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
-                } else {
-                    audioStreamer.getMediaPlayer().start();
-                    animationDrawable.start();
-                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-                    mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+                if(audioStreamer.getMediaPlayer()!=null) {
+                    if (audioStreamer.getMediaPlayer().isPlaying()) {
+                        audioStreamer.getMediaPlayer().pause();
+                        animationDrawable.stop();
+                        mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
+                        mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
+                    } else {
+                        audioStreamer.getMediaPlayer().start();
+                        animationDrawable.start();
+                        mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                        mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+                    }
                 }
               break;
             case R.id.img_close:
@@ -513,18 +517,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         try {
             if(!TextUtils.isEmpty(mSpots.getVideoLocation())){
                 if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
+                    Log.i("ffffffff",mSpots.getTitle()+"Player().reset");
                     audioStreamer.getMediaPlayer().reset();
                 }
                 audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
                 audioStreamer.startStreaming(mSpots.getVideoLocation(),5208, 216);
-
+                Log.i("ffffffff",mSpots.getTitle()+"New audioStreamer");
                 mNotice.setVisibility(View.VISIBLE);
                 animationDrawable.start();
                 mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
                 mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
-                if(audioStreamer.getMediaPlayer()!=null){
+              /*  if(audioStreamer.getMediaPlayer()!=null){
                     audioStreamer.getMediaPlayer().start();
-                   }
+                    Log.i("ffffffff",mSpots.getTitle()+"getMediaPlayer().start()");
+                   }*/
             }
 
         } catch (IOException e) {

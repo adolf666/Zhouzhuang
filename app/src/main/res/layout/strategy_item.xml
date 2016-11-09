@@ -39,6 +39,7 @@
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
        >
 
         <ImageView
@@ -52,16 +53,16 @@
         <com.adolf.zhouzhuang.util.MyTextView
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:maxLines="2"
             android:text="糖果"
             android:lineSpacingExtra="5dp"
             android:ellipsize="end"
             android:textColor="#999999"
             android:textSize="11sp"
-            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:typeface="normal"
-            android:paddingBottom="5dp"/>
+           />
         </LinearLayout>
     </LinearLayout>
     <TextView

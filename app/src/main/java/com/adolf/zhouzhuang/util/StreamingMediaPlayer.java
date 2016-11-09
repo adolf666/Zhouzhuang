@@ -45,7 +45,6 @@ public class StreamingMediaPlayer {
     };
     private MediaPlayer mediaPlayer;
     private File downloadingMediaFile;
-    private File downloadingMusicFile;
     private boolean isInterrupted;
     private Context context;
     private int counter = 0;
@@ -101,7 +100,7 @@ public class StreamingMediaPlayer {
             totalBytesRead += numread;
             totalKbRead = totalBytesRead/1000;  //totalKbRead表示已经下载的文件大小
             testMediaBuffer();
-           // fireDataLoadUpdate();
+
         } while (validateNotInterrupted());
         stream.close();
         if (validateNotInterrupted()) {
@@ -119,12 +118,13 @@ public class StreamingMediaPlayer {
         }
     }
     //测试缓冲的文件大小是否大于INTIAL_KB_BUFFER，如果大于的话就播放
-    private void  testMediaBuffer() {
+    private void   testMediaBuffer() {
         Runnable updater = new Runnable() {
             public void run() {
                 if (mediaPlayer == null) {
                     if ( totalKbRead >= INTIAL_KB_BUFFER) {
                         try {
+                            Log.i("ffffffff","mediaPlayer == null");
                             startMediaPlayer();
                         } catch (Exception e) {
                             Log.e(getClass().getName(), "Error copying buffered conent.", e);
@@ -132,6 +132,8 @@ public class StreamingMediaPlayer {
                     }
                 } else if ( mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() <= 1000 ){
                     transferBufferToMediaPlayer();
+                    Log.i("ffffffff","mediaPlayer != null");
+
                 }
             }
         };
@@ -147,7 +149,7 @@ public class StreamingMediaPlayer {
             mediaPlayer = createMediaPlayer(bufferedFile);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.start();
-
+            Log.i("ffffffff"," mediaPlayer.start()mediaPlayer.start()");
             // startPlayProgressUpdater();
 
             playButton.setEnabled(true);
@@ -170,6 +172,7 @@ public class StreamingMediaPlayer {
 
         mPlayer.setDataSource(fis.getFD());//此方法返回与流相关联的文件说明符。
         mPlayer.prepare();
+        Log.i("ffffffff","createMediaPlayer");
         mPlayer.setLooping(true);
         return mPlayer;
     }
@@ -185,7 +188,7 @@ public class StreamingMediaPlayer {
             bufferedFile.deleteOnExit();
             moveFile(downloadingMediaFile,bufferedFile);
             mediaPlayer.pause();
-
+            Log.i("ffffffff","transferBufferToMediaPlayer()");
             mediaPlayer = createMediaPlayer(bufferedFile);
             mediaPlayer.seekTo(curPosition);
 
@@ -201,16 +204,6 @@ public class StreamingMediaPlayer {
         }
     }
 
-    private void fireDataLoadUpdate() {
-        Runnable updater = new Runnable() {
-            public void run() {
-//	        	textStreamed.setText((totalKbRead + " Kb"));
-                float loadProgress = ((float)totalKbRead/(float)mediaLengthInKb);
-                progressBar.setSecondaryProgress((int)(loadProgress*100));
-            }
-        };
-        handler.post(updater);
-    }
 
     private void fireDataFullyLoaded() {
         Runnable updater = new Runnable() {
@@ -228,31 +221,7 @@ public class StreamingMediaPlayer {
         return mediaPlayer;
     }
 
-    public void startPlayProgressUpdater() {
-        float progress = (((float)mediaPlayer.getCurrentPosition()/1000)/mediaLengthInSeconds);
-        progressBar.setProgress((int)(progress*100));
-        int pos=mediaPlayer.getCurrentPosition();
-        int min = (pos/1000)/60;
-        int sec = (pos/1000)%60;
-        if(sec<10)
-            playTime.setText(""+min+":0"+sec);//把音乐播放的进度，转换成时间
-        else
-            playTime.setText(""+min+":"+sec);
 
-        if (mediaPlayer.isPlaying()) {
-            Runnable notification = new Runnable() {
-                public void run() {
-                    startPlayProgressUpdater();
-                }
-            };
-            handler.postDelayed(notification,1000);
-        }
-    }
-    public void interrupt() {
-        playButton.setEnabled(false);
-        isInterrupted = true;
-        validateNotInterrupted();
-    }
 
     public void moveFile(File	oldLocation, File	newLocation)
             throws IOException {
