@@ -517,6 +517,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 }
                 break;
             case R.id.tv_loaction:
+                hideAllListView();
                 float realZoom = getRealZoom();
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665),realZoom));
                 break;
@@ -813,9 +814,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         if(mGuideListLV.getVisibility() ==View.VISIBLE){
             hideListView(mGuideListLV, mGuideListRelativeLayout, true);
         }
-        if(mSpotsListLV.getVisibility() ==View.VISIBLE){
-            hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
-        }
 
     }
 
@@ -900,7 +898,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     @Override
     public void onTouch(MotionEvent motionEvent) {
-
+        hideAllListView();
     }
 
     private void initInfoWindowAnimator(final View view){
@@ -985,24 +983,26 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         return (int)listView.getTag() == 0;
     }
 
-    public void oppositeListViewState(ListView listView){
-        if (isLeftListView(listView)){
-            setListViewStateOpposite(mLeftListViewStateObj);
-        }else {
-            setListViewStateOpposite(mRightListViewStateObj);
+    public void setSomethingBeforeExpand(ListView listView){
+        if (isLeftListView(listView) && mLeftListViewStateObj.isExpand){
+            mGuideListRelativeLayout.setVisibility(View.VISIBLE);
+        }
+        if (!isLeftListView(listView) && mRightListViewStateObj.isExpand){
+            mSpotsListRelativeLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    public void setLayoutAndIconState(ListView listView){
-        if (isLeftListView(listView)){
-            mGuideListRelativeLayout.setVisibility(mLeftListViewStateObj.isExpand?View.VISIBLE:View.GONE);
-        }else {
-            mSpotsListRelativeLayout.setVisibility(mRightListViewStateObj.isExpand?View.VISIBLE:View.GONE);
+    public void setSomethingAfterHide(ListView listView){
+        if (isLeftListView(listView) && !mLeftListViewStateObj.isExpand){
+            mGuideListRelativeLayout.setVisibility(View.GONE);
+        }
+        if (!isLeftListView(listView) && !mRightListViewStateObj.isExpand){
+            mSpotsListRelativeLayout.setVisibility(View.GONE);
         }
     }
 
     public void setListViewState(final ListView listView, final SpotsListStates listViewStates){
-
+        setSomethingBeforeExpand(listView);
         ObjectAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", listViewStates.isExpand ? 0f:-1000f);
         animator.setDuration(300);
         animator.start();
@@ -1010,16 +1010,26 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                setLayoutAndIconState(listView);
                 if (mIsHideOtherListViewFirst){
                     mIsHideOtherListViewFirst = false;
                     boolean isLeftLiewView = isLeftListView(listView);
                     setListViewStateOpposite(isLeftLiewView?mRightListViewStateObj:mLeftListViewStateObj);
                     setListViewState(isLeftLiewView?mSpotsListLV :mGuideListLV ,isLeftLiewView?mRightListViewStateObj:mLeftListViewStateObj);
                 }
-
+                setSomethingAfterHide(listView);
             }
         });
+    }
+
+    public void hideAllListView(){
+        if (mRightListViewStateObj.isExpand){
+            mRightListViewStateObj.setHideState();
+            setListViewState(mSpotsListLV,mRightListViewStateObj);
+        }
+        if (mLeftListViewStateObj.isExpand){
+            mLeftListViewStateObj.setHideState();
+            setListViewState(mGuideListLV,mLeftListViewStateObj);
+        }
     }
 
     public void ensureOtherListViewHide(ListView listView){
