@@ -9,12 +9,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,24 +33,39 @@ import java.net.URL;
  */
 public class Utils {
     //调用外部百度地图
+
     public  static void openBaiduMap(Context context, double lon, double lat, String title, String describle) {
         try {
+            AMapLocationClientOption onceOption = new AMapLocationClientOption();
+            onceOption.setOnceLocation(true);
+            AMapLocationClient onceClient = new AMapLocationClient(context);
+            onceClient.setLocationOption(onceOption);
+            onceClient.startLocation();
+            onceClient.setLocationListener(new AMapLocationListener(){
+
+                @Override
+                public void onLocationChanged(AMapLocation aMapLocation) {
+                    if (aMapLocation != null) {
+                        double LocationLat = aMapLocation.getLatitude();
+                      Log.i("qqqqq",aMapLocation.getLatitude()+"");
+                      Log.i("qqqqq",aMapLocation.getLongitude()+"");
+                    }
+                }
+            });
+
             StringBuilder loc = new StringBuilder();
-            loc.append("intent://map/direction?origin=latlng:");
+            loc.append("baidumap://map/walknavi?origin=");
+            loc.append("");
+            loc.append(",");
+            loc.append("");
+            loc.append("&destination=");
             loc.append(lat);
             loc.append(",");
             loc.append(lon);
-            loc.append("|name:");
-            loc.append("我的位置");
-            loc.append("&destination=latlng:");
-            loc.append(lat);
-            loc.append(",");
-            loc.append(lon);
-            loc.append("|name:");
-            loc.append(describle);
-            loc.append("&mode=driving");
-            loc.append("&referer=Autohome|GasStation#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-            Intent intent = Intent.getIntent(loc.toString());
+            Intent intent = new Intent();
+            intent.setData(Uri.parse(loc.toString()));
+            Log.i("qqqqqq",loc.toString());
+           // intent.setData(Uri.parse("baidumap://map/walknavi?origin=40.057406655722,116.2964407172&destination=39.91441,116.40405"));
             if (isInstallPackage("com.baidu.BaiduMap")) {
                 context.startActivity(intent); //启动调用
 
