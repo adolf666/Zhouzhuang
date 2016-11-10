@@ -1,5 +1,7 @@
 package com.adolf.zhouzhuang.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -37,9 +39,11 @@ import com.adolf.zhouzhuang.adapter.SpotsListAdapter;
 import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
+import com.adolf.zhouzhuang.interfaces.SpotsListViewCallBack;
 import com.adolf.zhouzhuang.interpolator.ExponentialOutInterpolator;
 import com.adolf.zhouzhuang.object.InfoWindiwOffset;
 import com.adolf.zhouzhuang.object.InfoWindowOffsetForXY;
+import com.adolf.zhouzhuang.object.SpotsListStates;
 import com.adolf.zhouzhuang.util.GlideRoundTransform;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
@@ -81,7 +85,7 @@ import static com.adolf.zhouzhuang.R.id.tv_spot_title;
 import static com.adolf.zhouzhuang.util.Constants.lat;
 
 public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener , AMap.InfoWindowAdapter ,View.OnClickListener,
-        AMap.OnMapClickListener, AMap.OnMapTouchListener,AMap.OnMapLoadedListener,AMap.OnCameraChangeListener {
+        AMap.OnMapClickListener, AMap.OnMapTouchListener,AMap.OnMapLoadedListener,AMap.OnCameraChangeListener,SpotsListViewCallBack {
 
     public static final int LoginRequest = 1008;
     public static final int MARKER_HEIGHT = 70;//marker的高度
@@ -132,6 +136,11 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private boolean isNeedToRefreshInfoWindow = false;//只有点击了marker之后才需要刷新iinfoWindow，否则infoWindow会不停的闪烁
     private int markerIconHeight = 0;
     public Spots mFavoriteSpots = null;//是否要显示infoWindow，收藏和二维码用
+
+    public SpotsListViewCallBack mSpotsListViewCallBack = this;
+    public SpotsListStates mLeftListViewStateObj = new SpotsListStates();
+    public SpotsListStates mRightListViewStateObj = new SpotsListStates();
+    public boolean mIsHideOtherListViewFirst;
     public GuideFragmentNew() {
     }
 
@@ -170,6 +179,8 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mHalfInfoWindowWidth = Utils.dip2px(getActivity(),135);
         mInfoWindowHeight = Utils.dip2px(getActivity(),170);
         markerIconHeight = Utils.dip2px(getActivity(),20);
+        mSpotsListLV.setTag(1);
+        mGuideListLV.setTag(0);
 
         audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
         initMap();
@@ -420,13 +431,15 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_walk_navigetion:
-                hideAndShowListView(mGuideListLV, mSpotsListLV, mGuideListRelativeLayout, mSpotsListRelativeLayout);
+                ensureOtherListViewHide(mGuideListLV);
+//                hideAndShowListView(mGuideListLV, mSpotsListLV, mGuideListRelativeLayout, mSpotsListRelativeLayout);
                 if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
                     mMarkerWhenSelected.hideInfoWindow();
                 }
                 break;
             case R.id.tv_spots_list:
-                hideAndShowListView(mSpotsListLV, mGuideListLV, mSpotsListRelativeLayout, mGuideListRelativeLayout);
+                ensureOtherListViewHide(mSpotsListLV);
+//                hideAndShowListView(mSpotsListLV, mGuideListLV, mSpotsListRelativeLayout, mGuideListRelativeLayout);
                 if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
                     mMarkerWhenSelected.hideInfoWindow();
                 }
@@ -958,5 +971,81 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         }else {
             return 15.57386f;
         }
+    }
+    //设置当前listview状态的相反状态
+    public void setListViewStateOpposite(SpotsListStates spotsListStates){
+        spotsListStates.setOppositeState();
+    }
+    //获取listView展开状态
+    public boolean getListViewState(SpotsListStates spotsListStates){
+        return spotsListStates.isExpand;
+    }
+
+    public boolean isLeftListView(ListView listView){
+        return (int)listView.getTag() == 0;
+    }
+
+    public void oppositeListViewState(ListView listView){
+        if (isLeftListView(listView)){
+            setListViewStateOpposite(mLeftListViewStateObj);
+        }else {
+            setListViewStateOpposite(mRightListViewStateObj);
+        }
+    }
+
+    public void setLayoutAndIconState(ListView listView){
+        if (isLeftListView(listView)){
+            mGuideListRelativeLayout.setVisibility(mLeftListViewStateObj.isExpand?View.VISIBLE:View.GONE);
+        }else {
+            mSpotsListRelativeLayout.setVisibility(mRightListViewStateObj.isExpand?View.VISIBLE:View.GONE);
+        }
+    }
+
+    public void setListViewState(final ListView listView, final SpotsListStates listViewStates){
+
+        ObjectAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", listViewStates.isExpand ? 0f:-1000f);
+        animator.setDuration(300);
+        animator.start();
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                setLayoutAndIconState(listView);
+                if (mIsHideOtherListViewFirst){
+                    mIsHideOtherListViewFirst = false;
+                    boolean isLeftLiewView = isLeftListView(listView);
+                    setListViewStateOpposite(isLeftLiewView?mRightListViewStateObj:mLeftListViewStateObj);
+                    setListViewState(isLeftLiewView?mSpotsListLV :mGuideListLV ,isLeftLiewView?mRightListViewStateObj:mLeftListViewStateObj);
+                }
+
+            }
+        });
+    }
+
+    public void ensureOtherListViewHide(ListView listView){
+        if ((int)listView.getTag() == 0){
+            if (getListViewState(mRightListViewStateObj)){
+                mIsHideOtherListViewFirst = true;
+                mRightListViewStateObj.setHideState();
+                setListViewState(mSpotsListLV,mRightListViewStateObj);
+            }else {
+                mLeftListViewStateObj.setOppositeState();
+                setListViewState(mGuideListLV,mLeftListViewStateObj);
+            }
+        }else{
+            if (getListViewState(mLeftListViewStateObj)){
+                mIsHideOtherListViewFirst = true;
+                mLeftListViewStateObj.setHideState();
+                setListViewState(mGuideListLV,mLeftListViewStateObj);
+            }else {
+                mRightListViewStateObj.setOppositeState();
+                setListViewState(mSpotsListLV,mRightListViewStateObj);
+            }
+        }
+    }
+
+    @Override
+    public void handleSpotsListViewState(boolean isLeftListView, boolean isExpand) {
+
     }
 }

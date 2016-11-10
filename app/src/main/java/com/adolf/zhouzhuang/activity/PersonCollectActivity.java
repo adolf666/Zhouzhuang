@@ -20,7 +20,6 @@ import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.interfaces.AdapterOnClickListener;
-import com.adolf.zhouzhuang.interfaces.MainInterface;
 import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;

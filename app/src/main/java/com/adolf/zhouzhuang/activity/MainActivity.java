@@ -30,7 +30,6 @@ import com.adolf.zhouzhuang.fragment.MuseumFragment;
 import com.adolf.zhouzhuang.fragment.StrategyFragment;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
-import com.adolf.zhouzhuang.interfaces.MainInterface;
 import com.adolf.zhouzhuang.object.AppVersionObject;
 import com.adolf.zhouzhuang.util.Constants;
 import com.adolf.zhouzhuang.util.SdCardUtil;
