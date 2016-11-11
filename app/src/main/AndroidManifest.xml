@@ -25,6 +25,15 @@
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS" >    </uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+
+
+
 
     <application
         android:name=".ZhouzhuangApplication"
@@ -37,6 +46,9 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="3c9d6d881dc553062bcffad0f90b5490" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="fjZAfdSfmzuCeqtMYjv7BZ7R6Y67TED3" />
 
         <activity
             android:name=".activity.LaunchActivity"
@@ -47,6 +59,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:permission="android.permission.BAIDU_LOCATION_SERVICE"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.4" />
+            </intent-filter>
+        </service>
+        <service android:name="com.amap.api.location.APSService"></service>
         <activity
             android:name=".activity.MainActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />

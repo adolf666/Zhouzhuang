@@ -49,6 +49,10 @@ import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.StreamingMediaPlayer;
 import com.adolf.zhouzhuang.util.Utils;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
@@ -64,6 +68,10 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.Text;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -141,6 +149,11 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public SpotsListStates mLeftListViewStateObj = new SpotsListStates();
     public SpotsListStates mRightListViewStateObj = new SpotsListStates();
     public boolean mIsHideOtherListViewFirst;
+    private LocationClient locationClient=null;
+    private AMapLocationClient mlocationClient;
+
+    String mLocationInfo =null;
+    String mGaoDeLocationInfo = null;
     public GuideFragmentNew() {
     }
 
@@ -217,6 +230,75 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSpotsList();
+        initLocationClient();
+    }
+    private void initLocationClient(){
+
+
+        mlocationClient = new AMapLocationClient(getActivity());
+        AMapLocationClientOption  mLocationOption = new AMapLocationClientOption();
+        //设置定位监听
+        mlocationClient.setLocationListener(new AMapLocationListener(){
+
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                   Log.i("qqqqqqgaode",aMapLocation.getLatitude()+"");
+                StringBuilder gaolocationInfo = new StringBuilder(256);
+                gaolocationInfo.append("slat="+aMapLocation.getLatitude());
+                gaolocationInfo.append("&");
+                gaolocationInfo.append("slon="+aMapLocation.getLongitude());
+                gaolocationInfo.append("&sname="+aMapLocation.getAddress());
+                mGaoDeLocationInfo =  gaolocationInfo.toString();
+                Log.i("qqqqqqgaode",mGaoDeLocationInfo);
+            }
+        });
+        //设置为高精度定位模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位参数
+        mlocationClient.setLocationOption(mLocationOption);
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        mlocationClient.startLocation();
+
+        locationClient = new LocationClient(getActivity());
+
+        //设置定位条件
+
+        LocationClientOption option = new LocationClientOption();
+
+        option.setOpenGps(true);        //是否打开GPS
+
+        option.setCoorType("bd09ll");       //设置返回值的坐标类型。
+
+        option.setPriority(LocationClientOption.NetWorkFirst);  //设置定位优先级
+
+        option.setProdName("LocationDemo"); //设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
+
+         option.setScanSpan(200000);    //设置定时定位的时间间隔。单位毫秒
+
+        locationClient.setLocOption(option);
+
+        locationClient.registerLocationListener(new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+
+                if (location == null) {
+                    return;
+                }
+                StringBuilder locationInfo = new StringBuilder(256);
+                locationInfo.append(location.getLatitude());
+                locationInfo.append(",");
+                locationInfo.append(location.getLongitude());
+                mLocationInfo = locationInfo.toString();
+                Log.i("qqqqq", mLocationInfo);
+            }
+
+        });
+        locationClient.start();
+        locationClient.requestLocation();
+
     }
     public void getSpotsList() {
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
@@ -490,14 +572,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 break;
             case R.id.tv_open_baidu:
                 if (mSpots.getLng() != null && mSpots.getLat() != null) {
-                    Utils.openBaiduMap(getActivity(), Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()), "123", "步行导航");
+
+
+                    Utils.openBaiduMap(getActivity(), mLocationInfo,Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()),  "步行导航");
+                    if (locationClient != null && locationClient.isStarted()) {
+                        locationClient.stop();
+                        locationClient = null;
+                    }
                 } else {
                     Toast.makeText(getActivity(), "未能获取经纬度", Toast.LENGTH_SHORT).show();
                 }
                 hideBottomTabs();
                 break;
             case R.id.tv_open_gaode:
-                Utils.goToNaviActivity(getActivity(), "test", null, mSpots.getLat(), mSpots.getLng(), "1", "2");
+                Utils.goToNaviActivity(getActivity(), "test", null, mSpots.getLat(), mSpots.getLng(), "1", mGaoDeLocationInfo);
                 hideBottomTabs();
                 break;
             case R.id.btn_cancel:

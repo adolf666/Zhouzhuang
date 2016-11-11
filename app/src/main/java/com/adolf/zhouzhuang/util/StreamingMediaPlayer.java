@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,9 @@ public class StreamingMediaPlayer {
     private boolean isInterrupted;
     private Context context;
     private int counter = 0;
+    private boolean downLoadFinish = false;
+    Runnable runnable;
+    Thread thread;
     public StreamingMediaPlayer(Context  context, View playButton, Button streamButton, SeekBar	progressBar, TextView playTime)
     {
         this.context = context;
@@ -61,17 +65,28 @@ public class StreamingMediaPlayer {
     public void startStreaming(final String mediaUrl, long	mediaLengthInKb, long	mediaLengthInSeconds) throws IOException {
         this.mediaLengthInKb = mediaLengthInKb;
         this.mediaLengthInSeconds = mediaLengthInSeconds;
-        Runnable r = new Runnable() {
+
+        Log.i("ffffffff","startStreaming");
+     /*   if(thread!=null){
+            thread.stop();
+        }*/
+
+        runnable = new Runnable() {
             public void run() {
                 try {
+                    downLoadFinish = false;
                     downloadAudioIncrement(mediaUrl);
+                    setDownLoadFinish(true);
+                    Log.i("ffffffff"," downloadAudioIncrement(mediaUrl)"+mediaUrl);
                 } catch (IOException e) {
                     Log.e(getClass().getName(), "Unable to initialize the MediaPlayer for fileUrl=" + mediaUrl, e);
                     return;
                 }
             }
         };
-        new Thread(r).start();
+
+       thread = new Thread(runnable);
+       thread.start();
     }
     //根据获得的URL地址下载数据
     public void downloadAudioIncrement(String mediaUrl) throws IOException {
@@ -92,6 +107,13 @@ public class StreamingMediaPlayer {
         FileOutputStream out = new FileOutputStream(downloadingMediaFile);
         byte buf[] = new byte[16384];
         int totalBytesRead = 0;
+        if(mediaPlayer != null){
+           mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer=null;
+            Log.i("ffffffff"," downloadAudioIncrement"+" mediaPlayer=null");
+        }
+        ;
         do {
             int numread = stream.read(buf);
             if (numread <= 0)
@@ -251,5 +273,11 @@ public class StreamingMediaPlayer {
             throw new IOException("Old location does not exist when transferring " + oldLocation.getPath() + " to " + newLocation.getPath() );
         }
     }
+        public void setDownLoadFinish( boolean downLoadFinish){
+            this.downLoadFinish = downLoadFinish;
+        }
+       public boolean getDownLoadFinish(){
 
+           return downLoadFinish;
+       }
 }

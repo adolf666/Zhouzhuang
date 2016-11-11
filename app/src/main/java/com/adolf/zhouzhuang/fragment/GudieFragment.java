@@ -345,7 +345,7 @@ public class GudieFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.tv_open_baidu:
                 if (mSpots.getLng() != null && mSpots.getLat() != null) {
-                    Utils.openBaiduMap(getActivity(), Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()), "123", "步行导航");
+                  //  Utils.openBaiduMap(getActivity(),mLocationClie, Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()), "步行导航");
                 } else {
                     Toast.makeText(getActivity(), "未能获取经纬度", Toast.LENGTH_SHORT).show();
                 }

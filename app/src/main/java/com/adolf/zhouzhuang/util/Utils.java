@@ -22,6 +22,10 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,9 +38,12 @@ import java.net.URL;
 public class Utils {
     //调用外部百度地图
 
-    public  static void openBaiduMap(Context context, double lon, double lat, String title, String describle) {
+    public  static void openBaiduMap(Context context,String locationinfo, double lon, double lat,  String describle) {
         try {
-            AMapLocationClientOption onceOption = new AMapLocationClientOption();
+
+
+
+           /* AMapLocationClientOption onceOption = new AMapLocationClientOption();
             onceOption.setOnceLocation(true);
             AMapLocationClient onceClient = new AMapLocationClient(context);
             onceClient.setLocationOption(onceOption);
@@ -51,13 +58,11 @@ public class Utils {
                       Log.i("qqqqq",aMapLocation.getLongitude()+"");
                     }
                 }
-            });
+            });*/
 
             StringBuilder loc = new StringBuilder();
             loc.append("baidumap://map/walknavi?origin=");
-            loc.append("");
-            loc.append(",");
-            loc.append("");
+            loc.append(locationinfo);
             loc.append("&destination=");
             loc.append(lat);
             loc.append(",");
@@ -95,8 +100,8 @@ public class Utils {
      * @param dev 必填 是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密)
      * @param style 必填 导航方式(0 速度快; 1 费用少; 2 路程短; 3 不走高速；4 躲避拥堵；5 不走高速且避免收费；6 不走高速且躲避拥堵；7 躲避收费和拥堵；8 不走高速躲避收费和拥堵))
      */
-    public static  void goToNaviActivity(Context context,String sourceApplication , String poiname , String lat , String lon , String dev , String style){
-        StringBuffer stringBuffer  = new StringBuffer("androidamap://navi?sourceApplication=")
+    public static  void goToNaviActivity(Context context,String sourceApplication , String poiname , String lat , String lon , String dev , String locationInfo){
+      /*  StringBuffer stringBuffer  = new StringBuffer("androidamap://navi?sourceApplication=")
                 .append(sourceApplication);
         if (!TextUtils.isEmpty(poiname)){
             stringBuffer.append("&poiname=").append(poiname);
@@ -104,10 +109,16 @@ public class Utils {
         stringBuffer.append("&lat=").append(lat)
                 .append("&lon=").append(lon)
                 .append("&dev=").append(dev)
-                .append("&style=").append(style);
+                .append("&style=").append(style);*/
 
+        StringBuffer stringBuffer  = new StringBuffer("androidamap://route?sourceApplication=softname&");
+        stringBuffer.append(locationInfo).append("&dlat="+lat).append("&dlon"+lon).append("&dname=def&dev=0&t=4");
 
         Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
+
+
+
+       // Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse("androidamap://route?sourceApplication=softname&slat=36.2&slon=116.1&sname=abc&dlat=36.3&dlon=116.2&dname=def&dev=0&t=4"));
         intent.setPackage("com.autonavi.minimap");
 
         if (isInstallPackage("com.autonavi.minimap")) {
