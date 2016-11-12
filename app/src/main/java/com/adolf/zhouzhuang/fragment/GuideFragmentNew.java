@@ -154,6 +154,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     String mLocationInfo =null;
     String mGaoDeLocationInfo = null;
+    private ExponentialOutInterpolator interpolator = new ExponentialOutInterpolator();
     public GuideFragmentNew() {
     }
 
@@ -348,7 +349,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mSpots = spotsList.get(i);
-                hideListView(mGuideListLV, mGuideListRelativeLayout, true);
+                hideAllListView();
                 showBottomTabs();
                 setTabResourceState();
             }
@@ -357,7 +358,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mSpotsListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
+                hideAllListView();
                 setTabResourceState();
                 mSpots = spotsList.get(position);
                 showInfoWindow(mSpots);
@@ -399,7 +400,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         options.inJustDecodeBounds = false;
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         options.inSampleSize = 2; // width，hight设为原来的1/3
-//获取资源图片流
+        //获取资源图片流
         InputStream is = getActivity().getResources().openRawResource(resId);
         return BitmapFactory.decodeStream(is,null,options);
     }
@@ -514,22 +515,15 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         switch (v.getId()) {
             case R.id.tv_walk_navigetion:
                 ensureOtherListViewHide(mGuideListLV);
-//                hideAndShowListView(mGuideListLV, mSpotsListLV, mGuideListRelativeLayout, mSpotsListRelativeLayout);
                 if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
                     mMarkerWhenSelected.hideInfoWindow();
                 }
                 break;
             case R.id.tv_spots_list:
                 ensureOtherListViewHide(mSpotsListLV);
-//                hideAndShowListView(mSpotsListLV, mGuideListLV, mSpotsListRelativeLayout, mGuideListRelativeLayout);
                 if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
                     mMarkerWhenSelected.hideInfoWindow();
                 }
-            case R.id.tv_bg_spots:
-                hideListView(mSpotsListLV, mSpotsListRelativeLayout, true);
-                break;
-            case R.id.tv_bg_guide:
-                hideListView(mGuideListLV, mGuideListRelativeLayout, true);
                 break;
             case R.id.tv_close:
                 mMarkerWhenSelected.hideInfoWindow();
@@ -684,125 +678,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         cancel.setOnClickListener(this);
         return mBottomView;
     }
-    private void hideAndShowListView(final ListView listViewToShow, ListView listViewToHide, final RelativeLayout relativeLayoutToShow, final RelativeLayout relativeLayoutToHide) {
-        float currentY = listViewToHide.getTranslationY();//得到当前位置
-        //如果当前位置是0,标明是展示的
-        if (currentY == 0) {
-            ValueAnimator animator = ObjectAnimator.ofFloat(listViewToHide, "translationY", currentY, -1000f);
-            animator.setDuration(300);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float current = (float) animation.getAnimatedValue();
-                    Log.i("AnimatedValue_Hide",current+"");
-                    if (current <= -1000f) {
-                        relativeLayoutToHide.setVisibility(View.GONE);
 
-                        float currentShowY = listViewToShow.getTranslationY();//得到当前位置
-                        if (currentShowY == 0f){
-                            ValueAnimator animator = ObjectAnimator.ofFloat(listViewToShow, "translationY", currentShowY, -1000f);
-                            animator.setDuration(300);
-                            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                @Override
-                                public void onAnimationUpdate(ValueAnimator animation) {
-                                    float current = (float) animation.getAnimatedValue();
-                                    Log.i("AnimatedValue_Show",current+"");
-                                    if (current <= -1000f) {
-                                        relativeLayoutToShow.setVisibility(View.GONE);
-//                        showListView(listViewToShow, relativeLayoutToShow);
-                                    }
-                                }
-                            });
-                            animator.start();
-                        }else{
-                            showListView(listViewToShow, relativeLayoutToShow);
-                        }
-                    }
-                }
-            });
-            animator.start();
-        }else{
-            float currentShowY = listViewToShow.getTranslationY();//得到当前位置
-            if (currentShowY == 0f){
-                ValueAnimator animator = ObjectAnimator.ofFloat(listViewToShow, "translationY", currentShowY, -1000f);
-                animator.setDuration(300);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float current = (float) animation.getAnimatedValue();
-                        Log.i("AnimatedValue_Show",current+"");
-                        if (current <= -1000f) {
-                            relativeLayoutToShow.setVisibility(View.GONE);
-//                        showListView(listViewToShow, relativeLayoutToShow);
-                            if (listViewToShow.getId() == R.id.lv_spots_list) {
-                                mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
-                            } else {
-                                mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
-                            }
-                        }
-                    }
-                });
-                animator.start();
-            }else{
-                showListView(listViewToShow, relativeLayoutToShow);
-            }
-        }
-
-    }
-
-    private void showListView(final ListView listView, RelativeLayout relativeLayout) {
-        relativeLayout.setVisibility(View.VISIBLE);
-        float currentY = listView.getTranslationY();
-        if (currentY == -1000f) {
-            if (listView.getId() == R.id.lv_spots_list) {
-                mSpotsListTV.setBackgroundResource(R.mipmap.btn_scenicspot_focus);
-                mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
-            } else {
-                mWalkNavigationTV.setBackgroundResource(R.mipmap.btn_guide_focus);
-                mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
-            }
-            ValueAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", -1000f, 0);
-            animator.setDuration(300);
-            animator.start();
-        }
-//        else {
-//            if (listView.getId() == R.id.lv_spots_list) {
-//                mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
-//            } else {
-//                mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
-//            }
-//            ValueAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", -1000f);
-//            animator.setDuration(300);
-//            animator.start();
-//        }
-    }
-    private void hideListView(final ListView listView, final RelativeLayout relativeLayout, boolean isNeedAnimation) {
-
-        float currentY = listView.getTranslationY();
-        if (currentY == 0f) {
-            ValueAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", -1000f);
-            animator.setDuration(300);
-            animator.start();
-            if (isNeedAnimation) {
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float current = (float) animation.getAnimatedValue();
-                        if (current <= -1000) {
-                            relativeLayout.setVisibility(View.GONE);
-                            if (listView.getId() == R.id.lv_spots_list) {
-                                mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
-                            } else {
-                                mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
-                            }
-                        }
-                    }
-                });
-            } else {
-                relativeLayout.setVisibility(View.GONE);
-            }
-        }
-    }
     private void addFavorite() {
         RequestParams params = new RequestParams();
         params.put("spotId", mSpots.getPid());
@@ -899,9 +775,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onMapClick(LatLng latLng) {
         Log.i("clickPoint",latLng+"");
         mMarkerWhenSelected.hideInfoWindow();
-        if(mGuideListLV.getVisibility() ==View.VISIBLE){
-            hideListView(mGuideListLV, mGuideListRelativeLayout, true);
-        }
 
     }
 
@@ -1074,25 +947,37 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void setSomethingBeforeExpand(ListView listView){
         if (isLeftListView(listView) && mLeftListViewStateObj.isExpand){
             mGuideListRelativeLayout.setVisibility(View.VISIBLE);
+            mWalkNavigationTV.setBackgroundResource(R.mipmap.btn_guide_focus);
         }
         if (!isLeftListView(listView) && mRightListViewStateObj.isExpand){
             mSpotsListRelativeLayout.setVisibility(View.VISIBLE);
+            mSpotsListTV.setBackgroundResource(R.mipmap.btn_scenicspot_focus);
         }
     }
 
     public void setSomethingAfterHide(ListView listView){
         if (isLeftListView(listView) && !mLeftListViewStateObj.isExpand){
             mGuideListRelativeLayout.setVisibility(View.GONE);
+            mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
         }
         if (!isLeftListView(listView) && !mRightListViewStateObj.isExpand){
             mSpotsListRelativeLayout.setVisibility(View.GONE);
+            mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
         }
+    }
+
+    public ExponentialOutInterpolator initInterpolator(boolean isShow){
+        if (isShow){
+            return interpolator;
+        }
+        return null;
     }
 
     public void setListViewState(final ListView listView, final SpotsListStates listViewStates){
         setSomethingBeforeExpand(listView);
         ObjectAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", listViewStates.isExpand ? 0f:-1000f);
-        animator.setDuration(300);
+        animator.setInterpolator(initInterpolator(listViewStates.isExpand));
+        animator.setDuration(350);
         animator.start();
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -1109,6 +994,34 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         });
     }
 
+
+    private void hideListView(final ListView listView, final RelativeLayout relativeLayout, boolean isNeedAnimation) {
+
+        float currentY = listView.getTranslationY();
+        if (currentY == 0f) {
+            ValueAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", -1000f);
+            animator.setDuration(300);
+            animator.start();
+            if (isNeedAnimation) {
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float current = (float) animation.getAnimatedValue();
+                        if (current <= -1000) {
+                            relativeLayout.setVisibility(View.GONE);
+                            if (listView.getId() == R.id.lv_spots_list) {
+                                mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
+                            } else {
+                                mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
+                            }
+                        }
+                    }
+                });
+            } else {
+                relativeLayout.setVisibility(View.GONE);
+            }
+        }
+    }
     public void hideAllListView(){
         if (mRightListViewStateObj.isExpand){
             mRightListViewStateObj.setHideState();
