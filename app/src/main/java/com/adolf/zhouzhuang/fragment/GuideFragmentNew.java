@@ -154,7 +154,11 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     String mLocationInfo =null;
     String mGaoDeLocationInfo = null;
+
     private ExponentialOutInterpolator interpolator = new ExponentialOutInterpolator();
+
+    private boolean isFristPlay =true;
+
     public GuideFragmentNew() {
     }
 
@@ -232,36 +236,50 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         super.onCreate(savedInstanceState);
         getSpotsList();
         initLocationClient();
+
     }
     private void initLocationClient(){
 
-
         mlocationClient = new AMapLocationClient(getActivity());
+
         AMapLocationClientOption  mLocationOption = new AMapLocationClientOption();
         //设置定位监听
         mlocationClient.setLocationListener(new AMapLocationListener(){
 
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
-                   Log.i("qqqqqqgaode",aMapLocation.getLatitude()+"");
-                StringBuilder gaolocationInfo = new StringBuilder(256);
-                gaolocationInfo.append("slat="+aMapLocation.getLatitude());
-                gaolocationInfo.append("&");
-                gaolocationInfo.append("slon="+aMapLocation.getLongitude());
-                gaolocationInfo.append("&sname="+aMapLocation.getAddress());
-                mGaoDeLocationInfo =  gaolocationInfo.toString();
-                Log.i("qqqqqqgaode",mGaoDeLocationInfo);
+                if (aMapLocation != null) {
+                    Log.i("qqqqqqgaode", aMapLocation.getLatitude() + "");
+                    if (aMapLocation.getErrorCode() == 0) {
+                        StringBuilder gaolocationInfo = new StringBuilder(256);
+                        if (aMapLocation.getLatitude() > 0 && aMapLocation.getLongitude() > 0) {
+                            gaolocationInfo.append("slat=" + aMapLocation.getLatitude());
+                            gaolocationInfo.append("&");
+                            gaolocationInfo.append("slon=" + aMapLocation.getLongitude());
+                            gaolocationInfo.append("&sname=" + aMapLocation.getAddress());
+                            mGaoDeLocationInfo = gaolocationInfo.toString();
+                        }
+                    }else {
+                        Log.i("qqqqqq", "location Error, ErrCode:"
+                                + aMapLocation.getErrorCode() + ", errInfo:"
+                                + aMapLocation.getErrorInfo());
+
+                    }
+
+                }
+
             }
         });
-        //设置为高精度定位模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //设置定位参数
+        mLocationOption.setOnceLocation(false);
+        mLocationOption.isNeedAddress();
+        mLocationOption.setInterval(30000);
         mlocationClient.setLocationOption(mLocationOption);
-        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-        // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-        // 在定位结束后，在合适的生命周期调用onDestroy()方法
-        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
         mlocationClient.startLocation();
+
+
+      //百度获取经纬度
+
 
         locationClient = new LocationClient(getActivity());
 
@@ -297,8 +315,8 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             }
 
         });
-        locationClient.start();
-        locationClient.requestLocation();
+       /* locationClient.start();
+        locationClient.requestLocation();*/
 
     }
     public void getSpotsList() {
@@ -379,6 +397,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         locationCenterForMarker(getCenterPointInScreen(latlng,infoWindowOffsetForXY));
         mMarkerWhenSelected.setMarkerOptions(markerOptions);
         mMarkerWhenSelected.showInfoWindow();
+        isFristPlay=true;
         }
     }
 
@@ -529,7 +548,17 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 mMarkerWhenSelected.hideInfoWindow();
                 break;
             case  R.id.bt_audio_play:
-                playStreamAudio();
+                if(isFristPlay&&!mSpots.getVideoLocation().equals(playingVideoLocation)){
+                    playStreamAudio();
+                    isFristPlay=false;
+                    Log.i("fffff","isFristPlay"+isFristPlay);
+                }else {
+                    pauseAndPlayMusic();
+                    if(mNotice.getVisibility() ==View.GONE){
+                        mNotice.setVisibility(View.VISIBLE);
+                    }
+                }
+
                 break;
             case R.id.bt_detail:
                 Intent intent = new Intent();
@@ -541,19 +570,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 break;
             case R.id.tv_voice_prompt:
             case R.id.img_pause:
-                if(audioStreamer.getMediaPlayer()!=null) {
-                    if (audioStreamer.getMediaPlayer().isPlaying()) {
-                        audioStreamer.getMediaPlayer().pause();
-                        animationDrawable.stop();
-                        mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
-                        mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
-                    } else {
-                        audioStreamer.getMediaPlayer().start();
-                        animationDrawable.start();
-                        mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-                        mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
-                    }
-                }
+                pauseAndPlayMusic();
               break;
             case R.id.img_close:
                 mNotice.setVisibility(View.GONE);
@@ -568,7 +585,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 if (mSpots.getLng() != null && mSpots.getLat() != null) {
 
 
-                    Utils.openBaiduMap(getActivity(), mLocationInfo,Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()),  "步行导航");
+                    Utils.openBaiduMap(getActivity(), null,Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()),  "步行导航");
                     if (locationClient != null && locationClient.isStarted()) {
                         locationClient.stop();
                         locationClient = null;
@@ -579,7 +596,8 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 hideBottomTabs();
                 break;
             case R.id.tv_open_gaode:
-                Utils.goToNaviActivity(getActivity(), "test", null, mSpots.getLat(), mSpots.getLng(), "1", mGaoDeLocationInfo);
+
+                Utils.goToNaviActivity(getActivity(), "test", null, mSpots.getLat(), mSpots.getLng(), mSpots.getTitle(), mGaoDeLocationInfo);
                 hideBottomTabs();
                 break;
             case R.id.btn_cancel:
@@ -608,10 +626,10 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 break;
         }
     }
-
+  private  String playingVideoLocation=null;
     public void playStreamAudio(){
         try {
-            if(!TextUtils.isEmpty(mSpots.getVideoLocation())){
+            if(!TextUtils.isEmpty(mSpots.getVideoLocation())&&!mSpots.getVideoLocation().equals(playingVideoLocation)){
                 if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
                     Log.i("ffffffff",mSpots.getTitle()+"Player().reset");
                     audioStreamer.getMediaPlayer().reset();
@@ -623,10 +641,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 animationDrawable.start();
                 mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
                 mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
-              /*  if(audioStreamer.getMediaPlayer()!=null){
-                    audioStreamer.getMediaPlayer().start();
-                    Log.i("ffffffff",mSpots.getTitle()+"getMediaPlayer().start()");
-                   }*/
+                playingVideoLocation = mSpots.getVideoLocation();
             }
 
         } catch (IOException e) {
@@ -665,6 +680,21 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             });
             animator.setDuration(300);
             animator.start();
+        }
+    }
+    private void pauseAndPlayMusic(){
+        if(audioStreamer.getMediaPlayer()!=null) {
+            if (audioStreamer.getMediaPlayer().isPlaying()) {
+                audioStreamer.getMediaPlayer().pause();
+                animationDrawable.stop();
+                mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
+                mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
+            } else {
+                audioStreamer.getMediaPlayer().start();
+                animationDrawable.start();
+                mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+            }
         }
     }
     private View initBottomNaviView() {
@@ -766,7 +796,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             locationCenterForMarker(getCenterPointInScreen(marker.getPosition(),infoWindowOffsetForXY));
             marker.setMarkerOptions(markerOptions);
             marker.showInfoWindow();
-
+            isFristPlay=true;
         }
         return true;
     }
@@ -895,11 +925,13 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void setUserVisibleHint(boolean isVisibleToUser) {
       super.setUserVisibleHint(isVisibleToUser);
         if(!isVisibleToUser){
-            if(audioStreamer!=null&&audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
+            if(audioStreamer!=null&&audioStreamer.getMediaPlayer()!=null){
                 audioStreamer.getMediaPlayer().reset();
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();
                 mMarkerWhenSelected.hideInfoWindow();
+                isFristPlay=true;
+                playingVideoLocation =null;
             }
 
         }

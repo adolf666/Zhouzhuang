@@ -100,7 +100,7 @@ public class Utils {
      * @param dev 必填 是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密)
      * @param style 必填 导航方式(0 速度快; 1 费用少; 2 路程短; 3 不走高速；4 躲避拥堵；5 不走高速且避免收费；6 不走高速且躲避拥堵；7 躲避收费和拥堵；8 不走高速躲避收费和拥堵))
      */
-    public static  void goToNaviActivity(Context context,String sourceApplication , String poiname , String lat , String lon , String dev , String locationInfo){
+    public static  void goToNaviActivity(Context context,String sourceApplication , String poiname , String lat , String lon , String dname , String locationInfo){
       /*  StringBuffer stringBuffer  = new StringBuffer("androidamap://navi?sourceApplication=")
                 .append(sourceApplication);
         if (!TextUtils.isEmpty(poiname)){
@@ -112,7 +112,9 @@ public class Utils {
                 .append("&style=").append(style);*/
 
         StringBuffer stringBuffer  = new StringBuffer("androidamap://route?sourceApplication=softname&");
-        stringBuffer.append(locationInfo).append("&dlat="+lat).append("&dlon"+lon).append("&dname=def&dev=0&t=4");
+        stringBuffer.append(locationInfo).append("&dlat="+lat).append("&dlon="+lon).append("&dname="+dname).append("&dev=0&t=4");
+
+        Log.i("qqqqq",stringBuffer.toString());
 
         Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
 
@@ -124,10 +126,10 @@ public class Utils {
         if (isInstallPackage("com.autonavi.minimap")) {
             context.startActivity(intent); //启动调用
 
-            Log.e("GasStation", "百度地图客户端已经安装");
+            Log.e("GasStation", "高德地图客户端已经安装");
         } else {
             Toast.makeText(context,"没有安装高德地图客户端",Toast.LENGTH_SHORT).show();
-            Log.e("GasStation", "没有安装百度地图客户端");
+            Log.e("GasStation", "没有安装高德地图客户端");
         }
 
     }

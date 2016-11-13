@@ -58,6 +58,7 @@ public class StreamingMediaPlayer {
         this.playButton = playButton;
         this.playTime=playTime; //播放的进度时刻
         this.progressBar = progressBar;
+        isInterrupted=true;
     }
     /**
      * 开启一个线程，下载数据
@@ -67,16 +68,12 @@ public class StreamingMediaPlayer {
         this.mediaLengthInSeconds = mediaLengthInSeconds;
 
         Log.i("ffffffff","startStreaming");
-     /*   if(thread!=null){
-            thread.stop();
-        }*/
 
         runnable = new Runnable() {
             public void run() {
                 try {
-                    downLoadFinish = false;
+                    isInterrupted=false;
                     downloadAudioIncrement(mediaUrl);
-                    setDownLoadFinish(true);
                     Log.i("ffffffff"," downloadAudioIncrement(mediaUrl)"+mediaUrl);
                 } catch (IOException e) {
                     Log.e(getClass().getName(), "Unable to initialize the MediaPlayer for fileUrl=" + mediaUrl, e);
@@ -88,6 +85,10 @@ public class StreamingMediaPlayer {
        thread = new Thread(runnable);
        thread.start();
     }
+
+
+
+
     //根据获得的URL地址下载数据
     public void downloadAudioIncrement(String mediaUrl) throws IOException {
 
@@ -113,7 +114,6 @@ public class StreamingMediaPlayer {
             mediaPlayer=null;
             Log.i("ffffffff"," downloadAudioIncrement"+" mediaPlayer=null");
         }
-        ;
         do {
             int numread = stream.read(buf);
             if (numread <= 0)
@@ -122,21 +122,10 @@ public class StreamingMediaPlayer {
             totalBytesRead += numread;
             totalKbRead = totalBytesRead/1000;  //totalKbRead表示已经下载的文件大小
             testMediaBuffer();
-
-        } while (validateNotInterrupted());
+        } while (!isInterrupted);
         stream.close();
-        if (validateNotInterrupted()) {
+    if (!isInterrupted) {
             fireDataFullyLoaded();
-        }
-    }
-    private boolean validateNotInterrupted() {
-        if (isInterrupted) {
-            if (mediaPlayer != null) {
-                mediaPlayer.pause();
-            }
-            return false;
-        } else {
-            return true;
         }
     }
     //测试缓冲的文件大小是否大于INTIAL_KB_BUFFER，如果大于的话就播放
