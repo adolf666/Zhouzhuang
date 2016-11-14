@@ -111,5 +111,4 @@
             android:name=".activity.AboutActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
     </application>
-
 </manifest>

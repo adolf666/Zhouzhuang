@@ -45,6 +45,7 @@ import com.adolf.zhouzhuang.object.InfoWindiwOffset;
 import com.adolf.zhouzhuang.object.InfoWindowOffsetForXY;
 import com.adolf.zhouzhuang.object.SpotsListStates;
 import com.adolf.zhouzhuang.util.GlideRoundTransform;
+import com.adolf.zhouzhuang.util.Player;
 import com.adolf.zhouzhuang.util.ServiceAddress;
 import com.adolf.zhouzhuang.util.SharedPreferencesUtils;
 import com.adolf.zhouzhuang.util.StreamingMediaPlayer;
@@ -67,7 +68,6 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
-import com.amap.api.maps.model.Text;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -80,7 +80,6 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -88,12 +87,11 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.util.TextUtils;
 
-import static com.adolf.zhouzhuang.R.id.bt_register;
 import static com.adolf.zhouzhuang.R.id.tv_spot_title;
-import static com.adolf.zhouzhuang.util.Constants.lat;
 
-public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener , AMap.InfoWindowAdapter ,View.OnClickListener,
-        AMap.OnMapClickListener, AMap.OnMapTouchListener,AMap.OnMapLoadedListener,AMap.OnCameraChangeListener,SpotsListViewCallBack {
+
+public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener, AMap.InfoWindowAdapter, View.OnClickListener,
+        AMap.OnMapClickListener, AMap.OnMapTouchListener, AMap.OnMapLoadedListener, AMap.OnCameraChangeListener, SpotsListViewCallBack {
 
     public static final int LoginRequest = 1008;
     public static final int MARKER_HEIGHT = 70;//marker的高度
@@ -134,13 +132,13 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private Polygon mPolygon;
     //******************************************************************
     //手绘图西南。东北点坐标
-    private LatLng mNortheastLatLng = new LatLng(31.1249200000,120.8595400000);
-    private LatLng mSouthwestLatLng = new LatLng(31.1066900000,120.8397900000 );
+    private LatLng mNortheastLatLng = new LatLng(31.1249200000, 120.8595400000);
+    private LatLng mSouthwestLatLng = new LatLng(31.1066900000, 120.8397900000);
     //******************************************************************
     private int mHalfInfoWindowWidth = 0;//infowindow宽度一半，以px为单位
     private int mInfoWindowHeight = 0;//infoWinow高度，以px为单位
     private float mCurrentZoomLevel = 15.4f;//当前缩放级别
-    private HashMap<Spots,Marker> mSpotsMarkerList = new HashMap<>();
+    private HashMap<Spots, Marker> mSpotsMarkerList = new HashMap<>();
     private boolean isNeedToRefreshInfoWindow = false;//只有点击了marker之后才需要刷新iinfoWindow，否则infoWindow会不停的闪烁
     private int markerIconHeight = 0;
     public Spots mFavoriteSpots = null;//是否要显示infoWindow，收藏和二维码用
@@ -149,20 +147,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public SpotsListStates mLeftListViewStateObj = new SpotsListStates();
     public SpotsListStates mRightListViewStateObj = new SpotsListStates();
     public boolean mIsHideOtherListViewFirst;
-    private LocationClient locationClient=null;
+    private LocationClient locationClient = null;
     private AMapLocationClient mlocationClient;
 
-    String mLocationInfo =null;
+    String mLocationInfo = null;
     String mGaoDeLocationInfo = null;
 
     private ExponentialOutInterpolator interpolator = new ExponentialOutInterpolator();
 
-    private boolean isFristPlay =true;
+    Player player = new Player();
 
     public GuideFragmentNew() {
     }
 
-    private void initViews(View view){
+    private void initViews(View view) {
         mapView = (MapView) view.findViewById(R.id.map);
         mFrameIV = (ImageView) view.findViewById(R.id.iv_frame);
         mPause = (ImageButton) view.findViewById(R.id.img_pause);
@@ -194,20 +192,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         hideBottomTabs();
         hideListView(mGuideListLV, mGuideListRelativeLayout, false);
         hideListView(mSpotsListLV, mSpotsListRelativeLayout, false);
-        mHalfInfoWindowWidth = Utils.dip2px(getActivity(),135);
-        mInfoWindowHeight = Utils.dip2px(getActivity(),170);
-        markerIconHeight = Utils.dip2px(getActivity(),20);
+        mHalfInfoWindowWidth = Utils.dip2px(getActivity(), 135);
+        mInfoWindowHeight = Utils.dip2px(getActivity(), 170);
+        markerIconHeight = Utils.dip2px(getActivity(), 20);
         mSpotsListLV.setTag(1);
         mGuideListLV.setTag(0);
 
-        audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
+        audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null, null, null);
         initMap();
         initGuideListViewAndSpotsListViewData();
         Button button1 = (Button) view.findViewById(R.id.button);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
+                aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng, mNortheastLatLng));
             }
         });
         Button button2 = (Button) view.findViewById(R.id.button2);
@@ -218,12 +216,13 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             }
         });
     }
+
     public static GuideFragmentNew newInstance() {
         GuideFragmentNew fragment = new GuideFragmentNew();
         return fragment;
     }
 
-    public void setMapUISetting(){
+    public void setMapUISetting() {
         mUiSettings = aMap.getUiSettings();
         mUiSettings.setRotateGesturesEnabled(false);
         mUiSettings.setZoomControlsEnabled(false);
@@ -238,13 +237,14 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         initLocationClient();
 
     }
-    private void initLocationClient(){
+
+    private void initLocationClient() {
 
         mlocationClient = new AMapLocationClient(getActivity());
 
-        AMapLocationClientOption  mLocationOption = new AMapLocationClientOption();
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         //设置定位监听
-        mlocationClient.setLocationListener(new AMapLocationListener(){
+        mlocationClient.setLocationListener(new AMapLocationListener() {
 
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
@@ -259,7 +259,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                             gaolocationInfo.append("&sname=" + aMapLocation.getAddress());
                             mGaoDeLocationInfo = gaolocationInfo.toString();
                         }
-                    }else {
+                    } else {
                         Log.i("qqqqqq", "location Error, ErrCode:"
                                 + aMapLocation.getErrorCode() + ", errInfo:"
                                 + aMapLocation.getErrorInfo());
@@ -278,7 +278,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mlocationClient.startLocation();
 
 
-      //百度获取经纬度
+        //百度获取经纬度
 
 
         locationClient = new LocationClient(getActivity());
@@ -295,7 +295,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
         option.setProdName("LocationDemo"); //设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
 
-         option.setScanSpan(200000);    //设置定时定位的时间间隔。单位毫秒
+        option.setScanSpan(200000);    //设置定时定位的时间间隔。单位毫秒
 
         locationClient.setLocOption(option);
 
@@ -311,7 +311,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 locationInfo.append(",");
                 locationInfo.append(location.getLongitude());
                 mLocationInfo = locationInfo.toString();
-                Log.i("qqqqq", mLocationInfo);
             }
 
         });
@@ -319,13 +318,15 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         locationClient.requestLocation();*/
 
     }
+
     public void getSpotsList() {
         mSpotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         mSpotsList = mSpotsDataBaseHelper.getAllSpots();
         mFavoriteDataBaseHelper = new FavoriteDataBaseHelper(getFavoriteDao());
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_guide_new, container, false);
         initViews(view);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
@@ -333,12 +334,12 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         return view;
     }
 
-    public void initMap(){
+    public void initMap() {
         aMap = mapView.getMap();
         setMapUISetting();
         aMap.setMaxZoomLevel(19f);
         aMap.setMinZoomLevel(15f);
-        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665), mCurrentZoomLevel));
+        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805, 120.849665), mCurrentZoomLevel));
         aMap.setOnMapClickListener(this);
         aMap.setOnMapTouchListener(this);
         aMap.setOnMapLoadedListener(this);
@@ -354,6 +355,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             mListener.onFragmentInteraction(uri);
         }
     }
+
     public void initGuideListViewAndSpotsListViewData() {
         SpotsDataBaseHelper spotsDataBaseHelper = new SpotsDataBaseHelper(getSpotsDao());
         spotsList = spotsDataBaseHelper.getAllSpots();
@@ -384,35 +386,34 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             }
         });
     }
-    public void showInfoWindow(Spots Spot){
-        mSpots =Spot;
+
+    public void showInfoWindow(Spots Spot) {
+        mSpots = Spot;
         LatLng latlng = new LatLng(Double.parseDouble(mSpots.getLat4show()), Double.parseDouble(mSpots.getLng4show()));
-        if(mSpotsMarkerList!=null&&mSpotsMarkerList.size()>0){
-        mMarkerWhenSelected = mSpotsMarkerList.get(mSpots);
-        Point markerPoint = getMarkScreenPointFromLatLng(latlng);
-        InfoWindowOffsetForXY infoWindowOffsetForXY = getInfoWindowXOffset(markerPoint);
-        MarkerOptions markerOptions = mMarkerWhenSelected.getOptions();
-        InfoWindiwOffset infoWindiwOffset = getInfoWindowOffsetData(infoWindowOffsetForXY);
-        markerOptions.setInfoWindowOffset(infoWindiwOffset.xOffset,infoWindiwOffset.yOffset);
-        locationCenterForMarker(getCenterPointInScreen(latlng,infoWindowOffsetForXY));
-        mMarkerWhenSelected.setMarkerOptions(markerOptions);
-        mMarkerWhenSelected.showInfoWindow();
-        isFristPlay=true;
+        if (mSpotsMarkerList != null && mSpotsMarkerList.size() > 0) {
+            mMarkerWhenSelected = mSpotsMarkerList.get(mSpots);
+            Point markerPoint = getMarkScreenPointFromLatLng(latlng);
+            InfoWindowOffsetForXY infoWindowOffsetForXY = getInfoWindowXOffset(markerPoint);
+            MarkerOptions markerOptions = mMarkerWhenSelected.getOptions();
+            InfoWindiwOffset infoWindiwOffset = getInfoWindowOffsetData(infoWindowOffsetForXY);
+            markerOptions.setInfoWindowOffset(infoWindiwOffset.xOffset, infoWindiwOffset.yOffset);
+            locationCenterForMarker(getCenterPointInScreen(latlng, infoWindowOffsetForXY));
+            mMarkerWhenSelected.setMarkerOptions(markerOptions);
+            mMarkerWhenSelected.showInfoWindow();
         }
     }
-
 
 
     /**
      * 往地图上添加一个groundoverlay覆盖物
      */
     private void addOverlayToMap() {
-        LatLngBounds limitBounds = new LatLngBounds(mSouthwestLatLng,mNortheastLatLng);
+        LatLngBounds limitBounds = new LatLngBounds(mSouthwestLatLng, mNortheastLatLng);
         groundoverlay = aMap.addGroundOverlay(new GroundOverlayOptions().anchor(0, 0).transparency(0f).image(BitmapDescriptorFactory.fromBitmap(compressBitmap(R.mipmap.layer))).positionFromBounds(limitBounds));
 
     }
 
-    private Bitmap compressBitmap(int resId){
+    private Bitmap compressBitmap(int resId) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inInputShareable = true;
         options.inPurgeable = true;
@@ -421,20 +422,20 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         options.inSampleSize = 2; // width，hight设为原来的1/3
         //获取资源图片流
         InputStream is = getActivity().getResources().openRawResource(resId);
-        return BitmapFactory.decodeStream(is,null,options);
+        return BitmapFactory.decodeStream(is, null, options);
     }
 
-    private void addMarksToMap(){
+    private void addMarksToMap() {
         aMap.setOnMarkerClickListener(this);
         aMap.setInfoWindowAdapter(this);
         aMap.showMapText(false);
         for (int i = 0; i < mSpotsList.size(); i++) {
-            if (mSpotsList.get(i).getLat4show() != null && mSpotsList.get(i).getLng4show() != null){
+            if (mSpotsList.get(i).getLat4show() != null && mSpotsList.get(i).getLng4show() != null) {
                 LatLng latlng = new LatLng(Double.parseDouble(mSpotsList.get(i).getLat4show()), Double.parseDouble(mSpotsList.get(i).getLng4show()));
                 Marker marker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
                         .position(latlng).title(mSpotsList.get(i).getTitle()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.btn_voice_default))
                         .draggable(true).period(10));
-                mSpotsMarkerList.put(mSpotsList.get(i),marker);
+                mSpotsMarkerList.put(mSpotsList.get(i), marker);
             }
 
         }
@@ -457,6 +458,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         super.onDetach();
         mListener = null;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -469,12 +471,14 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         super.onPause();
         mapView.onPause();
         aMap.setMapStatusLimits(null);
-        if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
-            audioStreamer.getMediaPlayer().reset();
-            mNotice.setVisibility(View.GONE);
-            animationDrawable.stop();
-            mMarkerWhenSelected.hideInfoWindow();
+
+
+        if (player != null && player.mediaPlayer.isPlaying()) {
+            player.pause();
         }
+        mNotice.setVisibility(View.GONE);
+        animationDrawable.stop();
+        mMarkerWhenSelected.hideInfoWindow();
     }
 
     @Override
@@ -517,7 +521,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
                     }
                 });
-        if (isNeedToRefreshInfoWindow){
+        if (isNeedToRefreshInfoWindow) {
             initInfoWindowAnimator(mGuideDialogView);
         }
 
@@ -534,30 +538,22 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         switch (v.getId()) {
             case R.id.tv_walk_navigetion:
                 ensureOtherListViewHide(mGuideListLV);
-                if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
+                if (mMarkerWhenSelected != null && mMarkerWhenSelected.isInfoWindowShown()) {
                     mMarkerWhenSelected.hideInfoWindow();
                 }
                 break;
             case R.id.tv_spots_list:
                 ensureOtherListViewHide(mSpotsListLV);
-                if(mMarkerWhenSelected!=null&&mMarkerWhenSelected.isInfoWindowShown()){
+                if (mMarkerWhenSelected != null && mMarkerWhenSelected.isInfoWindowShown()) {
                     mMarkerWhenSelected.hideInfoWindow();
                 }
                 break;
             case R.id.tv_close:
                 mMarkerWhenSelected.hideInfoWindow();
                 break;
-            case  R.id.bt_audio_play:
-                if(isFristPlay&&!mSpots.getVideoLocation().equals(playingVideoLocation)){
-                    playStreamAudio();
-                    isFristPlay=false;
-                    Log.i("fffff","isFristPlay"+isFristPlay);
-                }else {
-                    pauseAndPlayMusic();
-                    if(mNotice.getVisibility() ==View.GONE){
-                        mNotice.setVisibility(View.VISIBLE);
-                    }
-                }
+            case R.id.bt_audio_play:
+
+                playStreamAudio();
 
                 break;
             case R.id.bt_detail:
@@ -570,12 +566,22 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 break;
             case R.id.tv_voice_prompt:
             case R.id.img_pause:
-                pauseAndPlayMusic();
-              break;
+                if (player.mediaPlayer.isPlaying()) {
+                    player.pause();
+                    animationDrawable.stop();
+                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
+                    mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
+                } else {
+                    player.play();
+                    animationDrawable.start();
+                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                    mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+                }
+                break;
             case R.id.img_close:
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();
-                audioStreamer.getMediaPlayer().pause();
+                player.pause();
                 break;
             case R.id.tv_navigation_map:
                 showBottomTabs();
@@ -585,7 +591,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 if (mSpots.getLng() != null && mSpots.getLat() != null) {
 
 
-                    Utils.openBaiduMap(getActivity(), null,Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()),  "步行导航");
+                    Utils.openBaiduMap(getActivity(), null, Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()), "步行导航");
                     if (locationClient != null && locationClient.isStarted()) {
                         locationClient.stop();
                         locationClient = null;
@@ -606,8 +612,8 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             case R.id.bt_favorite:
                 if (!Utils.isAutoLogin(getActivity())) {
                     Intent intentLogin = new Intent().setClass(getActivity(), LoginActivity.class);
-                    intentLogin.putExtra("FROM_GUIDE",1);
-                    startActivityForResult(intentLogin,LoginRequest);
+                    intentLogin.putExtra("FROM_GUIDE", 1);
+                    startActivityForResult(intentLogin, LoginRequest);
                 } else {
                     if (!mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), mSpots.getPid())) {
                         addFavorite();
@@ -619,43 +625,48 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             case R.id.tv_loaction:
                 hideAllListView();
                 float realZoom = getRealZoom();
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665),realZoom));
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805, 120.849665), realZoom));
                 break;
             case R.id.rl_bottom_bar:
                 hideBottomTabs();
                 break;
         }
     }
-  private  String playingVideoLocation=null;
-    public void playStreamAudio(){
-        try {
-            if(!TextUtils.isEmpty(mSpots.getVideoLocation())&&!mSpots.getVideoLocation().equals(playingVideoLocation)){
-                if(audioStreamer.getMediaPlayer()!=null&&audioStreamer.getMediaPlayer().isPlaying()){
-                    Log.i("ffffffff",mSpots.getTitle()+"Player().reset");
-                    audioStreamer.getMediaPlayer().reset();
-                }
-                audioStreamer = new StreamingMediaPlayer(getActivity(), mPause, null,  null,null);
-                audioStreamer.startStreaming(mSpots.getVideoLocation(),5208, 216);
-                Log.i("ffffffff",mSpots.getTitle()+"New audioStreamer");
-                mNotice.setVisibility(View.VISIBLE);
-                animationDrawable.start();
-                mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-                mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
-                playingVideoLocation = mSpots.getVideoLocation();
-            }
 
-        } catch (IOException e) {
-            Log.e(getClass().getName(), "Error starting to stream audio.", e);
+    public void playStreamAudio() {
+        if (!TextUtils.isEmpty(mSpots.getVideoLocation())) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    player.playUrl(mSpots.getVideoLocation());
+                    player.mediaPlayer.setLooping(true);
+                }
+            }).start();
+            mNotice.setVisibility(View.VISIBLE);
+            animationDrawable.start();
+            mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+            mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+        } else {
+            Toast.makeText(getActivity(), "暂时没有音频内容", Toast.LENGTH_SHORT).show();
+            if (mNotice.getVisibility() == View.VISIBLE) {
+                mNotice.setVisibility(View.GONE);
+                animationDrawable.stop();
+            }
+            if (player.mediaPlayer.isPlaying()) {
+                player.pause();
+            }
         }
+
 
     }
 
-    public void refreshGuideDialogState(final Spots spots){
-        if (mGuideDialogView != null && spots != null){
+    public void refreshGuideDialogState(final Spots spots) {
+        if (mGuideDialogView != null && spots != null) {
             boolean isNoFavor = mFavoriteDataBaseHelper.isFavoriteByUserIdAndSpotsId(SharedPreferencesUtils.getInt(getActivity(), "pid"), spots.getPid());
             mFavoriteButton.setBackgroundResource(isNoFavor ? R.mipmap.btn_favor2 : R.mipmap.btn_favor1);
         }
     }
+
     private void showBottomTabs() {
         mBottomBarRelativeLayout.setVisibility(View.VISIBLE);
         float currentY = mBottomView.getTranslationY();
@@ -666,6 +677,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             animator.start();
         }
     }
+
     private void hideBottomTabs() {
         float currentY = mBottomView.getTranslationY();//得到当前位置
         if (currentY == 0) {//如果当前位置是0,标明是展示的
@@ -682,21 +694,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             animator.start();
         }
     }
-    private void pauseAndPlayMusic(){
-        if(audioStreamer.getMediaPlayer()!=null) {
-            if (audioStreamer.getMediaPlayer().isPlaying()) {
-                audioStreamer.getMediaPlayer().pause();
-                animationDrawable.stop();
-                mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
-                mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
-            } else {
-                audioStreamer.getMediaPlayer().start();
-                animationDrawable.start();
-                mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-                mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
-            }
-        }
-    }
+
     private View initBottomNaviView() {
         mBottomView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_bottom_navi, null);
         //初始化控件
@@ -733,6 +731,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             }
         });
     }
+
     public void cancelCollection() {
         RequestParams params = new RequestParams();
         params.put("spotId", mSpots.getPid());
@@ -754,32 +753,34 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             }
         });
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case LoginRequest:
-                if(Utils.isAutoLogin(getActivity())) {
+                if (Utils.isAutoLogin(getActivity())) {
                     addFavorite();
                 }
                 break;
         }
     }
+
     public void setTabResourceState() {
         mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
         mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
     }
 
-    public void initPolygon(){
+    public void initPolygon() {
         // 绘制一个长方形
         PolygonOptions pOption = new PolygonOptions();
-        pOption.add(new LatLng(31.1249200000,120.8397900000));
-        pOption.add(new LatLng(31.1249200000,120.8595400000));
-        pOption.add(new LatLng(31.1066900000,120.8595400000));
-        pOption.add(new LatLng(31.1066900000,120.8397900000));
+        pOption.add(new LatLng(31.1249200000, 120.8397900000));
+        pOption.add(new LatLng(31.1249200000, 120.8595400000));
+        pOption.add(new LatLng(31.1066900000, 120.8595400000));
+        pOption.add(new LatLng(31.1066900000, 120.8397900000));
         mPolygon = aMap.addPolygon(pOption.strokeWidth(1).
                 strokeColor(Color.parseColor("#00FFFFFF"))
-                        .fillColor(Color.parseColor("#00FFFFFF")));
+                .fillColor(Color.parseColor("#00FFFFFF")));
     }
 
     @Override
@@ -792,78 +793,78 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             InfoWindowOffsetForXY infoWindowOffsetForXY = getInfoWindowXOffset(markerPoint);
             MarkerOptions markerOptions = marker.getOptions();
             InfoWindiwOffset infoWindiwOffset = getInfoWindowOffsetData(infoWindowOffsetForXY);
-            markerOptions.setInfoWindowOffset(infoWindiwOffset.xOffset,infoWindiwOffset.yOffset);
-            locationCenterForMarker(getCenterPointInScreen(marker.getPosition(),infoWindowOffsetForXY));
+            markerOptions.setInfoWindowOffset(infoWindiwOffset.xOffset, infoWindiwOffset.yOffset);
+            locationCenterForMarker(getCenterPointInScreen(marker.getPosition(), infoWindowOffsetForXY));
             marker.setMarkerOptions(markerOptions);
             marker.showInfoWindow();
-            isFristPlay=true;
         }
         return true;
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
-        Log.i("clickPoint",latLng+"");
+        Log.i("clickPoint", latLng + "");
         mMarkerWhenSelected.hideInfoWindow();
 
     }
 
     //将点击的marker的经纬度转像素坐标
     private Point getMarkScreenPointFromLatLng(LatLng latLng) {
-       return aMap.getProjection().toScreenLocation(latLng);
+        return aMap.getProjection().toScreenLocation(latLng);
     }
 
     //将坐标像素转化为经纬度LatLng
-    private LatLng getLatLngFromPoint(Point point){
+    private LatLng getLatLngFromPoint(Point point) {
         return aMap.getProjection().fromScreenLocation(point);
     }
 
     //是否有x轴偏移
-    private InfoWindowOffsetForXY getInfoWindowXOffset(Point markPoint){
+    private InfoWindowOffsetForXY getInfoWindowXOffset(Point markPoint) {
         //是否超出右边屏幕
         InfoWindowOffsetForXY infoWindowOffsetForXY = new InfoWindowOffsetForXY();
-        Point pointRight = new Point(markPoint.x+ mHalfInfoWindowWidth,markPoint.y);
+        Point pointRight = new Point(markPoint.x + mHalfInfoWindowWidth, markPoint.y);
         LatLng pointLatlngRight = getLatLngFromPoint(pointRight);
-        if (!mPolygon.contains(pointLatlngRight)){
+        if (!mPolygon.contains(pointLatlngRight)) {
             infoWindowOffsetForXY.ifHasXOffset = -1;
         }
         //是否超出左边屏幕
-        Point point = new Point(markPoint.x - mHalfInfoWindowWidth,markPoint.y);
+        Point point = new Point(markPoint.x - mHalfInfoWindowWidth, markPoint.y);
         LatLng pointLatlngleft = getLatLngFromPoint(point);
-        if (!mPolygon.contains(pointLatlngleft)){
+        if (!mPolygon.contains(pointLatlngleft)) {
             infoWindowOffsetForXY.ifHasXOffset = 1;
         }
         //是否超出上边屏幕
-        Point pointUp = new Point(markPoint.x,markPoint.y - mInfoWindowHeight);
+        Point pointUp = new Point(markPoint.x, markPoint.y - mInfoWindowHeight);
         LatLng pointLatlngUp = getLatLngFromPoint(pointUp);
-        if (!mPolygon.contains(pointLatlngUp)){
+        if (!mPolygon.contains(pointLatlngUp)) {
             infoWindowOffsetForXY.ifHasYOffset = -1;
         }
         return infoWindowOffsetForXY;
     }
 
     //设置infoWindow的偏移数据
-    private InfoWindiwOffset getInfoWindowOffsetData(InfoWindowOffsetForXY infoWindowOffsetForXY){
+    private InfoWindiwOffset getInfoWindowOffsetData(InfoWindowOffsetForXY infoWindowOffsetForXY) {
         InfoWindiwOffset infoWindiwOffset = new InfoWindiwOffset();
-        switch (infoWindowOffsetForXY.ifHasXOffset){
+        switch (infoWindowOffsetForXY.ifHasXOffset) {
             case -1:
-                infoWindiwOffset.xOffset = (-1)* mHalfInfoWindowWidth;
+                infoWindiwOffset.xOffset = (-1) * mHalfInfoWindowWidth;
                 break;
             case 1:
                 infoWindiwOffset.xOffset = mHalfInfoWindowWidth;
                 break;
         }
-        switch (infoWindowOffsetForXY.ifHasYOffset){
+        switch (infoWindowOffsetForXY.ifHasYOffset) {
             case -1:
-                infoWindiwOffset.yOffset = mInfoWindowHeight + markerIconHeight ;
+                infoWindiwOffset.yOffset = mInfoWindowHeight + markerIconHeight;
                 break;
         }
         return infoWindiwOffset;
     }
+
     //设置屏幕中心点
-    private LatLng getCenterPointInScreen(LatLng latLng ,InfoWindowOffsetForXY infoWindowOffsetForXY){
+    private LatLng getCenterPointInScreen(LatLng latLng, InfoWindowOffsetForXY infoWindowOffsetForXY) {
         Point pointMarker = getMarkScreenPointFromLatLng(latLng);
-        switch (infoWindowOffsetForXY.ifHasXOffset){
+        switch (infoWindowOffsetForXY.ifHasXOffset) {
             case -1:
                 pointMarker.x = pointMarker.x - mHalfInfoWindowWidth;
                 break;
@@ -873,37 +874,35 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             case 1:
                 pointMarker.x = pointMarker.x + mHalfInfoWindowWidth;
         }
-        switch (infoWindowOffsetForXY.ifHasYOffset){
+        switch (infoWindowOffsetForXY.ifHasYOffset) {
             case -1:
-                pointMarker.y = pointMarker.y + mInfoWindowHeight/2;
+                pointMarker.y = pointMarker.y + mInfoWindowHeight / 2;
                 break;
             case 0:
-                pointMarker.y = getMarkScreenPointFromLatLng(latLng).y - mInfoWindowHeight/2;
+                pointMarker.y = getMarkScreenPointFromLatLng(latLng).y - mInfoWindowHeight / 2;
         }
         return getLatLngFromPoint(pointMarker);
     }
 
-    private void locationCenterForMarker(LatLng latLng){
-        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,mCurrentZoomLevel));
-        }
+    private void locationCenterForMarker(LatLng latLng) {
+        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mCurrentZoomLevel));
+    }
 
     @Override
     public void onTouch(MotionEvent motionEvent) {
         hideAllListView();
     }
 
-    private void initInfoWindowAnimator(final View view){
-        ObjectAnimator mAnimatorForInfoWindow = ObjectAnimator.ofFloat(view, "zhl", 0.0F,  1.0F).setDuration(300);
-        mAnimatorForInfoWindow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-        {
+    private void initInfoWindowAnimator(final View view) {
+        ObjectAnimator mAnimatorForInfoWindow = ObjectAnimator.ofFloat(view, "zhl", 0.0F, 1.0F).setDuration(300);
+        mAnimatorForInfoWindow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation)
-            {
+            public void onAnimationUpdate(ValueAnimator animation) {
                 float cVal = (Float) animation.getAnimatedValue();
                 view.setAlpha(cVal);
                 view.setScaleX(cVal);
                 view.setScaleY(cVal);
-                if (cVal == 1.0f){
+                if (cVal == 1.0f) {
                     isNeedToRefreshInfoWindow = false;
                 }
             }
@@ -913,7 +912,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        Log.i("onCamereC",cameraPosition.zoom+"");
+        Log.i("onCamereC", cameraPosition.zoom + "");
 
     }
 
@@ -921,93 +920,93 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
         mCurrentZoomLevel = cameraPosition.zoom;
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-      super.setUserVisibleHint(isVisibleToUser);
-        if(!isVisibleToUser){
-            if(audioStreamer!=null&&audioStreamer.getMediaPlayer()!=null){
-                audioStreamer.getMediaPlayer().reset();
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            if (player != null && player.mediaPlayer.isPlaying()) {
+                player.pause();
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();
                 mMarkerWhenSelected.hideInfoWindow();
-                isFristPlay=true;
-                playingVideoLocation =null;
             }
-
         }
     }
 
     @Override
     public void onMapLoaded() {
         float realZoom = getRealZoom();
-        aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng,mNortheastLatLng));
-        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665),realZoom));
+        aMap.setMapStatusLimits(new LatLngBounds(mSouthwestLatLng, mNortheastLatLng));
+        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805, 120.849665), realZoom));
         showFavoriteInfoWindow();
     }
 
     //展示二维码和收藏进来时候的infoWindow
-    public void showFavoriteInfoWindow(){
-        if(mFavoriteSpots != null){
+    public void showFavoriteInfoWindow() {
+        if (mFavoriteSpots != null) {
             showInfoWindow(mFavoriteSpots);
             mFavoriteSpots = null;
         }
     }
 
-    private float getRealZoom(){
+    private float getRealZoom() {
         int width = Utils.getDiaplayWidth(getActivity());
         int height = Utils.getScreenHeight(getActivity());
-        float percent = (float) width/height;
-        if(percent > 0.5625){
+        float percent = (float) width / height;
+        if (percent > 0.5625) {
             return 15.395f;
-        }else {
+        } else {
             return 15.57386f;
         }
     }
+
     //设置当前listview状态的相反状态
-    public void setListViewStateOpposite(SpotsListStates spotsListStates){
+    public void setListViewStateOpposite(SpotsListStates spotsListStates) {
         spotsListStates.setOppositeState();
     }
+
     //获取listView展开状态
-    public boolean getListViewState(SpotsListStates spotsListStates){
+    public boolean getListViewState(SpotsListStates spotsListStates) {
         return spotsListStates.isExpand;
     }
 
-    public boolean isLeftListView(ListView listView){
-        return (int)listView.getTag() == 0;
+    public boolean isLeftListView(ListView listView) {
+        return (int) listView.getTag() == 0;
     }
 
-    public void setSomethingBeforeExpand(ListView listView){
-        if (isLeftListView(listView) && mLeftListViewStateObj.isExpand){
+    public void setSomethingBeforeExpand(ListView listView) {
+        if (isLeftListView(listView) && mLeftListViewStateObj.isExpand) {
             mGuideListRelativeLayout.setVisibility(View.VISIBLE);
             mWalkNavigationTV.setBackgroundResource(R.mipmap.btn_guide_focus);
         }
-        if (!isLeftListView(listView) && mRightListViewStateObj.isExpand){
+        if (!isLeftListView(listView) && mRightListViewStateObj.isExpand) {
             mSpotsListRelativeLayout.setVisibility(View.VISIBLE);
             mSpotsListTV.setBackgroundResource(R.mipmap.btn_scenicspot_focus);
         }
     }
 
-    public void setSomethingAfterHide(ListView listView){
-        if (isLeftListView(listView) && !mLeftListViewStateObj.isExpand){
+    public void setSomethingAfterHide(ListView listView) {
+        if (isLeftListView(listView) && !mLeftListViewStateObj.isExpand) {
             mGuideListRelativeLayout.setVisibility(View.GONE);
             mWalkNavigationTV.setBackgroundResource(R.drawable.navigation_selector);
         }
-        if (!isLeftListView(listView) && !mRightListViewStateObj.isExpand){
+        if (!isLeftListView(listView) && !mRightListViewStateObj.isExpand) {
             mSpotsListRelativeLayout.setVisibility(View.GONE);
             mSpotsListTV.setBackgroundResource(R.drawable.spot_list_selector);
         }
     }
 
-    public ExponentialOutInterpolator initInterpolator(boolean isShow){
-        if (isShow){
+    public ExponentialOutInterpolator initInterpolator(boolean isShow) {
+        if (isShow) {
             return interpolator;
         }
         return null;
     }
 
-    public void setListViewState(final ListView listView, final SpotsListStates listViewStates){
+    public void setListViewState(final ListView listView, final SpotsListStates listViewStates) {
         setSomethingBeforeExpand(listView);
-        ObjectAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", listViewStates.isExpand ? 0f:-1000f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", listViewStates.isExpand ? 0f : -1000f);
         animator.setInterpolator(initInterpolator(listViewStates.isExpand));
         animator.setDuration(350);
         animator.start();
@@ -1015,11 +1014,11 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                if (mIsHideOtherListViewFirst){
+                if (mIsHideOtherListViewFirst) {
                     mIsHideOtherListViewFirst = false;
                     boolean isLeftLiewView = isLeftListView(listView);
-                    setListViewStateOpposite(isLeftLiewView?mRightListViewStateObj:mLeftListViewStateObj);
-                    setListViewState(isLeftLiewView?mSpotsListLV :mGuideListLV ,isLeftLiewView?mRightListViewStateObj:mLeftListViewStateObj);
+                    setListViewStateOpposite(isLeftLiewView ? mRightListViewStateObj : mLeftListViewStateObj);
+                    setListViewState(isLeftLiewView ? mSpotsListLV : mGuideListLV, isLeftLiewView ? mRightListViewStateObj : mLeftListViewStateObj);
                 }
                 setSomethingAfterHide(listView);
             }
@@ -1054,35 +1053,36 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
             }
         }
     }
-    public void hideAllListView(){
-        if (mRightListViewStateObj.isExpand){
+
+    public void hideAllListView() {
+        if (mRightListViewStateObj.isExpand) {
             mRightListViewStateObj.setHideState();
-            setListViewState(mSpotsListLV,mRightListViewStateObj);
+            setListViewState(mSpotsListLV, mRightListViewStateObj);
         }
-        if (mLeftListViewStateObj.isExpand){
+        if (mLeftListViewStateObj.isExpand) {
             mLeftListViewStateObj.setHideState();
-            setListViewState(mGuideListLV,mLeftListViewStateObj);
+            setListViewState(mGuideListLV, mLeftListViewStateObj);
         }
     }
 
-    public void ensureOtherListViewHide(ListView listView){
-        if ((int)listView.getTag() == 0){
-            if (getListViewState(mRightListViewStateObj)){
+    public void ensureOtherListViewHide(ListView listView) {
+        if ((int) listView.getTag() == 0) {
+            if (getListViewState(mRightListViewStateObj)) {
                 mIsHideOtherListViewFirst = true;
                 mRightListViewStateObj.setHideState();
-                setListViewState(mSpotsListLV,mRightListViewStateObj);
-            }else {
+                setListViewState(mSpotsListLV, mRightListViewStateObj);
+            } else {
                 mLeftListViewStateObj.setOppositeState();
-                setListViewState(mGuideListLV,mLeftListViewStateObj);
+                setListViewState(mGuideListLV, mLeftListViewStateObj);
             }
-        }else{
-            if (getListViewState(mLeftListViewStateObj)){
+        } else {
+            if (getListViewState(mLeftListViewStateObj)) {
                 mIsHideOtherListViewFirst = true;
                 mLeftListViewStateObj.setHideState();
-                setListViewState(mGuideListLV,mLeftListViewStateObj);
-            }else {
+                setListViewState(mGuideListLV, mLeftListViewStateObj);
+            } else {
                 mRightListViewStateObj.setOppositeState();
-                setListViewState(mSpotsListLV,mRightListViewStateObj);
+                setListViewState(mSpotsListLV, mRightListViewStateObj);
             }
         }
     }
