@@ -2,14 +2,10 @@ package com.adolf.zhouzhuang.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,25 +19,12 @@ import com.adolf.zhouzhuang.adapter.ExhibitAdapter;
 import com.adolf.zhouzhuang.adapter.NewsAdapter;
 import com.adolf.zhouzhuang.adapter.PanoramaAdapter;
 import com.adolf.zhouzhuang.adapter.ViewPagerAdapter;
-import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
-import com.adolf.zhouzhuang.httpUtils.GsonUtil;
 import com.adolf.zhouzhuang.object.Exhibit;
 import com.adolf.zhouzhuang.object.PanoramaObject;
-import com.adolf.zhouzhuang.resBody.ExhibitResponse;
-import com.adolf.zhouzhuang.util.ServiceAddress;
-import com.adolf.zhouzhuang.util.Utils;
 import com.adolf.zhouzhuang.widget.CustomViewPager;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
-
-import static android.R.id.list;
 
 /**
  * A simple {@link Fragment} subclass.

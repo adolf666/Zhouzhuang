@@ -39,7 +39,6 @@ import com.adolf.zhouzhuang.adapter.SpotsListAdapter;
 import com.adolf.zhouzhuang.databasehelper.FavoriteDataBaseHelper;
 import com.adolf.zhouzhuang.databasehelper.SpotsDataBaseHelper;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
-import com.adolf.zhouzhuang.interfaces.SpotsListViewCallBack;
 import com.adolf.zhouzhuang.interpolator.ExponentialOutInterpolator;
 import com.adolf.zhouzhuang.object.InfoWindiwOffset;
 import com.adolf.zhouzhuang.object.InfoWindowOffsetForXY;
@@ -90,8 +89,8 @@ import cz.msebera.android.httpclient.util.TextUtils;
 import static com.adolf.zhouzhuang.R.id.tv_spot_title;
 
 
-public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener, AMap.InfoWindowAdapter, View.OnClickListener,
-        AMap.OnMapClickListener, AMap.OnMapTouchListener, AMap.OnMapLoadedListener, AMap.OnCameraChangeListener, SpotsListViewCallBack {
+public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClickListener , AMap.InfoWindowAdapter ,View.OnClickListener,
+        AMap.OnMapClickListener, AMap.OnMapTouchListener,AMap.OnMapLoadedListener,AMap.OnCameraChangeListener {
 
     public static final int LoginRequest = 1008;
     public static final int MARKER_HEIGHT = 70;//marker的高度
@@ -143,7 +142,6 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private int markerIconHeight = 0;
     public Spots mFavoriteSpots = null;//是否要显示infoWindow，收藏和二维码用
 
-    public SpotsListViewCallBack mSpotsListViewCallBack = this;
     public SpotsListStates mLeftListViewStateObj = new SpotsListStates();
     public SpotsListStates mRightListViewStateObj = new SpotsListStates();
     public boolean mIsHideOtherListViewFirst;
@@ -340,6 +338,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         aMap.setMaxZoomLevel(19f);
         aMap.setMinZoomLevel(15f);
         aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805, 120.849665), mCurrentZoomLevel));
+//        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.115805,120.849665), mCurrentZoomLevel));
         aMap.setOnMapClickListener(this);
         aMap.setOnMapTouchListener(this);
         aMap.setOnMapLoadedListener(this);
@@ -485,6 +484,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+        aMap.setMapStatusLimits(null);
     }
 
     @Override
@@ -1085,10 +1085,5 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 setListViewState(mSpotsListLV, mRightListViewStateObj);
             }
         }
-    }
-
-    @Override
-    public void handleSpotsListViewState(boolean isLeftListView, boolean isExpand) {
-
     }
 }
