@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -640,12 +641,19 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 public void run() {
                     player.playUrl(mSpots.getVideoLocation());
                     player.mediaPlayer.setLooping(true);
+                    player.mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.start();
+                            mNotice.setVisibility(View.VISIBLE);
+                            animationDrawable.start();
+                            mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                            mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+                        }
+                    });
                 }
             }).start();
-            mNotice.setVisibility(View.VISIBLE);
-            animationDrawable.start();
-            mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
-            mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
+
         } else {
             Toast.makeText(getActivity(), "暂时没有音频内容", Toast.LENGTH_SHORT).show();
             if (mNotice.getVisibility() == View.VISIBLE) {
