@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -112,7 +113,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private TextView mSpotTitle;
     private StreamingMediaPlayer audioStreamer;
     private ImageView mFrameIV;
-    private ImageButton mPause;
+    private TextView mPause;
     private ImageView mClose;
     private RelativeLayout mNotice;
     private TextView mVocie_Prompt;
@@ -162,7 +163,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     private void initViews(View view) {
         mapView = (MapView) view.findViewById(R.id.map);
         mFrameIV = (ImageView) view.findViewById(R.id.iv_frame);
-        mPause = (ImageButton) view.findViewById(R.id.img_pause);
+        mPause = (TextView) view.findViewById(R.id.img_pause);
         mClose = (ImageView) view.findViewById(R.id.img_close);
         mNotice = (RelativeLayout) view.findViewById(R.id.rl_notice);
         mVocie_Prompt = (TextView) view.findViewById(R.id.tv_voice_prompt);
@@ -181,6 +182,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mNotice.setVisibility(View.GONE);
         mClose.setOnClickListener(this);
         mPause.setOnClickListener(this);
+        mVocie_Prompt.setOnClickListener(this);
         mBottomBarRelativeLayout.setOnClickListener(this);
         mBottomBarRelativeLayout.requestLayout();
         mWalkNavigationTV.setOnClickListener(this);
@@ -310,11 +312,12 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 locationInfo.append(",");
                 locationInfo.append(location.getLongitude());
                 mLocationInfo = locationInfo.toString();
+                Log.i("qqqqqqbaidu", mLocationInfo );
             }
 
         });
-       /* locationClient.start();
-        locationClient.requestLocation();*/
+        locationClient.start();
+        locationClient.requestLocation();
 
     }
 
@@ -570,19 +573,19 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 if (player.mediaPlayer.isPlaying()) {
                     player.pause();
                     animationDrawable.stop();
-                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_play));
+                    mPause.setCompoundDrawables(getAudioPlayStateDrawable(true),null,null,null);
                     mVocie_Prompt.setText("当前暂停播放" + mSpots.getTitle() + "语音导览");
                 } else {
                     player.play();
                     animationDrawable.start();
-                    mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                    mPause.setCompoundDrawables(getAudioPlayStateDrawable(false),null,null,null);
                     mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
                 }
                 break;
             case R.id.img_close:
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();
-                player.pause();
+                player.stop();
                 break;
             case R.id.tv_navigation_map:
                 showBottomTabs();
@@ -590,9 +593,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 break;
             case R.id.tv_open_baidu:
                 if (mSpots.getLng() != null && mSpots.getLat() != null) {
-
-
-                    Utils.openBaiduMap(getActivity(), null, Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()), "步行导航");
+                    Utils.openBaiduMap(getActivity(), mLocationInfo, Double.parseDouble(mSpots.getLng()), Double.parseDouble(mSpots.getLat()), "步行导航");
                     if (locationClient != null && locationClient.isStarted()) {
                         locationClient.stop();
                         locationClient = null;
@@ -645,9 +646,10 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mp.start();
+                            Log.i("rrrrrr","onPrepared");
                             mNotice.setVisibility(View.VISIBLE);
                             animationDrawable.start();
-                            mPause.setImageDrawable(getResources().getDrawable(R.mipmap.button_pause));
+                            mPause.setCompoundDrawables(getAudioPlayStateDrawable(false),null,null,null);
                             mVocie_Prompt.setText("正在为您播放" + mSpots.getTitle() + "语音导览...");
                         }
                     });
@@ -713,6 +715,12 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         openGaode.setOnClickListener(this);
         cancel.setOnClickListener(this);
         return mBottomView;
+    }
+
+    private Drawable getAudioPlayStateDrawable(boolean isPlay){
+        Drawable drawable = getActivity().getResources().getDrawable(isPlay?R.mipmap.button_play:R.mipmap.button_pause);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        return drawable;
     }
 
     private void addFavorite() {
@@ -1015,7 +1023,7 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     public void setListViewState(final ListView listView, final SpotsListStates listViewStates) {
         setSomethingBeforeExpand(listView);
         ObjectAnimator animator = ObjectAnimator.ofFloat(listView, "translationY", listViewStates.isExpand ? 0f : -1000f);
-        animator.setInterpolator(initInterpolator(listViewStates.isExpand));
+//        animator.setInterpolator(initInterpolator(listViewStates.isExpand));
         animator.setDuration(350);
         animator.start();
         animator.addListener(new AnimatorListenerAdapter() {

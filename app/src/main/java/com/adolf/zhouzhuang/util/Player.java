@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Player implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnPreparedListener {
+public class Player implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener
+         {
 
     public MediaPlayer mediaPlayer; // 媒体播放器
     private SeekBar seekBar; // 拖动条
@@ -25,7 +25,6 @@ public class Player implements MediaPlayer.OnBufferingUpdateListener, MediaPlaye
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);// 设置媒体流类型
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setLooping(true);
-            mediaPlayer.setOnPreparedListener(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,17 +92,9 @@ public class Player implements MediaPlayer.OnBufferingUpdateListener, MediaPlaye
     public void stop() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
         }
     }
 
-    // 播放准备
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        mp.start();
-        Log.e("mediaPlayer", "onPrepared");
-    }
 
     // 播放完成
     @Override

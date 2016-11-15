@@ -36,10 +36,10 @@ public class ZhouzhuangApplication extends Application {
 //        typeface2 = getType(_instance, 1);
 //        typeface3 = getType(_instance, 3);
 
-        //初始化过度绘制检测
+       /* //初始化过度绘制检测
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         //初始化内存泄漏检测
-        LeakCanary.install(this);
+        LeakCanary.install(this);*/
 
         //初始化tbs x5 webview
         QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {

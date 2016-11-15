@@ -52,6 +52,7 @@
 
         <activity
             android:name=".activity.LaunchActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -71,44 +72,59 @@
         <service android:name="com.amap.api.location.APSService"></service>
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            />
         <activity
             android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.QRCodeActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.PersonalCenterActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.WebViewActivity" />
-        <activity android:name=".activity.NewsActivity" />
+        <activity android:name=".activity.WebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.NewsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.PersonalInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.PersonSettingActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.PersonSuggestionActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.ZhouzhuangLibActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.ModifyPasswordActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.PersonCollectActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.StrategyActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
     </application>
 </manifest>
