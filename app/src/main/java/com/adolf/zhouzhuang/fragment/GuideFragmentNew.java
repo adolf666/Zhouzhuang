@@ -910,12 +910,13 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
     }
 
     private void initInfoWindowAnimator(final View view) {
-        ObjectAnimator mAnimatorForInfoWindow = ObjectAnimator.ofFloat(view, "zhl", 0.0F, 1.0F).setDuration(300);
+        ObjectAnimator apachAnimatorForInfoWindow = ObjectAnimator.ofFloat(view, "alpha", 0.0F, 1.0F).setDuration(750);
+        apachAnimatorForInfoWindow.start();
+        ObjectAnimator mAnimatorForInfoWindow = ObjectAnimator.ofFloat(view, "zhl", 0.0F, 1.0F).setDuration(650);
         mAnimatorForInfoWindow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float cVal = (Float) animation.getAnimatedValue();
-                view.setAlpha(cVal);
                 view.setScaleX(cVal);
                 view.setScaleY(cVal);
                 if (cVal == 1.0f) {
