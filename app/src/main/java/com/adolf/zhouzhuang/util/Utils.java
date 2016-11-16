@@ -97,8 +97,6 @@ public class Utils {
      * @param poiname 非必填 POI 名称
      * @param lat 必填 纬度
      * @param lon 必填 经度
-     * @param dev 必填 是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密)
-     * @param style 必填 导航方式(0 速度快; 1 费用少; 2 路程短; 3 不走高速；4 躲避拥堵；5 不走高速且避免收费；6 不走高速且躲避拥堵；7 躲避收费和拥堵；8 不走高速躲避收费和拥堵))
      */
     public static  void goToNaviActivity(Context context,String sourceApplication , String poiname , String lat , String lon , String dname , String locationInfo){
       /*  StringBuffer stringBuffer  = new StringBuffer("androidamap://navi?sourceApplication=")
