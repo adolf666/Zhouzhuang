@@ -41,10 +41,7 @@ public class FavoriteDataBaseHelper {
         WhereCondition whereCondition = FavoritesDao.Properties.UserId.eq(userId);
         WhereCondition whereCondition2 = FavoritesDao.Properties.SpotsId.eq(soptsId);
         List<Favorites> favoritesList = mFavoriteListDao.queryBuilder().where(whereCondition).where(whereCondition2).list();
-        if (favoritesList == null || favoritesList.size() == 0){
-            return false;
-        }
-        return true;
+        return !(favoritesList == null || favoritesList.size() == 0);
     }
 
     public Favorites getFavoriteByUserIdAndSpotsId(int userId,int soptsId){

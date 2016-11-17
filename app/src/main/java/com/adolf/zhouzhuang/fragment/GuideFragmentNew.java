@@ -475,13 +475,14 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         mapView.onPause();
         aMap.setMapStatusLimits(null);
 
-
         if (player != null && player.mediaPlayer.isPlaying()) {
             player.pause();
         }
         mNotice.setVisibility(View.GONE);
         animationDrawable.stop();
-        mMarkerWhenSelected.hideInfoWindow();
+        if(mMarkerWhenSelected!=null){
+            mMarkerWhenSelected.hideInfoWindow();
+        }
     }
 
     @Override
@@ -946,6 +947,9 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
                 player.pause();
                 mNotice.setVisibility(View.GONE);
                 animationDrawable.stop();
+
+            }
+            if(mMarkerWhenSelected!=null) {
                 mMarkerWhenSelected.hideInfoWindow();
             }
         }

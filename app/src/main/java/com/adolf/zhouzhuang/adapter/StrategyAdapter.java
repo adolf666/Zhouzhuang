@@ -91,11 +91,7 @@ public class StrategyAdapter extends BaseAdapter {
     private boolean isNeedToLoadImage(String url, ImageView imageView) {
         if (imageView.getTag() == null) {
             return true;
-        } else if (TextUtils.equals(imageView.getTag().toString(), url)) {
-            return false;
-        } else {
-            return true;
-        }
+        } else return !TextUtils.equals(imageView.getTag().toString(), url);
     }
 
     private static class ViewHolder {

@@ -16,7 +16,7 @@ import com.adolf.zhouzhuang.R;
  */
 public class UniversalDialog extends AlertDialog {
 
-    public static enum DialogGravity {
+    public enum DialogGravity {
         LEFTTOP, RIGHTTOP, CENTERTOP, CENTER, LEFTBOTTOM, RIGHTBOTTOM, CENTERBOTTOM
     }
 
@@ -111,7 +111,7 @@ public class UniversalDialog extends AlertDialog {
     public void setWH(Context context,WindowManager windowManager){
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = this.getWindow().getAttributes();
-        lp.width = (int)(display.getWidth()); //设置宽度
+        lp.width = display.getWidth(); //设置宽度
         this.getWindow().setAttributes(lp);
     }
 }

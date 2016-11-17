@@ -13,10 +13,9 @@ import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.adapter.StrategyAdapter;
 import com.adolf.zhouzhuang.httpUtils.AsyncHttpClientUtils;
 import com.adolf.zhouzhuang.httpUtils.GsonUtil;
-import com.adolf.zhouzhuang.interfaces.OnRefreshListener;
 import com.adolf.zhouzhuang.object.StrategyObject;
 import com.adolf.zhouzhuang.util.ServiceAddress;
-import com.adolf.zhouzhuang.widget.PullToRefreshLayout;
+
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -36,7 +35,6 @@ public class StrategyActivity extends BaseActivity  {
     private ListView mListView;
     private StrategyAdapter mAdapter;
     private List<StrategyObject> strategyObjectArrayList;
-   // PullToRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +46,7 @@ public class StrategyActivity extends BaseActivity  {
 
     private void initView() {
         initActionBar("返回", R.drawable.back_selected, "游玩攻略", "", 0);
-      //  refreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_view);
-      //  refreshLayout.setOnRefreshListener(this);
+
         mListView = (ListView) findViewById(R.id.lv_list_view);
 
     }
@@ -94,24 +91,5 @@ public class StrategyActivity extends BaseActivity  {
         }
     }
 
-   /* @Override
-    public void onRefresh() {
 
-        RequestParams params = new RequestParams();
-        AsyncHttpClientUtils.getInstance().get(ServiceAddress.GET_STRATEGY, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                strategyObjectArrayList = GsonUtil.jsonToList(response, "data", StrategyObject.class);
-                setStrategyData(strategyObjectArrayList);
-                refreshLayout.refreshFinish(PullToRefreshLayout.REFRESH_SUCCEED);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-
-    }*/
 }

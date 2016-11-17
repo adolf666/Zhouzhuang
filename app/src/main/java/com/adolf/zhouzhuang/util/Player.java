@@ -54,7 +54,7 @@ public class Player implements MediaPlayer.OnBufferingUpdateListener, MediaPlaye
                /* long pos = seekBar.getMax() * position / duration;
                 seekBar.setProgress((int) pos);*/
             }
-        };
+        }
     };
 
     public void play() {

@@ -29,13 +29,10 @@ public class SdCardUtil {
      * Environment.MEDIA_MOUNTED 直译  环境媒体登上  表示，当前sd可用
      */
     public static boolean checkSdCard() {
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED))
-            //sd卡可用
-            return true;
-        else
-            //当前sd卡不可用
-            return false;
+        //sd卡可用
+//当前sd卡不可用
+        return Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED);
     }
 
     // 在sdcard卡上创建文件
