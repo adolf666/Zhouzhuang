@@ -37,6 +37,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
             android:hint="输入注册用户名"
+            android:textSize="16sp"
             android:background="@null"/>
     </LinearLayout>
 
@@ -53,6 +54,7 @@
         android:layout_width="60dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:textSize="16sp"
         android:text="密码"/>
     <EditText
         android:id="@+id/et_password"
@@ -60,6 +62,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
         android:hint="输入密码"
+        android:textSize="16sp"
         android:inputType="textPassword"
         android:background="@null"/>
 </LinearLayout>
@@ -77,6 +80,7 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:text="确认"
+            android:textSize="16sp"
             android:gravity="center_vertical"/>
         <EditText
             android:id="@+id/et_confirm"
@@ -84,6 +88,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
             android:hint="再次输入密码"
+            android:textSize="16sp"
             android:inputType="textPassword"
             android:background="@null"/>
     </LinearLayout>

@@ -28,7 +28,7 @@ public class ZhouzhuangLibActivity extends BaseActivity {
         MyTextView museum_desc3 = (MyTextView)findViewById(R.id.museum_desc3);
         MyTextView museum_desc4 = (MyTextView)findViewById(R.id.museum_desc4);
         MyTextView museum_desc5 = (MyTextView)findViewById(R.id.museum_desc5);
-        
+
         museum_desc1.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc1));
         museum_desc2.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc2));
         museum_desc3.setText("\u3000\u3000"+getResources().getString(R.string.museum_desc3));
