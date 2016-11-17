@@ -6,10 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 
 import com.adolf.zhouzhuang.util.Constants;
-import com.adolf.zhouzhuang.widget.AppBlockCanaryContext;
 import com.baidu.mapapi.SDKInitializer;
-import com.github.moduth.blockcanary.BlockCanary;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.smtt.sdk.QbSdk;
 
 

@@ -60,7 +60,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void createLink(TextView tv) {
         SpannableString sp = new SpannableString("注册即代表您同意《周庄博物馆软件服务协议》");
-        sp.setSpan(new URLSpan("http://www.baidu.com"), 9, tv.getText().length() -1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        sp.setSpan(new URLSpan("http://www.baidu.com"), 9, tv.getText().length() -1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan("", 9, tv.getText().length() -1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.BLUE), 9, tv.getText().length()-1 , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.setText(sp);
         tv.setMovementMethod(LinkMovementMethod.getInstance());

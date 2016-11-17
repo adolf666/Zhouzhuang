@@ -20,8 +20,8 @@ android {
         applicationId "com.adolf.zhouzhuang"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 3
+        versionName "1.0.3"
     }
     sourceSets {
         main {
@@ -69,10 +69,6 @@ dependencies {
     compile files('libs/commons-io/2.4/commons-io-2.4.jar')
     compile files('libs/commons-io/2.4/commons-io-2.4-sources.jar')
     compile files('libs/tbs_sdk_thirdapp_v2.4.0.1073_36840_sharewithdownload_obfs_20161011_194834.jar')
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    debugCompile 'com.github.moduth:blockcanary-android:1.2.1'
-    releaseCompile 'com.github.moduth:blockcanary-no-op:1.2.1'
     compile files('libs/AMap3DMap_4.1.1_AMapNavi_1.9.3_AMapLocation_3.1.0_20161027.jar')
     compile files('libs/AMap3DMap_4.1.2_AMapLocation_3.1.0_20161104.jar')
 }
