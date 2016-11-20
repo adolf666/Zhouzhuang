@@ -207,7 +207,7 @@ public class MuseumFragment extends BaseFragment implements View.OnClickListener
             case R.id.image_pic3:
                 Intent intent3 =new Intent();
                 intent3.setClass(getActivity(),WebViewActivity.class);
-                intent3.putExtra("URL",excihbitURL03);
+                intent3.putExtra("URL","file:///android_asset/360/009.html");
                 intent3.putExtra(WebViewActivity.NAME,"360展示");
                 startActivity(intent3);
                 break;

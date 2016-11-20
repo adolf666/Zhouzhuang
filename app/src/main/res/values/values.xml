@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="Banner"><attr format="reference" name="default_image"/><attr format="dimension" name="delay_time"/><attr format="boolean" name="is_auto_play"/><attr format="color|reference" name="title_background"/><attr format="color" name="title_textcolor"/><attr format="dimension" name="title_textsize"/><attr format="dimension" name="title_height"/><attr format="dimension" name="indicator_width"/><attr format="dimension" name="indicator_height"/><attr format="dimension" name="indicator_margin"/><attr format="reference" name="indicator_drawable_selected"/><attr format="reference" name="indicator_drawable_unselected"/></declare-styleable>
+    <declare-styleable name="Banner">
+        <attr name="default_image" format="reference" />
+        <attr name="delay_time" format="dimension" />
+        <attr name="is_auto_play" format="boolean" />
+        <attr name="title_background" format="color|reference" />
+        <attr name="title_textcolor" format="color" />
+        <attr name="title_textsize" format="dimension" />
+        <attr name="title_height" format="dimension" />
+        <attr name="indicator_width" format="dimension" />
+        <attr name="indicator_height" format="dimension" />
+        <attr name="indicator_margin" format="dimension" />
+        <attr name="indicator_drawable_selected" format="reference" />
+        <attr name="indicator_drawable_unselected" format="reference" />
+    </declare-styleable>
 </resources>
