@@ -2,11 +2,14 @@ package com.adolf.zhouzhuang.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adolf.zhouzhuang.R;
 import com.adolf.zhouzhuang.util.Utils;
+
+import cz.msebera.android.httpclient.util.TextUtils;
 
 /**
  * Created by gpp on 2016/9/8 0008.
@@ -14,6 +17,7 @@ import com.adolf.zhouzhuang.util.Utils;
 public class PersonSuggestionActivity extends BaseActivity{
 
     private TextView mSubmit;
+    private EditText mSuggestEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +28,8 @@ public class PersonSuggestionActivity extends BaseActivity{
         initActionBar("返回",R.drawable.back_selected,"意见反馈","",0);
         mSubmit = (TextView)findViewById(R.id.tv_submit);
         mSubmit.setOnClickListener(this);
-//        mSubmit.setTypeface(Utils.getType(this, 0));
+        mSuggestEdit = (EditText)findViewById(R.id. suggest_edit);
+
     }
     @Override
     public void onClick(View v) {
@@ -33,8 +38,12 @@ public class PersonSuggestionActivity extends BaseActivity{
                 finish();
                 break;
             case R.id.tv_submit:
-                Toast.makeText(this,"提交成功",Toast.LENGTH_SHORT).show();
-                finish();
+                if(TextUtils.isEmpty(mSuggestEdit.getText().toString().trim())){
+                    Toast.makeText(this,"没有意见可提交，请编辑后再次提交",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
                 break;
         }}
 }
