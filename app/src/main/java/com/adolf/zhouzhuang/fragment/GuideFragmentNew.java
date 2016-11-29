@@ -976,9 +976,9 @@ public class GuideFragmentNew extends BaseFragment implements AMap.OnMarkerClick
         int height = Utils.getScreenHeight(getActivity());
         float percent = (float) width / height;
         if (percent > 0.5625) {
-            return 15.395f;
+            return 15.445f;
         } else {
-            return 15.57386f;
+            return 15.59386f;
         }
     }
 
